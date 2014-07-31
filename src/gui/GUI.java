@@ -36,9 +36,7 @@ public class GUI extends Application {
 	private boolean farbe=true;
 	Canvas brett=new Canvas(feld.getWidth(),feld.getHeight());
 
-	public static void main(String args[]) throws Exception {
-		launch(args);
-	}
+	
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -158,5 +156,9 @@ public class GUI extends Application {
 	protected double translateY(int y)
 	{
 		return (feld.getHeight()/felder.length)*y;
+	}
+	
+	public static void main(String args[]) throws Exception {
+		launch(args);
 	}
 }

@@ -13,6 +13,6 @@ public class Feld extends Point3D{
 		this.x=x;
 		this.y=y;
 		this.gUI=gUI;
-		new Figur(this,1);
+		//new Figur(this,1);
 	}
 }
