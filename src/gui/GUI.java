@@ -7,9 +7,11 @@ import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -28,6 +30,8 @@ public class GUI extends Application {
 	protected String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
 	private DoubleProperty zoom = new SimpleDoubleProperty(50);
+	Slider xslider = new Slider();
+	Slider yslider = new Slider();
 
 	public static void main(String args[]) throws Exception {
 		launch(args);
@@ -42,14 +46,17 @@ public class GUI extends Application {
 		rechts = new Rechts(this);
 		pane.setRight(rechts);
 		pane.setCenter(root3D);
+		pane.setLeft(xslider);
+		pane.setBottom(yslider);
+		xslider.setOrientation(Orientation.VERTICAL);
 
 		aktualisiereMap();
-		root3D.rx.setAngle(-70);
+		// root3D.rx.setAngle(-70);
 
 		Scene scene = new Scene(pane, 1200, 800);
 		scene.setCamera(kamera);
 
-		kamera.fieldOfViewProperty().bind(zoom);
+		// kamera.fieldOfViewProperty().bind(zoom);
 
 		scene.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
@@ -58,7 +65,16 @@ public class GUI extends Application {
 			}
 		});
 
-		scene.onMouseDraggedProperty().set(new MouseEventHandler());
+		xslider.setMin(0);
+		xslider.setMax(180);
+		xslider.setValue(70);
+		yslider.setMin(0);
+		yslider.setMax(360);
+		yslider.setValue(0);
+		root3D.rx.angleProperty().bind(xslider.valueProperty());
+		root3D.rz.angleProperty().bind(yslider.valueProperty());
+
+		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
 		stage.setTitle("Super Schach");
 		stage.getIcons()
@@ -68,11 +84,11 @@ public class GUI extends Application {
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
 				new KeyFrame(Duration.ZERO, new KeyValue(
-						root3D.ry.angleProperty(), 0d)),
-				new KeyFrame(Duration.valueOf("2.5s"), new KeyValue(root3D.ry
-						.angleProperty(), 360d)),
-				new KeyFrame(Duration.valueOf("1s"), new KeyValue(root3D.rx
-						.angleProperty(), 360d)));
+						yslider.valueProperty(), 0d)),
+				new KeyFrame(Duration.valueOf("2s"), new KeyValue(yslider
+						.valueProperty(), 360d)),
+				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider
+						.valueProperty(), 180d)));
 
 		animation.play();
 	}
