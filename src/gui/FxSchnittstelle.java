@@ -12,8 +12,7 @@ public class FxSchnittstelle extends Schnittstelle{
 
 	@Override
 	public void meldungAusgeben(String meldung) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(meldung);
 	}
 
 	@Override

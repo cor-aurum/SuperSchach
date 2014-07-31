@@ -4,12 +4,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -54,13 +56,20 @@ public class GUI extends Application {
 		xslider.setOrientation(Orientation.VERTICAL);
 
 		aktualisiereMap();
-		// root3D.rx.setAngle(-70);
+		
+		feld.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("X:"+((int)(event.getX()/(feld.getWidth()/felder.length)+4))+"/Y:"+((int)(event.getY()/(feld.getHeight()/felder.length)+4)));
+            }
+        });
 
 		Scene scene = new Scene(pane, 1200, 800);
 		scene.setCamera(kamera);
 
 		xslider.setMin(110);
-		xslider.setMax(180);
+		xslider.setMax(250);
 		yslider.setMin(0);
 		yslider.setMax(180);
 		root3D.rx.angleProperty().bind(xslider.valueProperty());
