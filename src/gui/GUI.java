@@ -65,14 +65,13 @@ public class GUI extends Application {
 			}
 		});
 
-		xslider.setMin(0);
+		xslider.setMin(110);
 		xslider.setMax(180);
-		xslider.setValue(70);
 		yslider.setMin(0);
-		yslider.setMax(360);
-		yslider.setValue(0);
+		yslider.setMax(180);
 		root3D.rx.angleProperty().bind(xslider.valueProperty());
 		root3D.rz.angleProperty().bind(yslider.valueProperty());
+		
 
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
