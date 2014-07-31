@@ -9,6 +9,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +22,7 @@ import javafx.util.Duration;
 public class GUI extends Application {
 
 	BorderPane pane = new BorderPane();
+	BorderPane root=new BorderPane();
 	Node rechts;
 	Box feld = new Box(500, 500, 10);
 	Xform root3D = new Xform();
@@ -28,8 +30,11 @@ public class GUI extends Application {
 	PhongMaterial feldMaterial = new PhongMaterial();
 	Slider xslider = new Slider();
 	Slider yslider = new Slider();
+	Slider zslider = new Slider();
 	private Feld[][] felder;
-	FxSchnittstelle spiel=new FxSchnittstelle();
+	FxSchnittstelle spiel=new FxSchnittstelle(this);
+	private boolean farbe=true;
+	Canvas brett=new Canvas(feld.getWidth(),feld.getHeight());
 
 	public static void main(String args[]) throws Exception {
 		launch(args);
@@ -49,31 +54,38 @@ public class GUI extends Application {
 		}
 		root3D.getChildren().add(feld);
 		rechts = new Rechts(this);
-		pane.setRight(rechts);
+		root.setRight(rechts);
+		root.setCenter(pane);
 		pane.setCenter(root3D);
 		pane.setLeft(xslider);
 		pane.setBottom(yslider);
+		pane.setTop(zslider);
 		xslider.setOrientation(Orientation.VERTICAL);
 
+		resetBrett();
 		aktualisiereMap();
 		
 		feld.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("X:"+((int)(event.getX()/(feld.getWidth()/felder.length)+4))+"/Y:"+((int)(event.getY()/(feld.getHeight()/felder.length)+4)));
+                spiel.klick(((int)(event.getX()/(feld.getWidth()/felder.length)+4)),((int)(event.getY()/(feld.getHeight()/felder.length)+4)));
             }
         });
 
-		Scene scene = new Scene(pane, 1200, 800);
+		Scene scene = new Scene(root, 1200, 800);
+		
 		scene.setCamera(kamera);
 
 		xslider.setMin(110);
 		xslider.setMax(250);
 		yslider.setMin(0);
 		yslider.setMax(180);
+		zslider.setMin(-80);
+		zslider.setMax(80);
 		root3D.rx.angleProperty().bind(xslider.valueProperty());
 		root3D.rz.angleProperty().bind(yslider.valueProperty());
+		root3D.ry.angleProperty().bind(zslider.valueProperty());
 		
 
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
@@ -87,8 +99,6 @@ public class GUI extends Application {
 		animation.getKeyFrames().addAll(
 				new KeyFrame(Duration.ZERO, new KeyValue(
 						yslider.valueProperty(), 0d)),
-				new KeyFrame(Duration.valueOf("2s"), new KeyValue(yslider
-						.valueProperty(), 360d)),
 				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider
 						.valueProperty(), 180d)));
 
@@ -96,16 +106,57 @@ public class GUI extends Application {
 	}
 
 	public void aktualisiereMap() {
+		/*
 		feldMaterial.setDiffuseMap(new Image(this.getClass().getClassLoader()
 				.getResource("gui/bilder/brett.png").toString()));
 
+		 */
+		feldMaterial.setDiffuseMap(brett.snapshot(null, null));
 		feldMaterial.setBumpMap(new Image(this.getClass().getClassLoader()
 				.getResource("gui/bilder/" + hintergrund + "_NRM.png")
 				.toString()));
-		// feldMaterial.bumpMapProperty().bind(arg0);
 		feldMaterial.setSpecularMap(new Image(this.getClass().getClassLoader()
 				.getResource("gui/bilder/" + hintergrund + "_SPEC.png")
 				.toString()));
 		feld.setMaterial(feldMaterial);
+	}
+	
+	public void farbe(int x, int y, int farbe)
+	{
+		if(this.farbe)
+		{
+			switch (farbe)
+			{
+			case 3:
+				brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
+						.getResource("gui/bilder/gruen.png").toString()), translateX(x), translateY(y));
+				break;
+			case 4:
+				brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
+						.getResource("gui/bilder/rot.png").toString()), translateX(x), translateY(y));
+				break;
+			case 5:
+				brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
+						.getResource("gui/bilder/gelb.png").toString()), translateX(x), translateY(y));
+				break;
+			}
+			feldMaterial.setDiffuseMap(brett.snapshot(null, null));
+		}
+	}
+	
+	public void resetBrett()
+	{
+		brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
+				.getResource("gui/bilder/brett.png").toString()), 0, 0);
+	}
+	
+	private double translateX(int x)
+	{
+		return (feld.getWidth()/felder.length)*(7-x);
+	}
+	
+	private double translateY(int y)
+	{
+		return (feld.getHeight()/felder.length)*y;
 	}
 }

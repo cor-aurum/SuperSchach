@@ -31,6 +31,8 @@ public class Rechts extends TabPane{
 	    map_marmor.setSelected(true);
 	    RadioButton map_holz = new RadioButton("Holz");
 	    map_holz.setToggleGroup(map);
+	    RadioButton map_gras = new RadioButton("Gras");
+	    map_gras.setToggleGroup(map);
 	    map.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
 	        public void changed(ObservableValue<? extends Toggle> ov,
 	            Toggle old_toggle, Toggle new_toggle) {
@@ -40,12 +42,16 @@ public class Rechts extends TabPane{
 	                else if (map.getSelectedToggle()==map_marmor) {
 	                    gUI.hintergrund="marmor";
 	                } 
+	                else if (map.getSelectedToggle()==map_gras) {
+	                    gUI.hintergrund="gras";
+	                } 
 	                gUI.aktualisiereMap();
 	            }
 	    });
 	    settings.getChildren().add(new Label("Oberfläche"));
 	    settings.getChildren().add(map_marmor);
 	    settings.getChildren().add(map_holz);
+	    settings.getChildren().add(map_gras);
 	    addLeer(settings);
 	}
 	
