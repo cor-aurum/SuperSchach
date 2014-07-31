@@ -43,7 +43,6 @@ public class FxSchnittstelle extends Schnittstelle{
 	public void farbe(int x, int y, int farbe)
 	{
 		gUI.farbe(x, y, farbe);
-		System.out.println("Test");
 	}
 
 }

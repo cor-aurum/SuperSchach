@@ -49,7 +49,7 @@ public class GUI extends Application {
 		{
 			for (int b = 0; b < spiel.getXMax() + 1; b++)
 			{
-				felder[b][a] = new Feld(spiel, b, a);
+				felder[b][a] = new Feld(this, b, a);
 			}
 		}
 		root3D.getChildren().add(feld);
@@ -150,12 +150,12 @@ public class GUI extends Application {
 				.getResource("gui/bilder/brett.png").toString()), 0, 0);
 	}
 	
-	private double translateX(int x)
+	protected double translateX(int x)
 	{
 		return (feld.getWidth()/felder.length)*(7-x);
 	}
 	
-	private double translateY(int y)
+	protected double translateY(int y)
 	{
 		return (feld.getHeight()/felder.length)*y;
 	}
