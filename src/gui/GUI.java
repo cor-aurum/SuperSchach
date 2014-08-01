@@ -176,12 +176,18 @@ public class GUI extends Application {
 	}
 
 	private void aktualisierenFigur(int x, int y) {
-		if (felder[x][y].gebeInhalt() != 0) {
-			figuren[x][y] = new Figur(felder[x][y], felder[x][y].gebeInhalt());
-		}
-		else
-		{
-			figuren[x][y]=null;
+		x=7-x;
+		int figur = felder[x][y].gebeInhalt();
+		if (figur != 0) {
+			if (figuren[x][y]==null) {
+				figuren[x][y] = new Figur(felder[x][y], figur);
+			}
+			else if(figur != figuren[x][y].figur)
+			{
+				figuren[x][y] = new Figur(felder[x][y], figur);
+			}
+		} else {
+			figuren[x][y] = null;
 		}
 	}
 

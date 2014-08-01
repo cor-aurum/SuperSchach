@@ -1,5 +1,7 @@
 package gui;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -10,7 +12,7 @@ public class Figur extends Box {
 	int figur;
 
 	public Figur(Feld f, int figur) {
-		super(25, 25, 100);
+		super(25, 25, 75);
 		this.f = f;
 		this.figur = figur;
 
@@ -49,12 +51,19 @@ public class Figur extends Box {
 
 		setMaterial(material);
 		f.gUI.root3D.getChildren().add(this);
+		setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				f.gUI.spiel.klick(f.x,f.y);
+			}
+		});
 		setzeFigur();
 
 	}
 
 	private void setzeFigur() {
-		localToScene(f);
+		//localToScene(f);
 		setTranslateX(f.getX());
 		setTranslateY(f.getY());
 		setTranslateZ(f.getZ() + getDepth() / 2);
