@@ -4,6 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -36,6 +39,7 @@ public class GUI extends Application {
 	FxSchnittstelle spiel = new FxSchnittstelle(this);
 	private boolean farbe = true;
 	Canvas brett = new Canvas(feld.getWidth(), feld.getHeight());
+	private DoubleProperty zoom = new SimpleDoubleProperty(0.0);
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -60,7 +64,6 @@ public class GUI extends Application {
 		xslider.setOrientation(Orientation.VERTICAL);
 
 		resetBrett();
-		aktualisiereMap();
 
 		feld.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -78,6 +81,19 @@ public class GUI extends Application {
 
 		scene.setCamera(kamera);
 
+		scene.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				if (zoom.get() > 0.5 || event.getDeltaY()>0) {
+					zoom.set(zoom.get() + event.getDeltaY() / 400);
+				}
+			}
+		});
+		zoom.set(root3D.s.getX());
+		root3D.s.xProperty().bind(zoom);
+		root3D.s.yProperty().bind(zoom);
+		root3D.s.zProperty().bind(zoom);
+
 		xslider.setMin(110);
 		xslider.setMax(250);
 		yslider.setMin(0);
@@ -88,6 +104,7 @@ public class GUI extends Application {
 		root3D.rz.angleProperty().bind(yslider.valueProperty());
 		root3D.ry.angleProperty().bind(zslider.valueProperty());
 		aktualisieren();
+		aktualisiereMap();
 
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
@@ -104,7 +121,7 @@ public class GUI extends Application {
 						.valueProperty(), 0d)),
 				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider
 						.valueProperty(), 0d)),
-				new KeyFrame(Duration.valueOf("2s"), new KeyValue(xslider
+				new KeyFrame(Duration.valueOf("1.5s"), new KeyValue(xslider
 						.valueProperty(), 150d)));
 
 		animation.play();
