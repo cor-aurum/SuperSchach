@@ -30,7 +30,7 @@ public class FxSchnittstelle extends Schnittstelle{
 
 	@Override
 	public void aktualisieren() {
-		gUI.resetBrett();
+		gUI.aktualisieren();
 	}
 
 	@Override

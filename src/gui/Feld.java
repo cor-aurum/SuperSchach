@@ -9,10 +9,14 @@ public class Feld extends Point3D{
 	GUI gUI;
 	public Feld(GUI gUI, int x, int y)
 	{
-		super(gUI.translateX(x+4),gUI.translateY(y-4),gUI.feld.getTranslateZ()+5);
+		super(gUI.translateX(x+4)+30,gUI.translateY(y-4)+30,gUI.feld.getTranslateZ()+5);
 		this.x=x;
 		this.y=y;
 		this.gUI=gUI;
-		//new Figur(this,1);
 	}
+	
+	public int gebeInhalt()
+    {
+        return gUI.spiel.figur(x,y);
+    }
 }

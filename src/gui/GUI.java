@@ -22,7 +22,7 @@ import javafx.util.Duration;
 public class GUI extends Application {
 
 	BorderPane pane = new BorderPane();
-	BorderPane root=new BorderPane();
+	BorderPane root = new BorderPane();
 	Node rechts;
 	Box feld = new Box(500, 500, 10);
 	Xform root3D = new Xform();
@@ -32,22 +32,21 @@ public class GUI extends Application {
 	Slider yslider = new Slider();
 	Slider zslider = new Slider();
 	private Feld[][] felder;
-	FxSchnittstelle spiel=new FxSchnittstelle(this);
-	private boolean farbe=true;
-	Canvas brett=new Canvas(feld.getWidth(),feld.getHeight());
-
-	
+	private Figur[][] figuren;
+	FxSchnittstelle spiel = new FxSchnittstelle(this);
+	private boolean farbe = true;
+	Canvas brett = new Canvas(feld.getWidth(), feld.getHeight());
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		PerspectiveCamera kamera = new PerspectiveCamera();
 		// kamera.setFieldOfView(50.0);
 		felder = new Feld[spiel.getXMax() + 1][spiel.getYMax() + 1];
-		for (int a = 0; a < spiel.getYMax() + 1; a++)
-		{
-			for (int b = 0; b < spiel.getXMax() + 1; b++)
-			{
+		figuren = new Figur[spiel.getXMax() + 1][spiel.getYMax() + 1];
+		for (int a = 0; a < spiel.getYMax() + 1; a++) {
+			for (int b = 0; b < spiel.getXMax() + 1; b++) {
 				felder[b][a] = new Feld(this, b, a);
+				figuren[b][a] = null;
 			}
 		}
 		root3D.getChildren().add(feld);
@@ -62,17 +61,20 @@ public class GUI extends Application {
 
 		resetBrett();
 		aktualisiereMap();
-		
+
 		feld.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-            @Override
-            public void handle(MouseEvent event) {
-                spiel.klick(((int)(event.getX()/(feld.getWidth()/felder.length)+4)),((int)(event.getY()/(feld.getHeight()/felder.length)+4)));
-            }
-        });
+			@Override
+			public void handle(MouseEvent event) {
+				spiel.klick(((int) (event.getX()
+						/ (feld.getWidth() / felder.length) + 4)),
+						((int) (event.getY()
+								/ (feld.getHeight() / felder.length) + 4)));
+			}
+		});
 
 		Scene scene = new Scene(root, 1200, 800);
-		
+
 		scene.setCamera(kamera);
 
 		xslider.setMin(110);
@@ -84,7 +86,6 @@ public class GUI extends Application {
 		root3D.rx.angleProperty().bind(xslider.valueProperty());
 		root3D.rz.angleProperty().bind(yslider.valueProperty());
 		root3D.ry.angleProperty().bind(zslider.valueProperty());
-		
 
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
@@ -96,8 +97,12 @@ public class GUI extends Application {
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
 				new KeyFrame(Duration.ZERO, new KeyValue(
-						yslider.valueProperty(), 0d)),
-				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider
+						yslider.valueProperty(), 180d)),
+				new KeyFrame(Duration.ZERO, new KeyValue(xslider
+						.valueProperty(), 0d)),
+				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider
+						.valueProperty(), 0d)),
+				new KeyFrame(Duration.valueOf("2s"), new KeyValue(xslider
 						.valueProperty(), 180d)));
 
 		animation.play();
@@ -105,9 +110,8 @@ public class GUI extends Application {
 
 	public void aktualisiereMap() {
 		/*
-		feldMaterial.setDiffuseMap(new Image(this.getClass().getClassLoader()
-				.getResource("gui/bilder/brett.png").toString()));
-
+		 * feldMaterial.setDiffuseMap(new Image(this.getClass().getClassLoader()
+		 * .getResource("gui/bilder/brett.png").toString()));
 		 */
 		feldMaterial.setDiffuseMap(brett.snapshot(null, null));
 		feldMaterial.setBumpMap(new Image(this.getClass().getClassLoader()
@@ -118,46 +122,69 @@ public class GUI extends Application {
 				.toString()));
 		feld.setMaterial(feldMaterial);
 	}
-	
-	public void farbe(int x, int y, int farbe)
-	{
-		if(this.farbe)
-		{
-			switch (farbe)
-			{
+
+	public void farbe(int x, int y, int farbe) {
+		if (this.farbe) {
+			switch (farbe) {
 			case 3:
-				brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/gruen.png").toString()), translateX(x), translateY(y));
+				brett.getGraphicsContext2D()
+						.drawImage(
+								new Image(this.getClass().getClassLoader()
+										.getResource("gui/bilder/gruen.png")
+										.toString()), translateX(x),
+								translateY(y));
 				break;
 			case 4:
-				brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/rot.png").toString()), translateX(x), translateY(y));
+				brett.getGraphicsContext2D().drawImage(
+						new Image(this.getClass().getClassLoader()
+								.getResource("gui/bilder/rot.png").toString()),
+						translateX(x), translateY(y));
 				break;
 			case 5:
-				brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/gelb.png").toString()), translateX(x), translateY(y));
+				brett.getGraphicsContext2D()
+						.drawImage(
+								new Image(this.getClass().getClassLoader()
+										.getResource("gui/bilder/gelb.png")
+										.toString()), translateX(x),
+								translateY(y));
 				break;
 			}
 			feldMaterial.setDiffuseMap(brett.snapshot(null, null));
 		}
 	}
-	
-	public void resetBrett()
-	{
-		brett.getGraphicsContext2D().drawImage(new Image(this.getClass().getClassLoader()
-				.getResource("gui/bilder/brett.png").toString()), 0, 0);
+
+	public void resetBrett() {
+		brett.getGraphicsContext2D().drawImage(
+				new Image(this.getClass().getClassLoader()
+						.getResource("gui/bilder/brett.png").toString()), 0, 0);
 	}
-	
-	protected double translateX(int x)
-	{
-		return (feld.getWidth()/felder.length)*(7-x);
+
+	protected double translateX(int x) {
+		return (feld.getWidth() / felder.length) * (7 - x);
 	}
-	
-	protected double translateY(int y)
-	{
-		return (feld.getHeight()/felder.length)*y;
+
+	protected double translateY(int y) {
+		return (feld.getHeight() / felder.length) * y;
 	}
-	
+
+	public void aktualisieren() {
+		resetBrett();
+		for (int x = 0; x < felder.length; x++)
+			for (int y = 0; y < felder[x].length; y++) {
+				aktualisierenFigur(x, y);
+			}
+	}
+
+	private void aktualisierenFigur(int x, int y) {
+		if (felder[x][y].gebeInhalt() != 0) {
+			figuren[x][y] = new Figur(felder[x][y], felder[x][y].gebeInhalt());
+		}
+		else
+		{
+			figuren[x][y]=null;
+		}
+	}
+
 	public static void main(String args[]) throws Exception {
 		launch(args);
 	}
