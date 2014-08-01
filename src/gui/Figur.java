@@ -40,13 +40,13 @@ public class Figur extends Box {
 		}
 		PhongMaterial material = new PhongMaterial();
 		if (figur > 0) {
-			material.setDiffuseColor(Color.ANTIQUEWHITE);
+			material.setDiffuseColor(Color.AZURE);
 			material.setSpecularColor(Color.LIGHTYELLOW);
 		}
 		else
 		{
-			material.setDiffuseColor(Color.DARKORCHID);
-			material.setSpecularColor(Color.DARKSLATEBLUE);
+			material.setDiffuseColor(Color.NAVY);
+			material.setSpecularColor(Color.AQUAMARINE);
 		}
 
 		setMaterial(material);

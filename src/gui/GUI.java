@@ -105,7 +105,7 @@ public class GUI extends Application {
 				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider
 						.valueProperty(), 0d)),
 				new KeyFrame(Duration.valueOf("2s"), new KeyValue(xslider
-						.valueProperty(), 180d)));
+						.valueProperty(), 150d)));
 
 		animation.play();
 	}
@@ -184,6 +184,7 @@ public class GUI extends Application {
 			if (figuren[x][y] == null) {
 				figuren[x][y] = new Figur(felder[x][y], figur);
 			} else if (figur != figuren[x][y].figur) {
+				figuren[x][y].stirb();
 				figuren[x][y] = new Figur(felder[x][y], figur);
 			}
 		} else {

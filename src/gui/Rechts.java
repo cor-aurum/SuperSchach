@@ -24,6 +24,7 @@ public class Rechts extends TabPane{
 		einstellungen.setText("Einstellungen");
 		getTabs().add(einstellungen);
 		einstellungen.setContent(settings);
+		einstellungen.setClosable(false);
 		
 		ToggleGroup map = new ToggleGroup();
 	    RadioButton map_marmor = new RadioButton("Marmor");
