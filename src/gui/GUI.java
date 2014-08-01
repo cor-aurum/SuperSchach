@@ -60,20 +60,14 @@ public class GUI extends Application {
 
 		for (int i = 0; i < 4; i++) {
 			int temp = (i & 1) * 500;
-			int temp2 = temp == 500 ? 0 : 500;
-			System.out.println(temp2);
-			rand[i] = new Box(temp + 20, temp2 + 20, 10);
+			rand[i] = new Box(temp + 20, 520 - temp, 10);
 			root3D.getChildren().add(rand[i]);
 			if (temp == 500) {
-				rand[i].setTranslateY(i==1?250:-250);
+				rand[i].setTranslateY(i == 1 ? 250 : -250);
 			} else {
-				rand[i].setTranslateX(i==0?250:-250);
+				rand[i].setTranslateX(i == 0 ? 250 : -250);
 			}
-			rand[i].setTranslateZ(0);
-			PhongMaterial material = new PhongMaterial();
-			material.setDiffuseColor(Color.CHOCOLATE);
-			material.setSpecularColor(Color.BISQUE);
-			rand[i].setMaterial(material);
+			rand[i].setTranslateZ(feld.getTranslateZ());
 		}
 		rechts = new Rechts(this);
 		pane.setRight(rechts);
@@ -162,6 +156,29 @@ public class GUI extends Application {
 				.getResource("gui/bilder/" + hintergrund + "_SPEC.png")
 				.toString()));
 		feld.setMaterial(feldMaterial);
+
+		PhongMaterial material = new PhongMaterial();
+		switch (hintergrund) {
+		case "marmor":
+			material.setDiffuseColor(Color.BLANCHEDALMOND);
+			material.setSpecularColor(Color.CHOCOLATE);
+			break;
+		case "gras":
+			material.setDiffuseColor(Color.BEIGE);
+			material.setSpecularColor(Color.WHITE);
+			break;
+		case "holz":
+			material.setDiffuseColor(Color.DARKOLIVEGREEN);
+			material.setSpecularColor(Color.GREEN);
+			break;
+		default:
+			material.setDiffuseColor(Color.AQUA);
+			material.setSpecularColor(Color.AQUAMARINE);
+			break;
+		}
+		for (int i = 0; i < 4; i++) {
+			rand[i].setMaterial(material);
+		}
 	}
 
 	public void farbe(int x, int y, int farbe) {
