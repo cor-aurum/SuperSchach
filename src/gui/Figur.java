@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
-import javafx.scene.shape.TriangleMesh;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 
@@ -62,9 +61,9 @@ public class Figur extends MeshView {
 	    Mesh mesh = importer.getImport();
 	    setMesh(mesh);
 	    
-	    setScaleX(15);
-	    setScaleY(15);
-	    setScaleZ(15);
+	    setScaleX(10);
+	    setScaleY(10);
+	    setScaleZ(10);
 	    setRotate(figur>0?90:-90);
 	    //getTransforms().add(new Rotate(0, 0, 0));
 		
@@ -97,7 +96,7 @@ public class Figur extends MeshView {
 		//localToScene(f);
 		setTranslateX(f.getX());
 		setTranslateY(f.getY());
-		setTranslateZ(50);
+		setTranslateZ((getBoundsInLocal().getDepth()*getScaleZ())/2+5);
 	}
 	
 	public void stirb()
