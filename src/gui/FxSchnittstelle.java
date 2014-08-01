@@ -24,8 +24,7 @@ public class FxSchnittstelle extends Schnittstelle{
 
 	@Override
 	public void aktualisieren(int x, int y) {
-		// TODO Auto-generated method stub
-		
+		gUI.aktualisierenFigur(x, y);
 	}
 
 	@Override

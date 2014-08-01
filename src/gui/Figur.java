@@ -41,11 +41,11 @@ public class Figur extends Box {
 		PhongMaterial material = new PhongMaterial();
 		if (figur > 0) {
 			material.setDiffuseColor(Color.ANTIQUEWHITE);
-			material.setSpecularColor(Color.LIGHTGREY);
+			material.setSpecularColor(Color.LIGHTYELLOW);
 		}
 		else
 		{
-			material.setDiffuseColor(Color.BLACK);
+			material.setDiffuseColor(Color.DARKORCHID);
 			material.setSpecularColor(Color.DARKSLATEBLUE);
 		}
 
@@ -56,6 +56,7 @@ public class Figur extends Box {
 			@Override
 			public void handle(MouseEvent event) {
 				f.gUI.spiel.klick(f.x,f.y);
+				f.gUI.aktualisieren();
 			}
 		});
 		setzeFigur();
@@ -67,6 +68,11 @@ public class Figur extends Box {
 		setTranslateX(f.getX());
 		setTranslateY(f.getY());
 		setTranslateZ(f.getZ() + getDepth() / 2);
+	}
+	
+	public void stirb()
+	{
+		f.gUI.root3D.getChildren().remove(this);
 	}
 
 	public void setFeld(Feld f) {

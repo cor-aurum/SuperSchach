@@ -70,6 +70,7 @@ public class GUI extends Application {
 						/ (feld.getWidth() / felder.length) + 4)),
 						((int) (event.getY()
 								/ (feld.getHeight() / felder.length) + 4)));
+				aktualisieren();
 			}
 		});
 
@@ -86,6 +87,7 @@ public class GUI extends Application {
 		root3D.rx.angleProperty().bind(xslider.valueProperty());
 		root3D.rz.angleProperty().bind(yslider.valueProperty());
 		root3D.ry.angleProperty().bind(zslider.valueProperty());
+		aktualisieren();
 
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
@@ -173,21 +175,22 @@ public class GUI extends Application {
 			for (int y = 0; y < felder[x].length; y++) {
 				aktualisierenFigur(x, y);
 			}
+		System.gc();
 	}
 
-	private void aktualisierenFigur(int x, int y) {
-		x=7-x;
+	public void aktualisierenFigur(int x, int y) {
 		int figur = felder[x][y].gebeInhalt();
 		if (figur != 0) {
-			if (figuren[x][y]==null) {
+			if (figuren[x][y] == null) {
 				figuren[x][y] = new Figur(felder[x][y], figur);
-			}
-			else if(figur != figuren[x][y].figur)
-			{
+			} else if (figur != figuren[x][y].figur) {
 				figuren[x][y] = new Figur(felder[x][y], figur);
 			}
 		} else {
-			figuren[x][y] = null;
+			if (figuren[x][y] != null) {
+				figuren[x][y].stirb();
+				figuren[x][y] = null;
+			}
 		}
 	}
 
