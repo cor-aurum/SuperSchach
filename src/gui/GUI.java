@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.stage.Stage;
@@ -40,6 +41,7 @@ public class GUI extends Application {
 	private boolean farbe = true;
 	Canvas brett = new Canvas(feld.getWidth(), feld.getHeight());
 	private DoubleProperty zoom = new SimpleDoubleProperty(0.0);
+	private Box[] rand = new Box[4];
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -53,15 +55,35 @@ public class GUI extends Application {
 				figuren[b][a] = null;
 			}
 		}
+
 		root3D.getChildren().add(feld);
+
+		for (int i = 0; i < 4; i++) {
+			int temp = (i & 1) * 500;
+			int temp2 = temp == 500 ? 0 : 500;
+			System.out.println(temp2);
+			rand[i] = new Box(temp + 20, temp2 + 20, 10);
+			root3D.getChildren().add(rand[i]);
+			if (temp == 500) {
+				rand[i].setTranslateY(i==1?250:-250);
+			} else {
+				rand[i].setTranslateX(i==0?250:-250);
+			}
+			rand[i].setTranslateZ(0);
+			PhongMaterial material = new PhongMaterial();
+			material.setDiffuseColor(Color.CHOCOLATE);
+			material.setSpecularColor(Color.BISQUE);
+			rand[i].setMaterial(material);
+		}
 		rechts = new Rechts(this);
-		root.setRight(rechts);
+		pane.setRight(rechts);
 		root.setCenter(pane);
 		pane.setCenter(root3D);
 		pane.setLeft(xslider);
 		pane.setBottom(yslider);
 		pane.setTop(zslider);
 		xslider.setOrientation(Orientation.VERTICAL);
+		// zslider.setOrientation(Orientation.VERTICAL);
 
 		resetBrett();
 
@@ -84,7 +106,7 @@ public class GUI extends Application {
 		scene.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
-				if (zoom.get() > 0.5 || event.getDeltaY()>0) {
+				if (zoom.get() > 0.5 || event.getDeltaY() > 0) {
 					zoom.set(zoom.get() + event.getDeltaY() / 400);
 				}
 			}
@@ -210,6 +232,29 @@ public class GUI extends Application {
 				figuren[x][y] = null;
 			}
 		}
+	}
+
+	public void drehen() {
+		// xslider.setValue(xslider.getMin()+(xslider.getMax()-xslider.getValue()));
+		// yslider.setValue(yslider.getMin()+(yslider.getMax()-yslider.getValue()));
+		Timeline animation = new Timeline();
+		animation.getKeyFrames().addAll(
+				new KeyFrame(Duration.ZERO, new KeyValue(
+						yslider.valueProperty(), yslider.getValue())),
+				new KeyFrame(Duration.ZERO, new KeyValue(xslider
+						.valueProperty(), xslider.getValue())),
+				new KeyFrame(Duration.ZERO, new KeyValue(zslider
+						.valueProperty(), zslider.getValue())),
+				new KeyFrame(Duration.valueOf("1s"), new KeyValue(zslider
+						.valueProperty(), zslider.getMin()
+						+ (zslider.getMax() - zslider.getValue()))),
+				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider
+						.valueProperty(), yslider.getMin()
+						+ (yslider.getMax() - yslider.getValue()))),
+				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider
+						.valueProperty(), xslider.getMin()
+						+ (xslider.getMax() - xslider.getValue()))));
+		animation.play();
 	}
 
 	public static void main(String args[]) throws Exception {

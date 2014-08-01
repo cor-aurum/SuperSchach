@@ -2,6 +2,9 @@ package gui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
@@ -53,6 +56,17 @@ public class Rechts extends TabPane{
 	    settings.getChildren().add(map_marmor);
 	    settings.getChildren().add(map_holz);
 	    settings.getChildren().add(map_gras);
+	    addLeer(settings);
+	    
+	    Button drehen =new Button("Drehen");
+	    settings.getChildren().add(drehen);
+	    drehen.setOnAction(new EventHandler<ActionEvent>()
+	    		{
+	    			public void handle(ActionEvent e)
+	    			{
+	    				gUI.drehen();
+	    			}
+	    		});
 	    addLeer(settings);
 	}
 	
