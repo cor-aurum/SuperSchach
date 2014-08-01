@@ -1,24 +1,33 @@
 package gui;
 
+import java.io.File;
+import java.net.URISyntaxException;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
+import javafx.scene.shape.Mesh;
+import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
 
-public class Figur extends Box {
+import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+
+public class Figur extends MeshView {
 
 	Feld f;
 	int figur;
 
 	public Figur(Feld f, int figur) {
-		super(25, 25, 75);
+		//super(25, 25, 75);
 		this.f = f;
 		this.figur = figur;
+		
+		
 
 		switch (Math.abs(figur)) {
 		case 1:
-
+			
 			break;
 		case 4:
 
@@ -38,6 +47,27 @@ public class Figur extends Box {
 		default:
 			return;
 		}
+		
+		
+		File file=null;
+		try {
+			file = new File(this.getClass().getClassLoader()
+					.getResource("gui/meshes/test2.stl")
+					.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	    StlMeshImporter importer = new StlMeshImporter();
+	    importer.read(file);
+	    Mesh mesh = importer.getImport();
+	    setMesh(mesh);
+	    
+	    setScaleX(15);
+	    setScaleY(15);
+	    setScaleZ(15);
+	    setRotate(figur>0?90:-90);
+	    //getTransforms().add(new Rotate(0, 0, 0));
+		
 		PhongMaterial material = new PhongMaterial();
 		if (figur > 0) {
 			material.setDiffuseColor(Color.AZURE);
@@ -67,7 +97,7 @@ public class Figur extends Box {
 		//localToScene(f);
 		setTranslateX(f.getX());
 		setTranslateY(f.getY());
-		setTranslateZ(f.getZ() + getDepth() / 2);
+		setTranslateZ(50);
 	}
 	
 	public void stirb()
