@@ -30,7 +30,7 @@ public class GUI extends Application {
 	Node rechts;
 	Box feld = new Box(500, 500, 10);
 	Xform root3D = new Xform();
-	protected String hintergrund = "marmor";
+	protected String hintergrund = "glas";
 	PhongMaterial feldMaterial = new PhongMaterial();
 	Slider xslider = new Slider();
 	Slider yslider = new Slider();
@@ -164,14 +164,22 @@ public class GUI extends Application {
 		case "marmor":
 			material.setDiffuseColor(Color.BLANCHEDALMOND);
 			material.setSpecularColor(Color.CHOCOLATE);
+			feldMaterial.setSpecularPower(32.0);
 			break;
 		case "gras":
 			material.setDiffuseColor(Color.BEIGE);
 			material.setSpecularColor(Color.WHITE);
+			feldMaterial.setSpecularPower(128.0);
 			break;
 		case "holz":
 			material.setDiffuseColor(Color.DARKOLIVEGREEN);
 			material.setSpecularColor(Color.GREEN);
+			feldMaterial.setSpecularPower(1024.0);
+			break;
+		case "glas":
+			material.setDiffuseColor(Color.TRANSPARENT);
+			material.setSpecularColor(Color.WHITE);
+			feldMaterial.setSpecularPower(2.0);
 			break;
 		default:
 			material.setDiffuseColor(Color.AQUA);

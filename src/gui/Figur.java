@@ -72,9 +72,9 @@ public class Figur extends MeshView {
 		Mesh mesh = importer.getImport();
 		setMesh(mesh);
 
-		setScaleX(8);
-		setScaleY(8);
-		setScaleZ(8);
+		setScaleX(1);
+		setScaleY(1);
+		setScaleZ(1);
 		setRotate(figur > 0 ? 90 : -90);
 		// getTransforms().add(new Rotate(0, 0, 0));
 
@@ -105,7 +105,8 @@ public class Figur extends MeshView {
 		// localToScene(f);
 		setTranslateX(f.getX());
 		setTranslateY(f.getY());
-		setTranslateZ((getBoundsInLocal().getDepth() * getScaleZ()) / 2 + 5);
+		//setTranslateZ((getBoundsInLocal().getDepth() * getScaleZ()) / 2 + 5);
+		setTranslateZ(0);
 	}
 
 	public void stirb() {

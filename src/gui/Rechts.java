@@ -32,11 +32,13 @@ public class Rechts extends TabPane{
 		ToggleGroup map = new ToggleGroup();
 	    RadioButton map_marmor = new RadioButton("Marmor");
 	    map_marmor.setToggleGroup(map);
-	    map_marmor.setSelected(true);
 	    RadioButton map_holz = new RadioButton("Holz");
 	    map_holz.setToggleGroup(map);
 	    RadioButton map_gras = new RadioButton("Gras");
 	    map_gras.setToggleGroup(map);
+	    RadioButton map_glas = new RadioButton("Glas");
+	    map_glas.setToggleGroup(map);
+	    map_glas.setSelected(true);
 	    map.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
 	        public void changed(ObservableValue<? extends Toggle> ov,
 	            Toggle old_toggle, Toggle new_toggle) {
@@ -49,6 +51,9 @@ public class Rechts extends TabPane{
 	                else if (map.getSelectedToggle()==map_gras) {
 	                    gUI.hintergrund="gras";
 	                } 
+	                else if (map.getSelectedToggle()==map_glas) {
+	                    gUI.hintergrund="glas";
+	                } 
 	                gUI.aktualisiereMap();
 	            }
 	    });
@@ -56,6 +61,7 @@ public class Rechts extends TabPane{
 	    settings.getChildren().add(map_marmor);
 	    settings.getChildren().add(map_holz);
 	    settings.getChildren().add(map_gras);
+	    settings.getChildren().add(map_glas);
 	    addLeer(settings);
 	    
 	    Button drehen =new Button("Drehen");
