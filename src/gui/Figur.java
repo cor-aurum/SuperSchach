@@ -18,62 +18,71 @@ public class Figur extends MeshView {
 	int figur;
 
 	public Figur(Feld f, int figur) {
-		//super(25, 25, 75);
+		// super(25, 25, 75);
 		this.f = f;
 		this.figur = figur;
-		
-		
+
+		String modell;
 
 		switch (Math.abs(figur)) {
 		case 1:
-			
+			modell = "turm";
 			break;
 		case 4:
-
+			modell = "springer";
 			break;
 		case 2:
-
+			modell = "laeufer";
 			break;
 		case 3:
-
+			modell = "dame";
 			break;
 		case 16:
-
+			modell = "koenig";
 			break;
 		case 8:
-
+			modell = "bauer";
 			break;
 		default:
+			modell = "";
 			return;
 		}
-		
-		
-		File file=null;
+
+		if (f.gUI.modell_farbe) {
+			if (figur > 0) {
+				modell += "_weiss";
+			} else {
+				modell += "_schwarz";
+			}
+		}
+
+		File file = null;
 		try {
-			file = new File(this.getClass().getClassLoader()
-					.getResource("gui/meshes/test2.stl")
+			file = new File(this
+					.getClass()
+					.getClassLoader()
+					.getResource(
+							"gui/meshes/" + f.gUI.form + "_" + modell + ".stl")
 					.toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-	    StlMeshImporter importer = new StlMeshImporter();
-	    importer.read(file);
-	    Mesh mesh = importer.getImport();
-	    setMesh(mesh);
-	    
-	    setScaleX(10);
-	    setScaleY(10);
-	    setScaleZ(10);
-	    setRotate(figur>0?90:-90);
-	    //getTransforms().add(new Rotate(0, 0, 0));
-		
+		StlMeshImporter importer = new StlMeshImporter();
+		importer.read(file);
+		Mesh mesh = importer.getImport();
+		setMesh(mesh);
+
+		setScaleX(8);
+		setScaleY(8);
+		setScaleZ(8);
+		setRotate(figur > 0 ? 90 : -90);
+		// getTransforms().add(new Rotate(0, 0, 0));
+
 		PhongMaterial material = new PhongMaterial();
 		if (figur > 0) {
 			material.setDiffuseColor(Color.AZURE);
 			material.setSpecularColor(Color.LIGHTYELLOW);
-		}
-		else
-		{
+		} else {
 			material.setDiffuseColor(Color.NAVY);
 			material.setSpecularColor(Color.AQUAMARINE);
 		}
@@ -84,7 +93,7 @@ public class Figur extends MeshView {
 
 			@Override
 			public void handle(MouseEvent event) {
-				f.gUI.spiel.klick(f.x,f.y);
+				f.gUI.spiel.klick(f.x, f.y);
 				f.gUI.aktualisieren();
 			}
 		});
@@ -93,14 +102,13 @@ public class Figur extends MeshView {
 	}
 
 	private void setzeFigur() {
-		//localToScene(f);
+		// localToScene(f);
 		setTranslateX(f.getX());
 		setTranslateY(f.getY());
-		setTranslateZ((getBoundsInLocal().getDepth()*getScaleZ())/2+5);
+		setTranslateZ((getBoundsInLocal().getDepth() * getScaleZ()) / 2 + 5);
 	}
-	
-	public void stirb()
-	{
+
+	public void stirb() {
 		f.gUI.root3D.getChildren().remove(this);
 	}
 

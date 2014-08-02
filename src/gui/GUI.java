@@ -42,6 +42,8 @@ public class GUI extends Application {
 	Canvas brett = new Canvas(feld.getWidth(), feld.getHeight());
 	private DoubleProperty zoom = new SimpleDoubleProperty(0.0);
 	private Box[] rand = new Box[4];
+	public String form="standard";
+	public boolean modell_farbe=false;
 
 	@Override
 	public void start(Stage stage) throws Exception {
