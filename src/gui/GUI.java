@@ -67,6 +67,7 @@ public class GUI extends Application {
 		if(!Platform.isSupported(ConditionalFeature.SCENE3D))
 		{
 			System.out.println("3D wird von diesem System nicht unterstützt");
+			return;
 		}
 		this.stage=stage;
 		PerspectiveCamera kamera = new PerspectiveCamera();
