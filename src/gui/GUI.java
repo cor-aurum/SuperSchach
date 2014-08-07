@@ -1,36 +1,47 @@
 package gui;
 
+import java.io.File;
+import java.net.URISyntaxException;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
+import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Mesh;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
+
 public class GUI extends Application {
 
+	Stage stage;
 	BorderPane pane = new BorderPane();
-	BorderPane root = new BorderPane();
-	Node rechts;
+	//BorderPane root = new BorderPane();
+	Rechts rechts;
 	Box feld = new Box(500, 500, 10);
 	Xform root3D = new Xform();
-	protected String hintergrund = "glas";
+	protected String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
 	Slider xslider = new Slider();
 	Slider yslider = new Slider();
@@ -42,11 +53,16 @@ public class GUI extends Application {
 	Canvas brett = new Canvas(feld.getWidth(), feld.getHeight());
 	private DoubleProperty zoom = new SimpleDoubleProperty(0.0);
 	private Box[] rand = new Box[4];
-	public String form="standard";
-	public boolean modell_farbe=false;
+	public String form = "modern";
+	public boolean modell_farbe = false;
+	SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(
+			Color.AZURE);
+	SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(
+			Color.NAVY);
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		this.stage=stage;
 		PerspectiveCamera kamera = new PerspectiveCamera();
 		// kamera.setFieldOfView(50.0);
 		felder = new Feld[spiel.getXMax() + 1][spiel.getYMax() + 1];
@@ -59,22 +75,30 @@ public class GUI extends Application {
 		}
 
 		root3D.getChildren().add(feld);
+		//feld.toBack();
 
 		for (int i = 0; i < 4; i++) {
-			int temp = (i & 1) * 500;
-			rand[i] = new Box(temp + 20, 520 - temp, 10);
+			int temp = (i & 1) * 520;
+			rand[i] = new Box(temp+20, 540 - temp, 10);
 			root3D.getChildren().add(rand[i]);
-			if (temp == 500) {
-				rand[i].setTranslateY(i == 1 ? 250 : -250);
+			if (temp == 520) {
+				rand[i].setTranslateY(i == 1 ? 260 : -260);
 			} else {
-				rand[i].setTranslateX(i == 0 ? 250 : -250);
+				rand[i].setTranslateX(i == 0 ? 260 : -260);
 			}
 			rand[i].setTranslateZ(feld.getTranslateZ());
 		}
-		rechts = new Rechts(this);
-		pane.setRight(rechts);
-		root.setCenter(pane);
-		pane.setCenter(root3D);
+		//rechts = new Rechts(this);
+		//pane.setRight(rechts);
+		//root.setCenter(pane);
+		StackPane ablage=new StackPane();
+		SubScene subscene=new SubScene(root3D,0,0,true,SceneAntialiasing.BALANCED);
+		subscene.widthProperty().bind(ablage.widthProperty());
+		subscene.heightProperty().bind(ablage.heightProperty());
+		subscene.setFill(Color.GREEN);
+		ablage.getChildren().add(subscene);
+		pane.setCenter(ablage);
+		
 		pane.setLeft(xslider);
 		pane.setBottom(yslider);
 		pane.setTop(zslider);
@@ -95,9 +119,9 @@ public class GUI extends Application {
 			}
 		});
 
-		Scene scene = new Scene(root, 1200, 800);
+		Scene scene = new Scene(pane, 1200, 800);
 
-		scene.setCamera(kamera);
+		subscene.setCamera(kamera);
 
 		scene.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
@@ -108,6 +132,7 @@ public class GUI extends Application {
 			}
 		});
 		zoom.set(root3D.s.getX());
+		//zoom.set(700);
 		root3D.s.xProperty().bind(zoom);
 		root3D.s.yProperty().bind(zoom);
 		root3D.s.zProperty().bind(zoom);
@@ -121,7 +146,8 @@ public class GUI extends Application {
 		root3D.rx.angleProperty().bind(xslider.valueProperty());
 		root3D.rz.angleProperty().bind(yslider.valueProperty());
 		root3D.ry.angleProperty().bind(zslider.valueProperty());
-		aktualisieren();
+		//aktualisieren();
+		startaufstellung();
 		aktualisiereMap();
 
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
@@ -136,7 +162,7 @@ public class GUI extends Application {
 				new KeyFrame(Duration.ZERO, new KeyValue(
 						yslider.valueProperty(), 180d)),
 				new KeyFrame(Duration.ZERO, new KeyValue(xslider
-						.valueProperty(), 0d)),
+						.valueProperty(), xslider.getMax())),
 				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider
 						.valueProperty(), 0d)),
 				new KeyFrame(Duration.valueOf("1.5s"), new KeyValue(xslider
@@ -228,7 +254,7 @@ public class GUI extends Application {
 	}
 
 	protected double translateX(int x) {
-		return (feld.getWidth() / felder.length) * (7 - x);
+		return (feld.getWidth() / felder.length) * (spiel.getXMax() - x);
 	}
 
 	protected double translateY(int y) {
@@ -248,16 +274,84 @@ public class GUI extends Application {
 		int figur = felder[x][y].gebeInhalt();
 		if (figur != 0) {
 			if (figuren[x][y] == null) {
-				figuren[x][y] = new Figur(felder[x][y], figur);
-			} else if (figur != figuren[x][y].figur) {
-				figuren[x][y].stirb();
-				figuren[x][y] = new Figur(felder[x][y], figur);
+				// figuren[x][y] = new Figur(felder[x][y], figur);
+				zug();
+			} else if (figur != ((Figur) figuren[x][y]).figur) {
+				root3D.getChildren().remove(figuren[x][y]);
+				// figuren[x][y] = new Figur(felder[x][y], figur);
+				zug();
 			}
 		} else {
 			if (figuren[x][y] != null) {
-				figuren[x][y].stirb();
-				figuren[x][y] = null;
+				//root3D.getChildren().remove(figuren[x][y]);
+				//figuren[x][y] = null;
 			}
+		}
+	}
+
+	public void startaufstellung() {
+		for (int x = 0; x < spiel.getXMax() + 1; x++) {
+			for (int y = 0; y < spiel.getYMax() + 1; y++) {
+				int figur = felder[x][y].gebeInhalt();
+				if (figur != 0) {
+					figuren[x][y] = new Figur(felder[x][y], figur);
+				}
+				else
+				{
+					figuren[x][y] = null;
+				}
+			}
+		}
+	}
+
+	public void zug() {
+		byte[] zug = spiel.letzterZug();
+		int summe = 0;
+		for (int i = 0; i < zug.length; i++) {
+			summe += zug[i];
+		}
+		if (summe == 0) {
+			return;
+		}
+		final int sum = spiel.getXMax();
+		Feld anfang = felder[sum-zug[0]][zug[1]];
+		Feld ende = felder[sum-zug[2]][zug[3]];
+		// Figur tempfigur = new Figur(anfang, anfang.gebeInhalt());
+		Figur tempfigur;
+		try {
+			tempfigur = figuren[sum-anfang.x][anfang.y];//new MeshView(gebeMesh(ende.gebeInhalt()));
+			//tempfigur.setMaterial(gebeFigurenMaterial(ende.gebeInhalt()));
+			//root3D.getChildren().add(tempfigur);
+			double unsauber = xslider.getValue() == xslider.getMax() ? -0.00000001
+					: 0.00000001;
+			Timeline animation = new Timeline();
+			animation.getKeyFrames().addAll(
+					new KeyFrame(Duration.ZERO, new KeyValue(
+							xslider.valueProperty(), xslider.getValue())),
+					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
+							.translateXProperty(), anfang.getX())),
+					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
+							.translateYProperty(), anfang.getY())),
+					new KeyFrame(Duration.valueOf("0.15s"), new KeyValue(
+							xslider.valueProperty(), xslider.getValue()
+									+ unsauber)),
+					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(xslider
+							.valueProperty(), xslider.getValue())),
+					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
+							tempfigur.translateXProperty(), ende.getX())),
+					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
+							tempfigur.translateYProperty(), ende.getY())));
+			animation.play();
+			animation.setOnFinished(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					// root3D.getChildren().remove(tempfigur);
+					figuren[sum-anfang.x][anfang.y] = null;
+					figuren[sum-ende.x][ende.y] = tempfigur;
+					figuren[sum-ende.x][ende.y].setFeld(felder[sum-ende.x][ende.y]);
+				}
+			});
+		} catch (Exception e) {
+			//System.out.println("Animation nicht gefunden");
 		}
 	}
 
@@ -282,6 +376,59 @@ public class GUI extends Application {
 						.valueProperty(), xslider.getMin()
 						+ (xslider.getMax() - xslider.getValue()))));
 		animation.play();
+	}
+
+	public PhongMaterial gebeFigurenMaterial(int figur) {
+		PhongMaterial material = new PhongMaterial();
+		if (figur > 0) {
+			material.diffuseColorProperty().bind(farbe_weiss);
+			material.specularColorProperty().bind(farbe_weiss);
+		} else {
+			material.diffuseColorProperty().bind(farbe_schwarz);
+			material.specularColorProperty().bind(farbe_schwarz);
+		}
+		return material;
+	}
+
+	public String gebeFigur(int figur) {
+		switch (Math.abs(figur)) {
+		case 1:
+			return "turm";
+		case 4:
+			return "springer";
+		case 2:
+			return "laeufer";
+		case 3:
+			return "dame";
+		case 16:
+			return "koenig";
+		case 8:
+			return "bauer";
+		default:
+			return "";
+		}
+	}
+
+	public Mesh gebeMesh(int figur) throws Exception {
+		String modell = gebeFigur(figur);
+		if (modell_farbe) {
+			if (figur > 0) {
+				modell += "_weiss";
+			} else {
+				modell += "_schwarz";
+			}
+		}
+		File file = null;
+		try {
+			file = new File(this.getClass().getClassLoader()
+					.getResource("gui/meshes/" + form + "_" + modell + ".stl")
+					.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		StlMeshImporter importer = new StlMeshImporter();
+		importer.read(file);
+		return importer.getImport();
 	}
 
 	public static void main(String args[]) throws Exception {

@@ -14,7 +14,7 @@ public class FxSchnittstelle extends Schnittstelle{
 	@Override
 	public int figurMenu() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 4;
 	}
 
 	@Override
