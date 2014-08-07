@@ -7,6 +7,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.ConditionalFeature;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -53,7 +55,7 @@ public class GUI extends Application {
 	Canvas brett = new Canvas(feld.getWidth(), feld.getHeight());
 	private DoubleProperty zoom = new SimpleDoubleProperty(0.0);
 	private Box[] rand = new Box[4];
-	public String form = "modern";
+	public String form = "standard";
 	public boolean modell_farbe = false;
 	SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(
 			Color.AZURE);
@@ -62,6 +64,10 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		if(!Platform.isSupported(ConditionalFeature.SCENE3D))
+		{
+			System.out.println("3D wird von diesem System nicht unterstützt");
+		}
 		this.stage=stage;
 		PerspectiveCamera kamera = new PerspectiveCamera();
 		// kamera.setFieldOfView(50.0);
@@ -95,7 +101,9 @@ public class GUI extends Application {
 		SubScene subscene=new SubScene(root3D,0,0,true,SceneAntialiasing.BALANCED);
 		subscene.widthProperty().bind(ablage.widthProperty());
 		subscene.heightProperty().bind(ablage.heightProperty());
-		subscene.setFill(Color.GREEN);
+		root3D.translateXProperty().bind(ablage.widthProperty().divide(2));
+		root3D.translateYProperty().bind(ablage.heightProperty().divide(2));
+		subscene.setFill(Color.GRAY);
 		ablage.getChildren().add(subscene);
 		pane.setCenter(ablage);
 		
