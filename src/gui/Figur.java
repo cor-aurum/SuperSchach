@@ -27,7 +27,7 @@ public class Figur extends MeshView {
 			setTranslateZ((getBoundsInLocal().getDepth() * getScaleZ()) / 2 + 5);
 		}
 		setRotate(figur > 0 ? 90 : -90);
-		// getTransforms().add(new Rotate(0, 0, 0));
+		setCache(true);
 
 		setMaterial(f.gUI.gebeFigurenMaterial(figur));
 		f.gUI.root3D.getChildren().add(this);

@@ -22,6 +22,10 @@ import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
@@ -39,7 +43,7 @@ public class GUI extends Application {
 
 	Stage stage;
 	BorderPane pane = new BorderPane();
-	//BorderPane root = new BorderPane();
+	// BorderPane root = new BorderPane();
 	Rechts rechts;
 	Box feld = new Box(500, 500, 10);
 	Xform root3D = new Xform();
@@ -64,12 +68,11 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		if(!Platform.isSupported(ConditionalFeature.SCENE3D))
-		{
+		if (!Platform.isSupported(ConditionalFeature.SCENE3D)) {
 			System.out.println("3D wird von diesem System nicht unterstützt");
 			return;
 		}
-		this.stage=stage;
+		this.stage = stage;
 		PerspectiveCamera kamera = new PerspectiveCamera();
 		// kamera.setFieldOfView(50.0);
 		felder = new Feld[spiel.getXMax() + 1][spiel.getYMax() + 1];
@@ -82,11 +85,11 @@ public class GUI extends Application {
 		}
 
 		root3D.getChildren().add(feld);
-		//feld.toBack();
+		// feld.toBack();
 
 		for (int i = 0; i < 4; i++) {
 			int temp = (i & 1) * 520;
-			rand[i] = new Box(temp+20, 540 - temp, 10);
+			rand[i] = new Box(temp + 20, 540 - temp, 10);
 			root3D.getChildren().add(rand[i]);
 			if (temp == 520) {
 				rand[i].setTranslateY(i == 1 ? 260 : -260);
@@ -95,11 +98,12 @@ public class GUI extends Application {
 			}
 			rand[i].setTranslateZ(feld.getTranslateZ());
 		}
-		//rechts = new Rechts(this);
-		//pane.setRight(rechts);
-		//root.setCenter(pane);
-		StackPane ablage=new StackPane();
-		SubScene subscene=new SubScene(root3D,0,0,true,SceneAntialiasing.BALANCED);
+		// rechts = new Rechts(this);
+		// pane.setRight(rechts);
+		// root.setCenter(pane);
+		StackPane ablage = new StackPane();
+		SubScene subscene = new SubScene(root3D, 0, 0, true,
+				SceneAntialiasing.BALANCED);
 		subscene.widthProperty().bind(ablage.widthProperty());
 		subscene.heightProperty().bind(ablage.heightProperty());
 		root3D.translateXProperty().bind(ablage.widthProperty().divide(2));
@@ -107,7 +111,7 @@ public class GUI extends Application {
 		subscene.setFill(Color.GRAY);
 		ablage.getChildren().add(subscene);
 		pane.setCenter(ablage);
-		
+
 		pane.setLeft(xslider);
 		pane.setBottom(yslider);
 		pane.setTop(zslider);
@@ -132,7 +136,7 @@ public class GUI extends Application {
 
 		subscene.setCamera(kamera);
 
-		scene.setOnScroll(new EventHandler<ScrollEvent>() {
+		subscene.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
 				if (zoom.get() > 0.5 || event.getDeltaY() > 0) {
@@ -140,8 +144,25 @@ public class GUI extends Application {
 				}
 			}
 		});
+
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.isControlDown()) {
+					if (keyEvent.getCode() == KeyCode.C) {
+						final Clipboard clipboard = Clipboard
+								.getSystemClipboard();
+						final ClipboardContent content = new ClipboardContent();
+						content.putImage(subscene.snapshot(null, null));
+						clipboard.setContent(content);
+						spiel.meldungAusgeben("Screenshot in Zwischenablage kopiert");
+					}
+				}
+			}
+		});
+
 		zoom.set(root3D.s.getX());
-		//zoom.set(700);
+		// zoom.set(700);
 		root3D.s.xProperty().bind(zoom);
 		root3D.s.yProperty().bind(zoom);
 		root3D.s.zProperty().bind(zoom);
@@ -155,7 +176,7 @@ public class GUI extends Application {
 		root3D.rx.angleProperty().bind(xslider.valueProperty());
 		root3D.rz.angleProperty().bind(yslider.valueProperty());
 		root3D.ry.angleProperty().bind(zslider.valueProperty());
-		//aktualisieren();
+		// aktualisieren();
 		startaufstellung();
 		aktualisiereMap();
 
@@ -178,6 +199,7 @@ public class GUI extends Application {
 						.valueProperty(), 150d)));
 
 		animation.play();
+		spiel.ki(4, 1, 4);
 	}
 
 	public void aktualisiereMap() {
@@ -253,6 +275,7 @@ public class GUI extends Application {
 				break;
 			}
 			feldMaterial.setDiffuseMap(brett.snapshot(null, null));
+			zug();
 		}
 	}
 
@@ -274,7 +297,7 @@ public class GUI extends Application {
 		resetBrett();
 		for (int x = 0; x < felder.length; x++)
 			for (int y = 0; y < felder[x].length; y++) {
-				aktualisierenFigur(x, y);
+				//aktualisierenFigur(x, y);
 			}
 		System.gc();
 	}
@@ -282,18 +305,12 @@ public class GUI extends Application {
 	public void aktualisierenFigur(int x, int y) {
 		int figur = felder[x][y].gebeInhalt();
 		if (figur != 0) {
-			if (figuren[x][y] == null) {
-				// figuren[x][y] = new Figur(felder[x][y], figur);
-				zug();
-			} else if (figur != ((Figur) figuren[x][y]).figur) {
-				root3D.getChildren().remove(figuren[x][y]);
-				// figuren[x][y] = new Figur(felder[x][y], figur);
-				zug();
-			}
-		} else {
 			if (figuren[x][y] != null) {
-				//root3D.getChildren().remove(figuren[x][y]);
-				//figuren[x][y] = null;
+				if (figur != ((Figur) figuren[x][y]).figur) {
+					root3D.getChildren().remove(figuren[x][y]);
+					// figuren[x][y] = new Figur(felder[x][y], figur);
+					// zug();
+				}
 			}
 		}
 	}
@@ -304,9 +321,7 @@ public class GUI extends Application {
 				int figur = felder[x][y].gebeInhalt();
 				if (figur != 0) {
 					figuren[x][y] = new Figur(felder[x][y], figur);
-				}
-				else
-				{
+				} else {
 					figuren[x][y] = null;
 				}
 			}
@@ -319,21 +334,20 @@ public class GUI extends Application {
 		for (int i = 0; i < zug.length; i++) {
 			summe += zug[i];
 		}
-		if (summe == 0) {
-			return;
-		}
+		assert summe != 0;
 		final int sum = spiel.getXMax();
-		Feld anfang = felder[sum-zug[0]][zug[1]];
-		Feld ende = felder[sum-zug[2]][zug[3]];
+		Feld anfang = felder[sum - zug[0]][zug[1]];
+		Feld ende = felder[sum - zug[2]][zug[3]];
 		// Figur tempfigur = new Figur(anfang, anfang.gebeInhalt());
 		Figur tempfigur;
 		try {
-			tempfigur = figuren[sum-anfang.x][anfang.y];//new MeshView(gebeMesh(ende.gebeInhalt()));
-			//tempfigur.setMaterial(gebeFigurenMaterial(ende.gebeInhalt()));
-			//root3D.getChildren().add(tempfigur);
+			tempfigur = figuren[sum - anfang.x][anfang.y];// new
+															// MeshView(gebeMesh(ende.gebeInhalt()));
+			// tempfigur.setMaterial(gebeFigurenMaterial(ende.gebeInhalt()));
+			// root3D.getChildren().add(tempfigur);
 			double unsauber = xslider.getValue() == xslider.getMax() ? -0.00000001
 					: 0.00000001;
-			Timeline animation = new Timeline();
+			Timeline animation = new Timeline(60.0);
 			animation.getKeyFrames().addAll(
 					new KeyFrame(Duration.ZERO, new KeyValue(
 							xslider.valueProperty(), xslider.getValue())),
@@ -354,13 +368,15 @@ public class GUI extends Application {
 			animation.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					// root3D.getChildren().remove(tempfigur);
-					figuren[sum-anfang.x][anfang.y] = null;
-					figuren[sum-ende.x][ende.y] = tempfigur;
-					figuren[sum-ende.x][ende.y].setFeld(felder[sum-ende.x][ende.y]);
+					figuren[sum - anfang.x][anfang.y] = null;
+					figuren[sum - ende.x][ende.y] = tempfigur;
+					figuren[sum - ende.x][ende.y]
+							.setFeld(felder[sum - ende.x][ende.y]);
+					
 				}
 			});
 		} catch (Exception e) {
-			//System.out.println("Animation nicht gefunden");
+			// System.out.println("Animation nicht gefunden");
 		}
 	}
 
