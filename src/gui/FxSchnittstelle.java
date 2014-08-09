@@ -87,4 +87,17 @@ public class FxSchnittstelle extends Schnittstelle {
 		th.setDaemon(true);
 		th.start();
 	}
+	
+	@Override
+	public void entferneFigur(int x, int y)
+	{
+		gUI.root3D.getChildren().remove(gUI.gebeFiguren()[x][y]);
+		gUI.gebeFiguren()[x][y]=null;
+	}
+	
+	@Override
+	public void resetFeld()
+	{
+		gUI.resetBrett();
+	}
 }

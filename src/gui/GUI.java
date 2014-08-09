@@ -455,6 +455,11 @@ public class GUI extends Application {
 		importer.read(file);
 		return importer.getImport();
 	}
+	
+	public Figur[][] gebeFiguren()
+	{
+		return figuren;
+	}
 
 	public static void main(String args[]) throws Exception {
 		launch(args);
