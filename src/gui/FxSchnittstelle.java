@@ -74,7 +74,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		});
 	}
 
-	//@Override
+	// @Override
 	public void klickf(final int x, final int y) {
 		final Task<Void> task = new Task<Void>() {
 			@Override
@@ -87,22 +87,28 @@ public class FxSchnittstelle extends Schnittstelle {
 		th.setDaemon(true);
 		th.start();
 	}
-	
+
 	@Override
-	public void stirb(int typ, int x, int y)
-	{
-		entferneFigur(x,y);
+	public void stirb(int typ, int x, int y) {
+		entferneFigur(x, y);
 	}
-	
-	public void entferneFigur(int x, int y)
-	{
-		gUI.root3D.getChildren().remove(gUI.gebeFiguren()[x][y]);
-		gUI.gebeFiguren()[x][y]=null;
+
+	public void entferneFigur(int x, int y) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Geschlagen");
+			}
+		});
 	}
-	
+
 	@Override
-	public void resetFeld()
-	{
-		gUI.resetBrett();
+	public void resetFeld() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.resetBrett();
+			}
+		});
 	}
 }

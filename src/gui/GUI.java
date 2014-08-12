@@ -59,12 +59,13 @@ public class GUI extends Application {
 	Canvas brett = new Canvas(feld.getWidth(), feld.getHeight());
 	private DoubleProperty zoom = new SimpleDoubleProperty(0.0);
 	private Box[] rand = new Box[4];
-	public String form = "standard";
+	public String form = "modern";
 	public boolean modell_farbe = false;
 	SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(
 			Color.AZURE);
 	SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(
 			Color.NAVY);
+	Image brettbild=new Image(this.getClass().getClassLoader().getResource("gui/bilder/brett.png").toString());
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -280,9 +281,8 @@ public class GUI extends Application {
 	}
 
 	public void resetBrett() {
-		brett.getGraphicsContext2D().drawImage(
-				new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/brett.png").toString()), 0, 0);
+		brett.getGraphicsContext2D().drawImage(brettbild, 0, 0);
+		System.out.println("Reset");
 	}
 
 	protected double translateX(int x) {
@@ -345,6 +345,11 @@ public class GUI extends Application {
 															// MeshView(gebeMesh(ende.gebeInhalt()));
 			// tempfigur.setMaterial(gebeFigurenMaterial(ende.gebeInhalt()));
 			// root3D.getChildren().add(tempfigur);
+			if(figuren[sum - ende.x][ende.y]!=null)
+			{
+				System.out.println("Anfang: "+(sum-anfang.x)+" "+anfang.y+" Ende: "+(sum - ende.x)+" "+ende.y);
+				root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
+			}
 			double unsauber = xslider.getValue() == xslider.getMax() ? -0.00000001
 					: 0.00000001;
 			Timeline animation = new Timeline(60.0);
@@ -369,6 +374,7 @@ public class GUI extends Application {
 				public void handle(ActionEvent event) {
 					// root3D.getChildren().remove(tempfigur);
 					figuren[sum - anfang.x][anfang.y] = null;
+					
 					figuren[sum - ende.x][ende.y] = tempfigur;
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
