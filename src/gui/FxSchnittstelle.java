@@ -89,6 +89,11 @@ public class FxSchnittstelle extends Schnittstelle {
 	}
 	
 	@Override
+	public void stirb(int typ, int x, int y)
+	{
+		entferneFigur(x,y);
+	}
+	
 	public void entferneFigur(int x, int y)
 	{
 		gUI.root3D.getChildren().remove(gUI.gebeFiguren()[x][y]);
