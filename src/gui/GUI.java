@@ -65,7 +65,8 @@ public class GUI extends Application {
 			Color.AZURE);
 	SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(
 			Color.NAVY);
-	Image brettbild=new Image(this.getClass().getClassLoader().getResource("gui/bilder/brett.png").toString());
+	Image brettbild = new Image(this.getClass().getClassLoader()
+			.getResource("gui/bilder/brett.png").toString());
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -297,7 +298,7 @@ public class GUI extends Application {
 		resetBrett();
 		for (int x = 0; x < felder.length; x++)
 			for (int y = 0; y < felder[x].length; y++) {
-				//aktualisierenFigur(x, y);
+				// aktualisierenFigur(x, y);
 			}
 		System.gc();
 	}
@@ -345,10 +346,15 @@ public class GUI extends Application {
 															// MeshView(gebeMesh(ende.gebeInhalt()));
 			// tempfigur.setMaterial(gebeFigurenMaterial(ende.gebeInhalt()));
 			// root3D.getChildren().add(tempfigur);
-			if(figuren[sum - ende.x][ende.y]!=null)
-			{
-				System.out.println("Anfang: "+(sum-anfang.x)+" "+anfang.y+" Ende: "+(sum - ende.x)+" "+ende.y);
-				root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
+			if (figuren[sum - ende.x][ende.y] != null) {
+				if (zug[0] != zug[2] && zug[1] != zug[3]) {
+					System.out.println("Anfang: " + (sum - anfang.x) + " "
+							+ anfang.y + " Ende: " + (sum - ende.x) + " "
+							+ ende.y);
+					root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
+				}
+				else
+					return;
 			}
 			double unsauber = xslider.getValue() == xslider.getMax() ? -0.00000001
 					: 0.00000001;
@@ -374,11 +380,11 @@ public class GUI extends Application {
 				public void handle(ActionEvent event) {
 					// root3D.getChildren().remove(tempfigur);
 					figuren[sum - anfang.x][anfang.y] = null;
-					
+
 					figuren[sum - ende.x][ende.y] = tempfigur;
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
-					
+
 				}
 			});
 		} catch (Exception e) {
@@ -461,9 +467,8 @@ public class GUI extends Application {
 		importer.read(file);
 		return importer.getImport();
 	}
-	
-	public Figur[][] gebeFiguren()
-	{
+
+	public Figur[][] gebeFiguren() {
 		return figuren;
 	}
 
