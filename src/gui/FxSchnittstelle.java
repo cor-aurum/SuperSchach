@@ -28,7 +28,17 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.aktualisierenFigur(x, y);
+				gUI.feld.aktualisierenFigur(x, y);
+			}
+		});
+	}
+	
+	@Override
+	public void zugGemacht() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.feld.zug();
 			}
 		});
 	}
@@ -38,7 +48,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.aktualisieren();
+				gUI.feld.aktualisieren();
 			}
 		});
 	}
@@ -54,7 +64,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.farbe(x, y, farbe);
+				gUI.feld.farbe(x, y, farbe);
 			}
 		});
 	}
@@ -90,16 +100,7 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public void stirb(int typ, int x, int y) {
-		entferneFigur(x, y);
-	}
-
-	public void entferneFigur(int x, int y) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("Geschlagen");
-			}
-		});
+		
 	}
 
 	@Override
@@ -107,7 +108,18 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.resetBrett();
+				gUI.feld.resetBrett();
+			}
+		});
+	}
+	
+	@Override
+	public void chaterhalten(String s)
+	{
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.chat.nachrichtErhalten(s);
 			}
 		});
 	}

@@ -6,10 +6,11 @@ public class Feld extends Point3D{
 
 	int x;
 	int y;
+	MyStackPane pane;
 	GUI gUI;
-	public Feld(GUI gUI, int x, int y)
+	public Feld(GUI gUI, MyStackPane pane, int x, int y)
 	{
-		super(gUI.translateX(x+4)+30,gUI.translateY(y-4)+30,gUI.feld.getTranslateZ()+5);
+		super(pane.translateX(x+4)+30,pane.translateY(y-4)+30,pane.getFeld().getTranslateZ()+5);
 		this.x=7-x;
 		this.y=y;
 		this.gUI=gUI;

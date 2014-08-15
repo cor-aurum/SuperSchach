@@ -9,18 +9,18 @@ public class Figur extends MeshView {
 	Feld f;
 	int figur;
 
-	public Figur(Feld f, int figur) {
+	public Figur(Feld f, int figur, DreiD dreid) {
 		// super(25, 25, 75);
 		this.f = f;
 		this.figur = figur;
 
 		try {
-			setMesh(f.gUI.gebeMesh(figur));
+			setMesh(dreid.gUI.gebeMesh(figur));
 		} catch (Exception e) {
 			System.out.println("Figur nicht gefunden");
 		}
 
-		if (f.gUI.form.equals("modern")) {
+		if (dreid.gUI.form.equals("modern")) {
 			setScaleX(2);
 			setScaleY(2);
 			setScaleZ(2);
@@ -29,14 +29,14 @@ public class Figur extends MeshView {
 		setRotate(figur > 0 ? 90 : -90);
 		setCache(true);
 
-		setMaterial(f.gUI.gebeFigurenMaterial(figur));
-		f.gUI.root3D.getChildren().add(this);
+		setMaterial(dreid.gUI.gebeFigurenMaterial(figur));
+		dreid.root3D.getChildren().add(this);
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
-				f.gUI.spiel.klick(Figur.this.f.x, Figur.this.f.y);
-				f.gUI.aktualisieren();
+				dreid.gUI.spiel.klick(Figur.this.f.x, Figur.this.f.y);
+				dreid.aktualisieren();
 			}
 		});
 		setzeFigur();
