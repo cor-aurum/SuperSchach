@@ -46,7 +46,7 @@ public class GUI extends Application {
 			.getResource("gui/bilder/brett.png").toString());
 	Chat chat=new Chat(this);
 	Rechts einstellungen=new Rechts(this);
-	public boolean zweid=false;
+	public boolean zweid=true;
 	
 	public MyStackPane feld;
 
@@ -54,6 +54,8 @@ public class GUI extends Application {
 	public void start(Stage stage) throws Exception {
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid) {
 			feld=new ZweiD(this);
+			brettbild=new Image(this.getClass().getClassLoader()
+					.getResource("gui/bilder/brett2d.png").toString());
 		}
 		else
 		{

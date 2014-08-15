@@ -9,17 +9,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class ZweiD extends MyStackPane {
 
-	private Rectangle feld = new Rectangle(700, 700);
+	private Canvas feld = new Canvas(700, 700);
 	GUI gUI;
 	private Feld[][] felder;
-	private DoubleProperty zoom = new SimpleDoubleProperty(0.0);
-	ImagePattern imagePattern;
+	private DoubleProperty zoom = new SimpleDoubleProperty(1.0);
 
 	public ZweiD(GUI gUI) {
 		this.gUI = gUI;
@@ -33,22 +30,20 @@ public class ZweiD extends MyStackPane {
 			@Override
 			public void handle(ScrollEvent event) {
 				if (zoom.get() > 0.5 || event.getDeltaY() > 0) {
-					zoom.set(zoom.get() + event.getDeltaY() / 5);
+					zoom.set(zoom.get() + event.getDeltaY() / 400);
 				}
 			}
 		});
-		imagePattern = new ImagePattern(gUI.brettbild);
-		zoom.set(feld.getWidth());
+		//zoom.set(feld.getWidth());
 		// zoom.set(700);
-		feld.heightProperty().bind(zoom);
-		feld.widthProperty().bind(zoom);
+		feld.scaleYProperty().bind(zoom);
+		feld.scaleXProperty().bind(zoom);
 		feld.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				gUI.spiel.klick(
-						gUI.spiel.getXMax()
-								- ((int) (event.getX() / (feld.getWidth() / felder.length))),
+						((int) (event.getX() / (feld.getWidth() / felder.length))),
 						((int) (event.getY() / (feld.getHeight() / felder.length))));
 				aktualisieren();
 			}
@@ -66,83 +61,69 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void zug() {
-		// TODO Auto-generated method stub
-
+		aktualisieren();
 	}
 
 	@Override
 	public void aktualisieren() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void aktualisierenFigur(int x, int y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void startaufstellung() {
 		for (int x = 0; x < gUI.spiel.getXMax() + 1; x++) {
 			for (int y = 0; y < gUI.spiel.getYMax() + 1; y++) {
-				int figur = felder[x][y].gebeInhalt();
-
-				if (figur != 0) {
-					Image img;
-					String f = "";
-					switch (Math.abs(figur)) {
-					case 1:
-						f = "turm";
-						break;
-					case 4:
-						f = "springer";
-						break;
-					case 2:
-						f = "laeufer";
-						break;
-					case 3:
-						f = "dame";
-						break;
-					case 16:
-						f = "koenig";
-						break;
-					case 8:
-						f = "bauer";
-						break;
-					default:
-						f = "";
-					}
-					if (figur < 0) {
-						f = f+"_schwarz.png";
-						img = new Image(this.getClass().getClassLoader()
-								.getResource("gui/bilder/"+f).toString());
-					} else {
-						f = f+"_weiss.png";
-						img = new Image(this.getClass().getClassLoader()
-								.getResource("gui/bilder/"+f).toString());
-					}
-					Canvas canvas = new Canvas(feld.getWidth(),
-							feld.getHeight());
-					canvas.getGraphicsContext2D().drawImage(
-							imagePattern.getImage(), 0, 0, feld.getWidth(),
-							feld.getHeight());
-					canvas.getGraphicsContext2D().drawImage(
-							img, translateX(x), translateY(y),
-							feld.getWidth() / gUI.spiel.getXMax(),
-							feld.getHeight() / gUI.spiel.getYMax());
-					imagePattern = new ImagePattern(canvas.snapshot(null, null));
-					feld.setFill(imagePattern);
-				}
 			}
 		}
 	}
 
 	@Override
+	public void aktualisierenFigur(int x, int y) {
+		int figur = felder[x][y].gebeInhalt();
+
+		if (figur != 0) {
+			Image img;
+			String f = "";
+			switch (Math.abs(figur)) {
+			case 1:
+				f = "turm";
+				break;
+			case 4:
+				f = "springer";
+				break;
+			case 2:
+				f = "laeufer";
+				break;
+			case 3:
+				f = "dame";
+				break;
+			case 16:
+				f = "koenig";
+				break;
+			case 8:
+				f = "bauer";
+				break;
+			}
+			if (figur < 0) {
+				f = f + "_schwarz.png";
+				img = new Image(this.getClass().getClassLoader()
+						.getResource("gui/bilder/" + f).toString());
+			} else {
+				f = f + "_weiss.png";
+				img = new Image(this.getClass().getClassLoader()
+						.getResource("gui/bilder/" + f).toString());
+			}
+
+			feld.getGraphicsContext2D().drawImage(img, translateX(x),
+					translateY(y), feld.getWidth() / gUI.spiel.getXMax(),
+					feld.getHeight() / gUI.spiel.getYMax());
+		}
+	}
+
+	@Override
+	public void startaufstellung() {
+		
+	}
+
+	@Override
 	public void resetBrett() {
-		imagePattern = new ImagePattern(gUI.brettbild);
-		feld.setFill(imagePattern);
-		startaufstellung();
+		feld.getGraphicsContext2D().drawImage(gUI.brettbild, 0, 0, feld.getWidth(), feld.getHeight());
+		aktualisieren();
 	}
 
 	@Override
@@ -167,18 +148,14 @@ public class ZweiD extends MyStackPane {
 				f = "gelb";
 				break;
 			}
-			Canvas canvas = new Canvas(feld.getWidth(), feld.getHeight());
-			canvas.getGraphicsContext2D().drawImage(imagePattern.getImage(), 0,
-					0, feld.getWidth(), feld.getHeight());
-			canvas.getGraphicsContext2D()
+			feld.getGraphicsContext2D()
 					.drawImage(
 							new Image(this.getClass().getClassLoader()
 									.getResource("gui/bilder/" + f + ".png")
 									.toString()), translateX(x), translateY(y),
 							feld.getWidth() / gUI.spiel.getXMax(),
 							feld.getHeight() / gUI.spiel.getYMax());
-			imagePattern = new ImagePattern(canvas.snapshot(null, null));
-			feld.setFill(imagePattern);
+			// startaufstellung();
 		}
 	}
 
