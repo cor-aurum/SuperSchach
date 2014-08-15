@@ -87,35 +87,41 @@ public class ZweiD extends MyStackPane {
 		for (int x = 0; x < gUI.spiel.getXMax() + 1; x++) {
 			for (int y = 0; y < gUI.spiel.getYMax() + 1; y++) {
 				int figur = felder[x][y].gebeInhalt();
-				String f = "";
-				switch (Math.abs(figur)) {
-				case 1:
-					f = "turm";
-				case 4:
-					f = "springer";
-				case 2:
-					f = "laeufer";
-				case 3:
-					f = "dame";
-				case 16:
-					f = "koenig";
-				case 8:
-					f = "bauer";
-				default:
-					f = "";
-				}
-				Image img;
-				if (figur < 0) {
-					f += "_schwarz";
-					img = new Image(this.getClass().getClassLoader()
-							.getResource("gui/bilder/koenig_schwarz.png").toString());
-				} else {
-					f += "_weiss";
-					img = new Image(this.getClass().getClassLoader()
-							.getResource("gui/bilder/koenig_weiss.png").toString());
-					
-				}
+
 				if (figur != 0) {
+					Image img;
+					String f = "";
+					switch (Math.abs(figur)) {
+					case 1:
+						f = "turm";
+						break;
+					case 4:
+						f = "springer";
+						break;
+					case 2:
+						f = "laeufer";
+						break;
+					case 3:
+						f = "dame";
+						break;
+					case 16:
+						f = "koenig";
+						break;
+					case 8:
+						f = "bauer";
+						break;
+					default:
+						f = "";
+					}
+					if (figur < 0) {
+						f = f+"_schwarz.png";
+						img = new Image(this.getClass().getClassLoader()
+								.getResource("gui/bilder/"+f).toString());
+					} else {
+						f = f+"_weiss.png";
+						img = new Image(this.getClass().getClassLoader()
+								.getResource("gui/bilder/"+f).toString());
+					}
 					Canvas canvas = new Canvas(feld.getWidth(),
 							feld.getHeight());
 					canvas.getGraphicsContext2D().drawImage(
@@ -136,6 +142,7 @@ public class ZweiD extends MyStackPane {
 	public void resetBrett() {
 		imagePattern = new ImagePattern(gUI.brettbild);
 		feld.setFill(imagePattern);
+		startaufstellung();
 	}
 
 	@Override
