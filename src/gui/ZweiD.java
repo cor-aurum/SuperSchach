@@ -22,6 +22,7 @@ public class ZweiD extends MyStackPane {
 	GUI gUI;
 	private Feld[][] felder;
 	private DoubleProperty zoom = new SimpleDoubleProperty(1.0);
+	private boolean rotate=true;
 
 	public ZweiD(GUI gUI) {
 		this.gUI = gUI;
@@ -60,7 +61,7 @@ public class ZweiD extends MyStackPane {
 				aktualisieren();
 			}
 		});
-		
+
 		getChildren().add(root);
 		drehen();
 	}
@@ -70,11 +71,16 @@ public class ZweiD extends MyStackPane {
 		RotateTransition rt = new RotateTransition(Duration.millis(1500), root);
 		rt.setByAngle(180);
 		rt.play();
-		for(Node iV:figurenEbene.getChildren())
-		{
-			RotateTransition rt2 = new RotateTransition(Duration.millis(1500), iV);
+		for (Node iV : figurenEbene.getChildren()) {
+			RotateTransition rt2 = new RotateTransition(Duration.millis(1500),
+					iV);
 			rt2.setByAngle(-180);
 			rt2.play();
+			if (iV.getRotate() == 0) {
+				rotate = true;
+			} else {
+				rotate = false;
+			}
 		}
 	}
 
@@ -130,10 +136,11 @@ public class ZweiD extends MyStackPane {
 						.getResource("gui/bilder/" + f).toString());
 			}
 			ImageView iV = new ImageView(img);
-			iV.setFitWidth(700/gUI.spiel.getXMax());
-			iV.setFitHeight(700/gUI.spiel.getYMax());
-			iV.relocate(translateX( x), translateY(y));
-			iV.setRotate(180);
+			iV.setFitWidth(700 / gUI.spiel.getXMax());
+			iV.setFitHeight(700 / gUI.spiel.getYMax());
+			iV.relocate(translateX(x), translateY(y));
+			if (rotate)
+				iV.setRotate(180);
 			figurenEbene.getChildren().add(iV);
 		}
 	}

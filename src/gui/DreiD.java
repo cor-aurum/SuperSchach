@@ -229,7 +229,9 @@ public class DreiD extends MyStackPane {
 		Figur tempfigur;
 		try {
 			tempfigur = figuren[sum - anfang.x][anfang.y];
+			
 			root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
+			figuren[sum - ende.x][ende.y] = tempfigur;
 			Timeline animation = new Timeline(60.0);
 			animation.getKeyFrames().addAll(
 					new KeyFrame(Duration.ZERO, new KeyValue(
@@ -248,7 +250,7 @@ public class DreiD extends MyStackPane {
 					// root3D.getChildren().remove(tempfigur);
 					figuren[sum - anfang.x][anfang.y] = null;
 
-					figuren[sum - ende.x][ende.y] = tempfigur;
+					
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
 

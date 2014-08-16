@@ -46,7 +46,8 @@ public class GUI extends Application {
 			.getResource("gui/bilder/brett.png").toString());
 	Chat chat=new Chat(this);
 	Rechts einstellungen=new Rechts(this);
-	public boolean zweid=true;
+	public boolean zweid=false;
+	String name =System.getProperty("user.name");
 	
 	public MyStackPane feld;
 
@@ -91,7 +92,7 @@ public class GUI extends Application {
 				}
 			}
 		});
-
+		
 		// aktualisieren();
 		feld.startaufstellung();
 		feld.resetBrett();
@@ -105,7 +106,8 @@ public class GUI extends Application {
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
 		stage.show();
 		
-		spiel.ki(4, 1, 4);
+		GegnerWaehler gegner=new GegnerWaehler(this);
+		gegner.show();
 	}
 
 	public PhongMaterial gebeFigurenMaterial(int figur) {
