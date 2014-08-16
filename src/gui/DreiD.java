@@ -65,7 +65,6 @@ public class DreiD extends MyStackPane {
 		scene.heightProperty().bind(heightProperty());
 		root3D.translateXProperty().bind(widthProperty().divide(2));
 		root3D.translateYProperty().bind(heightProperty().divide(2));
-		scene.setFill(Color.GRAY);
 		getChildren().add(scene);
 		feld.setOnMouseClicked(new EventHandler<MouseEvent>() {
 

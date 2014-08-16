@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 
 public class Chat extends Fenster {
 
@@ -71,8 +72,15 @@ public class Chat extends Fenster {
 	}
 
 	public void nachrichtErhalten(String s) {
-		chat.getChildren().add(new Nachricht(tF.getText(), false));
-		ungelesen.setValue(ungelesen.getValue() + 1);
+		chat.getChildren().add(new Nachricht(s, false));
+		if (!isShowed()) {
+			ungelesen.setValue(ungelesen.getValue() + 1);
+			AudioClip plonkSound = new AudioClip(this.getClass()
+					.getClassLoader().getResource("gui/sounds/nachricht.aiff")
+					.toString());
+			plonkSound.play();
+		}
+
 	}
 
 	@Override

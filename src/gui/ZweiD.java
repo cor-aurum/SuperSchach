@@ -128,8 +128,7 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public Image getScreenshot() {
-		// TODO Auto-generated method stub
-		return null;
+		return feld.snapshot(null, null);
 	}
 
 	@Override
