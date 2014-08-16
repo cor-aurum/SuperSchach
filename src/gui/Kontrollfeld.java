@@ -33,7 +33,8 @@ public class Kontrollfeld extends HBox {
 			@Override
 			public void handle(ActionEvent e) {
 				gUI.spiel.zurueck();
-				gUI.chat.nachrichtErhalten("Hallo");
+				gUI.feld.resetBrett();
+				gUI.feld.aktualisieren();
 			}
 		});
 

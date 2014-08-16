@@ -7,12 +7,17 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class ZweiD extends MyStackPane {
 
+	private StackPane root = new StackPane();
+	private Pane figurenEbene = new Pane();
 	private Canvas feld = new Canvas(700, 700);
 	GUI gUI;
 	private Feld[][] felder;
@@ -20,13 +25,16 @@ public class ZweiD extends MyStackPane {
 
 	public ZweiD(GUI gUI) {
 		this.gUI = gUI;
+		root.setMaxWidth(700);
+		root.setMaxHeight(700);
+		root.getChildren().addAll(feld, figurenEbene);
 		felder = new Feld[gUI.spiel.getXMax() + 1][gUI.spiel.getYMax() + 1];
 		for (int a = 0; a < gUI.spiel.getYMax() + 1; a++) {
 			for (int b = 0; b < gUI.spiel.getXMax() + 1; b++) {
 				felder[b][a] = new Feld(gUI, this, b, a);
 			}
 		}
-		feld.setOnScroll(new EventHandler<ScrollEvent>() {
+		root.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
 				if (zoom.get() > 0.5 || event.getDeltaY() > 0) {
@@ -34,11 +42,15 @@ public class ZweiD extends MyStackPane {
 				}
 			}
 		});
-		//zoom.set(feld.getWidth());
+		// zoom.set(feld.getWidth());
 		// zoom.set(700);
-		feld.scaleYProperty().bind(zoom);
-		feld.scaleXProperty().bind(zoom);
-		feld.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		feld.scaleYProperty().bind(root.scaleYProperty());
+		feld.scaleXProperty().bind(root.scaleXProperty());
+		figurenEbene.scaleYProperty().bind(root.scaleYProperty());
+		figurenEbene.scaleXProperty().bind(root.scaleXProperty());
+		root.scaleYProperty().bind(zoom);
+		root.scaleXProperty().bind(zoom);
+		figurenEbene.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
@@ -48,15 +60,22 @@ public class ZweiD extends MyStackPane {
 				aktualisieren();
 			}
 		});
+		
+		getChildren().add(root);
 		drehen();
-		getChildren().add(feld);
 	}
 
 	@Override
 	public void drehen() {
-		RotateTransition rt = new RotateTransition(Duration.millis(1500), feld);
+		RotateTransition rt = new RotateTransition(Duration.millis(1500), root);
 		rt.setByAngle(180);
 		rt.play();
+		for(Node iV:figurenEbene.getChildren())
+		{
+			RotateTransition rt2 = new RotateTransition(Duration.millis(1500), iV);
+			rt2.setByAngle(-180);
+			rt2.play();
+		}
 	}
 
 	@Override
@@ -66,8 +85,10 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void aktualisieren() {
+		figurenEbene.getChildren().clear();
 		for (int x = 0; x < gUI.spiel.getXMax() + 1; x++) {
 			for (int y = 0; y < gUI.spiel.getYMax() + 1; y++) {
+				aktualisierenFigur(x, y);
 			}
 		}
 	}
@@ -108,10 +129,12 @@ public class ZweiD extends MyStackPane {
 				img = new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/" + f).toString());
 			}
-
-			feld.getGraphicsContext2D().drawImage(img, translateX(x),
-					translateY(y), feld.getWidth() / gUI.spiel.getXMax(),
-					feld.getHeight() / gUI.spiel.getYMax());
+			ImageView iV = new ImageView(img);
+			iV.setFitWidth(700/gUI.spiel.getXMax());
+			iV.setFitHeight(700/gUI.spiel.getYMax());
+			iV.relocate(translateX( x), translateY(y));
+			iV.setRotate(180);
+			figurenEbene.getChildren().add(iV);
 		}
 	}
 
@@ -122,7 +145,8 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void resetBrett() {
-		feld.getGraphicsContext2D().drawImage(gUI.brettbild, 0, 0, feld.getWidth(), feld.getHeight());
+		feld.getGraphicsContext2D().drawImage(gUI.brettbild, 0, 0,
+				feld.getWidth(), feld.getHeight());
 		aktualisieren();
 	}
 
@@ -151,7 +175,8 @@ public class ZweiD extends MyStackPane {
 					.drawImage(
 							new Image(this.getClass().getClassLoader()
 									.getResource("gui/bilder/" + f + ".png")
-									.toString()), translateX(gUI.spiel.getXMax()-x), translateY(y),
+									.toString()),
+							translateX(gUI.spiel.getXMax() - x), translateY(y),
 							feld.getWidth() / gUI.spiel.getXMax(),
 							feld.getHeight() / gUI.spiel.getYMax());
 			// startaufstellung();
