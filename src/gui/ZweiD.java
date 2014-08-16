@@ -117,7 +117,7 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void startaufstellung() {
-		
+		aktualisieren();
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class ZweiD extends MyStackPane {
 					.drawImage(
 							new Image(this.getClass().getClassLoader()
 									.getResource("gui/bilder/" + f + ".png")
-									.toString()), translateX(x), translateY(y),
+									.toString()), translateX(gUI.spiel.getXMax()-x), translateY(y),
 							feld.getWidth() / gUI.spiel.getXMax(),
 							feld.getHeight() / gUI.spiel.getYMax());
 			// startaufstellung();

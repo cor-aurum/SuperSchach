@@ -46,7 +46,7 @@ public class GUI extends Application {
 			.getResource("gui/bilder/brett.png").toString());
 	Chat chat=new Chat(this);
 	Rechts einstellungen=new Rechts(this);
-	public boolean zweid=false;
+	public boolean zweid=true;
 	
 	public MyStackPane feld;
 
