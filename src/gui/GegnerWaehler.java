@@ -49,19 +49,19 @@ public class GegnerWaehler extends Fenster{
 			spieler = client.getLobby();
 		} catch (IOException e) {
 		}
-		
 		SpielerButton[] button =new SpielerButton[spieler.length]; 
 		for(int i=0;i<spieler.length;i++)
 		{
-			button[i]=new SpielerButton(spieler[i].getName(), spieler[i].getId());
+			button[i]=new SpielerButton(spieler[i].getName(), spieler[i].getId(), spieler[i].getFarbe());
 		}
 		liste.getChildren().addAll(button);
 	}
 
 	private class SpielerButton extends Button{
-		public SpielerButton(String s, long id)
+		public SpielerButton(String s, long id, String farbe)
 		{
 			super(s);
+			System.out.println(farbe);
 			prefWidthProperty().bind(GegnerWaehler.this.widthProperty().divide(2));
 			setOnAction(new EventHandler<ActionEvent>() {
 				@Override

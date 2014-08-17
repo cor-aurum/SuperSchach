@@ -16,7 +16,7 @@ public abstract class Fenster extends BorderPane {
 
 	public Fenster(GUI gUI) {
 		this.gUI = gUI;
-		setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;-fx-margin:50;");
+		//setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;-fx-margin:50;");
 		// setOpacity(0.5);
 	}
 
@@ -26,8 +26,8 @@ public abstract class Fenster extends BorderPane {
 		animation.getKeyFrames()
 				.addAll(new KeyFrame(Duration.ZERO, new KeyValue(
 						opacityProperty(), 0)),
-						new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
-								opacityProperty(), 0.5)));
+						new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(
+								opacityProperty(), 1)));
 
 		animation.play();
 		sichtbar = true;
@@ -37,8 +37,8 @@ public abstract class Fenster extends BorderPane {
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
 				new KeyFrame(Duration.ZERO,
-						new KeyValue(opacityProperty(), 0.5)),
-				new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
+						new KeyValue(opacityProperty(), 1.0)),
+				new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(
 						opacityProperty(), 0)));
 
 		animation.play();
@@ -53,6 +53,7 @@ public abstract class Fenster extends BorderPane {
 
 	public void setzeInhalt(Region r) {
 		setCenter(r);
+		r.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 	}
 
 	public boolean isShowed() {

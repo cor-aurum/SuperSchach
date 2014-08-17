@@ -3,15 +3,20 @@ package gui;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 
@@ -28,6 +33,30 @@ public class Chat extends Fenster {
 		super(gUI);
 		setzeInhalt(root);
 		scroll.setContent(chat);
+		//scroll.setStyle("-fx-background-color: transparent;");
+		scroll.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+
+	        @Override
+	        public void changed(
+	          ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
+	            if (t1 != null && t1.getNode() instanceof Region) {
+	                Region r = (Region) t1.getNode();
+	                r.setBackground(Background.EMPTY);
+
+	                r.getChildrenUnmodifiable().stream().
+	                        filter(n -> n instanceof Region).
+	                        map(n -> (Region) n).
+	                        forEach(n -> n.setBackground(Background.EMPTY));
+
+	                r.getChildrenUnmodifiable().stream().
+	                        filter(n -> n instanceof Control).
+	                        map(n -> (Control) n).
+	                        forEach(c -> c.skinProperty().addListener(this)); // *
+	            }
+	        }
+	    });
+		
+		//chat.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 		root.setBottom(tF);
 		root.setCenter(scroll);
 		tF.setOnAction(new EventHandler<ActionEvent>() {
@@ -43,7 +72,7 @@ public class Chat extends Fenster {
 				}
 			}
 		});
-		tF.setStyle("-fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-background-color: white; -fx-font-weight: bold;");
+		tF.setStyle("-fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-background-color: white; -fx-font-weight: bold;-fx-border-color: #5d5d5d;-fx-border-width: 3px;-fx-border-radius: 10;");
 		chat.heightProperty().addListener(
 				(ChangeListener) (observable, oldvalue, newValue) -> scroll
 						.setVvalue((Double) newValue));
@@ -55,6 +84,7 @@ public class Chat extends Fenster {
 			if (ausrichtung) {
 				setAlignment(Pos.BASELINE_RIGHT);
 			}
+			//setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 			prefWidthProperty().bind(Chat.this.widthProperty());
 			Label p = new Label(text);
 			setMargin(p, new Insets(10));
@@ -67,7 +97,6 @@ public class Chat extends Fenster {
 			p.setStyle(style);
 
 			getChildren().add(p);
-			p.setOpacity(1);
 		}
 	}
 
