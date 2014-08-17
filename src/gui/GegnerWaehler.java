@@ -5,9 +5,9 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import client.Client;
 import client.Spieler;
 
@@ -17,6 +17,7 @@ public class GegnerWaehler extends Fenster {
 	BorderPane pane = new BorderPane();
 	VBox liste = new VBox();
 	Client client;
+	boolean internet = true;
 
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
@@ -24,9 +25,7 @@ public class GegnerWaehler extends Fenster {
 		try {
 			client = new Client("localhost", gUI.name);
 		} catch (Exception e) {
-			gUI.spiel.ki(4, 1, 4);
-			hide();
-			return;
+			internet = false;
 		}
 		this.gUI = gUI;
 		setzeInhalt(pane);
@@ -44,17 +43,27 @@ public class GegnerWaehler extends Fenster {
 
 	public void aktualisieren() {
 		liste.getChildren().clear();
-		Spieler[] spieler = null;
-		try {
-			spieler = client.getLobby();
-		} catch (IOException e) {
+		if (internet) {
+			Spieler[] spieler = null;
+			try {
+				spieler = client.getLobby();
+			} catch (IOException e) {
+			}
+			SpielerButton[] button = new SpielerButton[spieler.length];
+			for (int i = 0; i < spieler.length; i++) {
+				button[i] = new SpielerButton(spieler[i].getName(),
+						spieler[i].getID(), spieler[i].getFarbe());
+			}
+			liste.getChildren().addAll(button);
 		}
-		SpielerButton[] button = new SpielerButton[spieler.length];
-		for (int i = 0; i < spieler.length; i++) {
-			button[i] = new SpielerButton(spieler[i].getName(),
-					spieler[i].getID(), spieler[i].getFarbe());
-		}
-		liste.getChildren().addAll(button);
+		liste.getChildren().add(
+				new SpielerButtonBot("Kiana (weiß)", 4, "WEISS"));
+		liste.getChildren().add(
+				new SpielerButtonBot("Kiana (schwarz)", 4, "SCHWARZ"));
+		liste.getChildren().add(
+				new SpielerButtonBot("Ivan Zufallski (weiß)", 1, "WEISS"));
+		liste.getChildren().add(
+				new SpielerButtonBot("Ivan Zufallski (schwarz)", 1, "SCHWARZ"));
 	}
 
 	private class SpielerButton extends Button {
@@ -66,34 +75,36 @@ public class GegnerWaehler extends Fenster {
 			setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					listener(s,id);
+					listener(s, id, farbe);
 				}
 			});
 		}
-		
-		public void listener(String s, long id)
-		{
-			pane.setRight(new Detail(s, id));
+
+		public void listener(String s, long id, String farbe) {
+			pane.setRight(new Detail(s, id, farbe));
 		}
 	}
-	
+
 	private class SpielerButtonBot extends SpielerButton {
 
 		public SpielerButtonBot(String s, long id, String farbe) {
 			super(s, id, farbe);
-			// TODO Auto-generated constructor stub
 		}
-		
+
 		@Override
-		public void listener(String s, long id)
-		{
-			pane.setRight(new DetailBot(s, id));
+		public void listener(String s, long id, String farbe) {
+			pane.setRight(new DetailBot(s, id, farbe));
 		}
 	}
 
 	private class Detail extends BorderPane {
-		public Detail(String name, long id) {
-			setTop(new Text(name));
+		public Detail(String name, long id, String farbe) {
+			Label nameLabel = new Label(name);
+			setTop(nameLabel);
+			String farbtemp = farbe.equals("WEISS") ? "white" : "black";
+			String farbtemp2 = farbe.equals("WEISS") ? "black" : "white";
+			nameLabel.setStyle("-fx-text-fill:" + farbtemp2
+					+ ";-fx-background-color:" + farbtemp + ";");
 			Button herausfordern = new Button("Herausfordern");
 			setBottom(herausfordern);
 			prefWidthProperty().bind(
@@ -101,12 +112,12 @@ public class GegnerWaehler extends Fenster {
 			herausfordern.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					listener(id);
+					listener(id, farbe);
 				}
 			});
 		}
 
-		public void listener(long id) {
+		public void listener(long id, String farbe) {
 			try {
 				client.herausfordern(id);
 				GegnerWaehler.this.hide();
@@ -117,14 +128,13 @@ public class GegnerWaehler extends Fenster {
 
 	private class DetailBot extends Detail {
 
-		public DetailBot(String name, long id) {
-			super(name, id);
-			// TODO Auto-generated constructor stub
+		public DetailBot(String name, long id, String farbe) {
+			super(name, id, farbe);
 		}
 
 		@Override
-		public void listener(long id) {
-			gUI.spiel.ki(4, (int)id, 4);
+		public void listener(long id, String farbe) {
+			gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, 4);
 			GegnerWaehler.this.hide();
 		}
 	}
