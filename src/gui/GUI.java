@@ -45,9 +45,11 @@ public class GUI extends Application {
 	Image brettbild = new Image(this.getClass().getClassLoader()
 			.getResource("gui/bilder/brett.png").toString());
 	Chat chat=new Chat(this);
-	Einstellungen einstellungen=new Einstellungen(this);
-	public boolean zweid=false;
 	String name =System.getProperty("user.name");
+	public boolean zweid=false;
+	Einstellungen einstellungen=new Einstellungen(this);
+	
+	
 	
 	public MyStackPane feld;
 
@@ -104,6 +106,7 @@ public class GUI extends Application {
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
+		einstellungen.laden();
 		stage.show();
 		
 		GegnerWaehler gegner=new GegnerWaehler(this);
