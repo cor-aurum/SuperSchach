@@ -11,26 +11,27 @@ import javafx.scene.text.Text;
 import client.Client;
 import client.Spieler;
 
-public class GegnerWaehler extends Fenster{
+public class GegnerWaehler extends Fenster {
 
 	GUI gUI;
-	BorderPane pane=new BorderPane();
-	VBox liste=new VBox();
+	BorderPane pane = new BorderPane();
+	VBox liste = new VBox();
 	Client client;
+
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
-		
+
 		try {
-			client= new Client("localhost", gUI.name);
+			client = new Client("localhost", gUI.name);
 		} catch (Exception e) {
-			gUI.spiel.ki(4,1,4);
+			gUI.spiel.ki(4, 1, 4);
 			hide();
 			return;
 		}
-		this.gUI=gUI;
+		this.gUI = gUI;
 		setzeInhalt(pane);
 		pane.setCenter(liste);
-		Button aktualisieren=new Button("Aktualisieren");
+		Button aktualisieren = new Button("Aktualisieren");
 		setBottom(aktualisieren);
 		aktualisieren.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -40,57 +41,91 @@ public class GegnerWaehler extends Fenster{
 		});
 		aktualisieren();
 	}
-	
-	public void aktualisieren()
-	{
+
+	public void aktualisieren() {
 		liste.getChildren().clear();
-		Spieler[] spieler=null;
+		Spieler[] spieler = null;
 		try {
 			spieler = client.getLobby();
 		} catch (IOException e) {
 		}
-		SpielerButton[] button =new SpielerButton[spieler.length]; 
-		for(int i=0;i<spieler.length;i++)
-		{
-			button[i]=new SpielerButton(spieler[i].getName(), spieler[i].getId(), spieler[i].getFarbe());
+		SpielerButton[] button = new SpielerButton[spieler.length];
+		for (int i = 0; i < spieler.length; i++) {
+			button[i] = new SpielerButton(spieler[i].getName(),
+					spieler[i].getID(), spieler[i].getFarbe());
 		}
 		liste.getChildren().addAll(button);
 	}
 
-	private class SpielerButton extends Button{
-		public SpielerButton(String s, long id, String farbe)
-		{
+	private class SpielerButton extends Button {
+		public SpielerButton(String s, long id, String farbe) {
 			super(s);
 			System.out.println(farbe);
-			prefWidthProperty().bind(GegnerWaehler.this.widthProperty().divide(2));
+			prefWidthProperty().bind(
+					GegnerWaehler.this.widthProperty().divide(2));
 			setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					pane.setRight(new Detail(s, id));
+					listener(s,id);
 				}
 			});
 		}
+		
+		public void listener(String s, long id)
+		{
+			pane.setRight(new Detail(s, id));
+		}
 	}
 	
-	private class Detail extends BorderPane
-	{
-		public Detail(String name,long id)
+	private class SpielerButtonBot extends SpielerButton {
+
+		public SpielerButtonBot(String s, long id, String farbe) {
+			super(s, id, farbe);
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public void listener(String s, long id)
 		{
+			pane.setRight(new DetailBot(s, id));
+		}
+	}
+
+	private class Detail extends BorderPane {
+		public Detail(String name, long id) {
 			setTop(new Text(name));
-			Button herausfordern=new Button("Herausfordern");
+			Button herausfordern = new Button("Herausfordern");
 			setBottom(herausfordern);
-			prefWidthProperty().bind(GegnerWaehler.this.widthProperty().divide(2));
+			prefWidthProperty().bind(
+					GegnerWaehler.this.widthProperty().divide(2));
 			herausfordern.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					System.out.println("Herausgefordert: "+name);
-					try {
-						client.herausfordern(id);
-						GegnerWaehler.this.hide();
-					} catch (IOException e1) {
-					}
+					listener(id);
 				}
 			});
+		}
+
+		public void listener(long id) {
+			try {
+				client.herausfordern(id);
+				GegnerWaehler.this.hide();
+			} catch (IOException e1) {
+			}
+		}
+	}
+
+	private class DetailBot extends Detail {
+
+		public DetailBot(String name, long id) {
+			super(name, id);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void listener(long id) {
+			gUI.spiel.ki(4, (int)id, 4);
+			GegnerWaehler.this.hide();
 		}
 	}
 }
