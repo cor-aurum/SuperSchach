@@ -2,11 +2,20 @@ package gui;
 
 import java.io.IOException;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Skin;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import client.Client;
 import client.Spieler;
@@ -17,21 +26,50 @@ public class GegnerWaehler extends Fenster {
 	BorderPane pane = new BorderPane();
 	VBox liste = new VBox();
 	Client client;
+	ScrollPane scroll;
 	boolean internet = true;
 
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
-
 		try {
 			client = new Client("localhost", gUI.name);
 		} catch (Exception e) {
 			internet = false;
 		}
 		this.gUI = gUI;
+		
+		Label waehler=new Label("Wähle deinen Gegner aus");
+		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;");
+		scroll=new ScrollPane();
+		scroll.setContent(liste);
+		scroll.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+
+	        @Override
+	        public void changed(
+	          ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
+	            if (t1 != null && t1.getNode() instanceof Region) {
+	                Region r = (Region) t1.getNode();
+	                r.setBackground(Background.EMPTY);
+
+	                r.getChildrenUnmodifiable().stream().
+	                        filter(n -> n instanceof Region).
+	                        map(n -> (Region) n).
+	                        forEach(n -> n.setBackground(Background.EMPTY));
+
+	                r.getChildrenUnmodifiable().stream().
+	                        filter(n -> n instanceof Control).
+	                        map(n -> (Control) n).
+	                        forEach(c -> c.skinProperty().addListener(this)); // *
+	            }
+	        }
+	    });
+		pane.setTop(waehler);
 		setzeInhalt(pane);
-		pane.setCenter(liste);
+		pane.setCenter(scroll);
 		Button aktualisieren = new Button("Aktualisieren");
 		setBottom(aktualisieren);
+		BorderPane.setAlignment(aktualisieren,Pos.CENTER);
+		BorderPane.setAlignment(waehler,Pos.CENTER);
 		aktualisieren.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -97,17 +135,23 @@ public class GegnerWaehler extends Fenster {
 		}
 	}
 
-	private class Detail extends BorderPane {
+	private class Detail extends StackPane {
 		public Detail(String name, long id, String farbe) {
+			BorderPane root=new BorderPane();
+			this.getChildren().add(root);
 			Label nameLabel = new Label(name);
-			setTop(nameLabel);
+			root.setTop(nameLabel);
 			String farbtemp = farbe.equals("WEISS") ? "white" : "black";
 			String farbtemp2 = farbe.equals("WEISS") ? "black" : "white";
+			nameLabel.prefWidthProperty().bind(this.widthProperty());
 			nameLabel.setStyle("-fx-text-fill:" + farbtemp2
-					+ ";-fx-background-color:" + farbtemp + ";");
+					+ ";-fx-background-color:" + farbtemp + ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
+			root.setStyle("-fx-background-color:rgba(0,100,100,0.5);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
 			Button herausfordern = new Button("Herausfordern");
-			setBottom(herausfordern);
-			prefWidthProperty().bind(
+			root.setBottom(herausfordern);
+			root.prefWidthProperty().bind(
+					GegnerWaehler.this.widthProperty().divide(3));
+			maxWidthProperty().bind(
 					GegnerWaehler.this.widthProperty().divide(2));
 			herausfordern.setOnAction(new EventHandler<ActionEvent>() {
 				@Override

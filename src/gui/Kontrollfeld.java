@@ -22,7 +22,7 @@ public class Kontrollfeld extends HBox {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Kontrollfeld(GUI gUI) {
 		setAlignment(Pos.BOTTOM_RIGHT);
-		getChildren().addAll(drehen, zurueck, chat, vollbild, einstellungen);
+		getChildren().addAll(drehen, chat, vollbild, einstellungen);
 		drehen.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {

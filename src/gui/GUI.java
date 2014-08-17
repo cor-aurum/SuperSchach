@@ -28,7 +28,7 @@ public class GUI extends Application {
 	BorderPane root = new BorderPane();
 	BorderPane pane = new BorderPane();
 	// BorderPane root = new BorderPane();
-	Rechts rechts;
+	Einstellungen rechts;
 	
 	protected String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
@@ -45,7 +45,7 @@ public class GUI extends Application {
 	Image brettbild = new Image(this.getClass().getClassLoader()
 			.getResource("gui/bilder/brett.png").toString());
 	Chat chat=new Chat(this);
-	Rechts einstellungen=new Rechts(this);
+	Einstellungen einstellungen=new Einstellungen(this);
 	public boolean zweid=false;
 	String name =System.getProperty("user.name");
 	
