@@ -23,10 +23,11 @@ public class SpielVorschau extends BorderPane {
 	Canvas canvas = new Canvas(300, 300);
 	ImageView iV = new ImageView();
 
-	public SpielVorschau() {
-		URL url = SpielVorschau.class.getClassLoader().getResource("gui/spiele");
+	public SpielVorschau(File[] customs) {
+		URL url = SpielVorschau.class.getClassLoader()
+				.getResource("gui/spiele");
 		System.out.println(url);
-		File f=null;
+		File f = null;
 		try {
 			f = new File(url.toURI());
 		} catch (URISyntaxException e1) {
@@ -34,6 +35,9 @@ public class SpielVorschau extends BorderPane {
 		}
 		File[] fileArray = f.listFiles();
 		List<File> spieleListe = new ArrayList<File>();
+		for (File custom : customs) {
+			spieleListe.add(custom);
+		}
 		for (int i = 0; i < fileArray.length; i++) {
 			if (fileArray[i].toString().endsWith(".schach")) {
 				spieleListe.add(fileArray[i]);
@@ -47,15 +51,14 @@ public class SpielVorschau extends BorderPane {
 		}
 
 		setCenter(iV);
-		Button links=new Button();
-		Button rechts=new Button();
+		Button links = new Button();
+		Button rechts = new Button();
 		setRight(rechts);
 		setLeft(links);
 		links.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if(index>0)
-				{
+				if (index > 0) {
 					index--;
 					try {
 						schnittstelle.laden(spiele[index]);
@@ -68,10 +71,9 @@ public class SpielVorschau extends BorderPane {
 		rechts.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if(index<spiele.length-1)
-				{
+				if (index < spiele.length - 1) {
 					index++;
-					
+
 					try {
 						schnittstelle.laden(spiele[index]);
 					} catch (Exception ex) {
@@ -86,18 +88,18 @@ public class SpielVorschau extends BorderPane {
 		links.setGraphic(new ImageView(new Image(this.getClass()
 				.getClassLoader().getResource("gui/bilder/pfeil_links.png")
 				.toString())));
-		
+
 		rechts.setStyle("-fx-background-color:transparent;");
 		links.setStyle("-fx-background-color:transparent;");
 	}
 
 	public void aktualisieren() {
-		canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(),canvas.getHeight());
+		canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(),
+				canvas.getHeight());
 		canvas.getGraphicsContext2D().setFill(Color.BLUE);
 		Image brettbild = new Image(this.getClass().getClassLoader()
 				.getResource("gui/bilder/brett2d.png").toString());
-		canvas.getGraphicsContext2D().drawImage(brettbild, 0, 0,
-				300, 300);
+		canvas.getGraphicsContext2D().drawImage(brettbild, 0, 0, 300, 300);
 		for (int x = 0; x < schnittstelle.getXMax() + 1; x++) {
 			for (int y = 0; y < schnittstelle.getYMax() + 1; y++) {
 				aktualisierenFigur(x, y);
@@ -144,10 +146,16 @@ public class SpielVorschau extends BorderPane {
 	}
 
 	protected double translateX(int x) {
-		return (300 / (schnittstelle.getXMax()+1))*x;
+		return (300 / (schnittstelle.getXMax() + 1)) * x;
 	}
 
 	protected double translateY(int y) {
-		return (300 / (schnittstelle.getYMax()+1))* (schnittstelle.getYMax()-y);
+		return (300 / (schnittstelle.getYMax() + 1))
+				* (schnittstelle.getYMax() - y);
+	}
+	
+	public File getSelected()
+	{
+		return spiele[index];
 	}
 }

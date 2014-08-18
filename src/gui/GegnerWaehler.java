@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.beans.value.ChangeListener;
@@ -37,39 +38,39 @@ public class GegnerWaehler extends Fenster {
 			internet = false;
 		}
 		this.gUI = gUI;
-		
-		Label waehler=new Label("Wähle deinen Gegner aus");
+
+		Label waehler = new Label("Wähle deinen Gegner aus");
 		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;");
-		scroll=new ScrollPane();
+		scroll = new ScrollPane();
 		scroll.setContent(liste);
 		scroll.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
-	        @Override
-	        public void changed(
-	          ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
-	            if (t1 != null && t1.getNode() instanceof Region) {
-	                Region r = (Region) t1.getNode();
-	                r.setBackground(Background.EMPTY);
+			@Override
+			public void changed(ObservableValue<? extends Skin<?>> ov,
+					Skin<?> t, Skin<?> t1) {
+				if (t1 != null && t1.getNode() instanceof Region) {
+					Region r = (Region) t1.getNode();
+					r.setBackground(Background.EMPTY);
 
-	                r.getChildrenUnmodifiable().stream().
-	                        filter(n -> n instanceof Region).
-	                        map(n -> (Region) n).
-	                        forEach(n -> n.setBackground(Background.EMPTY));
+					r.getChildrenUnmodifiable().stream()
+							.filter(n -> n instanceof Region)
+							.map(n -> (Region) n)
+							.forEach(n -> n.setBackground(Background.EMPTY));
 
-	                r.getChildrenUnmodifiable().stream().
-	                        filter(n -> n instanceof Control).
-	                        map(n -> (Control) n).
-	                        forEach(c -> c.skinProperty().addListener(this)); // *
-	            }
-	        }
-	    });
+					r.getChildrenUnmodifiable().stream()
+							.filter(n -> n instanceof Control)
+							.map(n -> (Control) n)
+							.forEach(c -> c.skinProperty().addListener(this)); // *
+				}
+			}
+		});
 		pane.setTop(waehler);
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
 		Button aktualisieren = new Button("Aktualisieren");
 		setBottom(aktualisieren);
-		BorderPane.setAlignment(aktualisieren,Pos.CENTER);
-		BorderPane.setAlignment(waehler,Pos.CENTER);
+		BorderPane.setAlignment(aktualisieren, Pos.CENTER);
+		BorderPane.setAlignment(waehler, Pos.CENTER);
 		aktualisieren.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -136,22 +137,27 @@ public class GegnerWaehler extends Fenster {
 	}
 
 	private class Detail extends StackPane {
+		SpielVorschau sV = new SpielVorschau(new File[] {});
+
 		public Detail(String name, long id, String farbe) {
-			BorderPane root=new BorderPane();
+			BorderPane root = new BorderPane();
 			this.getChildren().add(root);
 			Label nameLabel = new Label(name);
 			root.setTop(nameLabel);
 			String farbtemp = farbe.equals("WEISS") ? "white" : "black";
 			String farbtemp2 = farbe.equals("WEISS") ? "black" : "white";
 			nameLabel.prefWidthProperty().bind(this.widthProperty());
-			nameLabel.setStyle("-fx-text-fill:" + farbtemp2
-					+ ";-fx-background-color:" + farbtemp + ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
+			nameLabel
+					.setStyle("-fx-text-fill:"
+							+ farbtemp2
+							+ ";-fx-background-color:"
+							+ farbtemp
+							+ ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
 			root.setStyle("-fx-background-color:rgba(0,100,100,0.5);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
-			
-			SpielVorschau sV=new SpielVorschau();
+
 			sV.prefHeightProperty().bind(this.widthProperty());
 			root.setCenter(sV);
-			
+
 			Button herausfordern = new Button("Herausfordern");
 			root.setBottom(herausfordern);
 			root.prefWidthProperty().bind(
@@ -162,15 +168,19 @@ public class GegnerWaehler extends Fenster {
 				@Override
 				public void handle(ActionEvent e) {
 					listener(id, farbe);
+					
 				}
 			});
 		}
 
 		public void listener(long id, String farbe) {
 			try {
-				client.herausfordern(id);
+				
 				GegnerWaehler.this.hide();
-			} catch (IOException e1) {
+				gUI.spiel.laden(sV.getSelected());
+				gUI.feld.startaufstellung();
+				client.herausfordern(id);
+			} catch (Exception e1) {
 			}
 		}
 	}
@@ -183,8 +193,16 @@ public class GegnerWaehler extends Fenster {
 
 		@Override
 		public void listener(long id, String farbe) {
-			gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, 4);
+			
 			GegnerWaehler.this.hide();
+			try {
+				gUI.spiel.laden(sV.getSelected());
+				gUI.feld.startaufstellung();
+				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, 4);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
