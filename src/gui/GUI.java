@@ -55,8 +55,6 @@ public class GUI extends Application {
 	Einstellungen einstellungen;
 	GegnerWaehler gegner;
 	Client client;
-	
-
 	public MyStackPane feld;
 
 	@Override
@@ -84,7 +82,7 @@ public class GUI extends Application {
 		Kontrollfeld kontrolle = new Kontrollfeld(this);
 		root.setBottom(kontrolle);
 		Scene scene = new Scene(root, 1200, 800);
-
+ 
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
@@ -105,14 +103,13 @@ public class GUI extends Application {
 		feld.startaufstellung();
 		feld.resetBrett();
 		feld.aktualisiereMap();
-
+  
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
 		stage.setTitle("Super Schach");
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
-		
 		stage.show();
 
 		gegner.show();

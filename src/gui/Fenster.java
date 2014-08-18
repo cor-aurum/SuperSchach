@@ -16,7 +16,6 @@ public abstract class Fenster extends BorderPane {
 
 	public Fenster(GUI gUI) {
 		this.gUI = gUI;
-		//setStyle("-fx-background-color: rgba(0, 100, 100, 0.5); -fx-background-radius: 10;-fx-margin:50;");
 		// setOpacity(0.5);
 	}
 
