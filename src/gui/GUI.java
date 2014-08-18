@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -45,27 +46,32 @@ public class GUI extends Application {
 			Color.NAVY);
 	Image brettbild = new Image(this.getClass().getClassLoader()
 			.getResource("gui/bilder/brett.png").toString());
+	Image brettbild2d = new Image(this.getClass().getClassLoader()
+			.getResource("gui/bilder/brett2d.png").toString());
 	Chat chat = new Chat(this);
 	String name = System.getProperty("user.name");
-	public boolean zweid = false;
-	Einstellungen einstellungen = new Einstellungen(this);
-	GegnerWaehler gegner = new GegnerWaehler(this);
+	SimpleBooleanProperty zweid=new SimpleBooleanProperty(false);
+	SimpleBooleanProperty sounds=new SimpleBooleanProperty(true);
+	Einstellungen einstellungen;
+	GegnerWaehler gegner;
 	Client client;
+	
 
 	public MyStackPane feld;
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
-		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid) {
+		einstellungen = new Einstellungen(this);
+		einstellungen.laden();
+		gegner = new GegnerWaehler(this);
+		System.out.println(zweid.getValue());
+		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid.getValue()) {
 			feld = new ZweiD(this);
-			brettbild = new Image(this.getClass().getClassLoader()
-					.getResource("gui/bilder/brett2d.png").toString());
 		} else {
 			feld = new DreiD(this);
 		}
 		this.stage = stage;
-
 		pane.setCenter(feld);
 
 		// pane.setLeft(xslider);
@@ -106,7 +112,7 @@ public class GUI extends Application {
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
-		einstellungen.laden();
+		
 		stage.show();
 
 		gegner.show();
@@ -171,5 +177,17 @@ public class GUI extends Application {
 
 	public static void main(String args[]) throws Exception {
 		launch(args);
+	}
+	
+	public void wechsleDimension()
+	{
+		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid.getValue()) {
+			feld = new ZweiD(this);
+		} else {
+			feld = new DreiD(this);
+		}
+		feld.entferneFiguren();
+		feld.startaufstellung();
+		feld.aktualisieren();
 	}
 }

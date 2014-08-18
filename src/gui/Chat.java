@@ -33,30 +33,30 @@ public class Chat extends Fenster {
 		super(gUI);
 		setzeInhalt(root);
 		scroll.setContent(chat);
-		//scroll.setStyle("-fx-background-color: transparent;");
+		// scroll.setStyle("-fx-background-color: transparent;");
 		scroll.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
-	        @Override
-	        public void changed(
-	          ObservableValue<? extends Skin<?>> ov, Skin<?> t, Skin<?> t1) {
-	            if (t1 != null && t1.getNode() instanceof Region) {
-	                Region r = (Region) t1.getNode();
-	                r.setBackground(Background.EMPTY);
+			@Override
+			public void changed(ObservableValue<? extends Skin<?>> ov,
+					Skin<?> t, Skin<?> t1) {
+				if (t1 != null && t1.getNode() instanceof Region) {
+					Region r = (Region) t1.getNode();
+					r.setBackground(Background.EMPTY);
 
-	                r.getChildrenUnmodifiable().stream().
-	                        filter(n -> n instanceof Region).
-	                        map(n -> (Region) n).
-	                        forEach(n -> n.setBackground(Background.EMPTY));
+					r.getChildrenUnmodifiable().stream()
+							.filter(n -> n instanceof Region)
+							.map(n -> (Region) n)
+							.forEach(n -> n.setBackground(Background.EMPTY));
 
-	                r.getChildrenUnmodifiable().stream().
-	                        filter(n -> n instanceof Control).
-	                        map(n -> (Control) n).
-	                        forEach(c -> c.skinProperty().addListener(this)); // *
-	            }
-	        }
-	    });
-		
-		//chat.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
+					r.getChildrenUnmodifiable().stream()
+							.filter(n -> n instanceof Control)
+							.map(n -> (Control) n)
+							.forEach(c -> c.skinProperty().addListener(this)); // *
+				}
+			}
+		});
+
+		// chat.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 		root.setBottom(tF);
 		root.setCenter(scroll);
 		tF.setOnAction(new EventHandler<ActionEvent>() {
@@ -84,7 +84,7 @@ public class Chat extends Fenster {
 			if (ausrichtung) {
 				setAlignment(Pos.BASELINE_RIGHT);
 			}
-			//setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
+			// setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 			prefWidthProperty().bind(Chat.this.widthProperty());
 			Label p = new Label(text);
 			setMargin(p, new Insets(10));
@@ -104,10 +104,12 @@ public class Chat extends Fenster {
 		chat.getChildren().add(new Nachricht(s, false));
 		if (!isShowed()) {
 			ungelesen.setValue(ungelesen.getValue() + 1);
-			AudioClip plonkSound = new AudioClip(this.getClass()
-					.getClassLoader().getResource("gui/sounds/nachricht.aiff")
-					.toString());
-			plonkSound.play();
+			if (gUI.sounds.getValue()) {
+				AudioClip plonkSound = new AudioClip(this.getClass()
+						.getClassLoader()
+						.getResource("gui/sounds/nachricht.aiff").toString());
+				plonkSound.play();
+			}
 		}
 
 	}

@@ -11,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -38,10 +39,14 @@ public class Einstellungen extends Fenster {
 
 	RadioButton map_glas = new RadioButton("Glas");
 
+	CheckBox dreiDAn = new CheckBox("3D einschalten (Neustart erforderlich)");
+	CheckBox sounds = new CheckBox("Töne einschalten");
+
 	public Einstellungen(GUI gUI) {
 		// setzeInhalt(tab);
 		super(gUI);
 		setzeInhalt(settings);
+		settings.setStyle("-fx-padding:20px;");
 		this.gUI = gUI;
 		// this.setPrefWidth(200);
 		map_marmor.setToggleGroup(map);
@@ -62,7 +67,7 @@ public class Einstellungen extends Fenster {
 		HBox namenBox = new HBox();
 		namenBox.getChildren().addAll(name, nameOK);
 		settings.getChildren().add(namenBox);
-		
+
 		addLeer(settings);
 
 		HBox box = new HBox();
@@ -72,9 +77,27 @@ public class Einstellungen extends Fenster {
 				new Separator(), new Label("Schwarz: "), pick_schwarz);
 		pick_weiss.valueProperty().bindBidirectional(gUI.farbe_weiss);
 		pick_schwarz.valueProperty().bindBidirectional(gUI.farbe_schwarz);
-		
 		settings.getChildren().add(new Label("Figuren"));
 		settings.getChildren().add(box);
+		addLeer(settings);
+
+		gUI.sounds.bind(sounds.selectedProperty());
+		gUI.zweid.bind(dreiDAn.selectedProperty().not());
+		settings.getChildren().add(dreiDAn);
+		settings.getChildren().add(sounds);
+		sounds.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			public void changed(ObservableValue<? extends Boolean> ov,
+					Boolean old_val, Boolean new_val) {
+				speichern();
+			}
+		});
+		dreiDAn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			public void changed(ObservableValue<? extends Boolean> ov,
+					Boolean old_val, Boolean new_val) {
+				speichern();
+			}
+		});
+
 		name.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -85,7 +108,7 @@ public class Einstellungen extends Fenster {
 				}
 			}
 		});
-		//laden();
+		// laden();
 		map.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 			public void changed(ObservableValue<? extends Toggle> ov,
 					Toggle old_toggle, Toggle new_toggle) {
@@ -102,22 +125,24 @@ public class Einstellungen extends Fenster {
 				speichern();
 			}
 		});
-		
-		pick_schwarz.valueProperty().addListener(new ChangeListener<Color>(){
+
+		pick_schwarz.valueProperty().addListener(new ChangeListener<Color>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Color> arg0,
 					Color arg1, Color arg2) {
 				speichern();
-			}});
-		pick_weiss.valueProperty().addListener(new ChangeListener<Color>(){
+			}
+		});
+		pick_weiss.valueProperty().addListener(new ChangeListener<Color>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Color> arg0,
 					Color arg1, Color arg2) {
 				speichern();
-			}});
-		
+			}
+		});
+
 		nameOK.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -147,6 +172,10 @@ public class Einstellungen extends Fenster {
 			br.write(toRGBCode(pick_schwarz.getValue()));
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.name);
+			br.write(System.getProperty("line.separator"));
+			br.write("" + gUI.sounds.getValue());
+			br.write(System.getProperty("line.separator"));
+			br.write("" + gUI.zweid.getValue());
 			br.flush();
 			br.close();
 		} catch (IOException e) {
@@ -163,6 +192,8 @@ public class Einstellungen extends Fenster {
 			pick_weiss.setValue(Color.web(br.readLine()));
 			pick_schwarz.setValue(Color.web(br.readLine()));
 			gUI.name = br.readLine();
+			sounds.setSelected(Boolean.parseBoolean(br.readLine()));
+			dreiDAn.setSelected(!Boolean.parseBoolean(br.readLine()));
 			br.close();
 
 			switch (gUI.hintergrund) {
@@ -180,6 +211,8 @@ public class Einstellungen extends Fenster {
 				break;
 			}
 		} catch (IOException e) {
+			sounds.setSelected(true);
+			dreiDAn.setSelected(true);
 		}
 	}
 

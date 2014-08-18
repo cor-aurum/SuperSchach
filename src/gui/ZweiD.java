@@ -152,7 +152,7 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void resetBrett() {
-		feld.getGraphicsContext2D().drawImage(gUI.brettbild, 0, 0,
+		feld.getGraphicsContext2D().drawImage(gUI.brettbild2d, 0, 0,
 				feld.getWidth(), feld.getHeight());
 		aktualisieren();
 	}
