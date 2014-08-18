@@ -147,6 +147,11 @@ public class GegnerWaehler extends Fenster {
 			nameLabel.setStyle("-fx-text-fill:" + farbtemp2
 					+ ";-fx-background-color:" + farbtemp + ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
 			root.setStyle("-fx-background-color:rgba(0,100,100,0.5);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
+			
+			SpielVorschau sV=new SpielVorschau();
+			sV.prefHeightProperty().bind(this.widthProperty());
+			root.setCenter(sV);
+			
 			Button herausfordern = new Button("Herausfordern");
 			root.setBottom(herausfordern);
 			root.prefWidthProperty().bind(
