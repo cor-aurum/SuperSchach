@@ -33,7 +33,7 @@ public class GegnerWaehler extends Fenster {
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
 		try {
-			client = new Client("localhost", gUI.name);
+			client = new Client("localhost", gUI.name, gUI.spiel);
 		} catch (Exception e) {
 			internet = false;
 		}
