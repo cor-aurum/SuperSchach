@@ -209,4 +209,10 @@ public class ZweiD extends MyStackPane {
 		return feld;
 	}
 
+	@Override
+	public void entferneFiguren() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

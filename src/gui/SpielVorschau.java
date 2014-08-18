@@ -8,14 +8,15 @@ import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-public class SpielVorschau extends BorderPane {
+public class SpielVorschau extends GridPane {
 
 	VorschauSchnittstelle schnittstelle = new VorschauSchnittstelle(this);
 	File[] spiele;
@@ -24,9 +25,9 @@ public class SpielVorschau extends BorderPane {
 	ImageView iV = new ImageView();
 
 	public SpielVorschau(File[] customs) {
+		setStyle("-fx-padding:30 0 0 0;");
 		URL url = SpielVorschau.class.getClassLoader()
 				.getResource("gui/spiele");
-		System.out.println(url);
 		File f = null;
 		try {
 			f = new File(url.toURI());
@@ -50,11 +51,13 @@ public class SpielVorschau extends BorderPane {
 			e.printStackTrace();
 		}
 
-		setCenter(iV);
 		Button links = new Button();
 		Button rechts = new Button();
-		setRight(rechts);
-		setLeft(links);
+		add(links,1,1);
+		add(iV,2,1);
+		add(rechts,3,1);
+		links.setAlignment(Pos.CENTER);
+		rechts.setAlignment(Pos.CENTER);
 		links.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {

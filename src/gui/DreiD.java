@@ -1,5 +1,8 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -44,7 +47,7 @@ public class DreiD extends MyStackPane {
 		figuren = new Figur[gUI.spiel.getXMax() + 1][gUI.spiel.getYMax() + 1];
 		for (int a = 0; a < gUI.spiel.getYMax() + 1; a++) {
 			for (int b = 0; b < gUI.spiel.getXMax() + 1; b++) {
-				felder[b][a] = new Feld(gUI,this, b, a);
+				felder[b][a] = new Feld(gUI, this, b, a);
 				figuren[b][a] = null;
 			}
 		}
@@ -114,7 +117,7 @@ public class DreiD extends MyStackPane {
 
 		animation.play();
 	}
-	
+
 	public void aktualisiereMap() {
 		/*
 		 * feldMaterial.setDiffuseMap(new Image(this.getClass().getClassLoader()
@@ -124,7 +127,8 @@ public class DreiD extends MyStackPane {
 		gUI.feldMaterial.setBumpMap(new Image(this.getClass().getClassLoader()
 				.getResource("gui/bilder/" + gUI.hintergrund + "_NRM.png")
 				.toString()));
-		gUI.feldMaterial.setSpecularMap(new Image(this.getClass().getClassLoader()
+		gUI.feldMaterial.setSpecularMap(new Image(this.getClass()
+				.getClassLoader()
 				.getResource("gui/bilder/" + gUI.hintergrund + "_SPEC.png")
 				.toString()));
 		feld.setMaterial(gUI.feldMaterial);
@@ -160,7 +164,7 @@ public class DreiD extends MyStackPane {
 			rand[i].setMaterial(material);
 		}
 	}
-	
+
 	public void farbe(int x, int y, int farbe) {
 		if (gUI.getFarbe()) {
 			switch (farbe) {
@@ -214,11 +218,11 @@ public class DreiD extends MyStackPane {
 						+ (xslider.getMax() - xslider.getValue()))));
 		animation.play();
 	}
-	
+
 	public Figur[][] gebeFiguren() {
 		return figuren;
 	}
-	
+
 	public void zug() {
 		byte[] zug = gUI.spiel.letzterZug();
 
@@ -229,7 +233,7 @@ public class DreiD extends MyStackPane {
 		Figur tempfigur;
 		try {
 			tempfigur = figuren[sum - anfang.x][anfang.y];
-			
+
 			root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
 			figuren[sum - ende.x][ende.y] = tempfigur;
 			Timeline animation = new Timeline(60.0);
@@ -250,7 +254,6 @@ public class DreiD extends MyStackPane {
 					// root3D.getChildren().remove(tempfigur);
 					figuren[sum - anfang.x][anfang.y] = null;
 
-					
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
 
@@ -260,7 +263,7 @@ public class DreiD extends MyStackPane {
 			// System.out.println("Animation nicht gefunden");
 		}
 	}
-	
+
 	public void resetBrett() {
 		brett.getGraphicsContext2D().drawImage(gUI.brettbild, 0, 0);
 	}
@@ -275,11 +278,6 @@ public class DreiD extends MyStackPane {
 
 	public void aktualisieren() {
 		resetBrett();
-		for (int x = 0; x < felder.length; x++)
-			for (int y = 0; y < felder[x].length; y++) {
-				// aktualisierenFigur(x, y);
-			}
-		System.gc();
 	}
 
 	public void aktualisierenFigur(int x, int y) {
@@ -299,10 +297,9 @@ public class DreiD extends MyStackPane {
 		for (int x = 0; x < gUI.spiel.getXMax() + 1; x++) {
 			for (int y = 0; y < gUI.spiel.getYMax() + 1; y++) {
 				int figur = felder[x][y].gebeInhalt();
+				figuren[x][y] = null;
 				if (figur != 0) {
 					figuren[x][y] = new Figur(felder[x][y], figur, this);
-				} else {
-					figuren[x][y] = null;
 				}
 			}
 		}
@@ -318,4 +315,16 @@ public class DreiD extends MyStackPane {
 		return feld;
 	}
 
+	@Override
+	public void entferneFiguren() {
+		List<Node> zuEntfernen =new ArrayList<Node>();
+		for(int i=0;i<root3D.getChildren().size();i++)
+		{
+			if(root3D.getChildren().get(i) instanceof Figur)
+			{
+				zuEntfernen.add(root3D.getChildren().get(i));
+			}
+		}
+		root3D.getChildren().removeAll(zuEntfernen);
+	}
 }
