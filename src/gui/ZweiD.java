@@ -56,7 +56,7 @@ public class ZweiD extends MyStackPane {
 			@Override
 			public void handle(MouseEvent event) {
 				gUI.spiel.klick(
-						((int) (event.getX() / (feld.getWidth() / felder.length))),
+						gUI.spiel.getXMax()-((int) (event.getX() / (feld.getWidth() / felder.length))),
 						((int) (event.getY() / (feld.getHeight() / felder.length))));
 				aktualisieren();
 			}
@@ -138,7 +138,7 @@ public class ZweiD extends MyStackPane {
 			ImageView iV = new ImageView(img);
 			iV.setFitWidth(700 / gUI.spiel.getXMax());
 			iV.setFitHeight(700 / gUI.spiel.getYMax());
-			iV.relocate(translateX(x), translateY(y));
+			iV.relocate(translateX(gUI.spiel.getXMax()-x), translateY(y));
 			if (rotate)
 				iV.setRotate(180);
 			figurenEbene.getChildren().add(iV);
@@ -183,7 +183,7 @@ public class ZweiD extends MyStackPane {
 							new Image(this.getClass().getClassLoader()
 									.getResource("gui/bilder/" + f + ".png")
 									.toString()),
-							translateX(gUI.spiel.getXMax() - x), translateY(y),
+							translateX(x), translateY(y),
 							feld.getWidth() / gUI.spiel.getXMax(),
 							feld.getHeight() / gUI.spiel.getYMax());
 			// startaufstellung();

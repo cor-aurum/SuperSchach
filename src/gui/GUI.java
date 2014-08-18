@@ -46,7 +46,7 @@ public class GUI extends Application {
 			.getResource("gui/bilder/brett.png").toString());
 	Chat chat=new Chat(this);
 	String name =System.getProperty("user.name");
-	public boolean zweid=false;
+	public boolean zweid=true;
 	Einstellungen einstellungen=new Einstellungen(this);
 	GegnerWaehler gegner=new GegnerWaehler(this);
 	

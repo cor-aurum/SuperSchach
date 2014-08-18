@@ -144,7 +144,7 @@ public class SpielVorschau extends GridPane {
 			Image img = new Image(this.getClass().getClassLoader()
 					.getResource("gui/bilder/" + f).toString());
 			canvas.getGraphicsContext2D().drawImage(img,
-					translateX(schnittstelle.getXMax() - x), translateY(y));
+					translateX(x), translateY(y));
 		}
 	}
 
