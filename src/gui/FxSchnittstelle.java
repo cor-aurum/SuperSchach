@@ -32,7 +32,7 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
-	
+
 	@Override
 	public void zugGemacht() {
 		Platform.runLater(new Runnable() {
@@ -100,7 +100,7 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public void stirb(int typ, int x, int y) {
-		
+
 	}
 
 	@Override
@@ -112,10 +112,9 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
-	
+
 	@Override
-	public void chaterhalten(String s)
-	{
+	public void chaterhalten(String s) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -123,10 +122,14 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
-	
+
 	@Override
-	public void leaveLobby()
-	{
-		gUI.gegner.herausgefordert();
+	public void leaveLobby() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.gegner.herausgefordert();
+			}
+		});
 	}
 }
