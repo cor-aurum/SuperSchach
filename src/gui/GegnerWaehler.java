@@ -38,7 +38,7 @@ public class GegnerWaehler extends Fenster {
 			internet = false;
 		}
 		this.gUI = gUI;
-
+		gUI.client=client;
 		Label waehler = new Label("Wähle deinen Gegner aus");
 		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;");
 		scroll = new ScrollPane();

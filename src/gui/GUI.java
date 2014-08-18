@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
 import javafx.stage.Stage;
+import client.Client;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 
@@ -29,7 +30,7 @@ public class GUI extends Application {
 	BorderPane pane = new BorderPane();
 	// BorderPane root = new BorderPane();
 	Einstellungen rechts;
-	
+
 	protected String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
 
@@ -44,43 +45,40 @@ public class GUI extends Application {
 			Color.NAVY);
 	Image brettbild = new Image(this.getClass().getClassLoader()
 			.getResource("gui/bilder/brett.png").toString());
-	Chat chat=new Chat(this);
-	String name =System.getProperty("user.name");
-	public boolean zweid=true;
-	Einstellungen einstellungen=new Einstellungen(this);
-	GegnerWaehler gegner=new GegnerWaehler(this);
-	
-	
-	
+	Chat chat = new Chat(this);
+	String name = System.getProperty("user.name");
+	public boolean zweid = true;
+	Einstellungen einstellungen = new Einstellungen(this);
+	GegnerWaehler gegner = new GegnerWaehler(this);
+	Client client;
+
 	public MyStackPane feld;
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		this.stage=stage;
+		this.stage = stage;
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid) {
-			feld=new ZweiD(this);
-			brettbild=new Image(this.getClass().getClassLoader()
+			feld = new ZweiD(this);
+			brettbild = new Image(this.getClass().getClassLoader()
 					.getResource("gui/bilder/brett2d.png").toString());
-		}
-		else
-		{
-			feld=new DreiD(this);
+		} else {
+			feld = new DreiD(this);
 		}
 		this.stage = stage;
-		
+
 		pane.setCenter(feld);
 
-		//pane.setLeft(xslider);
-		//pane.setBottom(yslider);
-		//pane.setTop(zslider);
-		//xslider.setOrientation(Orientation.VERTICAL);
+		// pane.setLeft(xslider);
+		// pane.setBottom(yslider);
+		// pane.setTop(zslider);
+		// xslider.setOrientation(Orientation.VERTICAL);
 		// zslider.setOrientation(Orientation.VERTICAL);
-		
+
 		root.setCenter(pane);
 		Kontrollfeld kontrolle = new Kontrollfeld(this);
 		root.setBottom(kontrolle);
 		Scene scene = new Scene(root, 1200, 800);
-		
+
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
@@ -96,7 +94,7 @@ public class GUI extends Application {
 				}
 			}
 		});
-		
+
 		// aktualisieren();
 		feld.startaufstellung();
 		feld.resetBrett();
@@ -110,8 +108,7 @@ public class GUI extends Application {
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
 		einstellungen.laden();
 		stage.show();
-		
-		
+
 		gegner.show();
 	}
 
@@ -168,10 +165,7 @@ public class GUI extends Application {
 		return importer.getImport();
 	}
 
-	
-	
-	public boolean getFarbe()
-	{
+	public boolean getFarbe() {
 		return farbe;
 	}
 
