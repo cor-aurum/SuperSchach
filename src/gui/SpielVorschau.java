@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.event.ActionEvent;
@@ -35,6 +36,7 @@ public class SpielVorschau extends GridPane {
 			return;
 		}
 		File[] fileArray = f.listFiles();
+		Arrays.sort(fileArray);
 		List<File> spieleListe = new ArrayList<File>();
 		for (File custom : customs) {
 			spieleListe.add(custom);

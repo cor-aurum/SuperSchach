@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import spiel.Schnittstelle;
 import client.Client;
 import client.Spieler;
 
@@ -34,17 +35,18 @@ public class GegnerWaehler extends Fenster {
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
 		try {
-			client = new Client("localhost", gUI.name, gUI.spiel);
+			client = new Client("172.31.0.2", gUI.name, gUI.spiel);
 			gUI.client=client;
 		} catch (Exception e) {
 			internet = false;
 		}
 		this.gUI = gUI;
 		
-		Label waehler = new Label("W‰hle deinen Gegner aus");
+		Label waehler = new Label(Schnittstelle.meldung("gegnerWaehlen"));
 		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;");
 		scroll = new ScrollPane();
 		scroll.setContent(liste);
+		liste.setSpacing(15);
 		scroll.skinProperty().addListener(new ChangeListener<Skin<?>>() {
 
 			@Override
@@ -70,7 +72,7 @@ public class GegnerWaehler extends Fenster {
 		pane.setTop(waehler);
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
-		Button aktualisieren = new Button("Aktualisieren");
+		Button aktualisieren = new Button(Schnittstelle.meldung("aktualisieren"));
 		setBottom(aktualisieren);
 		BorderPane.setAlignment(aktualisieren, Pos.CENTER);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
@@ -99,13 +101,13 @@ public class GegnerWaehler extends Fenster {
 			liste.getChildren().addAll(button);
 		}
 		liste.getChildren().add(
-				new SpielerButtonBot("Kiana (weiﬂ)", 4, "WEISS"));
+				new SpielerButtonBot("Kiana ("+Schnittstelle.meldung("weiss")+")", 4, "WEISS"));
 		liste.getChildren().add(
-				new SpielerButtonBot("Kiana (schwarz)", 4, "SCHWARZ"));
+				new SpielerButtonBot("Kiana ("+Schnittstelle.meldung("schwarz")+")", 4, "SCHWARZ"));
 		liste.getChildren().add(
-				new SpielerButtonBot("Ivan Zufallski (weiﬂ)", 1, "WEISS"));
+				new SpielerButtonBot("Ivan Zufallski ("+Schnittstelle.meldung("weiss")+")", 1, "WEISS"));
 		liste.getChildren().add(
-				new SpielerButtonBot("Ivan Zufallski (schwarz)", 1, "SCHWARZ"));
+				new SpielerButtonBot("Ivan Zufallski ("+Schnittstelle.meldung("schwarz")+")", 1, "SCHWARZ"));
 	}
 
 	private class SpielerButton extends Button {
@@ -114,6 +116,7 @@ public class GegnerWaehler extends Fenster {
 			System.out.println(farbe);
 			prefWidthProperty().bind(
 					GegnerWaehler.this.widthProperty().divide(2));
+			setStyle("-fx-font-weight:bold;-fx-background-color:rgba(0,100,100,0.7);fx-background-radius: 10;");
 			setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
@@ -156,7 +159,7 @@ public class GegnerWaehler extends Fenster {
 							+ ";-fx-background-color:"
 							+ farbtemp
 							+ ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
-			root.setStyle("-fx-background-color:rgba(0,100,100,0.5);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
+			root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
 
 			sV.prefHeightProperty().bind(this.widthProperty());
 			root.setCenter(sV);

@@ -3,6 +3,7 @@ package gui;
 import java.io.File;
 import java.net.URISyntaxException;
 
+import spiel.Schnittstelle;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -93,7 +94,7 @@ public class GUI extends Application {
 						final ClipboardContent content = new ClipboardContent();
 						content.putImage(feld.getScreenshot());
 						clipboard.setContent(content);
-						spiel.meldungAusgeben("Screenshot in Zwischenablage kopiert");
+						spiel.meldungAusgeben(Schnittstelle.meldung("screenshot"));
 					}
 				}
 			}

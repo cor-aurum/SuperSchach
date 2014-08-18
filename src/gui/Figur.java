@@ -1,5 +1,6 @@
 package gui;
 
+import spiel.Schnittstelle;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.MeshView;
@@ -17,7 +18,7 @@ public class Figur extends MeshView {
 		try {
 			setMesh(dreid.gUI.gebeMesh(figur));
 		} catch (Exception e) {
-			System.out.println("Figur nicht gefunden");
+			System.out.println(Schnittstelle.meldung("figurNichtGefunden"));
 		}
 
 		if (dreid.gUI.form.equals("modern")) {

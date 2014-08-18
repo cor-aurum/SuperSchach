@@ -32,21 +32,21 @@ public class Einstellungen extends Fenster {
 	ColorPicker pick_weiss;
 	ColorPicker pick_schwarz;
 	ToggleGroup map = new ToggleGroup();
-	RadioButton map_marmor = new RadioButton("Marmor");
+	RadioButton map_marmor = new RadioButton(Schnittstelle.meldung("marmor"));
 
-	RadioButton map_holz = new RadioButton("Holz");
+	RadioButton map_holz = new RadioButton(Schnittstelle.meldung("holz"));
 
-	RadioButton map_gras = new RadioButton("Gras");
+	RadioButton map_gras = new RadioButton(Schnittstelle.meldung("gras"));
 
-	RadioButton map_glas = new RadioButton("Glas");
+	RadioButton map_glas = new RadioButton(Schnittstelle.meldung("glas"));
 	
 	ToggleGroup figur = new ToggleGroup();
-	RadioButton figur_standard = new RadioButton("Standard");
+	RadioButton figur_standard = new RadioButton(Schnittstelle.meldung("standard"));
 
-	RadioButton figur_modern = new RadioButton("Modern");
+	RadioButton figur_modern = new RadioButton(Schnittstelle.meldung("modern"));
 
-	CheckBox dreiDAn = new CheckBox("3D einschalten (Neustart erforderlich)");
-	CheckBox sounds = new CheckBox("Töne einschalten");
+	CheckBox dreiDAn = new CheckBox(Schnittstelle.meldung("dreiDAn"));
+	CheckBox sounds = new CheckBox(Schnittstelle.meldung("tonAn"));
 
 	public Einstellungen(GUI gUI) {
 		// setzeInhalt(tab);
@@ -61,7 +61,7 @@ public class Einstellungen extends Fenster {
 		map_glas.setToggleGroup(map);
 		map_marmor.setSelected(true);
 
-		Label ob=new Label("Oberfläche");
+		Label ob=new Label(Schnittstelle.meldung("oberflaeche"));
 		ob.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(ob);
 		settings.getChildren().add(map_marmor);
@@ -70,11 +70,11 @@ public class Einstellungen extends Fenster {
 		settings.getChildren().add(map_glas);
 		addLeer(settings);
 
-		Label multi=new Label("Mehrspieler");
+		Label multi=new Label(Schnittstelle.meldung("mehrspieler"));
 		multi.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(multi);
 		TextField name = new TextField();
-		Button nameOK = new Button("Namen ändern");
+		Button nameOK = new Button(Schnittstelle.meldung("nameAendern"));
 		HBox namenBox = new HBox();
 		namenBox.getChildren().addAll(name, nameOK);
 		settings.getChildren().add(namenBox);
@@ -84,11 +84,11 @@ public class Einstellungen extends Fenster {
 		HBox box = new HBox();
 		pick_weiss = new ColorPicker(gUI.farbe_weiss.getValue());
 		pick_schwarz = new ColorPicker(gUI.farbe_schwarz.getValue());
-		box.getChildren().addAll(new Label("Weiss: "), pick_weiss,
-				new Separator(), new Label("Schwarz: "), pick_schwarz);
+		box.getChildren().addAll(new Label(Schnittstelle.meldung("weiss")+": "), pick_weiss,
+				new Separator(), new Label(Schnittstelle.meldung("schwarz")+": "), pick_schwarz);
 		pick_weiss.valueProperty().bindBidirectional(gUI.farbe_weiss);
 		pick_schwarz.valueProperty().bindBidirectional(gUI.farbe_schwarz);
-		Label fig=new Label("Figuren");
+		Label fig=new Label(Schnittstelle.meldung("figuren"));
 		fig.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(fig);
 		settings.getChildren().add(box);
@@ -101,7 +101,7 @@ public class Einstellungen extends Fenster {
 
 		gUI.sounds.bind(sounds.selectedProperty());
 		gUI.zweid.bind(dreiDAn.selectedProperty().not());
-		Label sonstiges=new Label("Sonstiges");
+		Label sonstiges=new Label(Schnittstelle.meldung("sonstiges"));
 		sonstiges.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(sonstiges);
 		settings.getChildren().add(dreiDAn);
@@ -217,7 +217,7 @@ public class Einstellungen extends Fenster {
 			br.flush();
 			br.close();
 		} catch (IOException e) {
-			gUI.spiel.meldungAusgeben("Speichern fehlgeschlagen");
+			gUI.spiel.meldungAusgeben(Schnittstelle.meldung("speichernFehlgeschlagen"));
 		}
 
 	}
