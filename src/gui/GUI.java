@@ -48,6 +48,7 @@ public class GUI extends Application {
 	String name =System.getProperty("user.name");
 	public boolean zweid=false;
 	Einstellungen einstellungen=new Einstellungen(this);
+	GegnerWaehler gegner=new GegnerWaehler(this);
 	
 	
 	
@@ -55,6 +56,7 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		this.stage=stage;
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid) {
 			feld=new ZweiD(this);
 			brettbild=new Image(this.getClass().getClassLoader()
@@ -109,7 +111,7 @@ public class GUI extends Application {
 		einstellungen.laden();
 		stage.show();
 		
-		GegnerWaehler gegner=new GegnerWaehler(this);
+		
 		gegner.show();
 	}
 

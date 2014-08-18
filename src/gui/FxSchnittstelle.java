@@ -123,4 +123,10 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
+	
+	@Override
+	public void leaveLobby()
+	{
+		gUI.gegner.herausgefordert();
+	}
 }

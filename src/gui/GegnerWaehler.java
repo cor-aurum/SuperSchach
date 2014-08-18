@@ -207,4 +207,11 @@ public class GegnerWaehler extends Fenster {
 			}
 		}
 	}
+	
+	public void herausgefordert()
+	{
+		hide();
+		gUI.feld.entferneFiguren();
+		gUI.feld.startaufstellung();
+	}
 }

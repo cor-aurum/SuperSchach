@@ -34,4 +34,9 @@ public class VorschauSchnittstelle extends Schnittstelle{
 	@Override
 	public void nachricht(String s) {
 	}
+	@Override
+	public void leaveLobby() {
+		// TODO Auto-generated method stub
+		
+	}
 }
