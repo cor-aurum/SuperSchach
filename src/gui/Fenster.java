@@ -5,6 +5,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -35,6 +36,8 @@ public abstract class Fenster extends BorderPane {
 		if (!Fenster.vorhanden) {
 			Fenster.vorhanden = true;
 			GaussianBlur gB = new GaussianBlur();
+			ColorAdjust cA=new ColorAdjust();
+			gB.setInput(cA);
 			gUI.feld.getRoot().setEffect(gB);
 			gUI.feld.getChildren().add(this);
 			Timeline animation = new Timeline();
@@ -46,7 +49,11 @@ public abstract class Fenster extends BorderPane {
 					new KeyFrame(Duration.ZERO, new KeyValue(gB
 							.radiusProperty(), 0)),
 					new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(gB
-							.radiusProperty(), 15)));
+							.radiusProperty(), 15)),
+					new KeyFrame(Duration.ZERO, new KeyValue(cA
+							.saturationProperty(), 0)),
+					new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(cA
+							.saturationProperty(), -1)));
 
 			animation.play();
 			sichtbar = true;
@@ -56,6 +63,8 @@ public abstract class Fenster extends BorderPane {
 	public void hide() {
 		Fenster.vorhanden = false;
 		GaussianBlur gB = new GaussianBlur();
+		ColorAdjust cA=new ColorAdjust();
+		gB.setInput(cA);
 		gUI.feld.getRoot().setEffect(gB);
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
@@ -66,7 +75,11 @@ public abstract class Fenster extends BorderPane {
 				new KeyFrame(Duration.ZERO, new KeyValue(gB.radiusProperty(),
 						15)),
 				new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(gB
-						.radiusProperty(), 0)));
+						.radiusProperty(), 0)),
+				new KeyFrame(Duration.ZERO, new KeyValue(cA
+						.saturationProperty(), -1)),
+				new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(cA
+						.saturationProperty(), 0)));
 
 		animation.play();
 		// gUI.ablage.getChildren().remove(this);
@@ -81,7 +94,7 @@ public abstract class Fenster extends BorderPane {
 
 	public void setzeInhalt(Region r) {
 		setCenter(r);
-		r.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
+		//r.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 	}
 
 	public boolean isShowed() {
