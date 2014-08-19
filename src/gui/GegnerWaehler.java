@@ -3,6 +3,8 @@ package gui;
 import java.io.File;
 import java.io.IOException;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,6 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import spiel.Schnittstelle;
 import client.Client;
 import client.Spieler;
@@ -35,7 +38,7 @@ public class GegnerWaehler extends Fenster {
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
 		try {
-			client = new Client("172.31.0.2", gUI.name, gUI.spiel);
+			client = new Client("localhost", gUI.name, gUI.spiel);
 			gUI.client=client;
 		} catch (Exception e) {
 			internet = false;
@@ -43,7 +46,8 @@ public class GegnerWaehler extends Fenster {
 		this.gUI = gUI;
 		
 		Label waehler = new Label(Schnittstelle.meldung("gegnerWaehlen"));
-		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;");
+		BorderPane.setMargin(waehler, new Insets(0,0,20,0));
+		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;");
 		scroll = new ScrollPane();
 		scroll.setContent(liste);
 		liste.setSpacing(15);
@@ -72,20 +76,21 @@ public class GegnerWaehler extends Fenster {
 		pane.setTop(waehler);
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
-		Button aktualisieren = new Button(Schnittstelle.meldung("aktualisieren"));
-		setBottom(aktualisieren);
-		BorderPane.setAlignment(aktualisieren, Pos.CENTER);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
-		aktualisieren.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				aktualisieren();
-			}
-		});
+		Timeline aktualisieren = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+
+		    @Override
+		    public void handle(ActionEvent event) {
+		       	aktualisieren();
+		    }
+		}));
+		aktualisieren.setCycleCount(Timeline.INDEFINITE);
+		aktualisieren.play();
 		aktualisieren();
 	}
 
 	public void aktualisieren() {
+		assert isShowed();
 		liste.getChildren().clear();
 		if (internet) {
 			Spieler[] spieler = null;
@@ -116,7 +121,7 @@ public class GegnerWaehler extends Fenster {
 			System.out.println(farbe);
 			prefWidthProperty().bind(
 					GegnerWaehler.this.widthProperty().divide(2));
-			setStyle("-fx-font-weight:bold;-fx-background-color:rgba(0,100,100,0.7);fx-background-radius: 10;");
+			setStyle("-fx-font-weight:bold;-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;");
 			setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
