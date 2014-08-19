@@ -39,14 +39,14 @@ public class GegnerWaehler extends Fenster {
 		super(gUI);
 		try {
 			client = new Client("localhost", gUI.name, gUI.spiel);
-			gUI.client=client;
+			gUI.client = client;
 		} catch (Exception e) {
 			internet = false;
 		}
 		this.gUI = gUI;
-		
+
 		Label waehler = new Label(Schnittstelle.meldung("gegnerWaehlen"));
-		BorderPane.setMargin(waehler, new Insets(0,0,20,0));
+		BorderPane.setMargin(waehler, new Insets(0, 0, 20, 0));
 		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;");
 		scroll = new ScrollPane();
 		scroll.setContent(liste);
@@ -77,20 +77,21 @@ public class GegnerWaehler extends Fenster {
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
-		Timeline aktualisieren = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+		aktualisieren();
+		Timeline aktualisieren = new Timeline(new KeyFrame(Duration.seconds(5),
+				new EventHandler<ActionEvent>() {
 
-		    @Override
-		    public void handle(ActionEvent event) {
-		       	aktualisieren();
-		    }
-		}));
+					@Override
+					public void handle(ActionEvent event) {
+						if (internet && isShowed())
+							aktualisieren();
+					}
+				}));
 		aktualisieren.setCycleCount(Timeline.INDEFINITE);
 		aktualisieren.play();
-		aktualisieren();
 	}
 
 	public void aktualisieren() {
-		assert isShowed();
 		liste.getChildren().clear();
 		if (internet) {
 			Spieler[] spieler = null;
@@ -106,19 +107,22 @@ public class GegnerWaehler extends Fenster {
 			liste.getChildren().addAll(button);
 		}
 		liste.getChildren().add(
-				new SpielerButtonBot("Kiana ("+Schnittstelle.meldung("weiss")+")", 4, "WEISS"));
+				new SpielerButtonBot("Kiana (" + Schnittstelle.meldung("weiss")
+						+ ")", 4, "WEISS"));
+		liste.getChildren()
+				.add(new SpielerButtonBot("Kiana ("
+						+ Schnittstelle.meldung("schwarz") + ")", 4, "SCHWARZ"));
 		liste.getChildren().add(
-				new SpielerButtonBot("Kiana ("+Schnittstelle.meldung("schwarz")+")", 4, "SCHWARZ"));
-		liste.getChildren().add(
-				new SpielerButtonBot("Ivan Zufallski ("+Schnittstelle.meldung("weiss")+")", 1, "WEISS"));
-		liste.getChildren().add(
-				new SpielerButtonBot("Ivan Zufallski ("+Schnittstelle.meldung("schwarz")+")", 1, "SCHWARZ"));
+				new SpielerButtonBot("Ivan Zufallski ("
+						+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS"));
+		liste.getChildren()
+				.add(new SpielerButtonBot("Ivan Zufallski ("
+						+ Schnittstelle.meldung("schwarz") + ")", 1, "SCHWARZ"));
 	}
 
 	private class SpielerButton extends Button {
 		public SpielerButton(String s, long id, String farbe) {
 			super(s);
-			System.out.println(farbe);
 			prefWidthProperty().bind(
 					GegnerWaehler.this.widthProperty().divide(2));
 			setStyle("-fx-font-weight:bold;-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;");
@@ -179,14 +183,14 @@ public class GegnerWaehler extends Fenster {
 				@Override
 				public void handle(ActionEvent e) {
 					listener(id, farbe);
-					
+
 				}
 			});
 		}
 
 		public void listener(long id, String farbe) {
 			try {
-				
+
 				GegnerWaehler.this.hide();
 				gUI.spiel.laden(sV.getSelected());
 				gUI.feld.entferneFiguren();
@@ -205,7 +209,7 @@ public class GegnerWaehler extends Fenster {
 
 		@Override
 		public void listener(long id, String farbe) {
-			
+
 			GegnerWaehler.this.hide();
 			try {
 				gUI.spiel.laden(sV.getSelected());
@@ -218,9 +222,8 @@ public class GegnerWaehler extends Fenster {
 			}
 		}
 	}
-	
-	public void herausgefordert()
-	{
+
+	public void herausgefordert() {
 		hide();
 		gUI.feld.entferneFiguren();
 		gUI.feld.startaufstellung();

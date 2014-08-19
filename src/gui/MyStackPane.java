@@ -19,4 +19,5 @@ public abstract class MyStackPane extends StackPane {
 	public abstract void entferneFiguren();
 	protected abstract double translateX(int x);
 	protected abstract double translateY(int x);
+	public abstract Node getRoot();
 }

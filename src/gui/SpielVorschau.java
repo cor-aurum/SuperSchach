@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import spiel.Schnittstelle;
 
 public class SpielVorschau extends GridPane {
 
@@ -37,14 +38,29 @@ public class SpielVorschau extends GridPane {
 		}
 		File[] fileArray = f.listFiles();
 		Arrays.sort(fileArray);
-		List<File> spieleListe = new ArrayList<File>();
-		for (File custom : customs) {
-			spieleListe.add(custom);
-		}
+		List<File> spieleListe = new ArrayList<File>();	
 		for (int i = 0; i < fileArray.length; i++) {
 			if (fileArray[i].toString().endsWith(".schach")) {
 				spieleListe.add(fileArray[i]);
 			}
+		}
+		try{
+			f=new File(Schnittstelle.verzeichnis()+File.separator+"Spiele");
+			fileArray = f.listFiles();
+			Arrays.sort(fileArray);
+			for (int i = 0; i < fileArray.length; i++) {
+				if (fileArray[i].toString().endsWith(".schach")) {
+					spieleListe.add(fileArray[i]);
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+		for (File custom : customs) {
+			spieleListe.add(custom);
 		}
 		spiele = spieleListe.toArray(new File[spieleListe.size()]);
 		try {
@@ -55,9 +71,9 @@ public class SpielVorschau extends GridPane {
 
 		Button links = new Button();
 		Button rechts = new Button();
-		add(links,1,1);
-		add(iV,2,1);
-		add(rechts,3,1);
+		add(links, 1, 1);
+		add(iV, 2, 1);
+		add(rechts, 3, 1);
 		links.setAlignment(Pos.CENTER);
 		rechts.setAlignment(Pos.CENTER);
 		links.setOnAction(new EventHandler<ActionEvent>() {
@@ -65,11 +81,13 @@ public class SpielVorschau extends GridPane {
 			public void handle(ActionEvent e) {
 				if (index > 0) {
 					index--;
-					try {
-						schnittstelle.laden(spiele[index]);
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
+				} else {
+					index = spiele.length - 1;
+				}
+				try {
+					schnittstelle.laden(spiele[index]);
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 			}
 		});
@@ -78,12 +96,13 @@ public class SpielVorschau extends GridPane {
 			public void handle(ActionEvent e) {
 				if (index < spiele.length - 1) {
 					index++;
-
-					try {
-						schnittstelle.laden(spiele[index]);
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
+				} else {
+					index = 0;
+				}
+				try {
+					schnittstelle.laden(spiele[index]);
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 			}
 		});
@@ -145,8 +164,8 @@ public class SpielVorschau extends GridPane {
 			}
 			Image img = new Image(this.getClass().getClassLoader()
 					.getResource("gui/bilder/" + f).toString());
-			canvas.getGraphicsContext2D().drawImage(img,
-					translateX(x), translateY(y));
+			canvas.getGraphicsContext2D().drawImage(img, translateX(x),
+					translateY(y));
 		}
 	}
 
@@ -158,9 +177,8 @@ public class SpielVorschau extends GridPane {
 		return (300 / (schnittstelle.getYMax() + 1))
 				* (schnittstelle.getYMax() - y);
 	}
-	
-	public File getSelected()
-	{
+
+	public File getSelected() {
 		return spiele[index];
 	}
 }

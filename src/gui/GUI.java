@@ -64,7 +64,6 @@ public class GUI extends Application {
 		einstellungen = new Einstellungen(this);
 		einstellungen.laden();
 		gegner = new GegnerWaehler(this);
-		System.out.println(zweid.getValue());
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid.getValue()) {
 			feld = new ZweiD(this);
 		} else {

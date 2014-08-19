@@ -329,4 +329,9 @@ public class DreiD extends MyStackPane {
 		}
 		root3D.getChildren().removeAll(zuEntfernen);
 	}
+
+	@Override
+	public Node getRoot() {
+		return scene;
+	}
 }

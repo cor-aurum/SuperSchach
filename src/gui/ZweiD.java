@@ -211,8 +211,12 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void entferneFiguren() {
-		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public Node getRoot() {
+		return root;
 	}
 
 }
