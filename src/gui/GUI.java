@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import client.Client;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
@@ -51,8 +52,8 @@ public class GUI extends Application {
 			.getResource("gui/bilder/brett2d.png").toString());
 	Chat chat = new Chat(this);
 	String name = System.getProperty("user.name");
-	SimpleBooleanProperty zweid=new SimpleBooleanProperty(false);
-	SimpleBooleanProperty sounds=new SimpleBooleanProperty(true);
+	SimpleBooleanProperty zweid = new SimpleBooleanProperty(false);
+	SimpleBooleanProperty sounds = new SimpleBooleanProperty(true);
 	Einstellungen einstellungen;
 	GegnerWaehler gegner;
 	Client client;
@@ -64,7 +65,8 @@ public class GUI extends Application {
 		einstellungen = new Einstellungen(this);
 		einstellungen.laden();
 		gegner = new GegnerWaehler(this);
-		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid.getValue()) {
+		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
+				|| zweid.getValue()) {
 			feld = new ZweiD(this);
 		} else {
 			feld = new DreiD(this);
@@ -82,7 +84,7 @@ public class GUI extends Application {
 		Kontrollfeld kontrolle = new Kontrollfeld(this);
 		root.setBottom(kontrolle);
 		Scene scene = new Scene(root, 1200, 800);
- 
+
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
@@ -93,17 +95,24 @@ public class GUI extends Application {
 						final ClipboardContent content = new ClipboardContent();
 						content.putImage(feld.getScreenshot());
 						clipboard.setContent(content);
-						spiel.meldungAusgeben(Schnittstelle.meldung("screenshot"));
+						spiel.meldungAusgeben(Schnittstelle
+								.meldung("screenshot"));
 					}
 				}
 			}
 		});
 
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			public void handle(WindowEvent we) {
+				client.close();
+				System.exit(0);
+			}
+		});
 		// aktualisieren();
 		feld.startaufstellung();
 		feld.resetBrett();
 		feld.aktualisiereMap();
-  
+
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
 		stage.setTitle("Super Schach");
@@ -175,10 +184,10 @@ public class GUI extends Application {
 	public static void main(String args[]) throws Exception {
 		launch(args);
 	}
-	
-	public void wechsleDimension()
-	{
-		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || zweid.getValue()) {
+
+	public void wechsleDimension() {
+		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
+				|| zweid.getValue()) {
 			feld = new ZweiD(this);
 		} else {
 			feld = new DreiD(this);
