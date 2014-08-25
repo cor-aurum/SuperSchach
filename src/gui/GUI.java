@@ -1,9 +1,7 @@
 package gui;
 
-import java.io.File;
-import java.net.URISyntaxException;
+import java.net.URL;
 
-import spiel.Schnittstelle;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -22,6 +20,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import spiel.Schnittstelle;
 import client.Client;
 
 import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
@@ -167,16 +166,22 @@ public class GUI extends Application {
 				modell += "_schwarz";
 			}
 		}
-		File file = null;
+		//File file = null;
+		URL url=null;
 		try {
+			/*
 			file = new File(this.getClass().getClassLoader()
 					.getResource("gui/meshes/" + form + "_" + modell + ".stl")
 					.toURI());
-		} catch (URISyntaxException e) {
+					*/
+			url=this.getClass().getClassLoader()
+					.getResource("gui/meshes/" + form + "_" + modell + ".stl")
+					.toURI().toURL();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		StlMeshImporter importer = new StlMeshImporter();
-		importer.read(file);
+		importer.read(url);
 		return importer.getImport();
 	}
 
