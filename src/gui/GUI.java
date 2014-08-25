@@ -104,7 +104,10 @@ public class GUI extends Application {
 
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
-				client.close();
+				Client client=GUI.this.client;
+				if (client != null) {
+					client.close();
+				}
 				System.exit(0);
 			}
 		});
