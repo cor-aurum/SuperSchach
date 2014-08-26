@@ -1,11 +1,7 @@
 package gui;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.InputStream;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,55 +12,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import spiel.Schnittstelle;
 
 public class SpielVorschau extends GridPane {
 
 	VorschauSchnittstelle schnittstelle = new VorschauSchnittstelle(this);
-	File[] spiele;
+	String[] spiele = new String[2];
 	int index = 0;
 	Canvas canvas = new Canvas(300, 300);
 	ImageView iV = new ImageView();
 
 	public SpielVorschau(File[] customs) {
 		setStyle("-fx-padding:30 0 0 0;");
-		URL url = SpielVorschau.class.getClassLoader()
-				.getResource("gui/spiele");
-		File f = null;
+		spiele[0] = "gui/spiele/00.schach";
+		spiele[1] = "gui/spiele/01.schach";
 		try {
-			f = new File(url.toURI());
-		} catch (URISyntaxException e1) {
-			return;
-		}
-		File[] fileArray = f.listFiles();
-		Arrays.sort(fileArray);
-		List<File> spieleListe = new ArrayList<File>();	
-		for (int i = 0; i < fileArray.length; i++) {
-			if (fileArray[i].toString().endsWith(".schach")) {
-				spieleListe.add(fileArray[i]);
-			}
-		}
-		try{
-			f=new File(Schnittstelle.verzeichnis()+File.separator+"Spiele");
-			fileArray = f.listFiles();
-			Arrays.sort(fileArray);
-			for (int i = 0; i < fileArray.length; i++) {
-				if (fileArray[i].toString().endsWith(".schach")) {
-					spieleListe.add(fileArray[i]);
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			
-		}
-		
-		for (File custom : customs) {
-			spieleListe.add(custom);
-		}
-		spiele = spieleListe.toArray(new File[spieleListe.size()]);
-		try {
-			schnittstelle.laden(spiele[index]);
+			schnittstelle.laden(this.getClass().getClassLoader()
+					.getResourceAsStream(spiele[index]));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,7 +48,8 @@ public class SpielVorschau extends GridPane {
 					index = spiele.length - 1;
 				}
 				try {
-					schnittstelle.laden(spiele[index]);
+					schnittstelle.laden(this.getClass().getClassLoader()
+							.getResourceAsStream(spiele[index]));
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -100,7 +64,8 @@ public class SpielVorschau extends GridPane {
 					index = 0;
 				}
 				try {
-					schnittstelle.laden(spiele[index]);
+					schnittstelle.laden(this.getClass().getClassLoader()
+							.getResourceAsStream(spiele[index]));
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -178,7 +143,8 @@ public class SpielVorschau extends GridPane {
 				* (schnittstelle.getYMax() - y);
 	}
 
-	public File getSelected() {
-		return spiele[index];
+	public InputStream getSelected() {
+		return this.getClass().getClassLoader()
+				.getResourceAsStream(spiele[index]);
 	}
 }
