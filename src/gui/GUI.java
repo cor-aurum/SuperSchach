@@ -177,13 +177,12 @@ public class GUI extends Application {
 					.getResourceAsStream("gui/meshes/" + form + "_" + modell + ".figur"));
 			points=(float[])ois.readObject();
 			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}finally{ois.close();}
 		TriangleMesh mesh=new TriangleMesh();
-		mesh.getPoints().addAll(points);;
+		mesh.getPoints().setAll(points);
 		return mesh;
 	}
 
