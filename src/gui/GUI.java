@@ -1,6 +1,6 @@
 package gui;
 
-import java.net.URL;
+import java.io.ObjectInputStream;
 
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
@@ -18,12 +18,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
+import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import spiel.Schnittstelle;
 import client.Client;
-
-import com.interactivemesh.jfx.importer.stl.StlMeshImporter;
 
 public class GUI extends Application {
 
@@ -166,23 +165,26 @@ public class GUI extends Application {
 				modell += "_schwarz";
 			}
 		}
-		//File file = null;
-		URL url=null;
+		float[] points;
+		ObjectInputStream ois=null;
 		try {
 			/*
 			file = new File(this.getClass().getClassLoader()
 					.getResource("gui/meshes/" + form + "_" + modell + ".stl")
 					.toURI());
 					*/
-			url=this.getClass().getClassLoader()
-					.getResource("gui/meshes/" + form + "_" + modell + ".stl")
-					.toURI().toURL();
+			ois=new ObjectInputStream(this.getClass().getClassLoader()
+					.getResourceAsStream("gui/meshes/" + form + "_" + modell + ".figur"));
+			points=(float[])ois.readObject();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		StlMeshImporter importer = new StlMeshImporter();
-		importer.read(url);
-		return importer.getImport();
+			return null;
+		}finally{ois.close();}
+		TriangleMesh mesh=new TriangleMesh();
+		mesh.getPoints().addAll(points);;
+		return mesh;
 	}
 
 	public boolean getFarbe() {
