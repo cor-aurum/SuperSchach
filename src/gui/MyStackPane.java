@@ -8,7 +8,7 @@ public abstract class MyStackPane extends StackPane {
 
 	public abstract Node getFeld();
 	public abstract void drehen();
-	public abstract void zug();
+	public abstract void zug(byte[] zug);
 	public abstract void aktualisieren();
 	public abstract void aktualisierenFigur(int x, int y);
 	public abstract void startaufstellung();

@@ -85,7 +85,7 @@ public class ZweiD extends MyStackPane {
 	}
 
 	@Override
-	public void zug() {
+	public void zug(byte[] zug) {
 		aktualisieren();
 	}
 

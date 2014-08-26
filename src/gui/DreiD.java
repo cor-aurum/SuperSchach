@@ -225,8 +225,8 @@ public class DreiD extends MyStackPane {
 		return figuren;
 	}
 
-	public void zug() {
-		byte[] zug = gUI.spiel.letzterZug();
+	@Override
+	public void zug(byte[] zug) {
 
 		final int sum = gUI.spiel.getXMax();
 		Feld anfang = felder[sum - zug[0]][zug[1]];
