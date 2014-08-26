@@ -135,4 +135,15 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
+	
+	@Override 
+	public void herausforderung(String s)
+	{
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				new HerausgefordertDialog(FxSchnittstelle.this, s);
+			}
+		});
+	}
 }
