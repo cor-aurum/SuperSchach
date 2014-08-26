@@ -36,12 +36,14 @@ public class FxSchnittstelle extends Schnittstelle {
 	@Override
 	public void zugGemacht() {
 		final byte[] zug=letzterZug();
+		
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				gUI.feld.zug(zug);
 			}
 		});
+		gUI.feld.waitForAnimation();
 	}
 
 	@Override

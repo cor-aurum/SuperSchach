@@ -20,4 +20,5 @@ public abstract class MyStackPane extends StackPane {
 	protected abstract double translateX(int x);
 	protected abstract double translateY(int x);
 	public abstract Node getRoot();
+	public synchronized void waitForAnimation() {}
 }

@@ -38,6 +38,7 @@ public class DreiD extends MyStackPane {
 	Slider xslider = new Slider();
 	Slider yslider = new Slider();
 	Slider zslider = new Slider();
+	private final int animationDuration = 600;
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
@@ -226,8 +227,7 @@ public class DreiD extends MyStackPane {
 	}
 
 	@Override
-	public void zug(byte[] zug) {
-
+	public synchronized void zug(byte[] zug) {
 		final int sum = gUI.spiel.getXMax();
 		Feld anfang = felder[sum - zug[0]][zug[1]];
 		Feld ende = felder[sum - zug[2]][zug[3]];
@@ -319,11 +319,9 @@ public class DreiD extends MyStackPane {
 
 	@Override
 	public void entferneFiguren() {
-		List<Node> zuEntfernen =new ArrayList<Node>();
-		for(int i=0;i<root3D.getChildren().size();i++)
-		{
-			if(root3D.getChildren().get(i) instanceof Figur)
-			{
+		List<Node> zuEntfernen = new ArrayList<Node>();
+		for (int i = 0; i < root3D.getChildren().size(); i++) {
+			if (root3D.getChildren().get(i) instanceof Figur) {
 				zuEntfernen.add(root3D.getChildren().get(i));
 			}
 		}
@@ -333,5 +331,14 @@ public class DreiD extends MyStackPane {
 	@Override
 	public Node getRoot() {
 		return scene;
+	}
+
+	@Override
+	public void waitForAnimation() {
+		try {
+			Thread.sleep(animationDuration);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
