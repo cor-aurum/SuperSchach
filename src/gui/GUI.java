@@ -18,7 +18,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
-import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import spiel.Schnittstelle;
@@ -165,7 +164,7 @@ public class GUI extends Application {
 				modell += "_schwarz";
 			}
 		}
-		float[] points;
+		MyMesh mesh=new MyMesh();
 		ObjectInputStream ois=null;
 		try {
 			/*
@@ -175,15 +174,13 @@ public class GUI extends Application {
 					*/
 			ois=new ObjectInputStream(this.getClass().getClassLoader()
 					.getResourceAsStream("gui/meshes/" + form + "_" + modell + ".figur"));
-			points=(float[])ois.readObject();
+			mesh=(MyMesh)ois.readObject();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}finally{ois.close();}
-		TriangleMesh mesh=new TriangleMesh();
-		mesh.getPoints().setAll(points);
-		return mesh;
+		return mesh.getMesh();
 	}
 
 	public boolean getFarbe() {
