@@ -16,6 +16,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Skin;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
@@ -108,16 +109,16 @@ public class GegnerWaehler extends Fenster {
 		}
 		liste.getChildren().add(
 				new SpielerButtonBot("Kiana (" + Schnittstelle.meldung("weiss")
-						+ ")", 4, "WEISS"));
+						+ ")", 4, "WEISS", true));
 		liste.getChildren()
 				.add(new SpielerButtonBot("Kiana ("
-						+ Schnittstelle.meldung("schwarz") + ")", 4, "SCHWARZ"));
+						+ Schnittstelle.meldung("schwarz") + ")", 4, "SCHWARZ", true));
 		liste.getChildren().add(
 				new SpielerButtonBot("Ivan Zufallski ("
-						+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS"));
+						+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS", false));
 		liste.getChildren()
 				.add(new SpielerButtonBot("Ivan Zufallski ("
-						+ Schnittstelle.meldung("schwarz") + ")", 1, "SCHWARZ"));
+						+ Schnittstelle.meldung("schwarz") + ")", 1, "SCHWARZ", false));
 	}
 
 	private class SpielerButton extends Button {
@@ -141,19 +142,21 @@ public class GegnerWaehler extends Fenster {
 
 	private class SpielerButtonBot extends SpielerButton {
 
-		public SpielerButtonBot(String s, long id, String farbe) {
+		boolean slider;
+		public SpielerButtonBot(String s, long id, String farbe, boolean slider) {
 			super(s, id, farbe);
+			this.slider=slider;
 		}
 
 		@Override
 		public void listener(String s, long id, String farbe) {
-			pane.setRight(new DetailBot(s, id, farbe));
+			pane.setRight(new DetailBot(s, id, farbe, slider));
 		}
 	}
 
 	private class Detail extends StackPane {
 		SpielVorschau sV = new SpielVorschau(new File[] {});
-
+		BorderPane mitte=new BorderPane();
 		public Detail(String name, long id, String farbe) {
 			BorderPane root = new BorderPane();
 			this.getChildren().add(root);
@@ -171,7 +174,8 @@ public class GegnerWaehler extends Fenster {
 			root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
 
 			sV.prefHeightProperty().bind(this.widthProperty());
-			root.setCenter(sV);
+			mitte.setTop(sV);
+			root.setCenter(mitte);
 
 			Button herausfordern = new Button("Herausfordern");
 			root.setBottom(herausfordern);
@@ -203,8 +207,17 @@ public class GegnerWaehler extends Fenster {
 
 	private class DetailBot extends Detail {
 
-		public DetailBot(String name, long id, String farbe) {
+		Slider waehlen=new Slider();
+		public DetailBot(String name, long id, String farbe, boolean slider) {
 			super(name, id, farbe);
+			waehlen.setMax(5);
+			waehlen.setMin(3);
+			waehlen.setValue(4);
+			if(slider)
+			{
+				mitte.setCenter(new Label(Schnittstelle.meldung("staerkeWaehlen")));
+				mitte.setBottom(waehlen);
+			}
 		}
 
 		@Override
@@ -215,7 +228,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.spiel.laden(sV.getSelected());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
-				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, 4);
+				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, (int)waehlen.getValue());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
