@@ -2,6 +2,7 @@ package gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +25,7 @@ public class HerausgefordertDialog extends Stage{
 		buttons.setLeft(annehmen);
 		buttons.setRight(abbrechen);
 		root.setBottom(buttons);
-		
+		root.setPadding(new Insets(20,20,20,20));
 		
 		annehmen.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -42,6 +43,7 @@ public class HerausgefordertDialog extends Stage{
 		
 		
 		
+		setTitle(Schnittstelle.meldung("herausgefordert"));
 		setScene(new Scene(root, 300, 100));
 		getIcons().add(new Image(this.getClass().getClassLoader()
 				.getResource("gui/bilder/bauer_schwarz.png").toString()));
