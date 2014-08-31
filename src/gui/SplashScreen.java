@@ -57,5 +57,13 @@ public class SplashScreen extends Preloader {
         if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
             stage.hide();
         }
-    }  
+    } 
+	
+	@Override
+	   public void handleApplicationNotification(PreloaderNotification arg0) {
+	          if (arg0 instanceof ProgressNotification) {
+	             ProgressNotification pn= (ProgressNotification) arg0;
+	             bar.setProgress(pn.getProgress());
+	          }
+	    }
 }

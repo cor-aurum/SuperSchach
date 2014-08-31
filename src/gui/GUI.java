@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
+import javafx.application.Preloader;
+import javafx.application.Preloader.StateChangeNotification;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -125,7 +127,10 @@ public class GUI extends Application {
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
 		
 		gegner.show();
-		stage.show();
+		 
+        notifyPreloader(new StateChangeNotification(
+            StateChangeNotification.Type.BEFORE_START));
+        stage.show();
 	}
 
 	public PhongMaterial gebeFigurenMaterial(int figur) {
@@ -199,7 +204,6 @@ public class GUI extends Application {
 	public static void main(String args[]) throws Exception {
 		LauncherImpl.launchApplication(GUI.class, SplashScreen.class, args);
 		launch(args);
-		
 	}
 
 	public void wechsleDimension() {
