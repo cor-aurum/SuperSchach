@@ -55,13 +55,7 @@ public class SplashScreen extends Preloader {
 	@Override
     public void handleStateChangeNotification(StateChangeNotification evt) {
         if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
-            verschwinde();
+            stage.hide();
         }
     }  
-	
-	public static void main(String args[])
-	{
-		launch(args);
-		//launch(GUI.class, args);
-	}
 }

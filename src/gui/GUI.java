@@ -23,6 +23,8 @@ import javafx.stage.WindowEvent;
 import spiel.Schnittstelle;
 import client.Client;
 
+import com.sun.javafx.application.LauncherImpl;
+
 public class GUI extends Application {
 
 	Stage stage;
@@ -59,6 +61,8 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
+
+
 		einstellungen = new Einstellungen(this);
 		einstellungen.laden();
 		gegner = new GegnerWaehler(this);
@@ -193,7 +197,9 @@ public class GUI extends Application {
 	}
 
 	public static void main(String args[]) throws Exception {
+		LauncherImpl.launchApplication(GUI.class, SplashScreen.class, args);
 		launch(args);
+		
 	}
 
 	public void wechsleDimension() {
