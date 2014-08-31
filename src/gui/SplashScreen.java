@@ -1,9 +1,8 @@
 package gui;
 
-import javafx.animation.FadeTransition;
 import javafx.application.Preloader;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -11,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 public class SplashScreen extends Preloader {
 
@@ -34,36 +32,20 @@ public class SplashScreen extends Preloader {
 		bar.setTranslateY(135);
 		view.setStyle("-fx-border-color: #5d5d5d;-fx-border-width: 3px;-fx-border-radius: 10;");
 		stage.initStyle(StageStyle.UNDECORATED);
+		stage.setTitle("Super Schach");
+		stage.getIcons()
+				.add(new Image(this.getClass().getClassLoader()
+						.getResource("gui/bilder/bauer_schwarz.png").toString()));
 		stage.show();
+		GUI.geladen.addListener(new ChangeListener<Boolean>() {
+			public void changed(ObservableValue<? extends Boolean> ov,
+					Boolean old_val, Boolean new_val) {
+				stage.close();
+			}
+		});
 	}
 
 	public void verschwinde() {
-		FadeTransition ft = new FadeTransition(Duration.millis(1000), stage
-				.getScene().getRoot());
-		ft.setFromValue(1.0);
-		ft.setToValue(0.0);
-		final Stage s = stage;
-		EventHandler<ActionEvent> eh = new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent t) {
-				s.hide();
-			}
-		};
-		ft.setOnFinished(eh);
-		ft.play();
+		stage.close();
 	}
-	
-	@Override
-    public void handleStateChangeNotification(StateChangeNotification evt) {
-        if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
-            stage.hide();
-        }
-    } 
-	
-	@Override
-	   public void handleApplicationNotification(PreloaderNotification arg0) {
-	          if (arg0 instanceof ProgressNotification) {
-	             ProgressNotification pn= (ProgressNotification) arg0;
-	             bar.setProgress(pn.getProgress());
-	          }
-	    }
 }

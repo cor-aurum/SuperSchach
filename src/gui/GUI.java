@@ -5,8 +5,6 @@ import java.io.ObjectInputStream;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
-import javafx.application.Preloader;
-import javafx.application.Preloader.StateChangeNotification;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -59,6 +57,7 @@ public class GUI extends Application {
 	GegnerWaehler gegner;
 	Client client;
 	public MyStackPane feld;
+	static SimpleBooleanProperty geladen=new SimpleBooleanProperty(false);
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -128,8 +127,7 @@ public class GUI extends Application {
 		
 		gegner.show();
 		 
-        notifyPreloader(new StateChangeNotification(
-            StateChangeNotification.Type.BEFORE_START));
+        geladen.setValue(true);
         stage.show();
 	}
 
