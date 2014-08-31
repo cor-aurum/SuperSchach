@@ -250,17 +250,15 @@ public class DreiD extends MyStackPane {
 							tempfigur.translateXProperty(), ende.getX())),
 					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
 							tempfigur.translateYProperty(), ende.getY())));
-			animation.play();
 			animation.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					// root3D.getChildren().remove(tempfigur);
 					figuren[sum - anfang.x][anfang.y] = null;
-
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
-
 				}
 			});
+			animation.play();
 		} catch (Exception e) {
 			// System.out.println("Animation nicht gefunden");
 		}
