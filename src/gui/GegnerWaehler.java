@@ -128,7 +128,7 @@ public class GegnerWaehler extends Fenster {
 			super(s);
 			prefWidthProperty().bind(
 					GegnerWaehler.this.widthProperty().divide(2));
-			setStyle("-fx-font-weight:bold;-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;");
+			setStyle("-fx-font-weight:bold;-fx-background-color:linear-gradient(#006464, #006565),linear-gradient(#006464, #006565),linear-gradient(#006464, #006565),linear-gradient(#006464 0%, #006565 50%, #006464 100%),linear-gradient(from 0% 0% to 15% 50%, rgba(175,238,238,0.9), rgba(0,100,100,0));-fx-background-radius: 30;-fx-text-fill: #ffffff;");
 			setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
@@ -187,6 +187,7 @@ public class GegnerWaehler extends Fenster {
 							+ ";-fx-background-color:"
 							+ farbtemp
 							+ ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
+			nameLabel.setUnderline(true);
 			root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
 
 			sV.prefHeightProperty().bind(this.widthProperty());
@@ -229,6 +230,7 @@ public class GegnerWaehler extends Fenster {
 			waehlen.setMax(5);
 			waehlen.setMin(3);
 			waehlen.setValue(4);
+			waehlen.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #ffffff, #000000);");
 			if(slider)
 			{
 				mitte.setCenter(new Label(Schnittstelle.meldung("staerkeWaehlen")));
@@ -244,7 +246,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.spiel.laden(sV.getSelected());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
-				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, (int)waehlen.getValue());
+				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, (int)Math.round(waehlen.getValue()));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
