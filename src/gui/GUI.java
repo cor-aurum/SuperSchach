@@ -101,7 +101,7 @@ public class GUI extends Application {
 
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
-				Client client=GUI.this.client;
+				Client client = GUI.this.client;
 				if (client != null) {
 					client.close();
 				}
@@ -119,9 +119,9 @@ public class GUI extends Application {
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
-		stage.show();
-
+		
 		gegner.show();
+		stage.show();
 	}
 
 	public PhongMaterial gebeFigurenMaterial(int figur) {
@@ -164,22 +164,27 @@ public class GUI extends Application {
 				modell += "_schwarz";
 			}
 		}
-		MyMesh mesh=new MyMesh();
-		ObjectInputStream ois=null;
+		MyMesh mesh = new MyMesh();
+		ObjectInputStream ois = null;
 		try {
 			/*
-			file = new File(this.getClass().getClassLoader()
-					.getResource("gui/meshes/" + form + "_" + modell + ".stl")
-					.toURI());
-					*/
-			ois=new ObjectInputStream(this.getClass().getClassLoader()
-					.getResourceAsStream("gui/meshes/" + form + "_" + modell + ".figur"));
-			mesh=(MyMesh)ois.readObject();
-			
+			 * file = new File(this.getClass().getClassLoader()
+			 * .getResource("gui/meshes/" + form + "_" + modell + ".stl")
+			 * .toURI());
+			 */
+			ois = new ObjectInputStream(this
+					.getClass()
+					.getClassLoader()
+					.getResourceAsStream(
+							"gui/meshes/" + form + "_" + modell + ".figur"));
+			mesh = (MyMesh) ois.readObject();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}finally{ois.close();}
+		} finally {
+			ois.close();
+		}
 		return mesh.getMesh();
 	}
 

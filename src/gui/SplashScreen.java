@@ -23,9 +23,7 @@ public class SplashScreen extends Preloader {
 	public void start(Stage stage) throws Exception {
 
 		this.stage = new Stage();
-
 		stage.setScene(new Scene(root, 640, 400));
-
 		bar = new ProgressBar();
 		ImageView view = new ImageView(new Image(this.getClass()
 				.getClassLoader().getResource("gui/bilder/splash.png")
@@ -52,5 +50,18 @@ public class SplashScreen extends Preloader {
 		};
 		ft.setOnFinished(eh);
 		ft.play();
+	}
+	
+	@Override
+    public void handleStateChangeNotification(StateChangeNotification evt) {
+        if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
+            verschwinde();
+        }
+    }  
+	
+	public static void main(String args[])
+	{
+		launch(args);
+		//launch(GUI.class, args);
 	}
 }
