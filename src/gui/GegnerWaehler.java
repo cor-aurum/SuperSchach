@@ -119,6 +119,8 @@ public class GegnerWaehler extends Fenster {
 		liste.getChildren()
 				.add(new SpielerButtonBot("Ivan Zufallski ("
 						+ Schnittstelle.meldung("schwarz") + ")", 1, "SCHWARZ", false));
+		liste.getChildren()
+		.add(new KeinSpielerButton(Schnittstelle.meldung("keinSpieler")));
 	}
 
 	private class SpielerButton extends Button {
@@ -151,6 +153,20 @@ public class GegnerWaehler extends Fenster {
 		@Override
 		public void listener(String s, long id, String farbe) {
 			pane.setRight(new DetailBot(s, id, farbe, slider));
+		}
+	}
+	
+	private class KeinSpielerButton extends SpielerButton
+	{
+
+		public KeinSpielerButton(String s) {
+			super(s, -1, "WEISS");
+		}
+		
+		@Override
+		public void listener(String s, long id, String farbe)
+		{
+			pane.setRight(new KeinDetail(s));
 		}
 	}
 
@@ -229,6 +245,26 @@ public class GegnerWaehler extends Fenster {
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
 				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, (int)waehlen.getValue());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private class KeinDetail extends Detail {
+		public KeinDetail(String name) {
+			super(name, -1, "WEISS");
+		}
+
+		@Override
+		public void listener(long id, String farbe) {
+
+			GegnerWaehler.this.hide();
+			try {
+				gUI.spiel.laden(sV.getSelected());
+				gUI.feld.entferneFiguren();
+				gUI.feld.startaufstellung();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
