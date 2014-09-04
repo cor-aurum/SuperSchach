@@ -34,9 +34,9 @@ public class SpielVorschau extends GridPane {
 
 		Button links = new Button();
 		Button rechts = new Button();
-		add(links, 1, 1);
-		add(iV, 2, 1);
-		add(rechts, 3, 1);
+		add(links, 1, 0);
+		add(iV, 2, 0);
+		add(rechts, 3, 0);
 		links.setAlignment(Pos.CENTER);
 		rechts.setAlignment(Pos.CENTER);
 		links.setOnAction(new EventHandler<ActionEvent>() {

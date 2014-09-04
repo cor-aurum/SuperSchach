@@ -110,17 +110,20 @@ public class GegnerWaehler extends Fenster {
 		liste.getChildren().add(
 				new SpielerButtonBot("Kiana (" + Schnittstelle.meldung("weiss")
 						+ ")", 4, "WEISS", true));
-		liste.getChildren()
-				.add(new SpielerButtonBot("Kiana ("
-						+ Schnittstelle.meldung("schwarz") + ")", 4, "SCHWARZ", true));
+		liste.getChildren().add(
+				new SpielerButtonBot("Kiana ("
+						+ Schnittstelle.meldung("schwarz") + ")", 4, "SCHWARZ",
+						true));
 		liste.getChildren().add(
 				new SpielerButtonBot("Ivan Zufallski ("
-						+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS", false));
-		liste.getChildren()
-				.add(new SpielerButtonBot("Ivan Zufallski ("
-						+ Schnittstelle.meldung("schwarz") + ")", 1, "SCHWARZ", false));
-		liste.getChildren()
-		.add(new KeinSpielerButton(Schnittstelle.meldung("keinSpieler")));
+						+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS",
+						false));
+		liste.getChildren().add(
+				new SpielerButtonBot("Ivan Zufallski ("
+						+ Schnittstelle.meldung("schwarz") + ")", 1, "SCHWARZ",
+						false));
+		liste.getChildren().add(
+				new KeinSpielerButton(Schnittstelle.meldung("keinSpieler")));
 	}
 
 	private class SpielerButton extends Button {
@@ -145,9 +148,10 @@ public class GegnerWaehler extends Fenster {
 	private class SpielerButtonBot extends SpielerButton {
 
 		boolean slider;
+
 		public SpielerButtonBot(String s, long id, String farbe, boolean slider) {
 			super(s, id, farbe);
-			this.slider=slider;
+			this.slider = slider;
 		}
 
 		@Override
@@ -155,24 +159,23 @@ public class GegnerWaehler extends Fenster {
 			pane.setRight(new DetailBot(s, id, farbe, slider));
 		}
 	}
-	
-	private class KeinSpielerButton extends SpielerButton
-	{
+
+	private class KeinSpielerButton extends SpielerButton {
 
 		public KeinSpielerButton(String s) {
 			super(s, -1, "WEISS");
 		}
-		
+
 		@Override
-		public void listener(String s, long id, String farbe)
-		{
+		public void listener(String s, long id, String farbe) {
 			pane.setRight(new KeinDetail(s));
 		}
 	}
 
 	private class Detail extends StackPane {
 		SpielVorschau sV = new SpielVorschau(new File[] {});
-		BorderPane mitte=new BorderPane();
+		BorderPane mitte = new BorderPane();
+
 		public Detail(String name, long id, String farbe) {
 			BorderPane root = new BorderPane();
 			this.getChildren().add(root);
@@ -207,6 +210,9 @@ public class GegnerWaehler extends Fenster {
 
 				}
 			});
+			BorderPane.setAlignment(herausfordern, Pos.CENTER);
+			herausfordern
+					.setStyle("-fx-font-weight:bold;-fx-background-radius: 30;-fx-text-fill: #000000;");
 		}
 
 		public void listener(long id, String farbe) {
@@ -224,16 +230,19 @@ public class GegnerWaehler extends Fenster {
 
 	private class DetailBot extends Detail {
 
-		Slider waehlen=new Slider();
+		Slider waehlen = new Slider();
+
 		public DetailBot(String name, long id, String farbe, boolean slider) {
 			super(name, id, farbe);
-			waehlen.setMax(5);
-			waehlen.setMin(3);
-			waehlen.setValue(4);
-			waehlen.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #ffffff, #000000);");
-			if(slider)
-			{
-				mitte.setCenter(new Label(Schnittstelle.meldung("staerkeWaehlen")));
+			if (slider) {
+				waehlen.setMax(5);
+				waehlen.setMin(3);
+				waehlen.setValue(4);
+				// System.out.println(waehlen.lookup(".thumb"));
+				Label staerke = new Label(
+						Schnittstelle.meldung("staerkeWaehlen"));
+				staerke.setStyle("-fx-font-weight:bold;-fx-text-fill:#ffffff;");
+				mitte.setCenter(staerke);
 				mitte.setBottom(waehlen);
 			}
 		}
@@ -246,14 +255,15 @@ public class GegnerWaehler extends Fenster {
 				gUI.spiel.laden(sV.getSelected());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
-				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1, (int)Math.round(waehlen.getValue()));
+				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1,
+						(int) Math.round(waehlen.getValue()));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	private class KeinDetail extends Detail {
 		public KeinDetail(String name) {
 			super(name, -1, "WEISS");
