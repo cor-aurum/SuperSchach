@@ -146,4 +146,9 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
+
+	@Override
+	public String[] getLogin() {
+		return new String[]{"new", "new"};
+	}
 }

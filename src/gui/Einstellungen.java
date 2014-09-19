@@ -31,6 +31,8 @@ public class Einstellungen extends Fenster {
 	VBox settings = new VBox();
 	ColorPicker pick_weiss;
 	ColorPicker pick_schwarz;
+	ColorPicker pick_oben;
+	ColorPicker pick_unten;
 	ToggleGroup map = new ToggleGroup();
 	RadioButton map_marmor = new RadioButton(Schnittstelle.meldung("marmor"));
 
@@ -39,9 +41,10 @@ public class Einstellungen extends Fenster {
 	RadioButton map_gras = new RadioButton(Schnittstelle.meldung("gras"));
 
 	RadioButton map_glas = new RadioButton(Schnittstelle.meldung("glas"));
-	
+
 	ToggleGroup figur = new ToggleGroup();
-	RadioButton figur_standard = new RadioButton(Schnittstelle.meldung("standard"));
+	RadioButton figur_standard = new RadioButton(
+			Schnittstelle.meldung("standard"));
 
 	RadioButton figur_modern = new RadioButton(Schnittstelle.meldung("modern"));
 
@@ -61,7 +64,7 @@ public class Einstellungen extends Fenster {
 		map_glas.setToggleGroup(map);
 		map_marmor.setSelected(true);
 
-		Label ob=new Label(Schnittstelle.meldung("oberflaeche"));
+		Label ob = new Label(Schnittstelle.meldung("oberflaeche"));
 		ob.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(ob);
 		settings.getChildren().add(map_marmor);
@@ -70,7 +73,40 @@ public class Einstellungen extends Fenster {
 		settings.getChildren().add(map_glas);
 		addLeer(settings);
 
-		Label multi=new Label(Schnittstelle.meldung("mehrspieler"));
+		Label bg = new Label(Schnittstelle.meldung("hintergrund"));
+		bg.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		settings.getChildren().add(bg);
+		HBox boxHintergrund = new HBox();
+		pick_oben = new ColorPicker();
+		pick_unten = new ColorPicker();
+		pick_oben.valueProperty().addListener(new ChangeListener<Color>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Color> arg0,
+					Color arg1, Color arg2) {
+				gUI.vonFarbe.setValue(toRGBCode(arg2));
+				speichern();
+			}
+
+		});
+
+		pick_unten.valueProperty().addListener(new ChangeListener<Color>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Color> arg0,
+					Color arg1, Color arg2) {
+				gUI.bisFarbe.setValue(toRGBCode(arg2));
+				speichern();
+			}
+
+		});
+		boxHintergrund.getChildren().addAll(
+				new Label(Schnittstelle.meldung("farbverlauf") + ": "),
+				pick_oben, new Separator(), pick_unten);
+		settings.getChildren().add(boxHintergrund);
+		addLeer(settings);
+
+		Label multi = new Label(Schnittstelle.meldung("mehrspieler"));
 		multi.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(multi);
 		TextField name = new TextField();
@@ -84,11 +120,14 @@ public class Einstellungen extends Fenster {
 		HBox box = new HBox();
 		pick_weiss = new ColorPicker(gUI.farbe_weiss.getValue());
 		pick_schwarz = new ColorPicker(gUI.farbe_schwarz.getValue());
-		box.getChildren().addAll(new Label(Schnittstelle.meldung("weiss")+": "), pick_weiss,
-				new Separator(), new Label(Schnittstelle.meldung("schwarz")+": "), pick_schwarz);
+		box.getChildren().addAll(
+				new Label(Schnittstelle.meldung("weiss") + ": "), pick_weiss,
+				new Separator(),
+				new Label(Schnittstelle.meldung("schwarz") + ": "),
+				pick_schwarz);
 		pick_weiss.valueProperty().bindBidirectional(gUI.farbe_weiss);
 		pick_schwarz.valueProperty().bindBidirectional(gUI.farbe_schwarz);
-		Label fig=new Label(Schnittstelle.meldung("figuren"));
+		Label fig = new Label(Schnittstelle.meldung("figuren"));
 		fig.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(fig);
 		settings.getChildren().add(box);
@@ -101,8 +140,9 @@ public class Einstellungen extends Fenster {
 
 		gUI.sounds.bind(sounds.selectedProperty());
 		gUI.zweid.bind(dreiDAn.selectedProperty().not());
-		Label sonstiges=new Label(Schnittstelle.meldung("sonstiges"));
-		sonstiges.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		Label sonstiges = new Label(Schnittstelle.meldung("sonstiges"));
+		sonstiges
+				.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(sonstiges);
 		settings.getChildren().add(dreiDAn);
 		settings.getChildren().add(sounds);
@@ -115,6 +155,7 @@ public class Einstellungen extends Fenster {
 		dreiDAn.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov,
 					Boolean old_val, Boolean new_val) {
+				//gUI.wechsleDimension(new_val);
 				speichern();
 			}
 		});
@@ -146,21 +187,22 @@ public class Einstellungen extends Fenster {
 				speichern();
 			}
 		});
-		
-		figur.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-			public void changed(ObservableValue<? extends Toggle> ov,
-					Toggle old_toggle, Toggle new_toggle) {
-				if (figur.getSelectedToggle() == figur_modern) {
-					gUI.form = "modern";
-				} else if (figur.getSelectedToggle() == figur_standard) {
-					gUI.form = "standard";
-				}
-				gUI.feld.entferneFiguren();
-				gUI.feld.startaufstellung();
-				gUI.feld.aktualisieren();
-				speichern();
-			}
-		});
+
+		figur.selectedToggleProperty().addListener(
+				new ChangeListener<Toggle>() {
+					public void changed(ObservableValue<? extends Toggle> ov,
+							Toggle old_toggle, Toggle new_toggle) {
+						if (figur.getSelectedToggle() == figur_modern) {
+							gUI.form = "modern";
+						} else if (figur.getSelectedToggle() == figur_standard) {
+							gUI.form = "standard";
+						}
+						gUI.feld.entferneFiguren();
+						gUI.feld.startaufstellung();
+						gUI.feld.aktualisieren();
+						speichern();
+					}
+				});
 
 		pick_schwarz.valueProperty().addListener(new ChangeListener<Color>() {
 
@@ -214,10 +256,15 @@ public class Einstellungen extends Fenster {
 			br.write("" + gUI.zweid.getValue());
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.form);
+			br.write(System.getProperty("line.separator"));
+			br.write(toRGBCode(pick_oben.getValue()));
+			br.write(System.getProperty("line.separator"));
+			br.write(toRGBCode(pick_unten.getValue()));
 			br.flush();
 			br.close();
 		} catch (IOException e) {
-			gUI.spiel.meldungAusgeben(Schnittstelle.meldung("speichernFehlgeschlagen"));
+			gUI.spiel.meldungAusgeben(Schnittstelle
+					.meldung("speichernFehlgeschlagen"));
 		}
 
 	}
@@ -232,9 +279,11 @@ public class Einstellungen extends Fenster {
 			gUI.name = br.readLine();
 			sounds.setSelected(Boolean.parseBoolean(br.readLine()));
 			dreiDAn.setSelected(!Boolean.parseBoolean(br.readLine()));
-			gUI.form=br.readLine();
+			gUI.form = br.readLine();
+			gUI.vonFarbe.setValue(br.readLine());
+			gUI.bisFarbe.setValue(br.readLine());
 			br.close();
-			
+
 			switch (gUI.hintergrund) {
 			case "marmor":
 				map_marmor.setSelected(true);
@@ -249,7 +298,7 @@ public class Einstellungen extends Fenster {
 				map_holz.setSelected(true);
 				break;
 			}
-			
+
 			switch (gUI.form) {
 			case "standard":
 				figur_standard.setSelected(true);
@@ -258,6 +307,9 @@ public class Einstellungen extends Fenster {
 				figur_modern.setSelected(true);
 				break;
 			}
+			pick_unten.setValue(Color.web(gUI.bisFarbe.getValue()));
+			pick_oben.setValue(Color.web(gUI.vonFarbe.getValue()));
+			
 		} catch (IOException e) {
 			sounds.setSelected(true);
 			dreiDAn.setSelected(true);

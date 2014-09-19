@@ -7,6 +7,9 @@ import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -53,6 +56,10 @@ public class GUI extends Application {
 	String name = System.getProperty("user.name");
 	SimpleBooleanProperty zweid = new SimpleBooleanProperty(false);
 	SimpleBooleanProperty sounds = new SimpleBooleanProperty(true);
+	
+	SimpleStringProperty vonFarbe = new SimpleStringProperty("#cd5c5c");
+	SimpleStringProperty bisFarbe = new SimpleStringProperty("#232323");
+	
 	Einstellungen einstellungen;
 	GegnerWaehler gegner;
 	Client client;
@@ -117,7 +124,30 @@ public class GUI extends Application {
 		feld.startaufstellung();
 		feld.resetBrett();
 		feld.aktualisiereMap();
+		
+		vonFarbe.addListener(new ChangeListener<String>() {
 
+			@Override
+			public void changed(ObservableValue<? extends String> arg0,
+					String arg1, String arg2) {
+				feld.background
+				.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "+vonFarbe.getValue()+", "+bisFarbe.getValue()+");");
+			}
+
+		});
+		bisFarbe.addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> arg0,
+					String arg1, String arg2) {
+				feld.background
+				.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "+vonFarbe.getValue()+", "+bisFarbe.getValue()+");");
+			}
+
+		});
+
+		feld.background
+		.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "+vonFarbe.getValue()+", "+bisFarbe.getValue()+");");
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
 		stage.setTitle("Super Schach");
@@ -214,5 +244,22 @@ public class GUI extends Application {
 		feld.entferneFiguren();
 		feld.startaufstellung();
 		feld.aktualisieren();
+	}
+	
+	public void wechsleDimension(boolean dim) {
+		pane.getChildren().remove(feld);
+		if(dim)
+		{
+			wechsleDimension();
+		}
+		else
+		{
+			feld = new ZweiD(this);
+			feld.entferneFiguren();
+			feld.startaufstellung();
+			feld.aktualisieren();
+		}
+		pane.getChildren().add(feld);
+		einstellungen.show();
 	}
 }
