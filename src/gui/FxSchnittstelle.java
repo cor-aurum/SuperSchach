@@ -149,6 +149,8 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public String[] getLogin() {
-		return new String[]{"new", "new"};
+		Login login=new Login("");
+		gUI.feld.getChildren().add(login);
+		return login.getLogin();
 	}
 }
