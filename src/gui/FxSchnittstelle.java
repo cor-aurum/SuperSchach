@@ -35,8 +35,8 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public void zugGemacht() {
-		final byte[] zug=letzterZug();
-		
+		final byte[] zug = letzterZug();
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -135,10 +135,9 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
-	
-	@Override 
-	public void herausforderung(String s)
-	{
+
+	@Override
+	public void herausforderung(String s) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -149,8 +148,15 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public String[] getLogin() {
-		Login login=new Login("");
-		gUI.feld.getChildren().add(login);
-		return login.getLogin();
+		String[] ret = new String[2];
+		Blocker blocker = new Blocker();
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.feld.getChildren().add(new Login("", ret, blocker));
+			}
+		});
+		blocker.block();
+		return ret;
 	}
 }

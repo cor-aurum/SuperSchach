@@ -1,5 +1,7 @@
 package gui;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -15,9 +17,25 @@ public class Login extends Dialog {
 	PasswordField passwortEingeben = new PasswordField();
 	Button ok=new Button(Schnittstelle.meldung("login"));
 	Button abbrechen=new Button(Schnittstelle.meldung("offline"));
-	public Login(String message) {
+	Blocker blocker;
+	String[] ret;
+	
+	public Login(String message, String[] ret, Blocker blocker) {
 		BorderPane root=new BorderPane();
 		GridPane textfelder = new GridPane();
+		this.blocker=blocker;
+		this.ret=ret;
+		ok.setOnMouseClicked(new EventHandler<Event>(){
+
+			@Override
+			public void handle(Event arg0) {
+				ret[0]=nameEingeben.getText();
+				ret[1]=passwortEingeben.getText();
+				blocker.release();
+			}
+			
+		});
+			
 		Label name=new Label(Schnittstelle.meldung("name")+": ");
 		Label passwort=new Label(Schnittstelle.meldung("passwort")+": ");
 		textfelder.add(name, 0, 0);
@@ -33,8 +51,7 @@ public class Login extends Dialog {
 		getChildren().add(root);
 	}
 	
-	public String[] getLogin()
-	{
-		return null;
-	}
+	
+	
+
 }
