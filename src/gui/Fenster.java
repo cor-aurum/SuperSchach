@@ -7,13 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-public abstract class Fenster extends BorderPane {
+public abstract class Fenster extends StackPane {
 
 	GUI gUI;
 	private boolean sichtbar = false;
@@ -21,22 +19,13 @@ public abstract class Fenster extends BorderPane {
 
 	public Fenster(GUI gUI) {
 		this.gUI = gUI;
-		setOnKeyPressed(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent keyEvent) {
-				if (keyEvent.getCode() == KeyCode.ESCAPE) {
-					if (sichtbar)
-						hide();
-				}
-			}
-		});
 	}
 
 	public void show() {
 		if (!Fenster.vorhanden) {
 			Fenster.vorhanden = true;
 			GaussianBlur gB = new GaussianBlur();
-			ColorAdjust cA=new ColorAdjust();
+			ColorAdjust cA = new ColorAdjust();
 			gB.setInput(cA);
 			gUI.feld.getRoot().setEffect(gB);
 			gUI.feld.getChildren().add(this);
@@ -63,7 +52,7 @@ public abstract class Fenster extends BorderPane {
 	public void hide() {
 		Fenster.vorhanden = false;
 		GaussianBlur gB = new GaussianBlur();
-		ColorAdjust cA=new ColorAdjust();
+		ColorAdjust cA = new ColorAdjust();
 		gB.setInput(cA);
 		gUI.feld.getRoot().setEffect(gB);
 		Timeline animation = new Timeline();
@@ -92,12 +81,22 @@ public abstract class Fenster extends BorderPane {
 		});
 	}
 
+	public void switchFenster(Fenster f) {
+		gUI.feld.getChildren().remove(this);
+		gUI.feld.getChildren().add(f);
+	}
+
 	public void setzeInhalt(Region r) {
-		setCenter(r);
-		//r.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
+		getChildren().add(r);
+		// r.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 	}
 
 	public boolean isShowed() {
 		return sichtbar;
+	}
+	
+	public static void setSichtbar(boolean b)
+	{
+		Fenster.vorhanden=b;
 	}
 }

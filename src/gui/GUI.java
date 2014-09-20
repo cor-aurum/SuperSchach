@@ -16,8 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
@@ -31,8 +31,8 @@ import com.sun.javafx.application.LauncherImpl;
 public class GUI extends Application {
 
 	Stage stage;
-	BorderPane root = new BorderPane();
-	BorderPane pane = new BorderPane();
+	// BorderPane root = new BorderPane();
+	// BorderPane pane = new BorderPane();
 	// BorderPane root = new BorderPane();
 	Einstellungen rechts;
 
@@ -56,20 +56,20 @@ public class GUI extends Application {
 	String name = System.getProperty("user.name");
 	SimpleBooleanProperty zweid = new SimpleBooleanProperty(false);
 	SimpleBooleanProperty sounds = new SimpleBooleanProperty(true);
-	
+
 	SimpleStringProperty vonFarbe = new SimpleStringProperty("#cd5c5c");
 	SimpleStringProperty bisFarbe = new SimpleStringProperty("#232323");
-	
+
 	Einstellungen einstellungen;
 	GegnerWaehler gegner;
 	Client client;
 	public MyStackPane feld;
-	static SimpleBooleanProperty geladen=new SimpleBooleanProperty(false);
+	static SimpleBooleanProperty geladen = new SimpleBooleanProperty(false);
+	Hauptmenu hauptmenu = new Hauptmenu(this);
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
-
 
 		einstellungen = new Einstellungen(this);
 		einstellungen.laden();
@@ -81,7 +81,7 @@ public class GUI extends Application {
 			feld = new DreiD(this);
 		}
 		this.stage = stage;
-		pane.setCenter(feld);
+		// pane.setCenter(feld);
 
 		// pane.setLeft(xslider);
 		// pane.setBottom(yslider);
@@ -89,11 +89,11 @@ public class GUI extends Application {
 		// xslider.setOrientation(Orientation.VERTICAL);
 		// zslider.setOrientation(Orientation.VERTICAL);
 
-		root.setCenter(pane);
-		Kontrollfeld kontrolle = new Kontrollfeld(this);
-		root.setBottom(kontrolle);
-		Scene scene = new Scene(root, 1200, 800);
-
+		// root.setCenter(pane);
+		//Kontrollfeld kontrolle = new Kontrollfeld(this);
+		// root.setBottom(kontrolle);
+		Scene scene = new Scene(feld, 1200, 800);
+		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
@@ -106,6 +106,12 @@ public class GUI extends Application {
 						clipboard.setContent(content);
 						spiel.meldungAusgeben(Schnittstelle
 								.meldung("screenshot"));
+					}
+				} else {
+					if (keyEvent.getCode() == KeyCode.ESCAPE) {
+						if (!hauptmenu.isShowed()) {
+							hauptmenu.show();
+						}
 					}
 				}
 			}
@@ -124,14 +130,17 @@ public class GUI extends Application {
 		feld.startaufstellung();
 		feld.resetBrett();
 		feld.aktualisiereMap();
-		
+
 		vonFarbe.addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0,
 					String arg1, String arg2) {
 				feld.background
-				.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "+vonFarbe.getValue()+", "+bisFarbe.getValue()+");");
+						.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
+								+ vonFarbe.getValue()
+								+ ", "
+								+ bisFarbe.getValue() + ");");
 			}
 
 		});
@@ -141,24 +150,32 @@ public class GUI extends Application {
 			public void changed(ObservableValue<? extends String> arg0,
 					String arg1, String arg2) {
 				feld.background
-				.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "+vonFarbe.getValue()+", "+bisFarbe.getValue()+");");
+						.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
+								+ vonFarbe.getValue()
+								+ ", "
+								+ bisFarbe.getValue() + ");");
 			}
 
 		});
 
 		feld.background
-		.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "+vonFarbe.getValue()+", "+bisFarbe.getValue()+");");
+				.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
+						+ vonFarbe.getValue()
+						+ ", "
+						+ bisFarbe.getValue()
+						+ ");");
+		//feld.getChildren().add(kontrolle);
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
 		stage.setTitle("Super Schach");
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
-		
+
 		gegner.show();
-		 
-        geladen.setValue(true);
-        stage.show();
+
+		geladen.setValue(true);
+		stage.show();
 	}
 
 	public PhongMaterial gebeFigurenMaterial(int figur) {
@@ -245,21 +262,12 @@ public class GUI extends Application {
 		feld.startaufstellung();
 		feld.aktualisieren();
 	}
-	
-	public void wechsleDimension(boolean dim) {
-		pane.getChildren().remove(feld);
-		if(dim)
-		{
-			wechsleDimension();
-		}
-		else
-		{
-			feld = new ZweiD(this);
-			feld.entferneFiguren();
-			feld.startaufstellung();
-			feld.aktualisieren();
-		}
-		pane.getChildren().add(feld);
-		einstellungen.show();
-	}
+
+	/*
+	 * public void wechsleDimension(boolean dim) {
+	 * pane.getChildren().remove(feld); if(dim) { wechsleDimension(); } else {
+	 * feld = new ZweiD(this); feld.entferneFiguren(); feld.startaufstellung();
+	 * feld.aktualisieren(); } pane.getChildren().add(feld);
+	 * einstellungen.show(); }
+	 */
 }

@@ -17,11 +17,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import spiel.Schnittstelle;
 import client.Client;
@@ -88,6 +90,7 @@ public class GegnerWaehler extends Fenster {
 							aktualisieren();
 					}
 				}));
+
 		aktualisieren.setCycleCount(Timeline.INDEFINITE);
 		aktualisieren.play();
 	}
@@ -138,6 +141,20 @@ public class GegnerWaehler extends Fenster {
 					listener(s, id, farbe);
 				}
 			});
+
+			setOnMouseEntered(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					if (gUI.sounds.getValue()) {
+						AudioClip plonkSound = new AudioClip(this.getClass()
+								.getClassLoader()
+								.getResource("gui/sounds/hover.aiff")
+								.toString());
+						plonkSound.play();
+					}
+				}
+			});
+
 		}
 
 		public void listener(String s, long id, String farbe) {

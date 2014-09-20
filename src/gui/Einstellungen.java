@@ -12,11 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -29,10 +26,7 @@ public class Einstellungen extends Fenster {
 
 	GUI gUI;
 	VBox settings = new VBox();
-	ColorPicker pick_weiss;
-	ColorPicker pick_schwarz;
-	ColorPicker pick_oben;
-	ColorPicker pick_unten;
+
 	ToggleGroup map = new ToggleGroup();
 	RadioButton map_marmor = new RadioButton(Schnittstelle.meldung("marmor"));
 
@@ -47,9 +41,6 @@ public class Einstellungen extends Fenster {
 			Schnittstelle.meldung("standard"));
 
 	RadioButton figur_modern = new RadioButton(Schnittstelle.meldung("modern"));
-
-	CheckBox dreiDAn = new CheckBox(Schnittstelle.meldung("dreiDAn"));
-	CheckBox sounds = new CheckBox(Schnittstelle.meldung("tonAn"));
 
 	public Einstellungen(GUI gUI) {
 		// setzeInhalt(tab);
@@ -76,35 +67,6 @@ public class Einstellungen extends Fenster {
 		Label bg = new Label(Schnittstelle.meldung("hintergrund"));
 		bg.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(bg);
-		HBox boxHintergrund = new HBox();
-		pick_oben = new ColorPicker();
-		pick_unten = new ColorPicker();
-		pick_oben.valueProperty().addListener(new ChangeListener<Color>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Color> arg0,
-					Color arg1, Color arg2) {
-				gUI.vonFarbe.setValue(toRGBCode(arg2));
-				speichern();
-			}
-
-		});
-
-		pick_unten.valueProperty().addListener(new ChangeListener<Color>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Color> arg0,
-					Color arg1, Color arg2) {
-				gUI.bisFarbe.setValue(toRGBCode(arg2));
-				speichern();
-			}
-
-		});
-		boxHintergrund.getChildren().addAll(
-				new Label(Schnittstelle.meldung("farbverlauf") + ": "),
-				pick_oben, new Separator(), pick_unten);
-		settings.getChildren().add(boxHintergrund);
-		addLeer(settings);
 
 		Label multi = new Label(Schnittstelle.meldung("mehrspieler"));
 		multi.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
@@ -117,20 +79,10 @@ public class Einstellungen extends Fenster {
 
 		addLeer(settings);
 
-		HBox box = new HBox();
-		pick_weiss = new ColorPicker(gUI.farbe_weiss.getValue());
-		pick_schwarz = new ColorPicker(gUI.farbe_schwarz.getValue());
-		box.getChildren().addAll(
-				new Label(Schnittstelle.meldung("weiss") + ": "), pick_weiss,
-				new Separator(),
-				new Label(Schnittstelle.meldung("schwarz") + ": "),
-				pick_schwarz);
-		pick_weiss.valueProperty().bindBidirectional(gUI.farbe_weiss);
-		pick_schwarz.valueProperty().bindBidirectional(gUI.farbe_schwarz);
 		Label fig = new Label(Schnittstelle.meldung("figuren"));
 		fig.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(fig);
-		settings.getChildren().add(box);
+		// settings.getChildren().add(box);
 		figur_standard.setToggleGroup(figur);
 		figur_modern.setToggleGroup(figur);
 		figur_standard.setSelected(true);
@@ -138,27 +90,11 @@ public class Einstellungen extends Fenster {
 		settings.getChildren().add(figur_modern);
 		addLeer(settings);
 
-		gUI.sounds.bind(sounds.selectedProperty());
-		gUI.zweid.bind(dreiDAn.selectedProperty().not());
 		Label sonstiges = new Label(Schnittstelle.meldung("sonstiges"));
 		sonstiges
 				.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(sonstiges);
-		settings.getChildren().add(dreiDAn);
-		settings.getChildren().add(sounds);
-		sounds.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			public void changed(ObservableValue<? extends Boolean> ov,
-					Boolean old_val, Boolean new_val) {
-				speichern();
-			}
-		});
-		dreiDAn.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			public void changed(ObservableValue<? extends Boolean> ov,
-					Boolean old_val, Boolean new_val) {
-				//gUI.wechsleDimension(new_val);
-				speichern();
-			}
-		});
+
 
 		name.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -204,23 +140,6 @@ public class Einstellungen extends Fenster {
 					}
 				});
 
-		pick_schwarz.valueProperty().addListener(new ChangeListener<Color>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Color> arg0,
-					Color arg1, Color arg2) {
-				speichern();
-			}
-		});
-		pick_weiss.valueProperty().addListener(new ChangeListener<Color>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Color> arg0,
-					Color arg1, Color arg2) {
-				speichern();
-			}
-		});
-
 		nameOK.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -239,15 +158,15 @@ public class Einstellungen extends Fenster {
 		vbox.getChildren().add(j);
 	}
 
-	private void speichern() {
+	public void speichern() {
 		try {
 			BufferedWriter br = new BufferedWriter(new FileWriter(
 					Schnittstelle.verzeichnis() + "gui.save"));
 			br.write(gUI.hintergrund);
 			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(pick_weiss.getValue()));
+			br.write(toRGBCode(gUI.farbe_weiss.getValue()));
 			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(pick_schwarz.getValue()));
+			br.write(toRGBCode(gUI.farbe_weiss.getValue()));
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.name);
 			br.write(System.getProperty("line.separator"));
@@ -257,9 +176,11 @@ public class Einstellungen extends Fenster {
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.form);
 			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(pick_oben.getValue()));
+			br.write(gUI.vonFarbe.getValue());
 			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(pick_unten.getValue()));
+			br.write(gUI.bisFarbe.getValue());
+			br.write(System.getProperty("line.separator"));
+			br.write(""+gUI.stage.isFullScreen());
 			br.flush();
 			br.close();
 		} catch (IOException e) {
@@ -274,14 +195,19 @@ public class Einstellungen extends Fenster {
 			BufferedReader br = new BufferedReader(new FileReader(
 					Schnittstelle.verzeichnis() + "gui.save"));
 			gUI.hintergrund = br.readLine();
-			pick_weiss.setValue(Color.web(br.readLine()));
-			pick_schwarz.setValue(Color.web(br.readLine()));
+			// pick_weiss.setValue(Color.web(br.readLine()));
+			// pick_schwarz.setValue(Color.web(br.readLine()));
+			gUI.vonFarbe.setValue(br.readLine());
+
+			gUI.bisFarbe.setValue(br.readLine());
 			gUI.name = br.readLine();
-			sounds.setSelected(Boolean.parseBoolean(br.readLine()));
-			dreiDAn.setSelected(!Boolean.parseBoolean(br.readLine()));
+			// sounds.setSelected(Boolean.parseBoolean(br.readLine()));
+			gUI.sounds.setValue(Boolean.parseBoolean(br.readLine()));
+			gUI.zweid.setValue(!Boolean.parseBoolean(br.readLine()));
 			gUI.form = br.readLine();
 			gUI.vonFarbe.setValue(br.readLine());
 			gUI.bisFarbe.setValue(br.readLine());
+			gUI.stage.setFullScreen(Boolean.parseBoolean(br.readLine()));
 			br.close();
 
 			switch (gUI.hintergrund) {
@@ -307,12 +233,9 @@ public class Einstellungen extends Fenster {
 				figur_modern.setSelected(true);
 				break;
 			}
-			pick_unten.setValue(Color.web(gUI.bisFarbe.getValue()));
-			pick_oben.setValue(Color.web(gUI.vonFarbe.getValue()));
-			
+
 		} catch (IOException e) {
-			sounds.setSelected(true);
-			dreiDAn.setSelected(true);
+
 		}
 	}
 
