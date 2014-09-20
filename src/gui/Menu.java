@@ -31,7 +31,7 @@ public abstract class Menu extends Fenster {
 			}
 		});
 
-		setPadding(new Insets(120, 120, 120, 120));
+		setPadding(new Insets(100, 100, 100, 100));
 		Label titel = new Label(ueberschrift);
 		// titel.setStyle("-fx-font-size:50;");
 		titel.setFont(Font.font("Impact", 50));

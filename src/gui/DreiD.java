@@ -256,6 +256,11 @@ public class DreiD extends MyStackPane {
 					figuren[sum - anfang.x][anfang.y] = null;
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
+					if(zug[4]!=0)
+					{
+						gUI.feld.entferneFiguren();
+						gUI.feld.startaufstellung();
+					}
 				}
 			});
 			animation.play();

@@ -84,6 +84,7 @@ public abstract class Fenster extends StackPane {
 	public void switchFenster(Fenster f) {
 		gUI.feld.getChildren().remove(this);
 		gUI.feld.getChildren().add(f);
+		sichtbar=false;
 	}
 
 	public void setzeInhalt(Region r) {

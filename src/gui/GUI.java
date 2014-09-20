@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
@@ -18,6 +19,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
@@ -90,7 +92,7 @@ public class GUI extends Application {
 		// zslider.setOrientation(Orientation.VERTICAL);
 
 		// root.setCenter(pane);
-		//Kontrollfeld kontrolle = new Kontrollfeld(this);
+		Kontrollfeld kontrolle = new Kontrollfeld(this);
 		// root.setBottom(kontrolle);
 		Scene scene = new Scene(feld, 1200, 800);
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -164,7 +166,8 @@ public class GUI extends Application {
 						+ ", "
 						+ bisFarbe.getValue()
 						+ ");");
-		//feld.getChildren().add(kontrolle);
+		feld.getChildren().add(kontrolle);
+		StackPane.setAlignment(kontrolle, Pos.BOTTOM_RIGHT);
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
 		stage.setTitle("Super Schach");

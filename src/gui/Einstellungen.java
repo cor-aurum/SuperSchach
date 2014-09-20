@@ -166,7 +166,7 @@ public class Einstellungen extends Fenster {
 			br.write(System.getProperty("line.separator"));
 			br.write(toRGBCode(gUI.farbe_weiss.getValue()));
 			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(gUI.farbe_weiss.getValue()));
+			br.write(toRGBCode(gUI.farbe_schwarz.getValue()));
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.name);
 			br.write(System.getProperty("line.separator"));
@@ -195,13 +195,9 @@ public class Einstellungen extends Fenster {
 			BufferedReader br = new BufferedReader(new FileReader(
 					Schnittstelle.verzeichnis() + "gui.save"));
 			gUI.hintergrund = br.readLine();
-			// pick_weiss.setValue(Color.web(br.readLine()));
-			// pick_schwarz.setValue(Color.web(br.readLine()));
-			gUI.vonFarbe.setValue(br.readLine());
-
-			gUI.bisFarbe.setValue(br.readLine());
+			gUI.farbe_weiss.setValue(Color.web(br.readLine()));
+			gUI.farbe_schwarz.setValue(Color.web(br.readLine()));
 			gUI.name = br.readLine();
-			// sounds.setSelected(Boolean.parseBoolean(br.readLine()));
 			gUI.sounds.setValue(Boolean.parseBoolean(br.readLine()));
 			gUI.zweid.setValue(!Boolean.parseBoolean(br.readLine()));
 			gUI.form = br.readLine();
