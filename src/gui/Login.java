@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -26,10 +28,21 @@ public class Login extends Dialog {
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(30));
 		GridPane textfelder = new GridPane();
-		textfelder.setHgap(10); 
-		textfelder.setVgap(10); 
+		textfelder.setHgap(10);
+		textfelder.setVgap(10);
 		this.blocker = blocker;
 		this.ret = ret;
+
+		setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER) {
+					ret[0] = nameEingeben.getText();
+					ret[1] = passwortEingeben.getText();
+					blocker.release();
+				}
+			}
+		});
 		ok.setOnMouseClicked(new EventHandler<Event>() {
 
 			@Override
@@ -60,7 +73,7 @@ public class Login extends Dialog {
 		textfelder.add(nameEingeben, 1, 0);
 		textfelder.add(passwort, 0, 1);
 		textfelder.add(passwortEingeben, 1, 1);
-		Label mess=new Label(message);
+		Label mess = new Label(message);
 		mess.setStyle("-fx-text-fill: #DF0101;-fx-font-weight: bold;");
 		textfelder.add(mess, 1, 2);
 
