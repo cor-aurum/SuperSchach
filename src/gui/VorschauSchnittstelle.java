@@ -40,7 +40,7 @@ public class VorschauSchnittstelle extends Schnittstelle{
 		
 	}
 	@Override
-	public String[] getLogin() {
+	public String[] getLogin(boolean b) {
 		// TODO Auto-generated method stub
 		return null;
 	}
