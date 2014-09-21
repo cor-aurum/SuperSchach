@@ -159,7 +159,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				login = new Login("", ret, blocker);
+				login = new Login("Passwort leider falsch", ret, blocker);
 				sperre=new Pane();
 				GaussianBlur gB = new GaussianBlur();
 				ColorAdjust cA = new ColorAdjust();

@@ -60,7 +60,9 @@ public class Login extends Dialog {
 		textfelder.add(nameEingeben, 1, 0);
 		textfelder.add(passwort, 0, 1);
 		textfelder.add(passwortEingeben, 1, 1);
-		textfelder.add(new Label(message), 2, 1);
+		Label mess=new Label(message);
+		mess.setStyle("-fx-text-fill: #DF0101;-fx-font-weight: bold;");
+		textfelder.add(mess, 1, 2);
 
 		HBox buttons = new HBox();
 
