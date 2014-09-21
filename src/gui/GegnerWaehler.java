@@ -1,7 +1,6 @@
 package gui;
 
 import java.io.File;
-import java.io.IOException;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -88,6 +87,11 @@ public class GegnerWaehler extends Fenster {
 			internet = false;
 		}
 		aktualisieren();
+	}
+	
+	public void starteAktualisierung()
+	{
+		aktualisieren();
 		Timeline aktualisieren = new Timeline(new KeyFrame(Duration.seconds(5),
 				new EventHandler<ActionEvent>() {
 
@@ -103,12 +107,13 @@ public class GegnerWaehler extends Fenster {
 	}
 
 	public void aktualisieren() {
+		System.out.println(client);
 		liste.getChildren().clear();
 		if (internet) {
 			Spieler[] spieler = null;
 			try {
 				spieler = client.getLobby();
-			} catch (IOException e) {
+			} catch (Exception e) {
 			}
 			SpielerButton[] button = new SpielerButton[spieler.length];
 			for (int i = 0; i < spieler.length; i++) {

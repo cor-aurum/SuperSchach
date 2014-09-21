@@ -159,7 +159,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				login = new Login(b?"Passwort leider falsch":"", ret, blocker);
+				login = new Login(b?Schnittstelle.meldung("passwort_falsch"):"", ret, blocker);
 				sperre=new Pane();
 				GaussianBlur gB = new GaussianBlur();
 				ColorAdjust cA = new ColorAdjust();
@@ -177,6 +177,7 @@ public class FxSchnittstelle extends Schnittstelle {
 				gUI.gegner.setEffect(null);
 				gUI.feld.getChildren().remove(sperre);
 				gUI.feld.getChildren().remove(login);
+				gUI.gegner.starteAktualisierung();
 			}
 		});
 		return ret;
