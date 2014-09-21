@@ -2,11 +2,16 @@ package gui;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.Pane;
 import spiel.Schnittstelle;
 
 public class FxSchnittstelle extends Schnittstelle {
 
 	GUI gUI;
+	Login login;
+	Pane sperre;
 
 	public FxSchnittstelle(GUI gUI) {
 		this.gUI = gUI;
@@ -148,18 +153,26 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public String[] getLogin() {
-		System.out.println("Schnittstelle");
 		String[] ret = new String[2];
 		Blocker blocker = new Blocker();
+
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Login_aufruf");
-				gUI.feld.getChildren().add(new Login("", ret, blocker));
-				
+				login = new Login("", ret, blocker);
+				sperre=new Pane();
+				GaussianBlur gB = new GaussianBlur();
+				ColorAdjust cA = new ColorAdjust();
+				gB.setInput(cA);
+				gUI.gegner.setEffect(gB);
+				gUI.feld.getChildren().add(sperre);
+				gUI.feld.getChildren().add(login);
+
 			}
 		});
 		blocker.block();
+		gUI.feld.getChildren().remove(sperre);
+		gUI.feld.getChildren().remove(login);
 		return ret;
 	}
 }
