@@ -171,8 +171,14 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 		blocker.block();
-		gUI.feld.getChildren().remove(sperre);
-		gUI.feld.getChildren().remove(login);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.gegner.setEffect(null);
+				gUI.feld.getChildren().remove(sperre);
+				gUI.feld.getChildren().remove(login);
+			}
+		});
 		return ret;
 	}
 }
