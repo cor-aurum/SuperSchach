@@ -183,6 +183,7 @@ public class GUI extends Application {
 		Task<Void> task = new Task<Void>() {
 		    @Override protected Void call() throws Exception {
 		    	gegner.starteVerbindung();
+		    	gegner.starteAktualisierung();
 		        return null;
 		    }
 		};

@@ -87,7 +87,7 @@ public class GegnerWaehler extends Fenster {
 			System.out.println(e);
 			internet = false;
 		}
-		aktualisieren();
+		addBots();
 	}
 	
 	public void starteAktualisierung()

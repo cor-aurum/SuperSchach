@@ -177,7 +177,6 @@ public class FxSchnittstelle extends Schnittstelle {
 				gUI.gegner.setEffect(null);
 				gUI.feld.getChildren().remove(sperre);
 				gUI.feld.getChildren().remove(login);
-				gUI.gegner.starteAktualisierung();
 			}
 		});
 		return ret;
