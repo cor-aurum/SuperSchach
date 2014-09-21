@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -179,7 +180,13 @@ public class GUI extends Application {
 
 		geladen.setValue(true);
 		stage.show();
-		gegner.starteVerbindung();
+		Task<Void> task = new Task<Void>() {
+		    @Override protected Void call() throws Exception {
+		    	gegner.starteVerbindung();
+		        return null;
+		    }
+		};
+		new Thread(task).start();
 	}
 
 	public PhongMaterial gebeFigurenMaterial(int figur) {
