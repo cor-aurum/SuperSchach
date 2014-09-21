@@ -21,7 +21,7 @@ public class Login extends Dialog {
 	String[] ret;
 	
 	public Login(String message, String[] ret, Blocker blocker) {
-		System.out.println("Login");
+		System.out.println("login");
 		BorderPane root=new BorderPane();
 		GridPane textfelder = new GridPane();
 		this.blocker=blocker;
