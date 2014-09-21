@@ -18,7 +18,7 @@ public class Blocker {
 			e.printStackTrace();
 		}
 	}
-	public void release()
+	public synchronized void release()
 	{
 		blocked=false;
 		notify();
