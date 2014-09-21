@@ -40,12 +40,7 @@ public class GegnerWaehler extends Fenster {
 
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
-		try {
-			client = new Client("localhost", gUI.name, gUI.spiel);
-			gUI.client = client;
-		} catch (Exception e) {
-			internet = false;
-		}
+		
 		this.gUI = gUI;
 
 		Label waehler = new Label(Schnittstelle.meldung("gegnerWaehlen"));
@@ -80,6 +75,18 @@ public class GegnerWaehler extends Fenster {
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
+		addBots();
+	}
+	
+	public void starteVerbindung()
+	{
+		try {
+			client = new Client("localhost", gUI.name, gUI.spiel);
+			gUI.client = client;
+		} catch (Exception e) {
+			System.out.println(e);
+			internet = false;
+		}
 		aktualisieren();
 		Timeline aktualisieren = new Timeline(new KeyFrame(Duration.seconds(5),
 				new EventHandler<ActionEvent>() {
@@ -110,6 +117,11 @@ public class GegnerWaehler extends Fenster {
 			}
 			liste.getChildren().addAll(button);
 		}
+		addBots();
+	}
+	
+	private void addBots()
+	{
 		liste.getChildren().add(
 				new SpielerButtonBot("Kiana (" + Schnittstelle.meldung("weiss")
 						+ ")", 4, "WEISS", true));

@@ -179,6 +179,7 @@ public class GUI extends Application {
 
 		geladen.setValue(true);
 		stage.show();
+		gegner.starteVerbindung();
 	}
 
 	public PhongMaterial gebeFigurenMaterial(int figur) {

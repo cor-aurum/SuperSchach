@@ -21,6 +21,7 @@ public class Login extends Dialog {
 	String[] ret;
 	
 	public Login(String message, String[] ret, Blocker blocker) {
+		System.out.println("Login");
 		BorderPane root=new BorderPane();
 		GridPane textfelder = new GridPane();
 		this.blocker=blocker;
@@ -31,6 +32,16 @@ public class Login extends Dialog {
 			public void handle(Event arg0) {
 				ret[0]=nameEingeben.getText();
 				ret[1]=passwortEingeben.getText();
+				blocker.release();
+			}
+			
+		});
+		
+		abbrechen.setOnMouseClicked(new EventHandler<Event>(){
+
+			@Override
+			public void handle(Event arg0) {
+				//ret=null;
 				blocker.release();
 			}
 			

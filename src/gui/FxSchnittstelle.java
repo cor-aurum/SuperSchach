@@ -148,12 +148,15 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public String[] getLogin() {
+		System.out.println("Schnittstelle");
 		String[] ret = new String[2];
 		Blocker blocker = new Blocker();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("Login_aufruf");
 				gUI.feld.getChildren().add(new Login("", ret, blocker));
+				
 			}
 		});
 		blocker.block();
