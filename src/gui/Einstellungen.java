@@ -172,7 +172,9 @@ public class Einstellungen extends Fenster {
 			br.write(System.getProperty("line.separator"));
 			br.write("" + gUI.sounds.getValue());
 			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.zweid.getValue());
+			boolean zweid=gUI.zweid.getValue();
+			System.out.println(zweid);
+			br.write("" + zweid);
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.form);
 			br.write(System.getProperty("line.separator"));
@@ -199,7 +201,7 @@ public class Einstellungen extends Fenster {
 			gUI.farbe_schwarz.setValue(Color.web(br.readLine()));
 			gUI.name = br.readLine();
 			gUI.sounds.setValue(Boolean.parseBoolean(br.readLine()));
-			gUI.zweid.setValue(!Boolean.parseBoolean(br.readLine()));
+			gUI.zweid.setValue(Boolean.parseBoolean(br.readLine()));
 			gUI.form = br.readLine();
 			gUI.vonFarbe.setValue(br.readLine());
 			gUI.bisFarbe.setValue(br.readLine());
