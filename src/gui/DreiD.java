@@ -281,6 +281,8 @@ public class DreiD extends MyStackPane {
 	}
 
 	public void aktualisierenFigur(int x, int y) {
+		/*
+		x=gUI.spiel.getXMax()-x;
 		int figur = felder[x][y].gebeInhalt();
 		if (figur != 0) {
 			if (figuren[x][y] != null) {
@@ -291,6 +293,7 @@ public class DreiD extends MyStackPane {
 				}
 			}
 		}
+		*/
 	}
 
 	public void startaufstellung() {
