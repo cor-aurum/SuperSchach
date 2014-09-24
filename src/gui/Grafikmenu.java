@@ -67,7 +67,7 @@ public class Grafikmenu extends Menu {
 
 	private void pruefeText(Button p) {
 		if (p == umschalten) {
-			if (gUI.zweid.getValue()) {
+			if (!gUI.zweid.getValue()) {
 				umschalten.setText(Schnittstelle.meldung("dreiDAus"));
 			} else {
 				umschalten.setText(Schnittstelle.meldung("dreiDAn"));

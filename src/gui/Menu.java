@@ -57,7 +57,7 @@ public abstract class Menu extends Fenster {
 			
 			p.setStyle("-fx-background-color:linear-gradient(from 0px 0px to 50px 0px, #000000,rgba(255, 255, 255, 0) ); -fx-font-family: \"Impact\"; -fx-font-size: 30pt;");
 			//p.setFont(Font.font("Impact", 30));
-			p.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			box.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					if (gUI.sounds.getValue()) {
@@ -70,7 +70,7 @@ public abstract class Menu extends Fenster {
 					pane.setMinWidth(200);
 				}
 			});
-			p.setOnMouseExited(new EventHandler<MouseEvent>() {
+			box.setOnMouseExited(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
 					pane.setMinWidth(150);
@@ -85,7 +85,7 @@ public abstract class Menu extends Fenster {
 		pane.setMinWidth(100);
 		box.getChildren().addAll(pane,zurueck);
 		zurueck.setFont(Font.font("Impact", 30));
-		zurueck.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		box.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				if (gUI.sounds.getValue()) {
@@ -97,12 +97,13 @@ public abstract class Menu extends Fenster {
 				pane.setMinWidth(150);
 			}
 		});
-		zurueck.setOnMouseExited(new EventHandler<MouseEvent>() {
+		box.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				pane.setMinWidth(100);
 			}
 		});
+
 		komp.getChildren().add(box);
 		zurueck.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
