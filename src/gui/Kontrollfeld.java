@@ -20,13 +20,14 @@ public class Kontrollfeld extends HBox {
 		setMaxHeight(50);
 		setAlignment(Pos.BOTTOM_RIGHT);
 		getChildren().addAll(drehen, chat, menu);
+
 		drehen.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				gUI.feld.drehen();
 			}
 		});
-		
+
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {

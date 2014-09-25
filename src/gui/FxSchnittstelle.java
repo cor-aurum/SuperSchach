@@ -2,6 +2,7 @@ package gui;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
@@ -159,8 +160,9 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				login = new Login(b?Schnittstelle.meldung("passwort_falsch"):"", ret, blocker);
-				sperre=new Pane();
+				login = new Login(b ? Schnittstelle.meldung("passwort_falsch")
+						: "", ret, blocker);
+				sperre = new Pane();
 				GaussianBlur gB = new GaussianBlur();
 				ColorAdjust cA = new ColorAdjust();
 				gB.setInput(cA);
@@ -180,5 +182,50 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 		return ret;
+	}
+
+	@Override
+	public void startDenken(String s) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.feld.getChildren().add(new Warten());
+			}
+		});
+
+	}
+
+	@Override
+	public void stopDenken(boolean b) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					for (Node n : gUI.feld.getChildren()) {
+						if (n instanceof Warten) {
+							gUI.feld.getChildren().remove(n);
+						}
+					}
+				} catch (Exception e) {
+
+				}
+			}
+		});
+	}
+
+	@Override
+	public void schach(int x, int y) {
+		try{
+			Thread.sleep(1000);
+		}
+		catch(Exception e){}
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				
+				gUI.feld.spotKoenig(x, y);
+			}
+		});
+
 	}
 }

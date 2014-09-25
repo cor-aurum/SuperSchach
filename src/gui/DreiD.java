@@ -343,4 +343,10 @@ public class DreiD extends MyStackPane {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void spotKoenig(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
 }

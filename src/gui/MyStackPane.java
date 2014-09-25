@@ -40,6 +40,8 @@ public abstract class MyStackPane extends StackPane {
 	protected abstract double translateY(int x);
 
 	public abstract Node getRoot();
+	
+	public abstract void spotKoenig(int x, int y);
 
 	public synchronized void waitForAnimation() {
 	}

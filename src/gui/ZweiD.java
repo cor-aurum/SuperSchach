@@ -219,4 +219,19 @@ public class ZweiD extends MyStackPane {
 		return root;
 	}
 
+	@Override
+	public void spotKoenig(int x, int y) {
+		System.out.println("Jetzt sollte der König rot werden");
+		x=gUI.spiel.getXMax()-x;
+		Image img = new Image(this.getClass().getClassLoader()
+				.getResource("gui/bilder/koenig_rot.png").toString());
+		ImageView iV = new ImageView(img);
+		iV.setFitWidth(700 / gUI.spiel.getXMax());
+		iV.setFitHeight(700 / gUI.spiel.getYMax());
+		iV.relocate(translateX(gUI.spiel.getXMax()-x), translateY(y));
+		if (rotate)
+			iV.setRotate(180);
+		figurenEbene.getChildren().add(iV);
+	}
+
 }

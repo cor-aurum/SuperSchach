@@ -190,6 +190,7 @@ public class GUI extends Application {
 			}
 		};
 		new Thread(task).start();
+		
 	}
 
 	public PhongMaterial gebeFigurenMaterial(int figur) {
