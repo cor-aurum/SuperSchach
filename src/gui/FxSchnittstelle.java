@@ -1,7 +1,6 @@
 package gui;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
@@ -20,7 +19,6 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public int figurMenu() {
-		// TODO Auto-generated method stub
 		return 4;
 	}
 
@@ -91,20 +89,6 @@ public class FxSchnittstelle extends Schnittstelle {
 				gUI.stage.toFront();
 			}
 		});
-	}
-
-	// @Override
-	public void klickf(final int x, final int y) {
-		final Task<Void> task = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				FxSchnittstelle.super.klick(x, y);
-				return null;
-			}
-		};
-		Thread th = new Thread(task);
-		th.setDaemon(true);
-		th.start();
 	}
 
 	@Override
@@ -211,5 +195,11 @@ public class FxSchnittstelle extends Schnittstelle {
 				}
 			}
 		});
+	}
+	
+	@Override
+	public void matt(String name)
+	{
+		new Meldung(name+" "+Schnittstelle.meldung("schachmatt"), gUI.feld);
 	}
 }
