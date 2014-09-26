@@ -39,6 +39,8 @@ public class DreiD extends MyStackPane {
 	Slider yslider = new Slider();
 	Slider zslider = new Slider();
 	private final int animationDuration = 600;
+	private Figur koenigWeiss;
+	private Figur koenigSchwarz;
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
@@ -228,7 +230,6 @@ public class DreiD extends MyStackPane {
 
 	@Override
 	public synchronized void zug(byte[] zug) {
-		System.out.println("TEst");
 		final int sum = gUI.spiel.getXMax();
 		Feld anfang = felder[sum - zug[0]][zug[1]];
 		Feld ende = felder[sum - zug[2]][zug[3]];
@@ -257,6 +258,23 @@ public class DreiD extends MyStackPane {
 					figuren[sum - anfang.x][anfang.y] = null;
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
+					
+					if(gUI.spiel.getStatus()==1)
+					{
+						if(gUI.spiel.Player0())
+						{
+							koenigWeiss.setMaterial(new PhongMaterial(Color.RED));
+						}
+						else
+						{
+							koenigSchwarz.setMaterial(new PhongMaterial(Color.RED));
+						}
+					}
+					else
+					{
+						koenigWeiss.setMaterial(gUI.gebeFigurenMaterial(16));
+						koenigSchwarz.setMaterial(gUI.gebeFigurenMaterial(-16));
+					}
 				}
 			});
 			animation.play();
@@ -283,18 +301,11 @@ public class DreiD extends MyStackPane {
 
 	public void aktualisierenFigur(int x, int y) {
 		/*
-		x=gUI.spiel.getXMax()-x;
-		int figur = felder[x][y].gebeInhalt();
-		if (figur != 0) {
-			if (figuren[x][y] != null) {
-				if (figur != ((Figur) figuren[x][y]).figur) {
-					root3D.getChildren().remove(figuren[x][y]);
-					// figuren[x][y] = new Figur(felder[x][y], figur);
-					// zug();
-				}
-			}
-		}
-		*/
+		 * x=gUI.spiel.getXMax()-x; int figur = felder[x][y].gebeInhalt(); if
+		 * (figur != 0) { if (figuren[x][y] != null) { if (figur != ((Figur)
+		 * figuren[x][y]).figur) { root3D.getChildren().remove(figuren[x][y]);
+		 * // figuren[x][y] = new Figur(felder[x][y], figur); // zug(); } } }
+		 */
 	}
 
 	public void startaufstellung() {
@@ -343,10 +354,14 @@ public class DreiD extends MyStackPane {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void spotKoenig(int x, int y) {
-		// TODO Auto-generated method stub
-		
+	
+	public void setKoenigWeiss(Figur f)
+	{
+		koenigWeiss=f;
+	}
+	
+	public void setKoenigSchwarz(Figur f)
+	{
+		koenigSchwarz=f;
 	}
 }

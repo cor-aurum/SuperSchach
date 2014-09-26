@@ -212,20 +212,4 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
-
-	@Override
-	public void schach(int x, int y) {
-		try{
-			Thread.sleep(1000);
-		}
-		catch(Exception e){}
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				
-				gUI.feld.spotKoenig(x, y);
-			}
-		});
-
-	}
 }

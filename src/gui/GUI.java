@@ -202,6 +202,7 @@ public class GUI extends Application {
 			material.diffuseColorProperty().bind(farbe_schwarz);
 			material.specularColorProperty().bind(farbe_schwarz);
 		}
+		
 		return material;
 	}
 
@@ -248,6 +249,7 @@ public class GUI extends Application {
 							"gui/meshes/" + form + "_" + modell + ".figur"));
 			mesh = (MyMesh) ois.readObject();
 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

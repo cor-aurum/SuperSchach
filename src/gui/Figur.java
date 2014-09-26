@@ -1,9 +1,9 @@
 package gui;
 
-import spiel.Schnittstelle;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.MeshView;
+import spiel.Schnittstelle;
 
 public class Figur extends MeshView {
 
@@ -40,6 +40,13 @@ public class Figur extends MeshView {
 				dreid.aktualisieren();
 			}
 		});
+
+		if (figur == 16) {
+			dreid.setKoenigWeiss(this);
+		}
+		if (figur == -16) {
+			dreid.setKoenigSchwarz(this);
+		}
 		setzeFigur();
 
 	}
@@ -49,7 +56,7 @@ public class Figur extends MeshView {
 		setTranslateX(f.getX());
 		setTranslateY(f.getY());
 		// setTranslateZ((getBoundsInLocal().getDepth() * getScaleZ()) / 2 + 5);
-		//setTranslateZ(0);
+		// setTranslateZ(0);
 	}
 
 	public void setFeld(Feld f) {

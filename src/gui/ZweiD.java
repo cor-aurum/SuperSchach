@@ -22,7 +22,7 @@ public class ZweiD extends MyStackPane {
 	GUI gUI;
 	private Feld[][] felder;
 	private DoubleProperty zoom = new SimpleDoubleProperty(1.0);
-	private boolean rotate=true;
+	private boolean rotate = true;
 
 	public ZweiD(GUI gUI) {
 		this.gUI = gUI;
@@ -56,7 +56,8 @@ public class ZweiD extends MyStackPane {
 			@Override
 			public void handle(MouseEvent event) {
 				gUI.spiel.klick(
-						gUI.spiel.getXMax()-((int) (event.getX() / (feld.getWidth() / felder.length))),
+						gUI.spiel.getXMax()
+								- ((int) (event.getX() / (feld.getWidth() / felder.length))),
 						((int) (event.getY() / (feld.getHeight() / felder.length))));
 				aktualisieren();
 			}
@@ -126,19 +127,28 @@ public class ZweiD extends MyStackPane {
 				f = "bauer";
 				break;
 			}
+
 			if (figur < 0) {
 				f = f + "_schwarz.png";
+				if(f.equals("koenig_schwarz.png")&&gUI.spiel.getStatus()==1 && !gUI.spiel.Player0())
+				{
+					f="koenig_rot.png";
+				}
 				img = new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/" + f).toString());
 			} else {
 				f = f + "_weiss.png";
+				if(f.equals("koenig_weiss.png")&&gUI.spiel.getStatus()==1 && gUI.spiel.Player0())
+				{
+					f="koenig_rot.png";
+				}
 				img = new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/" + f).toString());
 			}
 			ImageView iV = new ImageView(img);
 			iV.setFitWidth(700 / gUI.spiel.getXMax());
 			iV.setFitHeight(700 / gUI.spiel.getYMax());
-			iV.relocate(translateX(gUI.spiel.getXMax()-x), translateY(y));
+			iV.relocate(translateX(gUI.spiel.getXMax() - x), translateY(y));
 			if (rotate)
 				iV.setRotate(180);
 			figurenEbene.getChildren().add(iV);
@@ -182,8 +192,7 @@ public class ZweiD extends MyStackPane {
 					.drawImage(
 							new Image(this.getClass().getClassLoader()
 									.getResource("gui/bilder/" + f + ".png")
-									.toString()),
-							translateX(x), translateY(y),
+									.toString()), translateX(x), translateY(y),
 							feld.getWidth() / gUI.spiel.getXMax(),
 							feld.getHeight() / gUI.spiel.getYMax());
 			// startaufstellung();
@@ -218,20 +227,4 @@ public class ZweiD extends MyStackPane {
 	public Node getRoot() {
 		return root;
 	}
-
-	@Override
-	public void spotKoenig(int x, int y) {
-		System.out.println("Jetzt sollte der König rot werden");
-		x=gUI.spiel.getXMax()-x;
-		Image img = new Image(this.getClass().getClassLoader()
-				.getResource("gui/bilder/koenig_rot.png").toString());
-		ImageView iV = new ImageView(img);
-		iV.setFitWidth(700 / gUI.spiel.getXMax());
-		iV.setFitHeight(700 / gUI.spiel.getYMax());
-		iV.relocate(translateX(gUI.spiel.getXMax()-x), translateY(y));
-		if (rotate)
-			iV.setRotate(180);
-		figurenEbene.getChildren().add(iV);
-	}
-
 }

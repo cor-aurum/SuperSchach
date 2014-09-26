@@ -95,7 +95,6 @@ public class Einstellungen extends Fenster {
 				.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(sonstiges);
 
-
 		name.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -172,9 +171,7 @@ public class Einstellungen extends Fenster {
 			br.write(System.getProperty("line.separator"));
 			br.write("" + gUI.sounds.getValue());
 			br.write(System.getProperty("line.separator"));
-			boolean zweid=gUI.zweid.getValue();
-			System.out.println(zweid);
-			br.write("" + zweid);
+			br.write("" + gUI.zweid.getValue());
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.form);
 			br.write(System.getProperty("line.separator"));
@@ -182,7 +179,7 @@ public class Einstellungen extends Fenster {
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.bisFarbe.getValue());
 			br.write(System.getProperty("line.separator"));
-			br.write(""+gUI.stage.isFullScreen());
+			br.write("" + gUI.stage.isFullScreen());
 			br.flush();
 			br.close();
 		} catch (IOException e) {
