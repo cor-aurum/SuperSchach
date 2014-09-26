@@ -200,6 +200,18 @@ public class FxSchnittstelle extends Schnittstelle {
 	@Override
 	public void matt(String name)
 	{
-		new Meldung(name+" "+Schnittstelle.meldung("schachmatt"), gUI.feld);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				new Meldung(name+" "+Schnittstelle.meldung("schachmatt"), gUI.feld);
+			}
+		});
+		
+	}
+	
+	@Override
+	public void schach(int x, int y)
+	{
+		
 	}
 }
