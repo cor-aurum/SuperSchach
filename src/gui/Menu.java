@@ -33,12 +33,12 @@ public abstract class Menu extends Fenster {
 
 		setPadding(new Insets(100, 100, 100, 100));
 		Label titel = new Label(ueberschrift);
-		// titel.setStyle("-fx-font-size:50;");
-		titel.setFont(Font.font("Impact", 50));
+		titel.setStyle("-fx-font-size:50;");
+		//titel.setFont(Font.font("Impact", 50));
 
 		komp.getChildren().add(titel);
 		Pane p = new Pane();
-		p.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
+		p.setId("weiss");
 		getChildren().add(p);
 		setzeInhalt(komp);
 	}
@@ -51,12 +51,8 @@ public abstract class Menu extends Fenster {
 			pane.setMinWidth(150);
 			box.getChildren().addAll(pane,p);
 			komp.getChildren().add(box);
-			//p.minWidthProperty().bind(this.widthProperty().subtract(350));
-			//Stop[] stops = new Stop[] { new Stop(0, Color.BLACK), new Stop(1, Color.WHITE)};
-			//LinearGradient lG=new LinearGradient(0,0,25,0,true, CycleMethod.NO_CYCLE, stops);
 			
-			p.setStyle("-fx-background-color:linear-gradient(from 0px 0px to 50px 0px, #000000,rgba(255, 255, 255, 0) ); -fx-font-family: \"Impact\"; -fx-font-size: 30pt;");
-			//p.setFont(Font.font("Impact", 30));
+			p.setId("menu-punkte");
 			box.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
@@ -79,7 +75,8 @@ public abstract class Menu extends Fenster {
 		}
 		komp.getChildren().add(new Label("\n"));
 		Button zurueck = new Button(Schnittstelle.meldung("zurueck"));
-		zurueck.setStyle("-fx-background-color:linear-gradient(from 0px 0px to 50px 0px, #000000,rgba(255, 255, 255, 0) );");
+		//zurueck.setStyle("-fx-background-color:linear-gradient(from 0px 0px to 50px 0px, #000000,rgba(255, 255, 255, 0) );");
+		zurueck.setId("menu-punkte");
 		HBox box=new HBox();
 		Pane pane=new Pane();
 		pane.setMinWidth(100);

@@ -66,15 +66,16 @@ public class Login extends Dialog {
 		});
 
 		Label name = new Label(Schnittstelle.meldung("name") + ": ");
-		name.setStyle("-fx-font-weight: bold;-fx-text-fill: #111111;-fx-font-size:14;-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);");
+		name.setStyle("-fx-font-size:14;");
 		Label passwort = new Label(Schnittstelle.meldung("passwort") + ": ");
-		passwort.setStyle("-fx-font-weight: bold;-fx-text-fill: #111111;-fx-font-size:14;-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);");
+		passwort.setStyle("-fx-font-size:14;");
 		textfelder.add(name, 0, 0);
 		textfelder.add(nameEingeben, 1, 0);
 		textfelder.add(passwort, 0, 1);
 		textfelder.add(passwortEingeben, 1, 1);
 		Label mess = new Label(message);
-		mess.setStyle("-fx-text-fill: #DF0101;-fx-font-weight: bold;");
+		mess.setId("fehler");
+		mess.setStyle("-fx-font-size:14;");
 		textfelder.add(mess, 1, 2);
 
 		HBox buttons = new HBox();
@@ -82,13 +83,6 @@ public class Login extends Dialog {
 		ok.setPrefWidth(145);
 		ok.setDefaultButton(true);
 		abbrechen.setPrefWidth(145);
-		String style = "-fx-background-color: linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),linear-gradient(#020b02, #3a3a3a),"
-				+ "linear-gradient(#b9b9b9 0%, #c2c2c2 20%, #afafaf 80%, #c8c8c8 100%),linear-gradient(#f5f5f5 0%, #dbdbdb 50%, #cacaca 51%, #d7d7d7 100%);"
-				+ "-fx-background-insets: 0,1,4,5;-fx-background-radius: 9,8,5,4;-fx-padding: 10 10 10 10;-fx-font-family:\"Helvetica\";"
-				+ " -fx-font-size: 14px;-fx-font-weight: bold;-fx-text-fill: #333333;-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);";
-		ok.setStyle(style);
-		abbrechen.setStyle(style);
-
 		buttons.getChildren().addAll(ok, abbrechen);
 		root.setBottom(buttons);
 		root.setCenter(textfelder);

@@ -45,7 +45,7 @@ public class GegnerWaehler extends Fenster {
 
 		Label waehler = new Label(Schnittstelle.meldung("gegnerWaehlen"));
 		BorderPane.setMargin(waehler, new Insets(0, 0, 20, 0));
-		waehler.setStyle("-fx-font-size:28;-fx-font-weight: bold;-fx-padding:30px;-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;");
+		waehler.setId("waehler");
 		scroll = new ScrollPane();
 		scroll.setContent(liste);
 		liste.setSpacing(15);
@@ -151,7 +151,7 @@ public class GegnerWaehler extends Fenster {
 			super(s);
 			prefWidthProperty().bind(
 					GegnerWaehler.this.widthProperty().divide(2));
-			setStyle("-fx-font-weight:bold;-fx-background-color:linear-gradient(#006464, #006565),linear-gradient(#006464, #006565),linear-gradient(#006464, #006565),linear-gradient(#006464 0%, #006565 50%, #006464 100%),linear-gradient(from 0% 0% to 15% 50%, rgba(175,238,238,0.9), rgba(0,100,100,0));-fx-background-radius: 30;-fx-text-fill: #ffffff;");
+			setId("spieler");
 			setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
@@ -225,8 +225,9 @@ public class GegnerWaehler extends Fenster {
 							+ farbtemp
 							+ ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
 			nameLabel.setUnderline(true);
-			root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
-
+			//root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
+			root.setId("detail-root");
+			
 			sV.prefHeightProperty().bind(this.widthProperty());
 			mitte.setTop(sV);
 			root.setCenter(mitte);
@@ -245,8 +246,6 @@ public class GegnerWaehler extends Fenster {
 				}
 			});
 			BorderPane.setAlignment(herausfordern, Pos.CENTER);
-			herausfordern
-					.setStyle("-fx-font-weight:bold;-fx-background-radius: 30;-fx-text-fill: #000000;");
 		}
 
 		public void listener(long id, String farbe) {
@@ -275,7 +274,7 @@ public class GegnerWaehler extends Fenster {
 				// System.out.println(waehlen.lookup(".thumb"));
 				Label staerke = new Label(
 						Schnittstelle.meldung("staerkeWaehlen"));
-				staerke.setStyle("-fx-font-weight:bold;-fx-text-fill:#ffffff;");
+				//staerke.setStyle("-fx-font-weight:bold;-fx-text-fill:#ffffff;");
 				mitte.setCenter(staerke);
 				mitte.setBottom(waehlen);
 			}

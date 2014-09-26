@@ -22,7 +22,7 @@ public class SpielVorschau extends GridPane {
 	ImageView iV = new ImageView();
 
 	public SpielVorschau(File[] customs) {
-		setStyle("-fx-padding:30 0 0 0;");
+		setId("spiel-vorschau");
 		spiele[0] = "gui/spiele/00.schach";
 		spiele[1] = "gui/spiele/01.schach";
 		try {
@@ -78,8 +78,8 @@ public class SpielVorschau extends GridPane {
 				.getClassLoader().getResource("gui/bilder/pfeil_links.png")
 				.toString())));
 
-		rechts.setStyle("-fx-background-color:transparent;");
-		links.setStyle("-fx-background-color:transparent;");
+		rechts.setId("pfeil-detail");
+		links.setId("pfeil-detail");
 	}
 
 	public void aktualisieren() {

@@ -96,6 +96,7 @@ public class GUI extends Application {
 		Kontrollfeld kontrolle = new Kontrollfeld(this);
 		// root.setBottom(kontrolle);
 		Scene scene = new Scene(feld, 1200, 800);
+		scene.getStylesheets().add("gui/style.css");
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -278,12 +279,4 @@ public class GUI extends Application {
 		feld.startaufstellung();
 		feld.aktualisieren();
 	}
-
-	/*
-	 * public void wechsleDimension(boolean dim) {
-	 * pane.getChildren().remove(feld); if(dim) { wechsleDimension(); } else {
-	 * feld = new ZweiD(this); feld.entferneFiguren(); feld.startaufstellung();
-	 * feld.aktualisieren(); } pane.getChildren().add(feld);
-	 * einstellungen.show(); }
-	 */
 }

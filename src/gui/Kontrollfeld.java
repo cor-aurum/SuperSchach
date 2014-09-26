@@ -49,13 +49,13 @@ public class Kontrollfeld extends HBox {
 		drehen.setGraphic(new ImageView(new Image(this.getClass()
 				.getClassLoader().getResource("gui/bilder/drehen.png")
 				.toString())));
-		drehen.setStyle("-fx-background-color:transparent;");
+		drehen.setId("pfeil-detail");
 		menu.setGraphic(new ImageView(new Image(this.getClass()
 				.getClassLoader().getResource("gui/bilder/einstellungen.png")
 				.toString())));
-		menu.setStyle("-fx-background-color:transparent;");
+		menu.setId("pfeil-detail");
 		chat.textProperty().bind(Bindings.concat(gUI.chat.ungelesenProperty()));
-		chat.setStyle("-fx-background-color:transparent;");
+		chat.setId("pfeil-detail");
 		chat.setGraphic(new ImageView(
 				new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/chat.png").toString())));

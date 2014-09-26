@@ -203,7 +203,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				new Meldung(name+" "+Schnittstelle.meldung("schachmatt"), gUI.feld);
+				new Meldung(Schnittstelle.meldung("schachmatt"), gUI.feld);
 			}
 		});
 		

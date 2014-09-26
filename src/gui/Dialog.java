@@ -9,7 +9,7 @@ public abstract class Dialog extends StackPane {
 		setMaxWidth(350);
 		setMaxHeight(200);
 		Pane p=new Pane();
-		p.setStyle("-fx-background-color: #006464;-fx-background-radius: 10;");
+		p.setId("dialog");
 		getChildren().add(p);
 	}
 }

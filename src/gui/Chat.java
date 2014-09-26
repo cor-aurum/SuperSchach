@@ -6,7 +6,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -72,7 +71,7 @@ public class Chat extends Fenster {
 				}
 			}
 		});
-		tF.setStyle("-fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-background-color: white; -fx-font-weight: bold;-fx-border-color: #5d5d5d;-fx-border-width: 3px;-fx-border-radius: 10;");
+		tF.setId("chat-textfield");
 		chat.heightProperty().addListener(
 				(ChangeListener) (observable, oldvalue, newValue) -> scroll
 						.setVvalue((Double) newValue));
@@ -87,14 +86,12 @@ public class Chat extends Fenster {
 			// setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
 			prefWidthProperty().bind(Chat.this.widthProperty());
 			Label p = new Label(text);
-			setMargin(p, new Insets(10));
-			String style = "-fx-text-fill: black;-fx-font-size:20;-fx-font-family: \"Arial Narrow\"; -fx-font-weight: bold;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-margin:20px;-fx-padding:20px;-fx-background-radius: 10;";
+			p.setId("chat-nachricht");
 			if (ausrichtung) {
-				style += "-fx-background-color: yellow;";
+				p.setStyle("-fx-background-color: yellow;");
 			} else {
-				style += "-fx-background-color: green;";
+				p.setStyle("-fx-background-color: green;");
 			}
-			p.setStyle(style);
 
 			getChildren().add(p);
 		}
