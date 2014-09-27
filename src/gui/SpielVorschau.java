@@ -3,40 +3,87 @@ package gui;
 import java.io.File;
 import java.io.InputStream;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import spiel.Schnittstelle;
 
 public class SpielVorschau extends GridPane {
 
 	VorschauSchnittstelle schnittstelle = new VorschauSchnittstelle(this);
-	String[] spiele = new String[2];
+	String[] spiele;
 	int index = 0;
 	Canvas canvas = new Canvas(300, 300);
 	ImageView iV = new ImageView();
+	ComboBox<String> auswahl = new ComboBox<String>();
+	Label name = new Label(schnittstelle.getSpielName());
 
-	public SpielVorschau(File[] customs) {
+	public SpielVorschau(String gegner) {
 		setId("spiel-vorschau");
-		spiele[0] = "gui/spiele/00.schach";
-		spiele[1] = "gui/spiele/01.schach";
+		setStandardArray();
 		try {
 			schnittstelle.laden(this.getClass().getClassLoader()
 					.getResourceAsStream(spiele[index]));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		auswahl.getItems().addAll(Schnittstelle.meldung("standardSpiele"),
+				gegner);
+		auswahl.setValue(Schnittstelle.meldung("standardSpiele"));
+		auswahl.valueProperty()
+				.addListener(
+						(ChangeListener<String>) (ov, t, t1) -> {
+							try {
+								schnittstelle.laden(this.getClass().getClassLoader()
+										.getResourceAsStream(spiele[0]));
+								name.setText(schnittstelle.getSpielName());
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
+							if (t1.equals(Schnittstelle
+									.meldung("standardSpiele"))) {
+								setStandardArray();
+							} else if (t1.equals(gegner)) {
+								File f = new File(Schnittstelle.verzeichnis()
+										+ File.separator + gegner);
+								File[] fileArray = f.listFiles();
+								int zaehler = 1;
+								try {
+									for (File file : fileArray) {
+										if (file.toString().endsWith(".schach")) {
+											zaehler++;
+										}
+									}
+									spiele = new String[zaehler];
+									spiele[0] = "gui/spiele/00.schach";
+									for (int i = 0; i < fileArray.length; i++) {
+										if (fileArray[i].toString().endsWith(
+												".schach")) {
+											spiele[i+1] = fileArray[i].getAbsolutePath();
+										}
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
 		Button links = new Button();
 		Button rechts = new Button();
 		add(links, 1, 0);
 		add(iV, 2, 0);
 		add(rechts, 3, 0);
+		add(name, 2, 1);
+		add(auswahl, 2, 2);
+		auswahl.prefWidthProperty().bind(canvas.widthProperty());
 		links.setAlignment(Pos.CENTER);
 		rechts.setAlignment(Pos.CENTER);
 		links.setOnAction(new EventHandler<ActionEvent>() {
@@ -50,6 +97,7 @@ public class SpielVorschau extends GridPane {
 				try {
 					schnittstelle.laden(this.getClass().getClassLoader()
 							.getResourceAsStream(spiele[index]));
+					name.setText(schnittstelle.getSpielName());
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -64,8 +112,10 @@ public class SpielVorschau extends GridPane {
 					index = 0;
 				}
 				try {
+					System.out.println(spiele[index]);
 					schnittstelle.laden(this.getClass().getClassLoader()
 							.getResourceAsStream(spiele[index]));
+					name.setText(schnittstelle.getSpielName());
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -95,6 +145,12 @@ public class SpielVorschau extends GridPane {
 			}
 		}
 		iV.setImage(canvas.snapshot(null, null));
+	}
+
+	private void setStandardArray() {
+		spiele = new String[2];
+		spiele[0] = "gui/spiele/00.schach";
+		spiele[1] = "gui/spiele/01.schach";
 	}
 
 	public void aktualisierenFigur(int x, int y) {

@@ -45,6 +45,10 @@ public class FxSchnittstelle extends Schnittstelle {
 			@Override
 			public void run() {
 				gUI.feld.zug(zug);
+				if(gUI.speichern !=null)
+				{
+					gUI.speichern.speichern();
+				}
 			}
 		});
 		gUI.feld.waitForAnimation();
@@ -204,6 +208,10 @@ public class FxSchnittstelle extends Schnittstelle {
 			@Override
 			public void run() {
 				new Meldung(Schnittstelle.meldung("schachmatt"), gUI.feld);
+				if(gUI.speichern !=null)
+				{
+					gUI.speichern.loeschen();
+				}
 			}
 		});
 		

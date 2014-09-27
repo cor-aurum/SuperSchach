@@ -1,6 +1,5 @@
 package gui;
 
-import java.io.File;
 import java.io.IOException;
 
 import javafx.animation.KeyFrame;
@@ -75,6 +74,8 @@ public class GegnerWaehler extends Fenster {
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
+		gUI.feld.getChildren().remove(gUI.kontrolle);
+		gUI.feld.getChildren().add(gUI.kontrolle);
 		addBots();
 	}
 	
@@ -207,10 +208,11 @@ public class GegnerWaehler extends Fenster {
 	}
 
 	private class Detail extends StackPane {
-		SpielVorschau sV = new SpielVorschau(new File[] {});
+		SpielVorschau sV;
 		BorderPane mitte = new BorderPane();
 
 		public Detail(String name, long id, String farbe) {
+			sV = new SpielVorschau(name);
 			BorderPane root = new BorderPane();
 			this.getChildren().add(root);
 			Label nameLabel = new Label(name);
@@ -256,6 +258,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
 				client.herausfordern(id);
+				gUI.speichern=null;
 			} catch (Exception e1) {
 			}
 		}
@@ -264,9 +267,11 @@ public class GegnerWaehler extends Fenster {
 	private class DetailBot extends Detail {
 
 		Slider waehlen = new Slider();
+		String name="";
 
 		public DetailBot(String name, long id, String farbe, boolean slider) {
 			super(name, id, farbe);
+			this.name=name;
 			if (slider) {
 				waehlen.setMax(5);
 				waehlen.setMin(3);
@@ -290,6 +295,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.feld.startaufstellung();
 				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1,
 						(int) Math.round(waehlen.getValue()));
+				gUI.speichern=new Speichern(gUI, name);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -298,8 +304,10 @@ public class GegnerWaehler extends Fenster {
 	}
 
 	private class KeinDetail extends Detail {
+		String name="";
 		public KeinDetail(String name) {
 			super(name, -1, "WEISS");
+			this.name=name;
 		}
 
 		@Override
@@ -310,6 +318,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.spiel.laden(sV.getSelected());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
+				gUI.speichern=new Speichern(gUI, name);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

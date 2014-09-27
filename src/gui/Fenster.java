@@ -22,13 +22,14 @@ public abstract class Fenster extends StackPane {
 	}
 
 	public void show() {
+
+		Fenster.vorhanden = true;
+		GaussianBlur gB = new GaussianBlur();
+		ColorAdjust cA = new ColorAdjust();
+		gB.setInput(cA);
+		gUI.feld.getRoot().setEffect(gB);
+		gUI.feld.getChildren().add(this);
 		if (!Fenster.vorhanden) {
-			Fenster.vorhanden = true;
-			GaussianBlur gB = new GaussianBlur();
-			ColorAdjust cA = new ColorAdjust();
-			gB.setInput(cA);
-			gUI.feld.getRoot().setEffect(gB);
-			gUI.feld.getChildren().add(this);
 			Timeline animation = new Timeline();
 			animation.getKeyFrames().addAll(
 					new KeyFrame(Duration.ZERO, new KeyValue(opacityProperty(),
@@ -45,8 +46,9 @@ public abstract class Fenster extends StackPane {
 							.saturationProperty(), -1)));
 
 			animation.play();
-			sichtbar = true;
 		}
+		sichtbar = true;
+
 	}
 
 	public void hide() {
@@ -84,7 +86,7 @@ public abstract class Fenster extends StackPane {
 	public void switchFenster(Fenster f) {
 		gUI.feld.getChildren().remove(this);
 		gUI.feld.getChildren().add(f);
-		sichtbar=false;
+		sichtbar = false;
 	}
 
 	public void setzeInhalt(Region r) {
@@ -95,9 +97,8 @@ public abstract class Fenster extends StackPane {
 	public boolean isShowed() {
 		return sichtbar;
 	}
-	
-	public static void setSichtbar(boolean b)
-	{
-		Fenster.vorhanden=b;
+
+	public static void setSichtbar(boolean b) {
+		Fenster.vorhanden = b;
 	}
 }

@@ -69,6 +69,8 @@ public class GUI extends Application {
 	public MyStackPane feld;
 	static SimpleBooleanProperty geladen = new SimpleBooleanProperty(false);
 	Hauptmenu hauptmenu = new Hauptmenu(this);
+	Kontrollfeld kontrolle;
+	Speichern speichern;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -76,7 +78,7 @@ public class GUI extends Application {
 
 		einstellungen = new Einstellungen(this);
 		einstellungen.laden();
-		gegner = new GegnerWaehler(this);
+		
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
 				|| zweid.getValue()) {
 			feld = new ZweiD(this);
@@ -84,17 +86,6 @@ public class GUI extends Application {
 			feld = new DreiD(this);
 		}
 		this.stage = stage;
-		// pane.setCenter(feld);
-
-		// pane.setLeft(xslider);
-		// pane.setBottom(yslider);
-		// pane.setTop(zslider);
-		// xslider.setOrientation(Orientation.VERTICAL);
-		// zslider.setOrientation(Orientation.VERTICAL);
-
-		// root.setCenter(pane);
-		Kontrollfeld kontrolle = new Kontrollfeld(this);
-		// root.setBottom(kontrolle);
 		Scene scene = new Scene(feld, 1200, 800);
 		scene.getStylesheets().add("gui/style.css");
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -120,7 +111,8 @@ public class GUI extends Application {
 				}
 			}
 		});
-
+		kontrolle = new Kontrollfeld(this);
+		gegner = new GegnerWaehler(this);
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
 				Client client = GUI.this.client;
@@ -168,7 +160,7 @@ public class GUI extends Application {
 						+ ", "
 						+ bisFarbe.getValue()
 						+ ");");
-		feld.getChildren().add(kontrolle);
+		//feld.getChildren().add(kontrolle);
 		StackPane.setAlignment(kontrolle, Pos.BOTTOM_RIGHT);
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
