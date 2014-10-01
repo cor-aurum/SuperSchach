@@ -1,0 +1,171 @@
+.button {
+	-fx-padding: 5 22 5 22;
+	-fx-border-color: #e2e2e2;
+	-fx-border-width: 2;
+	-fx-background-radius: 0;
+	-fx-background-color: #1d1d1d;
+	-fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+	-fx-font-size: 11pt;
+	-fx-text-fill: #d8d8d8;
+}
+
+}
+.button:hover {
+	-fx-background-color: #3a3a3a; } .button :default {
+	-fx-background-color: #008287;
+	-fx-text-fill: #ffffff;
+}
+
+.button:default:hover {
+	-fx-background-color: #219297;
+}
+
+
+.combo-box-base  {
+    -fx-background-color: transparent, #e2e2e2, transparent, #4a4a4a;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-padding: 0.166667em; /* 2 */
+}
+ 
+.combo-box-base  .list-cell{
+    -fx-text-fill: white;
+}
+ 
+.combo-box-base:hover {
+    -fx-background-color: transparent, white, transparent, #4a4a4a;
+     
+}
+ 
+.combo-box-base:disabled {
+    -fx-opacity: .4;
+}
+ 
+.combo-box-base .arrow-button {
+    -fx-background-color: transparent, transparent, #4a4a4a;
+}
+ 
+.combo-box-base .arrow {
+    -fx-padding: 0.333333em 0.333333em 0.333333em 0.333333em; /* 4 4 4 4 */
+    -fx-shape: "M8.124,13.625l4.125-3.375v2.889l-4.125,3.86L4,13.139V10.25L8.124,13.625z";
+    -fx-background-color: transparent, #1d1d1d;
+}
+ 
+.combo-box-popup .list-view {
+    -fx-background-color: #4a4a4a, -fx-control-inner-background;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0) , 8, 0.0 , 0 , 0 );
+}
+ 
+.combo-box-popup .list-view .list-cell{
+    -fx-background-color: #4a4a4a;
+    -fx-text-fill: white;
+}
+ 
+.combo-box-popup .list-view .list-cell:hover{
+    -fx-background-color: #dedede;
+    -fx-text-fill: #1d1d1d;
+}
+ 
+ 
+ 
+.combo-box-popup .list-view .list-cell:filled:selected{
+    -fx-background-color: #55c4fe;
+}
+ 
+.combo-box-popup .list-view .list-cell:filled:selected:hover {
+    -fx-background-color: #6dcdff;
+}
+ 
+.combo-box-popup .list-view .list-cell:filled:pressed, .combo-box-popup .list-view .list-cell:filled:selected:pressed
+{
+    -fx-background-color: #d3d3d3;
+    -fx-text-fill: #1d1d1d;
+}
+.label {
+	-fx-font-weight: bold;
+	-fx-text-fill: #111111;
+	-fx-font-size: 20;
+	-fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.2), 1, 0.0,
+		0, 1);
+}
+
+.slider .thumb {
+	-fx-background-color: #b8b8b8;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.slider .track {
+	-fx-background-color: #4a4a4a;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.slider .track-background {
+     -fx-background-color: #4a4a4a;
+    -fx-background-insets: 0;
+}
+
+#chat-textfield {
+	-fx-text-fill: black;
+	-fx-font-size: 18;
+	-fx-font-family: "Arial Narrow";
+	-fx-background-color: white;
+	-fx-font-weight: bold;
+	-fx-border-color: #5d5d5d;
+	-fx-border-width: 3px;
+	-fx-border-radius: 0;
+}
+
+#chat-nachricht {
+	-fx-text-fill: black;
+	-fx-font-size: 20;
+	-fx-font-family: "Arial Narrow";
+	-fx-font-weight: bold;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+	-fx-margin: 20px;
+	-fx-padding: 20px;
+	-fx-background-radius: 0;
+}
+
+#fehler {
+	-fx-text-fill: #DF0101;
+	-fx-font-weight: bold;
+}
+
+#pfeil-detail {
+	-fx-background-color: transparent;
+	-fx-border-width: 0, 0;
+}
+
+#spiel-vorschau {
+	-fx-padding: 30 0 0 0;
+}
+
+#waehler {
+	-fx-font-size: 28;
+	-fx-font-weight: bold;
+	-fx-padding: 30px;
+	-fx-background-color: rgba(0, 100, 100, 1);
+	-fx-background-radius: 0;
+	-fx-text-fill: #ffffff;
+}
+
+#weiss {
+	-fx-background-color: rgba(255, 255, 255, 0.5);
+}
+
+#menu-punkte {
+	-fx-font-size: 30pt;
+}
+
+#dialog {
+	-fx-background-color: #006464;
+	-fx-background-radius: 0;
+}
+
+#detail-root {
+	-fx-background-color: rgba(0, 100, 100, 0.7);
+	-fx-background-radius: 0;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+	-fx-padding: 20px;
+}

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -83,6 +84,7 @@ public class GegnerWaehler extends Fenster {
 		try {
 			client = new Client("localhost", gUI.name, gUI.spiel);
 			gUI.client = client;
+			System.out.println("Verbindung abgeschlossen");
 		} catch (Exception e) {
 			System.out.println(e);
 			internet = false;
@@ -92,6 +94,7 @@ public class GegnerWaehler extends Fenster {
 
 	public void starteAktualisierung() {
 		aktualisieren();
+
 		Timeline aktualisieren = new Timeline(new KeyFrame(Duration.seconds(5),
 				new EventHandler<ActionEvent>() {
 
@@ -107,41 +110,52 @@ public class GegnerWaehler extends Fenster {
 	}
 
 	public void aktualisieren() {
-		liste.getChildren().clear();
-		if (internet) {
-			Spieler[] spieler = null;
-			try {
-				spieler = client.getLobby();
-			} catch (IOException e) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				liste.getChildren().clear();
+				if (internet) {
+					Spieler[] spieler = null;
+					try {
+						spieler = client.getLobby();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					SpielerButton[] button = new SpielerButton[spieler.length];
+					for (int i = 0; i < spieler.length; i++) {
+						button[i] = new SpielerButton(spieler[i].getName(),
+								spieler[i].getID(), spieler[i].getFarbe());
+					}
+					liste.getChildren().addAll(button);
+				}
+				addBots();
 			}
-			SpielerButton[] button = new SpielerButton[spieler.length];
-			for (int i = 0; i < spieler.length; i++) {
-				button[i] = new SpielerButton(spieler[i].getName(),
-						spieler[i].getID(), spieler[i].getFarbe());
-			}
-			liste.getChildren().addAll(button);
-		}
-		addBots();
+		});
 	}
 
 	private void addBots() {
-		liste.getChildren().add(
-				new SpielerButtonBot("Kiana (" + Schnittstelle.meldung("weiss")
-						+ ")", 4, "WEISS", true));
-		liste.getChildren().add(
-				new SpielerButtonBot("Kiana ("
-						+ Schnittstelle.meldung("schwarz") + ")", 4, "SCHWARZ",
-						true));
-		liste.getChildren().add(
-				new SpielerButtonBot("Ivan Zufallski ("
-						+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS",
-						false));
-		liste.getChildren().add(
-				new SpielerButtonBot("Ivan Zufallski ("
-						+ Schnittstelle.meldung("schwarz") + ")", 1, "SCHWARZ",
-						false));
-		liste.getChildren().add(
-				new KeinSpielerButton(Schnittstelle.meldung("keinSpieler")));
+		try {
+			liste.getChildren().add(
+					new SpielerButtonBot("Kiana ("
+							+ Schnittstelle.meldung("weiss") + ")", 4, "WEISS",
+							true));
+			liste.getChildren().add(
+					new SpielerButtonBot("Kiana ("
+							+ Schnittstelle.meldung("schwarz") + ")", 4,
+							"SCHWARZ", true));
+			liste.getChildren().add(
+					new SpielerButtonBot("Ivan Zufallski ("
+							+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS",
+							false));
+			liste.getChildren().add(
+					new SpielerButtonBot("Ivan Zufallski ("
+							+ Schnittstelle.meldung("schwarz") + ")", 1,
+							"SCHWARZ", false));
+			liste.getChildren()
+					.add(new KeinSpielerButton(Schnittstelle
+							.meldung("keinSpieler")));
+		} catch (Exception e) {
+		}
 	}
 
 	private class SpielerButton extends Button {

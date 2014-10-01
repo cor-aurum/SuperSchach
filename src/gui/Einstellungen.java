@@ -180,6 +180,8 @@ public class Einstellungen extends Fenster {
 			br.write(gUI.bisFarbe.getValue());
 			br.write(System.getProperty("line.separator"));
 			br.write("" + gUI.stage.isFullScreen());
+			br.write(System.getProperty("line.separator"));
+			br.write("" + gUI.css.getValue());
 			br.flush();
 			br.close();
 		} catch (IOException e) {
@@ -203,6 +205,7 @@ public class Einstellungen extends Fenster {
 			gUI.vonFarbe.setValue(br.readLine());
 			gUI.bisFarbe.setValue(br.readLine());
 			gUI.stage.setFullScreen(Boolean.parseBoolean(br.readLine()));
+			gUI.css.setValue(br.readLine());
 			br.close();
 
 			switch (gUI.hintergrund) {

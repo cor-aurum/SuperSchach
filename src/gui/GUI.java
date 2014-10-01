@@ -71,6 +71,8 @@ public class GUI extends Application {
 	Hauptmenu hauptmenu = new Hauptmenu(this);
 	Kontrollfeld kontrolle;
 	Speichern speichern;
+	Scene scene;
+	SimpleStringProperty css=new SimpleStringProperty("klassisch");
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -78,7 +80,7 @@ public class GUI extends Application {
 
 		einstellungen = new Einstellungen(this);
 		einstellungen.laden();
-		
+
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
 				|| zweid.getValue()) {
 			feld = new ZweiD(this);
@@ -86,8 +88,8 @@ public class GUI extends Application {
 			feld = new DreiD(this);
 		}
 		this.stage = stage;
-		Scene scene = new Scene(feld, 1200, 800);
-		scene.getStylesheets().add("gui/style.css");
+		scene = new Scene(feld, 1200, 800);
+		scene.getStylesheets().add("gui/"+css.getValue()+".css");
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -160,7 +162,7 @@ public class GUI extends Application {
 						+ ", "
 						+ bisFarbe.getValue()
 						+ ");");
-		//feld.getChildren().add(kontrolle);
+		// feld.getChildren().add(kontrolle);
 		StackPane.setAlignment(kontrolle, Pos.BOTTOM_RIGHT);
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(scene);
@@ -175,7 +177,7 @@ public class GUI extends Application {
 		stage.show();
 		Task<Void> task = new Task<Void>() {
 			@Override
-			protected Void call()  {
+			protected Void call() {
 				gegner.starteVerbindung();
 				gegner.starteAktualisierung();
 
@@ -194,7 +196,7 @@ public class GUI extends Application {
 			material.diffuseColorProperty().bind(farbe_schwarz);
 			material.specularColorProperty().bind(farbe_schwarz);
 		}
-		
+
 		return material;
 	}
 
@@ -241,7 +243,6 @@ public class GUI extends Application {
 							"gui/meshes/" + form + "_" + modell + ".figur"));
 			mesh = (MyMesh) ois.readObject();
 
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
