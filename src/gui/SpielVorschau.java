@@ -1,7 +1,10 @@
 package gui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -26,6 +29,7 @@ public class SpielVorschau extends GridPane {
 	ImageView iV = new ImageView();
 	ComboBox<String> auswahl = new ComboBox<String>();
 	Label name = new Label(schnittstelle.getSpielName());
+	boolean extern = false;
 
 	public SpielVorschau(String gegner) {
 		setId("spiel-vorschau");
@@ -37,18 +41,12 @@ public class SpielVorschau extends GridPane {
 			e.printStackTrace();
 		}
 		auswahl.getItems().addAll(Schnittstelle.meldung("standardSpiele"),
-				gegner);
+				gegner, Schnittstelle.meldung("alle"));
 		auswahl.setValue(Schnittstelle.meldung("standardSpiele"));
 		auswahl.valueProperty()
 				.addListener(
 						(ChangeListener<String>) (ov, t, t1) -> {
-							try {
-								schnittstelle.laden(this.getClass().getClassLoader()
-										.getResourceAsStream(spiele[0]));
-								name.setText(schnittstelle.getSpielName());
-							} catch (Exception ex) {
-								ex.printStackTrace();
-							}
+							laden(spiele[0]);
 							if (t1.equals(Schnittstelle
 									.meldung("standardSpiele"))) {
 								setStandardArray();
@@ -68,13 +66,25 @@ public class SpielVorschau extends GridPane {
 									for (int i = 0; i < fileArray.length; i++) {
 										if (fileArray[i].toString().endsWith(
 												".schach")) {
-											spiele[i+1] = fileArray[i].getAbsolutePath();
+											spiele[i + 1] = fileArray[i]
+													.getAbsolutePath();
 										}
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
+							} else if (t1.equals(Schnittstelle.meldung("alle"))) {
+								ArrayList<String> list = new ArrayList<String>();
+								listeDateien(new File(Schnittstelle.verzeichnis()), list);
+
+								spiele = new String[list.size()+1];
+								spiele[0] = "gui/spiele/00.schach";
+								for(int i=0;i<list.size();i++)
+								{
+									spiele[i+1]=list.get(i);
+								}
 							}
+
 						});
 		Button links = new Button();
 		Button rechts = new Button();
@@ -94,13 +104,7 @@ public class SpielVorschau extends GridPane {
 				} else {
 					index = spiele.length - 1;
 				}
-				try {
-					schnittstelle.laden(this.getClass().getClassLoader()
-							.getResourceAsStream(spiele[index]));
-					name.setText(schnittstelle.getSpielName());
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				laden(spiele[index]);
 			}
 		});
 		rechts.setOnAction(new EventHandler<ActionEvent>() {
@@ -111,14 +115,8 @@ public class SpielVorschau extends GridPane {
 				} else {
 					index = 0;
 				}
-				try {
-					System.out.println(spiele[index]);
-					schnittstelle.laden(this.getClass().getClassLoader()
-							.getResourceAsStream(spiele[index]));
-					name.setText(schnittstelle.getSpielName());
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				laden(spiele[index]);
+
 			}
 		});
 		rechts.setGraphic(new ImageView(new Image(this.getClass()
@@ -151,6 +149,16 @@ public class SpielVorschau extends GridPane {
 		spiele = new String[2];
 		spiele[0] = "gui/spiele/00.schach";
 		spiele[1] = "gui/spiele/01.schach";
+	}
+
+	private void listeDateien(File verzeichnis, ArrayList<String> list) {
+		for (File f : verzeichnis.listFiles()) {
+			if (f.isDirectory()) {
+				listeDateien(f, list);
+			} else if (f.toString().endsWith(".schach")) {
+				list.add(f.getAbsolutePath());
+			}
+		}
 	}
 
 	public void aktualisierenFigur(int x, int y) {
@@ -190,6 +198,22 @@ public class SpielVorschau extends GridPane {
 		}
 	}
 
+	private void laden(String s) {
+		try {
+			schnittstelle.laden(this.getClass().getClassLoader()
+					.getResourceAsStream(s));
+			extern = false;
+		} catch (Exception ex) {
+			try {
+				schnittstelle.laden(new FileInputStream(s));
+				extern = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		name.setText(schnittstelle.getSpielName());
+	}
+
 	protected double translateX(int x) {
 		return (300 / (schnittstelle.getXMax() + 1)) * x;
 	}
@@ -200,7 +224,20 @@ public class SpielVorschau extends GridPane {
 	}
 
 	public InputStream getSelected() {
-		return this.getClass().getClassLoader()
-				.getResourceAsStream(spiele[index]);
+		if (extern) {
+			try {
+				return new FileInputStream(spiele[index]);
+			} catch (FileNotFoundException e) {
+				return this.getClass().getClassLoader()
+						.getResourceAsStream(spiele[0]);
+			}
+		} else {
+			return this.getClass().getClassLoader()
+					.getResourceAsStream(spiele[index]);
+		}
+	}
+
+	public File getFile() {
+		return new File(spiele[index]);
 	}
 }

@@ -175,7 +175,7 @@ public class GUI extends Application {
 		stage.show();
 		Task<Void> task = new Task<Void>() {
 			@Override
-			protected Void call() throws Exception {
+			protected Void call()  {
 				gegner.starteVerbindung();
 				gegner.starteAktualisierung();
 

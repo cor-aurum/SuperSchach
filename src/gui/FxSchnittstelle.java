@@ -149,7 +149,7 @@ public class FxSchnittstelle extends Schnittstelle {
 			@Override
 			public void run() {
 				login = new Login(b ? Schnittstelle.meldung("passwort_falsch")
-						: "", ret, blocker);
+						: "", ret, blocker, gUI);
 				sperre = new Pane();
 				GaussianBlur gB = new GaussianBlur();
 				ColorAdjust cA = new ColorAdjust();

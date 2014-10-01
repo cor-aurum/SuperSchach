@@ -44,4 +44,10 @@ public class VorschauSchnittstelle extends Schnittstelle{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public void schach(int x, int y)
+	{
+		
+	}
 }

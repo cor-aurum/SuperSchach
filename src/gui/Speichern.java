@@ -15,6 +15,12 @@ public class Speichern {
 		verzeichnis=new File(Schnittstelle.verzeichnis()+File.separator+gegner+File.separator+System.currentTimeMillis()+".schach");
 	}
 	
+	public Speichern(GUI gUI, File f)
+	{
+		this.gUI=gUI;
+		verzeichnis=f;
+	}
+	
 	public void speichern()
 	{
 		gUI.spiel.speichern(verzeichnis);

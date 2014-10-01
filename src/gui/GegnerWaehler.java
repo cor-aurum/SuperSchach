@@ -39,7 +39,7 @@ public class GegnerWaehler extends Fenster {
 
 	public GegnerWaehler(GUI gUI) {
 		super(gUI);
-		
+
 		this.gUI = gUI;
 
 		Label waehler = new Label(Schnittstelle.meldung("gegnerWaehlen"));
@@ -78,9 +78,8 @@ public class GegnerWaehler extends Fenster {
 		gUI.feld.getChildren().add(gUI.kontrolle);
 		addBots();
 	}
-	
-	public void starteVerbindung()
-	{
+
+	public void starteVerbindung() {
 		try {
 			client = new Client("localhost", gUI.name, gUI.spiel);
 			gUI.client = client;
@@ -90,9 +89,8 @@ public class GegnerWaehler extends Fenster {
 		}
 		addBots();
 	}
-	
-	public void starteAktualisierung()
-	{
+
+	public void starteAktualisierung() {
 		aktualisieren();
 		Timeline aktualisieren = new Timeline(new KeyFrame(Duration.seconds(5),
 				new EventHandler<ActionEvent>() {
@@ -125,9 +123,8 @@ public class GegnerWaehler extends Fenster {
 		}
 		addBots();
 	}
-	
-	private void addBots()
-	{
+
+	private void addBots() {
 		liste.getChildren().add(
 				new SpielerButtonBot("Kiana (" + Schnittstelle.meldung("weiss")
 						+ ")", 4, "WEISS", true));
@@ -227,9 +224,9 @@ public class GegnerWaehler extends Fenster {
 							+ farbtemp
 							+ ";-fx-font-size:20;-fx-font-weight: bold;-fx-padding:10px;");
 			nameLabel.setUnderline(true);
-			//root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
+			// root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
 			root.setId("detail-root");
-			
+
 			sV.prefHeightProperty().bind(this.widthProperty());
 			mitte.setTop(sV);
 			root.setCenter(mitte);
@@ -258,7 +255,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
 				client.herausfordern(id);
-				gUI.speichern=null;
+				gUI.speichern = null;
 			} catch (Exception e1) {
 			}
 		}
@@ -267,11 +264,11 @@ public class GegnerWaehler extends Fenster {
 	private class DetailBot extends Detail {
 
 		Slider waehlen = new Slider();
-		String name="";
+		String name = "";
 
 		public DetailBot(String name, long id, String farbe, boolean slider) {
 			super(name, id, farbe);
-			this.name=name;
+			this.name = name;
 			if (slider) {
 				waehlen.setMax(5);
 				waehlen.setMin(3);
@@ -279,7 +276,7 @@ public class GegnerWaehler extends Fenster {
 				// System.out.println(waehlen.lookup(".thumb"));
 				Label staerke = new Label(
 						Schnittstelle.meldung("staerkeWaehlen"));
-				//staerke.setStyle("-fx-font-weight:bold;-fx-text-fill:#ffffff;");
+				// staerke.setStyle("-fx-font-weight:bold;-fx-text-fill:#ffffff;");
 				mitte.setCenter(staerke);
 				mitte.setBottom(waehlen);
 			}
@@ -295,7 +292,11 @@ public class GegnerWaehler extends Fenster {
 				gUI.feld.startaufstellung();
 				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1,
 						(int) Math.round(waehlen.getValue()));
-				gUI.speichern=new Speichern(gUI, name);
+				if (!sV.getFile().canWrite()) {
+					gUI.speichern = new Speichern(gUI, name);
+				} else {
+					gUI.speichern = new Speichern(gUI, sV.getFile());
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -304,10 +305,11 @@ public class GegnerWaehler extends Fenster {
 	}
 
 	private class KeinDetail extends Detail {
-		String name="";
+		String name = "";
+
 		public KeinDetail(String name) {
 			super(name, -1, "WEISS");
-			this.name=name;
+			this.name = name;
 		}
 
 		@Override
@@ -318,7 +320,11 @@ public class GegnerWaehler extends Fenster {
 				gUI.spiel.laden(sV.getSelected());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
-				gUI.speichern=new Speichern(gUI, name);
+				if (!sV.getFile().canWrite()) {
+					gUI.speichern = new Speichern(gUI, name);
+				} else {
+					gUI.speichern = new Speichern(gUI, sV.getFile());
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
