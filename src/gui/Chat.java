@@ -7,11 +7,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -56,6 +59,19 @@ public class Chat extends Fenster {
 		});
 
 		// chat.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
+		Button schliessen=new Button();
+		schliessen.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				hide();
+			}
+		});
+		root.setTop(schliessen);
+		BorderPane.setAlignment(schliessen, Pos.BOTTOM_RIGHT);
+		schliessen.setGraphic(new ImageView(new Image(this.getClass()
+				.getClassLoader().getResource("gui/bilder/schliessen.png")
+				.toString())));
+		schliessen.setId("pfeil-detail");
 		root.setBottom(tF);
 		root.setCenter(scroll);
 		tF.setOnAction(new EventHandler<ActionEvent>() {

@@ -24,7 +24,6 @@ public class Hauptmenu extends Menu {
 			public void handle(ActionEvent e) {
 				gUI.gegner=new GegnerWaehler(gUI);
 				switchFenster(gUI.gegner);
-				Fenster.setSichtbar(false);
 			}
 		});
 		punkte[1].setOnAction(new EventHandler<ActionEvent>() {

@@ -46,7 +46,7 @@ public class Grafikmenu extends Menu {
 
 		stil.getItems().addAll(Schnittstelle.meldung("klassisch"),
 				Schnittstelle.meldung("modern"));
-		stil.setValue(Schnittstelle.meldung("klassisch"));
+		stil.setValue(Schnittstelle.meldung(gUI.css.getValue()));
 		stil.valueProperty().addListener(
 				(ChangeListener<String>) (ov, t, t1) -> {
 					if (stil.getValue().equals(
@@ -57,7 +57,8 @@ public class Grafikmenu extends Menu {
 						gUI.css.setValue("modern");
 					}
 					gUI.scene.getStylesheets().clear();
-					gUI.scene.getStylesheets().add("gui/"+gUI.css.getValue()+".css");
+					gUI.scene.getStylesheets().add(
+							"gui/" + gUI.css.getValue() + ".css");
 					gUI.einstellungen.speichern();
 				});
 		vollbild = new Button();

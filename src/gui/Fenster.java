@@ -15,21 +15,17 @@ public abstract class Fenster extends StackPane {
 
 	GUI gUI;
 	private boolean sichtbar = false;
-	private static boolean vorhanden = false;
 
 	public Fenster(GUI gUI) {
 		this.gUI = gUI;
 	}
 
 	public void show() {
-
-		Fenster.vorhanden = true;
 		GaussianBlur gB = new GaussianBlur();
 		ColorAdjust cA = new ColorAdjust();
 		gB.setInput(cA);
 		gUI.feld.getRoot().setEffect(gB);
 		gUI.feld.getChildren().add(this);
-		if (!Fenster.vorhanden) {
 			Timeline animation = new Timeline();
 			animation.getKeyFrames().addAll(
 					new KeyFrame(Duration.ZERO, new KeyValue(opacityProperty(),
@@ -46,13 +42,11 @@ public abstract class Fenster extends StackPane {
 							.saturationProperty(), -1)));
 
 			animation.play();
-		}
 		sichtbar = true;
 
 	}
 
 	public void hide() {
-		Fenster.vorhanden = false;
 		GaussianBlur gB = new GaussianBlur();
 		ColorAdjust cA = new ColorAdjust();
 		gB.setInput(cA);
@@ -96,9 +90,5 @@ public abstract class Fenster extends StackPane {
 
 	public boolean isShowed() {
 		return sichtbar;
-	}
-
-	public static void setSichtbar(boolean b) {
-		Fenster.vorhanden = b;
 	}
 }

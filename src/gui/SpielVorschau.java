@@ -71,7 +71,6 @@ public class SpielVorschau extends GridPane {
 										}
 									}
 								} catch (Exception e) {
-									e.printStackTrace();
 								}
 							} else if (t1.equals(Schnittstelle.meldung("alle"))) {
 								ArrayList<String> list = new ArrayList<String>();
