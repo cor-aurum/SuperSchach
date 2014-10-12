@@ -14,6 +14,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Slider;
@@ -21,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
@@ -36,6 +37,7 @@ public class GegnerWaehler extends Fenster {
 	VBox liste = new VBox();
 	Client client;
 	ScrollPane scroll;
+	MenuButton herausforderung =new MenuButton(Schnittstelle.meldung("herausforderungen"));
 	boolean internet = true;
 
 	public GegnerWaehler(GUI gUI) {
@@ -70,23 +72,21 @@ public class GegnerWaehler extends Fenster {
 				}
 			}
 		});
-		pane.setPadding(new Insets(30));
+		pane.setPadding(new Insets(30, 30, 45, 30));
 		pane.setTop(waehler);
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
-		gUI.feld.getChildren().remove(gUI.kontrolle);
-		gUI.feld.getChildren().add(gUI.kontrolle);
 		addBots();
+		pane.setBottom(herausforderung);
+		
 	}
 
 	public void starteVerbindung() {
 		try {
 			client = new Client("localhost", gUI.name, gUI.spiel);
 			gUI.client = client;
-			System.out.println("Verbindung abgeschlossen");
 		} catch (Exception e) {
-			System.out.println(e);
 			internet = false;
 		}
 		addBots();
@@ -187,7 +187,9 @@ public class GegnerWaehler extends Fenster {
 		}
 
 		public void listener(String s, long id, String farbe) {
-			pane.setRight(new Detail(s, id, farbe));
+			Detail d=new Detail(s, id, farbe);
+			pane.setRight(d);
+			BorderPane.setAlignment(d, Pos.CENTER);
 		}
 	}
 
@@ -202,7 +204,9 @@ public class GegnerWaehler extends Fenster {
 
 		@Override
 		public void listener(String s, long id, String farbe) {
-			pane.setRight(new DetailBot(s, id, farbe, slider));
+			Detail d=new DetailBot(s, id, farbe, slider);
+			pane.setRight(d);
+			BorderPane.setAlignment(d, Pos.CENTER);
 		}
 	}
 
@@ -214,18 +218,45 @@ public class GegnerWaehler extends Fenster {
 
 		@Override
 		public void listener(String s, long id, String farbe) {
-			pane.setRight(new KeinDetail(s));
+			Detail d=new KeinDetail(s);
+			pane.setRight(d);
+			BorderPane.setAlignment(d, Pos.CENTER);
 		}
 	}
 
-	private class Detail extends StackPane {
+	private class Detail extends ScrollPane {
 		SpielVorschau sV;
 		BorderPane mitte = new BorderPane();
 
 		public Detail(String name, long id, String farbe) {
-			sV = new SpielVorschau(name);
+			sV = new SpielVorschau(name, gUI);
 			BorderPane root = new BorderPane();
-			this.getChildren().add(root);
+			this.setContent(root);
+			
+			this.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Skin<?>> ov,
+						Skin<?> t, Skin<?> t1) {
+					if (t1 != null && t1.getNode() instanceof Region) {
+						Region r = (Region) t1.getNode();
+						r.setBackground(Background.EMPTY);
+
+						r.getChildrenUnmodifiable()
+								.stream()
+								.filter(n -> n instanceof Region)
+								.map(n -> (Region) n)
+								.forEach(n -> n.setBackground(Background.EMPTY));
+
+						r.getChildrenUnmodifiable()
+								.stream()
+								.filter(n -> n instanceof Control)
+								.map(n -> (Control) n)
+								.forEach(
+										c -> c.skinProperty().addListener(this)); // *
+					}
+				}
+			});
 			Label nameLabel = new Label(name);
 			root.setTop(nameLabel);
 			String farbtemp = farbe.equals("WEISS") ? "white" : "black";
@@ -242,20 +273,24 @@ public class GegnerWaehler extends Fenster {
 			root.setId("detail-root");
 
 			sV.prefHeightProperty().bind(this.widthProperty());
-			mitte.setTop(sV);
+			mitte.setCenter(sV);
 			root.setCenter(mitte);
 
 			Button herausfordern = new Button("Herausfordern");
 			root.setBottom(herausfordern);
-			root.prefWidthProperty().bind(
-					GegnerWaehler.this.widthProperty().divide(3));
-			maxWidthProperty().bind(
-					GegnerWaehler.this.widthProperty().divide(2));
+			// root.maxWidthProperty().bind(widthProperty().subtract(100));
+			/*
+			 * prefWidthProperty().bind(
+			 * GegnerWaehler.this.widthProperty().divide(2.5));
+			 * maxWidthProperty().bind(
+			 * GegnerWaehler.this.widthProperty().divide(2));
+			 */
+			setPrefWidth(455);
+			root.setPrefWidth(440);
 			herausfordern.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
 					listener(id, farbe);
-
 				}
 			});
 			BorderPane.setAlignment(herausfordern, Pos.CENTER);
@@ -291,8 +326,9 @@ public class GegnerWaehler extends Fenster {
 				Label staerke = new Label(
 						Schnittstelle.meldung("staerkeWaehlen"));
 				// staerke.setStyle("-fx-font-weight:bold;-fx-text-fill:#ffffff;");
-				mitte.setCenter(staerke);
-				mitte.setBottom(waehlen);
+				VBox liste = new VBox();
+				liste.getChildren().addAll(staerke, waehlen);
+				mitte.setBottom(liste);
 			}
 		}
 
@@ -329,6 +365,7 @@ public class GegnerWaehler extends Fenster {
 		@Override
 		public void listener(long id, String farbe) {
 
+			/*
 			GegnerWaehler.this.hide();
 			try {
 				gUI.spiel.laden(sV.getSelected());
@@ -343,6 +380,8 @@ public class GegnerWaehler extends Fenster {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
+			addHerausforderung(new Herausforderung(GegnerWaehler.this,"Felix", 1));
 		}
 	}
 
@@ -350,5 +389,10 @@ public class GegnerWaehler extends Fenster {
 		hide();
 		gUI.feld.entferneFiguren();
 		gUI.feld.startaufstellung();
+	}
+	
+	public void addHerausforderung(Herausforderung h)
+	{
+		herausforderung.getItems().add(new MenuItem(h.getName()));
 	}
 }

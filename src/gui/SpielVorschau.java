@@ -31,7 +31,7 @@ public class SpielVorschau extends GridPane {
 	Label name = new Label(schnittstelle.getSpielName());
 	boolean extern = false;
 
-	public SpielVorschau(String gegner) {
+	public SpielVorschau(String gegner, GUI gUI) {
 		setId("spiel-vorschau");
 		setStandardArray();
 		try {
@@ -40,6 +40,8 @@ public class SpielVorschau extends GridPane {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
+				+ gUI.vonFarbe.getValue() + ", " + gUI.bisFarbe.getValue() + ");");
 		auswahl.getItems().addAll(Schnittstelle.meldung("standardSpiele"),
 				gegner, Schnittstelle.meldung("alle"));
 		auswahl.setValue(Schnittstelle.meldung("standardSpiele"));
@@ -74,13 +76,14 @@ public class SpielVorschau extends GridPane {
 								}
 							} else if (t1.equals(Schnittstelle.meldung("alle"))) {
 								ArrayList<String> list = new ArrayList<String>();
-								listeDateien(new File(Schnittstelle.verzeichnis()), list);
+								listeDateien(
+										new File(Schnittstelle.verzeichnis()),
+										list);
 
-								spiele = new String[list.size()+1];
+								spiele = new String[list.size() + 1];
 								spiele[0] = "gui/spiele/00.schach";
-								for(int i=0;i<list.size();i++)
-								{
-									spiele[i+1]=list.get(i);
+								for (int i = 0; i < list.size(); i++) {
+									spiele[i + 1] = list.get(i);
 								}
 							}
 
@@ -92,6 +95,7 @@ public class SpielVorschau extends GridPane {
 		add(rechts, 3, 0);
 		add(name, 2, 1);
 		add(auswahl, 2, 2);
+
 		auswahl.prefWidthProperty().bind(canvas.widthProperty());
 		links.setAlignment(Pos.CENTER);
 		rechts.setAlignment(Pos.CENTER);

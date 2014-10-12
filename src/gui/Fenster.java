@@ -21,27 +21,28 @@ public abstract class Fenster extends StackPane {
 	}
 
 	public void show() {
+
 		GaussianBlur gB = new GaussianBlur();
 		ColorAdjust cA = new ColorAdjust();
 		gB.setInput(cA);
 		gUI.feld.getRoot().setEffect(gB);
 		gUI.feld.getChildren().add(this);
-			Timeline animation = new Timeline();
-			animation.getKeyFrames().addAll(
-					new KeyFrame(Duration.ZERO, new KeyValue(opacityProperty(),
-							0)),
-					new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(
-							opacityProperty(), 1)),
-					new KeyFrame(Duration.ZERO, new KeyValue(gB
-							.radiusProperty(), 0)),
-					new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(gB
-							.radiusProperty(), 15)),
-					new KeyFrame(Duration.ZERO, new KeyValue(cA
-							.saturationProperty(), 0)),
-					new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(cA
-							.saturationProperty(), -1)));
+		Timeline animation = new Timeline();
+		animation.getKeyFrames()
+				.addAll(new KeyFrame(Duration.ZERO, new KeyValue(
+						opacityProperty(), 0)),
+						new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(
+								opacityProperty(), 1)),
+						new KeyFrame(Duration.ZERO, new KeyValue(gB
+								.radiusProperty(), 0)),
+						new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(gB
+								.radiusProperty(), 15)),
+						new KeyFrame(Duration.ZERO, new KeyValue(cA
+								.saturationProperty(), 0)),
+						new KeyFrame(Duration.valueOf("0.6s"), new KeyValue(cA
+								.saturationProperty(), -1)));
 
-			animation.play();
+		animation.play();
 		sichtbar = true;
 
 	}

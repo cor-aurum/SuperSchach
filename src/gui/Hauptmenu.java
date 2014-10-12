@@ -5,37 +5,44 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import spiel.Schnittstelle;
 
-
 public class Hauptmenu extends Menu {
 
 	public Hauptmenu(GUI gUI) {
 		super(gUI, Schnittstelle.meldung("hauptmenu"));
-		Button[] punkte=new Button[6];
-		punkte[0]=new Button(Schnittstelle.meldung("lobby"));
-		punkte[1]=new Button(Schnittstelle.meldung("game_optionen"));
-		punkte[2]=new Button(Schnittstelle.meldung("multiplayer_optionen"));
-		punkte[3]=new Button(Schnittstelle.meldung("grafik"));
-		punkte[4]=new Button(Schnittstelle.meldung("sound"));
-		punkte[5]=new Button(Schnittstelle.meldung("quit"));
+		Button[] punkte = new Button[6];
+		punkte[0] = new Button(Schnittstelle.meldung("lobby"));
+		punkte[1] = new Button(Schnittstelle.meldung("game_optionen"));
+		punkte[2] = new Button(Schnittstelle.meldung("multiplayer_optionen"));
+		punkte[3] = new Button(Schnittstelle.meldung("grafik"));
+		punkte[4] = new Button(Schnittstelle.meldung("sound"));
+		punkte[5] = new Button(Schnittstelle.meldung("quit"));
 		addInhalt(punkte);
-		
+
 		punkte[0].setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				gUI.gegner=new GegnerWaehler(gUI);
-				switchFenster(gUI.gegner);
+
+				if (gUI.feld.getChildren().contains(gUI.gegner)) {
+					gUI.feld.getChildren().remove(this);
+				} else {
+					gUI.gegner = new GegnerWaehler(gUI);
+					gUI.feld.getChildren().remove(gUI.kontrolle);
+
+					switchFenster(gUI.gegner);
+					gUI.feld.getChildren().add(gUI.kontrolle);
+				}
 			}
 		});
 		punkte[1].setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				
+
 			}
 		});
 		punkte[2].setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				
+
 			}
 		});
 		punkte[3].setOnAction(new EventHandler<ActionEvent>() {
@@ -60,7 +67,11 @@ public class Hauptmenu extends Menu {
 
 	@Override
 	public void zurueck() {
-		hide();
+		if (gUI.feld.getChildren().contains(gUI.gegner)) {
+			gUI.feld.getChildren().remove(this);
+		} else {
+			hide();
+		}
 	}
 
 }

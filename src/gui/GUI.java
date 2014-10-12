@@ -170,9 +170,12 @@ public class GUI extends Application {
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
 						.getResource("gui/bilder/bauer_schwarz.png").toString()));
+		stage.setMinHeight(600);
+		stage.setMinWidth(800);
 
+		feld.getChildren().remove(kontrolle);
 		gegner.show();
-
+		feld.getChildren().add(kontrolle);
 		geladen.setValue(true);
 		stage.show();
 		Task<Void> task = new Task<Void>() {

@@ -34,6 +34,7 @@ public class Chat extends Fenster {
 	public Chat(GUI gUI) {
 		super(gUI);
 		setzeInhalt(root);
+		chat.setSpacing(15);
 		scroll.setContent(chat);
 		// scroll.setStyle("-fx-background-color: transparent;");
 		scroll.skinProperty().addListener(new ChangeListener<Skin<?>>() {

@@ -131,16 +131,6 @@ public class FxSchnittstelle extends Schnittstelle {
 	}
 
 	@Override
-	public void herausforderung(String s) {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				new HerausgefordertDialog(FxSchnittstelle.this, s);
-			}
-		});
-	}
-
-	@Override
 	public String[] getLogin(boolean b) {
 		String[] ret = new String[2];
 		Blocker blocker = new Blocker();
