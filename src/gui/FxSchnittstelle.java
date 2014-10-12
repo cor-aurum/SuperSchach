@@ -212,4 +212,16 @@ public class FxSchnittstelle extends Schnittstelle {
 	{
 		
 	}
+	
+	@Override
+	public void herausforderung(String s, int id)
+	{
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.gegner.addHerausforderung(new Herausforderung(gUI.gegner,s, id));
+			}
+		});
+		
+	}
 }
