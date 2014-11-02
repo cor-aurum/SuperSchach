@@ -60,7 +60,7 @@ public class Chat extends Fenster {
 		});
 
 		// chat.setStyle("-fx-background-color: rgba(255, 255, 255, 0.5);");
-		Button schliessen=new Button();
+		Button schliessen = new Button();
 		schliessen.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -130,6 +130,8 @@ public class Chat extends Fenster {
 
 	@Override
 	public void show() {
+		if (gUI.feld.getChildren().contains(gUI.gegner))
+			return;
 		super.show();
 		ungelesen.setValue(0);
 		tF.requestFocus();

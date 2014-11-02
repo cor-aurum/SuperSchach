@@ -14,8 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Slider;
@@ -37,7 +35,7 @@ public class GegnerWaehler extends Fenster {
 	VBox liste = new VBox();
 	Client client;
 	ScrollPane scroll;
-	MenuButton herausforderung =new MenuButton(Schnittstelle.meldung("herausforderungen"));
+	//MenuButton herausforderung =new MenuButton(Schnittstelle.meldung("herausforderungen"));
 	boolean internet = true;
 
 	public GegnerWaehler(GUI gUI) {
@@ -78,8 +76,7 @@ public class GegnerWaehler extends Fenster {
 		pane.setCenter(scroll);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
 		addBots();
-		pane.setBottom(herausforderung);
-		
+		//pane.setBottom(herausforderung);
 	}
 
 	public void starteVerbindung() {
@@ -272,19 +269,14 @@ public class GegnerWaehler extends Fenster {
 			// root.setStyle("-fx-background-color:rgba(0,100,100,0.7);-fx-background-radius: 10;-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );-fx-padding:20px;");
 			root.setId("detail-root");
 
-			sV.prefHeightProperty().bind(this.widthProperty());
+			//sV.prefHeightProperty().bind(this.widthProperty());
+			//sV.setStyle("-fx-padding:0px;");
 			mitte.setCenter(sV);
+			BorderPane.setAlignment(mitte, Pos.CENTER);
 			root.setCenter(mitte);
 
 			Button herausfordern = new Button("Herausfordern");
 			root.setBottom(herausfordern);
-			// root.maxWidthProperty().bind(widthProperty().subtract(100));
-			/*
-			 * prefWidthProperty().bind(
-			 * GegnerWaehler.this.widthProperty().divide(2.5));
-			 * maxWidthProperty().bind(
-			 * GegnerWaehler.this.widthProperty().divide(2));
-			 */
 			setPrefWidth(455);
 			root.setPrefWidth(440);
 			herausfordern.setOnAction(new EventHandler<ActionEvent>() {
@@ -364,8 +356,6 @@ public class GegnerWaehler extends Fenster {
 
 		@Override
 		public void listener(long id, String farbe) {
-
-			/*
 			GegnerWaehler.this.hide();
 			try {
 				gUI.spiel.laden(sV.getSelected());
@@ -380,8 +370,6 @@ public class GegnerWaehler extends Fenster {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
-			addHerausforderung(new Herausforderung(GegnerWaehler.this,"Felix", 1));
 		}
 	}
 
@@ -393,6 +381,6 @@ public class GegnerWaehler extends Fenster {
 	
 	public void addHerausforderung(Herausforderung h)
 	{
-		herausforderung.getItems().add(new MenuItem(h.getName()));
+		//herausforderung.getItems().add(new MenuItem(h.getName()));
 	}
 }

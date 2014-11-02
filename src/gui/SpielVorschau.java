@@ -30,7 +30,6 @@ public class SpielVorschau extends GridPane {
 	ComboBox<String> auswahl = new ComboBox<String>();
 	Label name = new Label(schnittstelle.getSpielName());
 	boolean extern = false;
-
 	public SpielVorschau(String gegner, GUI gUI) {
 		setId("spiel-vorschau");
 		setStandardArray();
@@ -95,10 +94,13 @@ public class SpielVorschau extends GridPane {
 		add(rechts, 3, 0);
 		add(name, 2, 1);
 		add(auswahl, 2, 2);
+		add(new Label(),2,3);
 
 		auswahl.prefWidthProperty().bind(canvas.widthProperty());
 		links.setAlignment(Pos.CENTER);
+		links.setStyle("-fx-padding:10px");
 		rechts.setAlignment(Pos.CENTER);
+		rechts.setStyle("-fx-padding:10px");
 		links.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {

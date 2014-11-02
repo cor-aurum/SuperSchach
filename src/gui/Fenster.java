@@ -21,7 +21,6 @@ public abstract class Fenster extends StackPane {
 	}
 
 	public void show() {
-
 		GaussianBlur gB = new GaussianBlur();
 		ColorAdjust cA = new ColorAdjust();
 		gB.setInput(cA);
