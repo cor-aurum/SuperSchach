@@ -1,10 +1,12 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -18,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import spiel.Schnittstelle;
 
 public class SpielVorschau extends GridPane {
 
@@ -125,10 +126,10 @@ public class SpielVorschau extends GridPane {
 			}
 		});
 		rechts.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("gui/bilder/pfeil_rechts.png")
+				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/pfeil_rechts.png")
 				.toString())));
 		links.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("gui/bilder/pfeil_links.png")
+				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/pfeil_links.png")
 				.toString())));
 
 		rechts.setId("pfeil-detail");
@@ -140,7 +141,7 @@ public class SpielVorschau extends GridPane {
 				canvas.getHeight());
 		canvas.getGraphicsContext2D().setFill(Color.BLUE);
 		Image brettbild = new Image(this.getClass().getClassLoader()
-				.getResource("gui/bilder/brett2d.png").toString());
+				.getResource("com/superschach/superschach/gui/bilder/brett2d.png").toString());
 		canvas.getGraphicsContext2D().drawImage(brettbild, 0, 0, 300, 300);
 		for (int x = 0; x < schnittstelle.getXMax() + 1; x++) {
 			for (int y = 0; y < schnittstelle.getYMax() + 1; y++) {
@@ -152,8 +153,8 @@ public class SpielVorschau extends GridPane {
 
 	private void setStandardArray() {
 		spiele = new String[2];
-		spiele[0] = "gui/spiele/00.schach";
-		spiele[1] = "gui/spiele/01.schach";
+		spiele[0] = "com/superschach/superschach/gui/spiele/00.schach";
+		spiele[1] = "com/superschach/superschach/gui/spiele/01.schach";
 	}
 
 	private void listeDateien(File verzeichnis, ArrayList<String> list) {
@@ -197,7 +198,7 @@ public class SpielVorschau extends GridPane {
 				f = f + "_weiss.png";
 			}
 			Image img = new Image(this.getClass().getClassLoader()
-					.getResource("gui/bilder/" + f).toString());
+					.getResource("com/superschach/superschach/gui/bilder/" + f).toString());
 			canvas.getGraphicsContext2D().drawImage(img, translateX(x),
 					translateY(y));
 		}

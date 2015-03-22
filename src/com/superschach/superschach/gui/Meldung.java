@@ -1,4 +1,6 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -7,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import spiel.Schnittstelle;
 
 public class Meldung extends Dialog {
 	public Meldung(String nachricht, MyStackPane feld)

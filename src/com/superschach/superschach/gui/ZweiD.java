@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.animation.RotateTransition;
 import javafx.beans.property.DoubleProperty;
@@ -135,7 +135,7 @@ public class ZweiD extends MyStackPane {
 					f="koenig_rot.png";
 				}
 				img = new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/" + f).toString());
+						.getResource("com/superschach/superschach/gui/bilder/" + f).toString());
 			} else {
 				f = f + "_weiss.png";
 				if(f.equals("koenig_weiss.png")&&gUI.spiel.getStatus()==1 && gUI.spiel.Player0())
@@ -143,7 +143,7 @@ public class ZweiD extends MyStackPane {
 					f="koenig_rot.png";
 				}
 				img = new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/" + f).toString());
+						.getResource("com/superschach/superschach/gui/bilder/" + f).toString());
 			}
 			ImageView iV = new ImageView(img);
 			iV.setFitWidth(700 / gUI.spiel.getXMax());
@@ -191,7 +191,7 @@ public class ZweiD extends MyStackPane {
 			feld.getGraphicsContext2D()
 					.drawImage(
 							new Image(this.getClass().getClassLoader()
-									.getResource("gui/bilder/" + f + ".png")
+									.getResource("com/superschach/superschach/gui/bilder/" + f + ".png")
 									.toString()), translateX(x), translateY(y),
 							feld.getWidth() / gUI.spiel.getXMax(),
 							feld.getHeight() / gUI.spiel.getYMax());

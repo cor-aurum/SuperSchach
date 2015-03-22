@@ -1,6 +1,6 @@
-package gui;
+package com.superschach.superschach.gui;
 
-import spiel.Schnittstelle;
+import com.superschach.superschach.spiel.Schnittstelle;
 
 public class VorschauSchnittstelle extends Schnittstelle{
 	SpielVorschau vorschau;

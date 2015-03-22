@@ -1,4 +1,6 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import gui.MyMesh;
 
 import java.io.ObjectInputStream;
 
@@ -26,10 +28,10 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Mesh;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import spiel.Schnittstelle;
-import client.Client;
 
 import com.sun.javafx.application.LauncherImpl;
+import com.superschach.superschach.client.Client;
+import com.superschach.superschach.spiel.Schnittstelle;
 
 public class GUI extends Application {
 
@@ -52,9 +54,9 @@ public class GUI extends Application {
 	SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(
 			Color.NAVY);
 	Image brettbild = new Image(this.getClass().getClassLoader()
-			.getResource("gui/bilder/brett.png").toString());
+			.getResource("com/superschach/superschach/gui/bilder/brett.png").toString());
 	Image brettbild2d = new Image(this.getClass().getClassLoader()
-			.getResource("gui/bilder/brett2d.png").toString());
+			.getResource("com/superschach/superschach/gui/bilder/brett2d.png").toString());
 	Chat chat = new Chat(this);
 	String name = System.getProperty("user.name");
 	SimpleBooleanProperty zweid = new SimpleBooleanProperty(false);
@@ -89,7 +91,7 @@ public class GUI extends Application {
 		}
 		this.stage = stage;
 		scene = new Scene(feld, 1200, 800);
-		scene.getStylesheets().add("gui/"+css.getValue()+".css");
+		scene.getStylesheets().add("com/superschach/superschach/gui/"+css.getValue()+".css");
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -169,7 +171,7 @@ public class GUI extends Application {
 		stage.setTitle("Super Schach");
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/bauer_schwarz.png").toString()));
+						.getResource("com/superschach/superschach/gui/bilder/bauer_schwarz.png").toString()));
 		stage.setMinHeight(600);
 		stage.setMinWidth(800);
 
@@ -243,7 +245,7 @@ public class GUI extends Application {
 					.getClass()
 					.getClassLoader()
 					.getResourceAsStream(
-							"gui/meshes/" + form + "_" + modell + ".figur"));
+							"com/superschach/superschach/gui/meshes/" + form + "_" + modell + ".figur"));
 			mesh = (MyMesh) ois.readObject();
 
 		} catch (Exception e) {

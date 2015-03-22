@@ -1,8 +1,8 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import java.io.File;
 
-import spiel.Schnittstelle;
+import com.superschach.superschach.spiel.Schnittstelle;
 
 public class Speichern {
 	private File verzeichnis;

@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.geometry.Point3D;
 

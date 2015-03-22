@@ -1,4 +1,6 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -6,7 +8,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import spiel.Schnittstelle;
 
 public class Grafikmenu extends Menu {
 
@@ -58,7 +59,7 @@ public class Grafikmenu extends Menu {
 					}
 					gUI.scene.getStylesheets().clear();
 					gUI.scene.getStylesheets().add(
-							"gui/" + gUI.css.getValue() + ".css");
+							"com/superschach/superschach/gui/" + gUI.css.getValue() + ".css");
 					gUI.einstellungen.speichern();
 				});
 		vollbild = new Button();

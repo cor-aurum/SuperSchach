@@ -1,9 +1,10 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import spiel.Schnittstelle;
 
 public class Hauptmenu extends Menu {
 

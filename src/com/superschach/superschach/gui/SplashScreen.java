@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.application.Preloader;
 import javafx.beans.value.ChangeListener;
@@ -24,7 +24,7 @@ public class SplashScreen extends Preloader {
 		stage.setScene(new Scene(root, 640, 400));
 		bar = new ProgressBar();
 		ImageView view = new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("gui/bilder/splash.png")
+				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/splash.png")
 				.toString()));
 		root.getChildren().add(view);
 		root.getChildren().add(bar);
@@ -35,7 +35,7 @@ public class SplashScreen extends Preloader {
 		stage.setTitle("Super Schach");
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/bauer_schwarz.png").toString()));
+						.getResource("com/superschach/superschach/gui/bilder/bauer_schwarz.png").toString()));
 		stage.show();
 		GUI.geladen.addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov,

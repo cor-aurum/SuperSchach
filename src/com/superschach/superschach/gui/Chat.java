@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -70,7 +70,7 @@ public class Chat extends Fenster {
 		root.setTop(schliessen);
 		BorderPane.setAlignment(schliessen, Pos.BOTTOM_RIGHT);
 		schliessen.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("gui/bilder/schliessen.png")
+				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/schliessen.png")
 				.toString())));
 		schliessen.setId("pfeil-detail");
 		root.setBottom(tF);
@@ -121,7 +121,7 @@ public class Chat extends Fenster {
 			if (gUI.sounds.getValue()) {
 				AudioClip plonkSound = new AudioClip(this.getClass()
 						.getClassLoader()
-						.getResource("gui/sounds/nachricht.aiff").toString());
+						.getResource("com/superschach/superschach/gui/sounds/nachricht.aiff").toString());
 				plonkSound.play();
 			}
 		}

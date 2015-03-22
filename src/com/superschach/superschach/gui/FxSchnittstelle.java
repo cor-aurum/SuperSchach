@@ -1,11 +1,12 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
-import spiel.Schnittstelle;
 
 public class FxSchnittstelle extends Schnittstelle {
 

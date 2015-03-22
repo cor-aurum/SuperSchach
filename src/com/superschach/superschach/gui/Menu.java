@@ -1,4 +1,6 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,7 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
-import spiel.Schnittstelle;
 
 public abstract class Menu extends Fenster {
 
@@ -58,7 +59,7 @@ public abstract class Menu extends Fenster {
 					if (gUI.sounds.getValue()) {
 						AudioClip plonkSound = new AudioClip(this.getClass()
 								.getClassLoader()
-								.getResource("gui/sounds/hover.aiff")
+								.getResource("com/superschach/superschach/gui/sounds/hover.aiff")
 								.toString());
 						plonkSound.play();
 					}
@@ -87,7 +88,7 @@ public abstract class Menu extends Fenster {
 				if (gUI.sounds.getValue()) {
 					AudioClip plonkSound = new AudioClip(this.getClass()
 							.getClassLoader()
-							.getResource("gui/sounds/hover.aiff").toString());
+							.getResource("com/superschach/superschach/gui/sounds/hover.aiff").toString());
 					plonkSound.play();
 				}
 				pane.setMinWidth(150);

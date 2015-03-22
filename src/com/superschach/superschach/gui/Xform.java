@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.scene.Group;
 import javafx.scene.transform.Rotate;

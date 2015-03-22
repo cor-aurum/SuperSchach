@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -13,10 +13,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import spiel.Schnittstelle;
 
 import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
 import com.sun.javafx.application.HostServicesDelegate;
+import com.superschach.superschach.spiel.Schnittstelle;
 
 public class Login extends Dialog {
 

@@ -1,9 +1,10 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.MeshView;
-import spiel.Schnittstelle;
 
 public class Figur extends MeshView {
 

@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;

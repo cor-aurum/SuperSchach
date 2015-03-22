@@ -1,4 +1,6 @@
-package gui;
+package com.superschach.superschach.gui;
+
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -7,7 +9,6 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import spiel.Schnittstelle;
 
 public class Hintergrundmenu extends Menu {
 	ColorPicker pick_oben;

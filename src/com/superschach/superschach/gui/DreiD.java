@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,11 +130,11 @@ public class DreiD extends MyStackPane {
 		 */
 		gUI.feldMaterial.setDiffuseMap(brett.snapshot(null, null));
 		gUI.feldMaterial.setBumpMap(new Image(this.getClass().getClassLoader()
-				.getResource("gui/bilder/" + gUI.hintergrund + "_NRM.png")
+				.getResource("com/superschach/superschach/gui/bilder/" + gUI.hintergrund + "_NRM.png")
 				.toString()));
 		gUI.feldMaterial.setSpecularMap(new Image(this.getClass()
 				.getClassLoader()
-				.getResource("gui/bilder/" + gUI.hintergrund + "_SPEC.png")
+				.getResource("com/superschach/superschach/gui/bilder/" + gUI.hintergrund + "_SPEC.png")
 				.toString()));
 		feld.setMaterial(gUI.feldMaterial);
 
@@ -177,21 +177,21 @@ public class DreiD extends MyStackPane {
 				brett.getGraphicsContext2D()
 						.drawImage(
 								new Image(this.getClass().getClassLoader()
-										.getResource("gui/bilder/gruen.png")
+										.getResource("com/superschach/superschach/gui/bilder/gruen.png")
 										.toString()), translateX(x),
 								translateY(y));
 				break;
 			case 4:
 				brett.getGraphicsContext2D().drawImage(
 						new Image(this.getClass().getClassLoader()
-								.getResource("gui/bilder/rot.png").toString()),
+								.getResource("com/superschach/superschach/gui/bilder/rot.png").toString()),
 						translateX(x), translateY(y));
 				break;
 			case 5:
 				brett.getGraphicsContext2D()
 						.drawImage(
 								new Image(this.getClass().getClassLoader()
-										.getResource("gui/bilder/gelb.png")
+										.getResource("com/superschach/superschach/gui/bilder/gelb.png")
 										.toString()), translateX(x),
 								translateY(y));
 				break;

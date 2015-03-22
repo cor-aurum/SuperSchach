@@ -1,6 +1,10 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import java.io.IOException;
+
+import com.superschach.superschach.client.Client;
+import com.superschach.superschach.client.Spieler;
+import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,9 +28,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
-import spiel.Schnittstelle;
-import client.Client;
-import client.Spieler;
 
 public class GegnerWaehler extends Fenster {
 
@@ -174,7 +175,7 @@ public class GegnerWaehler extends Fenster {
 					if (gUI.sounds.getValue()) {
 						AudioClip plonkSound = new AudioClip(this.getClass()
 								.getClassLoader()
-								.getResource("gui/sounds/hover.aiff")
+								.getResource("com/superschach/superschach/gui/sounds/hover.aiff")
 								.toString());
 						plonkSound.play();
 					}

@@ -1,4 +1,4 @@
-package gui;
+package com.superschach.superschach.gui;
 
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -48,17 +48,17 @@ public class Kontrollfeld extends HBox {
 			}
 		});
 		drehen.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("gui/bilder/drehen.png")
+				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/drehen.png")
 				.toString())));
 		drehen.setId("pfeil-detail");
 		menu.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("gui/bilder/einstellungen.png")
+				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/einstellungen.png")
 				.toString())));
 		menu.setId("pfeil-detail");
 		chat.textProperty().bind(Bindings.concat(gUI.chat.ungelesenProperty()));
 		chat.setId("pfeil-detail");
 		chat.setGraphic(new ImageView(
 				new Image(this.getClass().getClassLoader()
-						.getResource("gui/bilder/chat.png").toString())));
+						.getResource("com/superschach/superschach/gui/bilder/chat.png").toString())));
 	}
 }
