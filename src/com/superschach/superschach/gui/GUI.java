@@ -31,11 +31,12 @@ import javafx.stage.WindowEvent;
 
 import com.sun.javafx.application.LauncherImpl;
 import com.superschach.superschach.client.Client;
+import com.superschach.superschach.gui.menu.Hauptmenu;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 public class GUI extends Application {
 
-	Stage stage;
+	private Stage stage;
 	// BorderPane root = new BorderPane();
 	// BorderPane pane = new BorderPane();
 	// BorderPane root = new BorderPane();
@@ -49,51 +50,67 @@ public class GUI extends Application {
 
 	public String form = "standard";
 	public boolean modell_farbe = false;
-	SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(
+	private SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(
 			Color.AZURE);
-	SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(
+	private SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(
 			Color.NAVY);
+	public SimpleObjectProperty<Color> getFarbe_weiss() {
+		return farbe_weiss;
+	}
+
+	public void setFarbe_weiss(SimpleObjectProperty<Color> farbe_weiss) {
+		this.farbe_weiss = farbe_weiss;
+	}
+
+	public SimpleObjectProperty<Color> getFarbe_schwarz() {
+		return farbe_schwarz;
+	}
+
+	public void setFarbe_schwarz(SimpleObjectProperty<Color> farbe_schwarz) {
+		this.farbe_schwarz = farbe_schwarz;
+	}
+
 	Image brettbild = new Image(this.getClass().getClassLoader()
 			.getResource("com/superschach/superschach/gui/bilder/brett.png").toString());
 	Image brettbild2d = new Image(this.getClass().getClassLoader()
 			.getResource("com/superschach/superschach/gui/bilder/brett2d.png").toString());
 	Chat chat = new Chat(this);
 	String name = System.getProperty("user.name");
-	SimpleBooleanProperty zweid = new SimpleBooleanProperty(false);
-	SimpleBooleanProperty sounds = new SimpleBooleanProperty(true);
+	private SimpleBooleanProperty zweid = new SimpleBooleanProperty(false);
+	private SimpleBooleanProperty sounds = new SimpleBooleanProperty(true);
 
-	SimpleStringProperty vonFarbe = new SimpleStringProperty("#cd5c5c");
-	SimpleStringProperty bisFarbe = new SimpleStringProperty("#232323");
+	private SimpleStringProperty vonFarbe = new SimpleStringProperty("#cd5c5c");
+	private SimpleStringProperty bisFarbe = new SimpleStringProperty("#232323");
 
-	Einstellungen einstellungen;
-	GegnerWaehler gegner;
+	private Einstellungen einstellungen;
+	private GegnerWaehler gegner;
 	Client client;
 	public MyStackPane feld;
 	static SimpleBooleanProperty geladen = new SimpleBooleanProperty(false);
-	Hauptmenu hauptmenu = new Hauptmenu(this);
-	Kontrollfeld kontrolle;
+	private Hauptmenu hauptmenu = new Hauptmenu(this);
+	private Kontrollfeld kontrolle;
 	Speichern speichern;
-	Scene scene;
-	SimpleStringProperty css=new SimpleStringProperty("klassisch");
+	private Scene scene;
+	private SimpleStringProperty css=new SimpleStringProperty("klassisch");
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		this.stage = stage;
+		this.setStage(stage);
 
-		einstellungen = new Einstellungen(this);
-		einstellungen.laden();
+		setEinstellungen(new Einstellungen(this));
+		getEinstellungen().laden();
 
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
-				|| zweid.getValue()) {
+				|| getZweid().getValue()) {
 			feld = new ZweiD(this);
 		} else {
 			feld = new DreiD(this);
 		}
-		this.stage = stage;
-		scene = new Scene(feld, 1200, 800);
-		scene.getStylesheets().add("com/superschach/superschach/gui/"+css.getValue()+".css");
+		this.setStage(stage);
+		setScene(new Scene(feld, 1200, 800));
+		getScene().getStylesheets().add("com/superschach/superschach/gui/"+getCss().getValue()+".css");
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
 				if (keyEvent.isControlDown()) {
@@ -108,15 +125,15 @@ public class GUI extends Application {
 					}
 				} else {
 					if (keyEvent.getCode() == KeyCode.ESCAPE) {
-						if (!hauptmenu.isShowed()) {
-							hauptmenu.show();
+						if (!getHauptmenu().isShowed()) {
+							getHauptmenu().show();
 						}
 					}
 				}
 			}
 		});
-		kontrolle = new Kontrollfeld(this);
-		gegner = new GegnerWaehler(this);
+		setKontrolle(new Kontrollfeld(this));
+		setGegner(new GegnerWaehler(this));
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
 				Client client = GUI.this.client;
@@ -131,43 +148,43 @@ public class GUI extends Application {
 		feld.resetBrett();
 		feld.aktualisiereMap();
 
-		vonFarbe.addListener(new ChangeListener<String>() {
+		getVonFarbe().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0,
 					String arg1, String arg2) {
 				feld.background
 						.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-								+ vonFarbe.getValue()
+								+ getVonFarbe().getValue()
 								+ ", "
-								+ bisFarbe.getValue() + ");");
+								+ getBisFarbe().getValue() + ");");
 			}
 
 		});
-		bisFarbe.addListener(new ChangeListener<String>() {
+		getBisFarbe().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0,
 					String arg1, String arg2) {
 				feld.background
 						.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-								+ vonFarbe.getValue()
+								+ getVonFarbe().getValue()
 								+ ", "
-								+ bisFarbe.getValue() + ");");
+								+ getBisFarbe().getValue() + ");");
 			}
 
 		});
 
 		feld.background
 				.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-						+ vonFarbe.getValue()
+						+ getVonFarbe().getValue()
 						+ ", "
-						+ bisFarbe.getValue()
+						+ getBisFarbe().getValue()
 						+ ");");
 		// feld.getChildren().add(kontrolle);
-		StackPane.setAlignment(kontrolle, Pos.BOTTOM_RIGHT);
+		StackPane.setAlignment(getKontrolle(), Pos.BOTTOM_RIGHT);
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
-		stage.setScene(scene);
+		stage.setScene(getScene());
 		stage.setTitle("Super Schach");
 		stage.getIcons()
 				.add(new Image(this.getClass().getClassLoader()
@@ -175,16 +192,16 @@ public class GUI extends Application {
 		stage.setMinHeight(600);
 		stage.setMinWidth(800);
 
-		feld.getChildren().remove(kontrolle);
-		gegner.show();
-		feld.getChildren().add(kontrolle);
+		feld.getChildren().remove(getKontrolle());
+		getGegner().show();
+		feld.getChildren().add(getKontrolle());
 		geladen.setValue(true);
 		stage.show();
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() {
-				gegner.starteVerbindung();
-				gegner.starteAktualisierung();
+				getGegner().starteVerbindung();
+				getGegner().starteAktualisierung();
 
 				return null;
 			}
@@ -268,7 +285,7 @@ public class GUI extends Application {
 
 	public void wechsleDimension() {
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
-				|| zweid.getValue()) {
+				|| getZweid().getValue()) {
 			feld = new ZweiD(this);
 		} else {
 			feld = new DreiD(this);
@@ -276,5 +293,93 @@ public class GUI extends Application {
 		feld.entferneFiguren();
 		feld.startaufstellung();
 		feld.aktualisieren();
+	}
+
+	public Einstellungen getEinstellungen() {
+		return einstellungen;
+	}
+
+	public void setEinstellungen(Einstellungen einstellungen) {
+		this.einstellungen = einstellungen;
+	}
+
+	public SimpleBooleanProperty getZweid() {
+		return zweid;
+	}
+
+	public void setZweid(SimpleBooleanProperty zweid) {
+		this.zweid = zweid;
+	}
+
+	public SimpleStringProperty getCss() {
+		return css;
+	}
+
+	public void setCss(SimpleStringProperty css) {
+		this.css = css;
+	}
+
+	public Scene getScene() {
+		return scene;
+	}
+
+	public void setScene(Scene scene) {
+		this.scene = scene;
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
+	public Hauptmenu getHauptmenu() {
+		return hauptmenu;
+	}
+
+	public void setHauptmenu(Hauptmenu hauptmenu) {
+		this.hauptmenu = hauptmenu;
+	}
+
+	public SimpleBooleanProperty getSounds() {
+		return sounds;
+	}
+
+	public void setSounds(SimpleBooleanProperty sounds) {
+		this.sounds = sounds;
+	}
+
+	public SimpleStringProperty getBisFarbe() {
+		return bisFarbe;
+	}
+
+	public void setBisFarbe(SimpleStringProperty bisFarbe) {
+		this.bisFarbe = bisFarbe;
+	}
+
+	public SimpleStringProperty getVonFarbe() {
+		return vonFarbe;
+	}
+
+	public void setVonFarbe(SimpleStringProperty vonFarbe) {
+		this.vonFarbe = vonFarbe;
+	}
+
+	public GegnerWaehler getGegner() {
+		return gegner;
+	}
+
+	public void setGegner(GegnerWaehler gegner) {
+		this.gegner = gegner;
+	}
+
+	public Kontrollfeld getKontrolle() {
+		return kontrolle;
+	}
+
+	public void setKontrolle(Kontrollfeld kontrolle) {
+		this.kontrolle = kontrolle;
 	}
 }

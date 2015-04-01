@@ -1,5 +1,7 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.menu;
 
+import com.superschach.superschach.gui.Fenster;
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.event.ActionEvent;
@@ -56,7 +58,7 @@ public abstract class Menu extends Fenster {
 			box.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					if (gUI.sounds.getValue()) {
+					if (getGUI().getSounds().getValue()) {
 						AudioClip plonkSound = new AudioClip(this.getClass()
 								.getClassLoader()
 								.getResource("com/superschach/superschach/gui/sounds/hover.aiff")
@@ -85,7 +87,7 @@ public abstract class Menu extends Fenster {
 		box.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if (gUI.sounds.getValue()) {
+				if (getGUI().getSounds().getValue()) {
 					AudioClip plonkSound = new AudioClip(this.getClass()
 							.getClassLoader()
 							.getResource("com/superschach/superschach/gui/sounds/hover.aiff").toString());

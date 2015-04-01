@@ -1,5 +1,8 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.menu;
 
+import com.superschach.superschach.gui.GUI;
+import com.superschach.superschach.gui.GegnerWaehler;
+import com.superschach.superschach.gui.Soundmenu;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.event.ActionEvent;
@@ -23,14 +26,14 @@ public class Hauptmenu extends Menu {
 			@Override
 			public void handle(ActionEvent e) {
 
-				if (gUI.feld.getChildren().contains(gUI.gegner)) {
+				if (gUI.feld.getChildren().contains(gUI.getGegner())) {
 					gUI.feld.getChildren().remove(this);
 				} else {
-					gUI.gegner = new GegnerWaehler(gUI);
-					gUI.feld.getChildren().remove(gUI.kontrolle);
+					gUI.setGegner(new GegnerWaehler(gUI));
+					gUI.feld.getChildren().remove(gUI.getKontrolle());
 
-					switchFenster(gUI.gegner);
-					gUI.feld.getChildren().add(gUI.kontrolle);
+					switchFenster(gUI.getGegner());
+					gUI.feld.getChildren().add(gUI.getKontrolle());
 				}
 			}
 		});
@@ -68,8 +71,8 @@ public class Hauptmenu extends Menu {
 
 	@Override
 	public void zurueck() {
-		if (gUI.feld.getChildren().contains(gUI.gegner)) {
-			gUI.feld.getChildren().remove(this);
+		if (getGUI().feld.getChildren().contains(getGUI().getGegner())) {
+			getGUI().feld.getChildren().remove(this);
 		} else {
 			hide();
 		}

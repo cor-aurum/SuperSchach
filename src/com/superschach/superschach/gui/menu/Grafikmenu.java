@@ -1,5 +1,6 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.menu;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.beans.value.ChangeListener;
@@ -23,9 +24,9 @@ public class Grafikmenu extends Menu {
 		umschalten.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				gUI.zweid.setValue(!gUI.zweid.getValue());
+				gUI.getZweid().setValue(!gUI.getZweid().getValue());
 				pruefeText(umschalten);
-				gUI.einstellungen.speichern();
+				gUI.getEinstellungen().speichern();
 			}
 		});
 
@@ -47,29 +48,29 @@ public class Grafikmenu extends Menu {
 
 		stil.getItems().addAll(Schnittstelle.meldung("klassisch"),
 				Schnittstelle.meldung("modern"));
-		stil.setValue(Schnittstelle.meldung(gUI.css.getValue()));
+		stil.setValue(Schnittstelle.meldung(gUI.getCss().getValue()));
 		stil.valueProperty().addListener(
 				(ChangeListener<String>) (ov, t, t1) -> {
 					if (stil.getValue().equals(
 							Schnittstelle.meldung("klassisch"))) {
-						gUI.css.setValue("klassisch");
+						gUI.getCss().setValue("klassisch");
 					} else if (stil.getValue().equals(
 							Schnittstelle.meldung("modern"))) {
-						gUI.css.setValue("modern");
+						gUI.getCss().setValue("modern");
 					}
-					gUI.scene.getStylesheets().clear();
-					gUI.scene.getStylesheets().add(
-							"com/superschach/superschach/gui/" + gUI.css.getValue() + ".css");
-					gUI.einstellungen.speichern();
+					gUI.getScene().getStylesheets().clear();
+					gUI.getScene().getStylesheets().add(
+							"com/superschach/superschach/gui/" + gUI.getCss().getValue() + ".css");
+					gUI.getEinstellungen().speichern();
 				});
 		vollbild = new Button();
 		pruefeText(vollbild);
 		vollbild.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				gUI.stage.setFullScreen(!gUI.stage.isFullScreen());
+				gUI.getStage().setFullScreen(!gUI.getStage().isFullScreen());
 				pruefeText(vollbild);
-				gUI.einstellungen.speichern();
+				gUI.getEinstellungen().speichern();
 			}
 		});
 		addInhalt(new Node[] { hintergrund, figuren, stil, umschalten, vollbild });
@@ -77,19 +78,19 @@ public class Grafikmenu extends Menu {
 
 	@Override
 	public void zurueck() {
-		switchFenster(gUI.hauptmenu);
+		switchFenster(getGUI().getHauptmenu());
 	}
 
 	private void pruefeText(Button p) {
 		if (p == umschalten) {
-			if (!gUI.zweid.getValue()) {
+			if (!getGUI().getZweid().getValue()) {
 				umschalten.setText(Schnittstelle.meldung("dreiDAus"));
 			} else {
 				umschalten.setText(Schnittstelle.meldung("dreiDAn"));
 			}
 		}
 		if (p == vollbild) {
-			if (gUI.stage.isFullScreen()) {
+			if (getGUI().getStage().isFullScreen()) {
 				vollbild.setText(Schnittstelle.meldung("vollbild_aus"));
 			} else {
 				vollbild.setText(Schnittstelle.meldung("vollbild_an"));

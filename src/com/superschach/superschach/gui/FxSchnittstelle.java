@@ -91,7 +91,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.stage.toFront();
+				gUI.getStage().toFront();
 			}
 		});
 	}
@@ -126,7 +126,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.gegner.herausgefordert();
+				gUI.getGegner().herausgefordert();
 			}
 		});
 	}
@@ -145,7 +145,7 @@ public class FxSchnittstelle extends Schnittstelle {
 				GaussianBlur gB = new GaussianBlur();
 				ColorAdjust cA = new ColorAdjust();
 				gB.setInput(cA);
-				gUI.gegner.setEffect(gB);
+				gUI.getGegner().setEffect(gB);
 				gUI.feld.getChildren().add(sperre);
 				gUI.feld.getChildren().add(login);
 
@@ -155,7 +155,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.gegner.setEffect(null);
+				gUI.getGegner().setEffect(null);
 				gUI.feld.getChildren().remove(sperre);
 				gUI.feld.getChildren().remove(login);
 			}
@@ -220,7 +220,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.gegner.addHerausforderung(new Herausforderung(gUI.gegner,s, id));
+				gUI.getGegner().addHerausforderung(new Herausforderung(gUI.getGegner(),s, id));
 			}
 		});
 		

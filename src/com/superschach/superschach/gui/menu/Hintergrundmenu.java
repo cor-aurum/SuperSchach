@@ -1,5 +1,6 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.menu;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.beans.value.ChangeListener;
@@ -18,15 +19,15 @@ public class Hintergrundmenu extends Menu {
 		super(gUI, Schnittstelle.meldung("hintergrund"));
 		pick_oben = new ColorPicker();
 		pick_unten = new ColorPicker();
-		pick_unten.setValue(Color.web(gUI.bisFarbe.getValue()));
-		pick_oben.setValue(Color.web(gUI.vonFarbe.getValue()));
+		pick_unten.setValue(Color.web(gUI.getBisFarbe().getValue()));
+		pick_oben.setValue(Color.web(gUI.getVonFarbe().getValue()));
 		pick_oben.valueProperty().addListener(new ChangeListener<Color>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Color> arg0,
 					Color arg1, Color arg2) {
-				gUI.vonFarbe.setValue(toRGBCode(arg2));
-				gUI.einstellungen.speichern();
+				gUI.getVonFarbe().setValue(toRGBCode(arg2));
+				gUI.getEinstellungen().speichern();
 			}
 
 		});
@@ -36,8 +37,8 @@ public class Hintergrundmenu extends Menu {
 			@Override
 			public void changed(ObservableValue<? extends Color> arg0,
 					Color arg1, Color arg2) {
-				gUI.bisFarbe.setValue(toRGBCode(arg2));
-				gUI.einstellungen.speichern();
+				gUI.getBisFarbe().setValue(toRGBCode(arg2));
+				gUI.getEinstellungen().speichern();
 			}
 
 		});
@@ -51,7 +52,7 @@ public class Hintergrundmenu extends Menu {
 
 	@Override
 	public void zurueck() {
-		switchFenster(new Grafikmenu(gUI));
+		switchFenster(new Grafikmenu(getGUI()));
 	}
 
 	public String toRGBCode(Color color) {

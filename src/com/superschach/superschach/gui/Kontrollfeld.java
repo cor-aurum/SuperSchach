@@ -31,8 +31,8 @@ public class Kontrollfeld extends HBox {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if (!gUI.hauptmenu.isShowed()) {
-					gUI.hauptmenu.show();
+				if (!gUI.getHauptmenu().isShowed()) {
+					gUI.getHauptmenu().show();
 				}
 			}
 		});

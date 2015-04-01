@@ -118,7 +118,7 @@ public class Chat extends Fenster {
 		chat.getChildren().add(new Nachricht(s, false));
 		if (!isShowed()) {
 			ungelesen.setValue(ungelesen.getValue() + 1);
-			if (gUI.sounds.getValue()) {
+			if (getGUI().getSounds().getValue()) {
 				AudioClip plonkSound = new AudioClip(this.getClass()
 						.getClassLoader()
 						.getResource("com/superschach/superschach/gui/sounds/nachricht.aiff").toString());
@@ -130,7 +130,7 @@ public class Chat extends Fenster {
 
 	@Override
 	public void show() {
-		if (gUI.feld.getChildren().contains(gUI.gegner))
+		if (getGUI().feld.getChildren().contains(getGUI().getGegner()))
 			return;
 		super.show();
 		ungelesen.setValue(0);

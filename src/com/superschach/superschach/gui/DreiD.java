@@ -44,8 +44,8 @@ public class DreiD extends MyStackPane {
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
-		maxWidthProperty().bind(gUI.stage.widthProperty());
-		maxHeightProperty().bind(gUI.stage.heightProperty().subtract(32));
+		maxWidthProperty().bind(gUI.getStage().widthProperty());
+		maxHeightProperty().bind(gUI.getStage().heightProperty().subtract(32));
 		PerspectiveCamera kamera = new PerspectiveCamera();
 		// kamera.setFieldOfView(50.0);
 		felder = new Feld[gUI.spiel.getXMax() + 1][gUI.spiel.getYMax() + 1];

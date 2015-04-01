@@ -1,5 +1,6 @@
 package com.superschach.superschach.gui;
 
+import com.superschach.superschach.gui.menu.Menu;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.event.ActionEvent;
@@ -16,9 +17,9 @@ public class Soundmenu extends Menu {
 		umschalten.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				gUI.sounds.setValue(!gUI.sounds.getValue());
+				gUI.getSounds().setValue(!gUI.getSounds().getValue());
 				pruefeText();
-				gUI.einstellungen.speichern();
+				gUI.getEinstellungen().speichern();
 			}
 		});
 		addInhalt(new Button[]{umschalten});
@@ -34,12 +35,12 @@ public class Soundmenu extends Menu {
 
 	@Override
 	public void zurueck() {
-		switchFenster(gUI.hauptmenu);
+		switchFenster(gUI.getHauptmenu());
 	}
 
 	private void pruefeText()
 	{
-		if(gUI.sounds.getValue())
+		if(gUI.getSounds().getValue())
 		{
 			umschalten.setText(Schnittstelle.meldung("ton_aus"));
 		}

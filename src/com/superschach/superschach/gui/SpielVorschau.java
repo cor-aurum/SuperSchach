@@ -41,7 +41,7 @@ public class SpielVorschau extends GridPane {
 			e.printStackTrace();
 		}
 		setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-				+ gUI.vonFarbe.getValue() + ", " + gUI.bisFarbe.getValue() + ");");
+				+ gUI.getVonFarbe().getValue() + ", " + gUI.getBisFarbe().getValue() + ");");
 		auswahl.getItems().addAll(Schnittstelle.meldung("standardSpiele"),
 				gegner, Schnittstelle.meldung("alle"));
 		auswahl.setValue(Schnittstelle.meldung("standardSpiele"));

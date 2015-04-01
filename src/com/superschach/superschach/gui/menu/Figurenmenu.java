@@ -1,5 +1,6 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.menu;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.beans.value.ChangeListener;
@@ -17,18 +18,18 @@ public class Figurenmenu extends Menu {
 	public Figurenmenu(GUI gUI) {
 		super(gUI, Schnittstelle.meldung("figuren"));
 		HBox box = new HBox();
-		pick_weiss = new ColorPicker(gUI.farbe_weiss.getValue());
-		pick_schwarz = new ColorPicker(gUI.farbe_schwarz.getValue());
+		pick_weiss = new ColorPicker(gUI.getFarbe_weiss().getValue());
+		pick_schwarz = new ColorPicker(gUI.getFarbe_schwarz().getValue());
 		box.getChildren().addAll(pick_weiss, new Separator(), pick_schwarz);
-		pick_weiss.valueProperty().bindBidirectional(gUI.farbe_weiss);
-		pick_schwarz.valueProperty().bindBidirectional(gUI.farbe_schwarz);
+		pick_weiss.valueProperty().bindBidirectional(gUI.getFarbe_weiss());
+		pick_schwarz.valueProperty().bindBidirectional(gUI.getFarbe_schwarz());
 
 		pick_schwarz.valueProperty().addListener(new ChangeListener<Color>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Color> arg0,
 					Color arg1, Color arg2) {
-				gUI.einstellungen.speichern();
+				gUI.getEinstellungen().speichern();
 			}
 		});
 		pick_weiss.valueProperty().addListener(new ChangeListener<Color>() {
@@ -36,7 +37,7 @@ public class Figurenmenu extends Menu {
 			@Override
 			public void changed(ObservableValue<? extends Color> arg0,
 					Color arg1, Color arg2) {
-				gUI.einstellungen.speichern();
+				gUI.getEinstellungen().speichern();
 			}
 		});
 		addInhalt(new Node[]{box});
@@ -44,7 +45,7 @@ public class Figurenmenu extends Menu {
 
 	@Override
 	public void zurueck() {
-		switchFenster(new Grafikmenu(gUI));
+		switchFenster(new Grafikmenu(getGUI()));
 	}
 
 }

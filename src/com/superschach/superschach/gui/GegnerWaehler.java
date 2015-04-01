@@ -172,7 +172,7 @@ public class GegnerWaehler extends Fenster {
 			setOnMouseEntered(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					if (gUI.sounds.getValue()) {
+					if (gUI.getSounds().getValue()) {
 						AudioClip plonkSound = new AudioClip(this.getClass()
 								.getClassLoader()
 								.getResource("com/superschach/superschach/gui/sounds/hover.aiff")

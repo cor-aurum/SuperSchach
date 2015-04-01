@@ -13,19 +13,19 @@ import javafx.util.Duration;
 
 public abstract class Fenster extends StackPane {
 
-	GUI gUI;
+	private GUI gUI;
 	private boolean sichtbar = false;
 
 	public Fenster(GUI gUI) {
-		this.gUI = gUI;
+		this.setGUI(gUI);
 	}
 
 	public void show() {
 		GaussianBlur gB = new GaussianBlur();
 		ColorAdjust cA = new ColorAdjust();
 		gB.setInput(cA);
-		gUI.feld.getRoot().setEffect(gB);
-		gUI.feld.getChildren().add(this);
+		getGUI().feld.getRoot().setEffect(gB);
+		getGUI().feld.getChildren().add(this);
 		Timeline animation = new Timeline();
 		animation.getKeyFrames()
 				.addAll(new KeyFrame(Duration.ZERO, new KeyValue(
@@ -50,7 +50,7 @@ public abstract class Fenster extends StackPane {
 		GaussianBlur gB = new GaussianBlur();
 		ColorAdjust cA = new ColorAdjust();
 		gB.setInput(cA);
-		gUI.feld.getRoot().setEffect(gB);
+		getGUI().feld.getRoot().setEffect(gB);
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
 				new KeyFrame(Duration.ZERO,
@@ -70,16 +70,16 @@ public abstract class Fenster extends StackPane {
 		// gUI.ablage.getChildren().remove(this);
 		animation.setOnFinished(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				gUI.feld.getChildren().remove(Fenster.this);
+				getGUI().feld.getChildren().remove(Fenster.this);
 				sichtbar = false;
-				gUI.feld.getRoot().setEffect(null);
+				getGUI().feld.getRoot().setEffect(null);
 			}
 		});
 	}
 
 	public void switchFenster(Fenster f) {
-		gUI.feld.getChildren().remove(this);
-		gUI.feld.getChildren().add(f);
+		getGUI().feld.getChildren().remove(this);
+		getGUI().feld.getChildren().add(f);
 		sichtbar = false;
 	}
 
@@ -90,5 +90,13 @@ public abstract class Fenster extends StackPane {
 
 	public boolean isShowed() {
 		return sichtbar;
+	}
+
+	public GUI getGUI() {
+		return gUI;
+	}
+
+	public void setGUI(GUI gUI) {
+		this.gUI = gUI;
 	}
 }

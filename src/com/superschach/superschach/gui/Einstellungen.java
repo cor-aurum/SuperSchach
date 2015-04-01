@@ -164,25 +164,25 @@ public class Einstellungen extends Fenster {
 					Schnittstelle.verzeichnis() + "gui.save"));
 			br.write(gUI.hintergrund);
 			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(gUI.farbe_weiss.getValue()));
+			br.write(toRGBCode(gUI.getFarbe_weiss().getValue()));
 			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(gUI.farbe_schwarz.getValue()));
+			br.write(toRGBCode(gUI.getFarbe_schwarz().getValue()));
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.name);
 			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.sounds.getValue());
+			br.write("" + gUI.getSounds().getValue());
 			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.zweid.getValue());
+			br.write("" + gUI.getZweid().getValue());
 			br.write(System.getProperty("line.separator"));
 			br.write(gUI.form);
 			br.write(System.getProperty("line.separator"));
-			br.write(gUI.vonFarbe.getValue());
+			br.write(gUI.getVonFarbe().getValue());
 			br.write(System.getProperty("line.separator"));
-			br.write(gUI.bisFarbe.getValue());
+			br.write(gUI.getBisFarbe().getValue());
 			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.stage.isFullScreen());
+			br.write("" + gUI.getStage().isFullScreen());
 			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.css.getValue());
+			br.write("" + gUI.getCss().getValue());
 			br.flush();
 			br.close();
 		} catch (IOException e) {
@@ -197,16 +197,16 @@ public class Einstellungen extends Fenster {
 			BufferedReader br = new BufferedReader(new FileReader(
 					Schnittstelle.verzeichnis() + "gui.save"));
 			gUI.hintergrund = br.readLine();
-			gUI.farbe_weiss.setValue(Color.web(br.readLine()));
-			gUI.farbe_schwarz.setValue(Color.web(br.readLine()));
+			gUI.getFarbe_weiss().setValue(Color.web(br.readLine()));
+			gUI.getFarbe_schwarz().setValue(Color.web(br.readLine()));
 			gUI.name = br.readLine();
-			gUI.sounds.setValue(Boolean.parseBoolean(br.readLine()));
-			gUI.zweid.setValue(Boolean.parseBoolean(br.readLine()));
+			gUI.getSounds().setValue(Boolean.parseBoolean(br.readLine()));
+			gUI.getZweid().setValue(Boolean.parseBoolean(br.readLine()));
 			gUI.form = br.readLine();
-			gUI.vonFarbe.setValue(br.readLine());
-			gUI.bisFarbe.setValue(br.readLine());
-			gUI.stage.setFullScreen(Boolean.parseBoolean(br.readLine()));
-			gUI.css.setValue(br.readLine());
+			gUI.getVonFarbe().setValue(br.readLine());
+			gUI.getBisFarbe().setValue(br.readLine());
+			gUI.getStage().setFullScreen(Boolean.parseBoolean(br.readLine()));
+			gUI.getCss().setValue(br.readLine());
 			br.close();
 
 			switch (gUI.hintergrund) {
