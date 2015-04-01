@@ -134,6 +134,8 @@ public class SpielVorschau extends GridPane {
 
 		rechts.setId("pfeil-detail");
 		links.setId("pfeil-detail");
+		
+		laden(spiele[0]);
 	}
 
 	public void aktualisieren() {
