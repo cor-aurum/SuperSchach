@@ -267,7 +267,7 @@ public class SpielVorschau extends GridPane {
 
 	public boolean isSelecectedPreDefined() {
 		try {
-			if(index==0)
+			if(index==0 || auswahl.getValue().equals(Schnittstelle.meldung("standardSpiele")))
 				return true;
 			
 		} catch (Exception e) {
