@@ -37,9 +37,6 @@ import com.superschach.superschach.spiel.Schnittstelle;
 public class GUI extends Application {
 
 	private Stage stage;
-	// BorderPane root = new BorderPane();
-	// BorderPane pane = new BorderPane();
-	// BorderPane root = new BorderPane();
 	Einstellungen rechts;
 
 	protected String hintergrund = "marmor";

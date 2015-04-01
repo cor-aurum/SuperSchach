@@ -294,6 +294,7 @@ public class GegnerWaehler extends Fenster {
 
 				GegnerWaehler.this.hide();
 				gUI.spiel.laden(sV.getSelected());
+				gUI.getKontrolle().setName(gUI.spiel.getSpielName());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
 				client.herausfordern(id);
@@ -331,6 +332,7 @@ public class GegnerWaehler extends Fenster {
 			GegnerWaehler.this.hide();
 			try {
 				gUI.spiel.laden(sV.getSelected());
+				gUI.getKontrolle().setName(gUI.spiel.getSpielName());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
 				gUI.spiel.ki((int) id, farbe == "WEISS" ? 0 : 1,
@@ -360,6 +362,7 @@ public class GegnerWaehler extends Fenster {
 			GegnerWaehler.this.hide();
 			try {
 				gUI.spiel.laden(sV.getSelected());
+				gUI.getKontrolle().setName(gUI.spiel.getSpielName());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
 				if (!sV.getFile().canWrite()) {
