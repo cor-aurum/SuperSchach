@@ -294,6 +294,10 @@ public class GegnerWaehler extends Fenster {
 
 				GegnerWaehler.this.hide();
 				gUI.spiel.laden(sV.getSelected());
+				if(sV.isSelecectedPreDefined())
+				{
+					gUI.spiel.setSpielName(gUI.spiel.getSpielDefaultName());
+				}
 				gUI.getKontrolle().setName(gUI.spiel.getSpielName());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
@@ -332,6 +336,10 @@ public class GegnerWaehler extends Fenster {
 			GegnerWaehler.this.hide();
 			try {
 				gUI.spiel.laden(sV.getSelected());
+				if(sV.isSelecectedPreDefined())
+				{
+					gUI.spiel.setSpielName(gUI.spiel.getSpielDefaultName());
+				}
 				gUI.getKontrolle().setName(gUI.spiel.getSpielName());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
@@ -362,6 +370,10 @@ public class GegnerWaehler extends Fenster {
 			GegnerWaehler.this.hide();
 			try {
 				gUI.spiel.laden(sV.getSelected());
+				if(sV.isSelecectedPreDefined())
+				{
+					gUI.spiel.setSpielName(gUI.spiel.getSpielDefaultName());
+				}
 				gUI.getKontrolle().setName(gUI.spiel.getSpielName());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();

@@ -31,6 +31,7 @@ public class SpielVorschau extends GridPane {
 	ComboBox<String> auswahl = new ComboBox<String>();
 	Label name = new Label(schnittstelle.getSpielName());
 	boolean extern = false;
+
 	public SpielVorschau(String gegner, GUI gUI) {
 		setId("spiel-vorschau");
 		setStandardArray();
@@ -41,7 +42,9 @@ public class SpielVorschau extends GridPane {
 			e.printStackTrace();
 		}
 		setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-				+ gUI.getVonFarbe().getValue() + ", " + gUI.getBisFarbe().getValue() + ");");
+				+ gUI.getVonFarbe().getValue()
+				+ ", "
+				+ gUI.getBisFarbe().getValue() + ");");
 		auswahl.getItems().addAll(Schnittstelle.meldung("standardSpiele"),
 				gegner, Schnittstelle.meldung("alle"));
 		auswahl.setValue(Schnittstelle.meldung("standardSpiele"));
@@ -95,7 +98,7 @@ public class SpielVorschau extends GridPane {
 		add(rechts, 3, 0);
 		add(name, 2, 1);
 		add(auswahl, 2, 2);
-		add(new Label(),2,3);
+		add(new Label(), 2, 3);
 
 		auswahl.prefWidthProperty().bind(canvas.widthProperty());
 		links.setAlignment(Pos.CENTER);
@@ -125,16 +128,24 @@ public class SpielVorschau extends GridPane {
 
 			}
 		});
-		rechts.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/pfeil_rechts.png")
-				.toString())));
-		links.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/pfeil_links.png")
-				.toString())));
+		rechts.setGraphic(new ImageView(
+				new Image(
+						this.getClass()
+								.getClassLoader()
+								.getResource(
+										"com/superschach/superschach/gui/bilder/pfeil_rechts.png")
+								.toString())));
+		links.setGraphic(new ImageView(
+				new Image(
+						this.getClass()
+								.getClassLoader()
+								.getResource(
+										"com/superschach/superschach/gui/bilder/pfeil_links.png")
+								.toString())));
 
 		rechts.setId("pfeil-detail");
 		links.setId("pfeil-detail");
-		
+
 		laden(spiele[0]);
 	}
 
@@ -142,8 +153,12 @@ public class SpielVorschau extends GridPane {
 		canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(),
 				canvas.getHeight());
 		canvas.getGraphicsContext2D().setFill(Color.BLUE);
-		Image brettbild = new Image(this.getClass().getClassLoader()
-				.getResource("com/superschach/superschach/gui/bilder/brett2d.png").toString());
+		Image brettbild = new Image(this
+				.getClass()
+				.getClassLoader()
+				.getResource(
+						"com/superschach/superschach/gui/bilder/brett2d.png")
+				.toString());
 		canvas.getGraphicsContext2D().drawImage(brettbild, 0, 0, 300, 300);
 		for (int x = 0; x < schnittstelle.getXMax() + 1; x++) {
 			for (int y = 0; y < schnittstelle.getYMax() + 1; y++) {
@@ -200,7 +215,8 @@ public class SpielVorschau extends GridPane {
 				f = f + "_weiss.png";
 			}
 			Image img = new Image(this.getClass().getClassLoader()
-					.getResource("com/superschach/superschach/gui/bilder/" + f).toString());
+					.getResource("com/superschach/superschach/gui/bilder/" + f)
+					.toString());
 			canvas.getGraphicsContext2D().drawImage(img, translateX(x),
 					translateY(y));
 		}
@@ -247,5 +263,17 @@ public class SpielVorschau extends GridPane {
 
 	public File getFile() {
 		return new File(spiele[index]);
+	}
+
+	public boolean isSelecectedPreDefined() {
+		try {
+			if(index==0)
+				return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 }
