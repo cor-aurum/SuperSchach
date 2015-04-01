@@ -64,7 +64,7 @@ public class SpielVorschau extends GridPane {
 										}
 									}
 									spiele = new String[zaehler];
-									spiele[0] = "gui/spiele/00.schach";
+									spiele[0] = "com/superschach/superschach/gui/spiele/00.schach";
 									for (int i = 0; i < fileArray.length; i++) {
 										if (fileArray[i].toString().endsWith(
 												".schach")) {
@@ -81,7 +81,7 @@ public class SpielVorschau extends GridPane {
 										list);
 
 								spiele = new String[list.size() + 1];
-								spiele[0] = "gui/spiele/00.schach";
+								spiele[0] = "com/superschach/superschach/gui/spiele/00.schach";
 								for (int i = 0; i < list.size(); i++) {
 									spiele[i + 1] = list.get(i);
 								}
