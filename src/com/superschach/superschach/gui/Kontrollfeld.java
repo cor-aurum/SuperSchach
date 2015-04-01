@@ -6,9 +6,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 
 public class Kontrollfeld extends HBox {
@@ -16,15 +18,27 @@ public class Kontrollfeld extends HBox {
 	private Button drehen = new Button();
 	private Button chat = new Button();
 	private Button menu = new Button();
-	private Label name = new Label();
+	private TextField name = new TextField();
 
 	public Kontrollfeld(GUI gUI) {
 		setMaxWidth(600);
 		setMaxHeight(50);
 		setAlignment(Pos.BOTTOM_RIGHT);
 		getChildren().addAll(name, drehen, chat, menu);
-		
-		name.setPadding(new Insets(10,10,10,10));
+
+		name.setPadding(new Insets(10, 10, 10, 10));
+		name.setId("namensfeld");
+		name.setAlignment(Pos.BASELINE_RIGHT);
+
+		name.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent ke) {
+				if (ke.getCode().equals(KeyCode.ENTER)) {
+					gUI.spiel.setSpielName(name.getText());
+					drehen.requestFocus();
+				}
+			}
+		});
 
 		drehen.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -74,9 +88,8 @@ public class Kontrollfeld extends HBox {
 				.getResource("com/superschach/superschach/gui/bilder/chat.png")
 				.toString())));
 	}
-	
-	public void setName(String s)
-	{
+
+	public void setName(String s) {
 		name.setText(s);
 	}
 }
