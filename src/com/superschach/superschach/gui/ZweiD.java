@@ -3,6 +3,7 @@ package com.superschach.superschach.gui;
 import javafx.animation.RotateTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -23,6 +24,7 @@ public class ZweiD extends MyStackPane {
 	private Feld[][] felder;
 	private DoubleProperty zoom = new SimpleDoubleProperty(1.0);
 	private boolean rotate = true;
+	private boolean drehen=true;
 
 	public ZweiD(GUI gUI) {
 		this.gUI = gUI;
@@ -69,8 +71,11 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void drehen() {
+		if(!drehen)
+			return;
 		RotateTransition rt = new RotateTransition(Duration.millis(1500), root);
 		rt.setByAngle(180);
+		drehen=false;
 		rt.play();
 		for (Node iV : figurenEbene.getChildren()) {
 			RotateTransition rt2 = new RotateTransition(Duration.millis(1500),
@@ -83,6 +88,13 @@ public class ZweiD extends MyStackPane {
 				rotate = false;
 			}
 		}
+		rt.setOnFinished(new EventHandler<ActionEvent>() {
+
+		    @Override
+		    public void handle(ActionEvent event) {
+		       drehen=true;
+		    }
+		});
 	}
 
 	@Override

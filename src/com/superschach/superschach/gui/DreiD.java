@@ -41,6 +41,7 @@ public class DreiD extends MyStackPane {
 	private final int animationDuration = 600;
 	private Figur koenigWeiss;
 	private Figur koenigSchwarz;
+	private boolean drehen=true;
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
@@ -202,8 +203,8 @@ public class DreiD extends MyStackPane {
 
 	@Override
 	public void drehen() {
-		// xslider.setValue(xslider.getMin()+(xslider.getMax()-xslider.getValue()));
-		// yslider.setValue(yslider.getMin()+(yslider.getMax()-yslider.getValue()));
+		if(!drehen)
+			return;
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
 				new KeyFrame(Duration.ZERO, new KeyValue(
@@ -221,7 +222,15 @@ public class DreiD extends MyStackPane {
 				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider
 						.valueProperty(), xslider.getMin()
 						+ (xslider.getMax() - xslider.getValue()))));
+		drehen=false;
 		animation.play();
+		animation.setOnFinished(new EventHandler<ActionEvent>() {
+
+		    @Override
+		    public void handle(ActionEvent event) {
+		       drehen=true;
+		    }
+		});
 	}
 
 	public Figur[][] gebeFiguren() {
