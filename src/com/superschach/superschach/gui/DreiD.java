@@ -95,13 +95,18 @@ public class DreiD extends MyStackPane {
 				}
 			}
 		});
-		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+		feld.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				double mouseX = mouseEvent.getSceneX();
+				if (mouseEvent.isSecondaryButtonDown()) {
+					double mouseY = mouseEvent.getSceneY();
+					double mouseX = mouseEvent.getSceneX();
 
-				xslider.setValue(mouseX);
+					xslider.setValue(mouseY / xslider.getMax() * 100);
+					zslider.setValue((mouseX-scene.getWidth()/2)*2 / scene.getWidth()
+							* zslider.getMax());
+				}
 			}
 
 		});
