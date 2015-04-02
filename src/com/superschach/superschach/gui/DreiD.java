@@ -104,8 +104,8 @@ public class DreiD extends MyStackPane {
 					double mouseX = mouseEvent.getSceneX();
 
 					xslider.setValue(mouseY / xslider.getMax() * 100);
-					zslider.setValue((mouseX-scene.getWidth()/2)*2 / scene.getWidth()
-							* zslider.getMax());
+					zslider.setValue(((mouseX-scene.getWidth()/2)*2 / scene.getWidth()
+							* zslider.getMax())*-1);
 				}
 			}
 
