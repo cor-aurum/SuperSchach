@@ -215,12 +215,12 @@ public class FxSchnittstelle extends Schnittstelle {
 	}
 	
 	@Override
-	public void herausforderung(String s, int id)
+	public void herausforderung(long id, int herausforderung)
 	{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.getGegner().addHerausforderung(new Herausforderung(gUI.getGegner(),s, id));
+				//gUI.getGegner().addHerausforderung(new Herausforderung(gUI.getGegner(),s, id));
 			}
 		});
 		
