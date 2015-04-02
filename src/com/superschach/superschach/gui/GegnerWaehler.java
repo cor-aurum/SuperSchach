@@ -291,7 +291,7 @@ public class GegnerWaehler extends Fenster {
 
 		public void listener(long id, String farbe) {
 			try {
-
+				/*
 				GegnerWaehler.this.hide();
 				gUI.spiel.laden(sV.getSelected());
 				if(sV.isSelecectedPreDefined())
@@ -301,6 +301,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.getKontrolle().setName(gUI.spiel.getSpielName());
 				gUI.feld.entferneFiguren();
 				gUI.feld.startaufstellung();
+				*/
 				client.herausfordern(id);
 				gUI.speichern = null;
 			} catch (Exception e1) {
