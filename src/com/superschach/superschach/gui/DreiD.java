@@ -41,7 +41,7 @@ public class DreiD extends MyStackPane {
 	private final int animationDuration = 600;
 	private Figur koenigWeiss;
 	private Figur koenigSchwarz;
-	private boolean drehen=true;
+	private boolean drehen = true;
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
@@ -95,6 +95,16 @@ public class DreiD extends MyStackPane {
 				}
 			}
 		});
+		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				double mouseX = mouseEvent.getSceneX();
+
+				xslider.setValue(mouseX);
+			}
+
+		});
 		zoom.set(root3D.s.getX());
 		// zoom.set(700);
 		root3D.s.xProperty().bind(zoom);
@@ -130,13 +140,18 @@ public class DreiD extends MyStackPane {
 		 * .getResource("gui/bilder/brett.png").toString()));
 		 */
 		gUI.feldMaterial.setDiffuseMap(brett.snapshot(null, null));
-		gUI.feldMaterial.setBumpMap(new Image(this.getClass().getClassLoader()
-				.getResource("com/superschach/superschach/gui/bilder/" + gUI.hintergrund + "_NRM.png")
-				.toString()));
-		gUI.feldMaterial.setSpecularMap(new Image(this.getClass()
+		gUI.feldMaterial.setBumpMap(new Image(this
+				.getClass()
 				.getClassLoader()
-				.getResource("com/superschach/superschach/gui/bilder/" + gUI.hintergrund + "_SPEC.png")
-				.toString()));
+				.getResource(
+						"com/superschach/superschach/gui/bilder/"
+								+ gUI.hintergrund + "_NRM.png").toString()));
+		gUI.feldMaterial.setSpecularMap(new Image(this
+				.getClass()
+				.getClassLoader()
+				.getResource(
+						"com/superschach/superschach/gui/bilder/"
+								+ gUI.hintergrund + "_SPEC.png").toString()));
 		feld.setMaterial(gUI.feldMaterial);
 
 		PhongMaterial material = new PhongMaterial();
@@ -177,23 +192,34 @@ public class DreiD extends MyStackPane {
 			case 3:
 				brett.getGraphicsContext2D()
 						.drawImage(
-								new Image(this.getClass().getClassLoader()
-										.getResource("com/superschach/superschach/gui/bilder/gruen.png")
-										.toString()), translateX(x),
+								new Image(
+										this.getClass()
+												.getClassLoader()
+												.getResource(
+														"com/superschach/superschach/gui/bilder/gruen.png")
+												.toString()), translateX(x),
 								translateY(y));
 				break;
 			case 4:
-				brett.getGraphicsContext2D().drawImage(
-						new Image(this.getClass().getClassLoader()
-								.getResource("com/superschach/superschach/gui/bilder/rot.png").toString()),
-						translateX(x), translateY(y));
+				brett.getGraphicsContext2D()
+						.drawImage(
+								new Image(
+										this.getClass()
+												.getClassLoader()
+												.getResource(
+														"com/superschach/superschach/gui/bilder/rot.png")
+												.toString()), translateX(x),
+								translateY(y));
 				break;
 			case 5:
 				brett.getGraphicsContext2D()
 						.drawImage(
-								new Image(this.getClass().getClassLoader()
-										.getResource("com/superschach/superschach/gui/bilder/gelb.png")
-										.toString()), translateX(x),
+								new Image(
+										this.getClass()
+												.getClassLoader()
+												.getResource(
+														"com/superschach/superschach/gui/bilder/gelb.png")
+												.toString()), translateX(x),
 								translateY(y));
 				break;
 			}
@@ -203,7 +229,7 @@ public class DreiD extends MyStackPane {
 
 	@Override
 	public void drehen() {
-		if(!drehen)
+		if (!drehen)
 			return;
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
@@ -222,14 +248,14 @@ public class DreiD extends MyStackPane {
 				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider
 						.valueProperty(), xslider.getMin()
 						+ (xslider.getMax() - xslider.getValue()))));
-		drehen=false;
+		drehen = false;
 		animation.play();
 		animation.setOnFinished(new EventHandler<ActionEvent>() {
 
-		    @Override
-		    public void handle(ActionEvent event) {
-		       drehen=true;
-		    }
+			@Override
+			public void handle(ActionEvent event) {
+				drehen = true;
+			}
 		});
 	}
 
@@ -267,20 +293,16 @@ public class DreiD extends MyStackPane {
 					figuren[sum - anfang.x][anfang.y] = null;
 					figuren[sum - ende.x][ende.y]
 							.setFeld(felder[sum - ende.x][ende.y]);
-					
-					if(gUI.spiel.getStatus()==1)
-					{
-						if(gUI.spiel.Player0())
-						{
-							koenigWeiss.setMaterial(new PhongMaterial(Color.RED));
+
+					if (gUI.spiel.getStatus() == 1) {
+						if (gUI.spiel.Player0()) {
+							koenigWeiss
+									.setMaterial(new PhongMaterial(Color.RED));
+						} else {
+							koenigSchwarz.setMaterial(new PhongMaterial(
+									Color.RED));
 						}
-						else
-						{
-							koenigSchwarz.setMaterial(new PhongMaterial(Color.RED));
-						}
-					}
-					else
-					{
+					} else {
 						koenigWeiss.setMaterial(gUI.gebeFigurenMaterial(16));
 						koenigSchwarz.setMaterial(gUI.gebeFigurenMaterial(-16));
 					}
@@ -363,14 +385,12 @@ public class DreiD extends MyStackPane {
 			e.printStackTrace();
 		}
 	}
-	
-	public void setKoenigWeiss(Figur f)
-	{
-		koenigWeiss=f;
+
+	public void setKoenigWeiss(Figur f) {
+		koenigWeiss = f;
 	}
-	
-	public void setKoenigSchwarz(Figur f)
-	{
-		koenigSchwarz=f;
+
+	public void setKoenigSchwarz(Figur f) {
+		koenigSchwarz = f;
 	}
 }
