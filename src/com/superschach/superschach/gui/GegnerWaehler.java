@@ -82,7 +82,7 @@ public class GegnerWaehler extends Fenster {
 
 	public void starteVerbindung() {
 		try {
-			client = new Client("localhost", gUI.name, gUI.spiel);
+			client = new Client("172.17.0.6", gUI.name, gUI.spiel);
 			gUI.client = client;
 		} catch (Exception e) {
 			internet = false;
