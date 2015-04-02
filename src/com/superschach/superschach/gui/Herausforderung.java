@@ -1,6 +1,6 @@
 package com.superschach.superschach.gui;
 
-import com.superschach.superschach.spiel.Schnittstelle;
+import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,30 +10,48 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import com.superschach.superschach.client.Spieler;
+import com.superschach.superschach.spiel.Schnittstelle;
+
 public class Herausforderung {
 
-	private String name;
-	private int id;
+	private String name="Heinz Hugo";
+	private long id;
 	HerausgefordertDialog dialog;
-	Pane p=new Pane();
+	Pane p = new Pane();
 
-	public Herausforderung(GegnerWaehler gegner,String name, int id) {
-		this.name = name;
+	public Herausforderung(GegnerWaehler gegner, int herausforderung, long id) {
 		this.id = id;
-		dialog=new HerausgefordertDialog(gegner.gUI.spiel, name);
+
+		try {
+			Spieler[] s = gegner.gUI.client.getLobby();
+
+			for (Spieler spieler : s) {
+				if(spieler.getID()==id)
+				{
+					name=spieler.getName();
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		dialog = new HerausgefordertDialog(gegner.gUI.spiel, herausforderung);
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 	private class HerausgefordertDialog extends Dialog {
 
-		public HerausgefordertDialog(FxSchnittstelle schnittstelle, String name) {
+		public HerausgefordertDialog(FxSchnittstelle schnittstelle,
+				int herausforderung) {
+			setMaxWidth(450);
 			BorderPane root = new BorderPane();
 			BorderPane buttons = new BorderPane();
 			Button annehmen = new Button(Schnittstelle.meldung("annehmen"));
@@ -52,6 +70,11 @@ public class Herausforderung {
 					schnittstelle.gUI.feld.getChildren().remove(p);
 					schnittstelle.gUI.feld.getChildren().remove(
 							HerausgefordertDialog.this);
+					try {
+						schnittstelle.gUI.client.nehmeHerausforderungAn(herausforderung);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			});
 

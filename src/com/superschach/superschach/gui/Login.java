@@ -28,7 +28,7 @@ public class Login extends Dialog {
 	String[] ret;
 
 	public Login(String message, String[] ret, Blocker blocker, GUI gUI) {
-		System.out.println("login");
+		setMaxWidth(450);
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(30));
 		GridPane textfelder = new GridPane();
@@ -94,9 +94,9 @@ public class Login extends Dialog {
 			}
 
 		});
-		ok.setPrefWidth(145);
+		ok.setPrefWidth(195);
 		ok.setDefaultButton(true);
-		abbrechen.setPrefWidth(145);
+		abbrechen.setPrefWidth(195);
 		buttons.getChildren().addAll(ok, abbrechen);
 		root.setCenter(buttons);
 		root.setTop(textfelder);
