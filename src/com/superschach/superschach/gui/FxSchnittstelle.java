@@ -221,6 +221,13 @@ public class FxSchnittstelle extends Schnittstelle {
 			@Override
 			public void run() {
 				//gUI.getGegner().addHerausforderung(new Herausforderung(gUI.getGegner(),s, id));
+				try{
+				gUI.client.nehmeHerausforderungAn(herausforderung);
+				}
+				catch(Exception e)
+				{
+					
+				}
 			}
 		});
 		
