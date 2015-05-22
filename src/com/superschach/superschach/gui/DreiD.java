@@ -79,11 +79,11 @@ public class DreiD extends MyStackPane {
 
 			@Override
 			public void handle(MouseEvent event) {
-				gUI.spiel.klick(((int) (event.getX()
-						/ (feld.getWidth() / felder.length) + 4)),
-						((int) (event.getY()
-								/ (feld.getHeight() / felder.length) + 4)));
-				aktualisieren();
+					gUI.spiel.klick(((int) (event.getX()
+							/ (feld.getWidth() / felder.length) + 4)),
+							((int) (event.getY()
+									/ (feld.getHeight() / felder.length) + 4)));
+					aktualisieren();
 			}
 		});
 		scene.setCamera(kamera);
@@ -104,8 +104,9 @@ public class DreiD extends MyStackPane {
 					double mouseX = mouseEvent.getSceneX();
 
 					xslider.setValue(mouseY / xslider.getMax() * 100);
-					zslider.setValue(((mouseX-scene.getWidth()/2)*2 / scene.getWidth()
-							* zslider.getMax())*-1);
+					zslider.setValue(((mouseX - scene.getWidth() / 2) * 2
+							/ scene.getWidth() * zslider.getMax())
+							* -1);
 				}
 			}
 

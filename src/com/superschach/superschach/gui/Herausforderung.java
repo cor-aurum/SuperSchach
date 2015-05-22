@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 import com.superschach.superschach.client.Spieler;
 import com.superschach.superschach.spiel.Schnittstelle;
 
-public class Herausforderung {
+public class Herausforderung extends Button{
 
 	private String name="Heinz Hugo";
 	private long id;
@@ -37,13 +37,21 @@ public class Herausforderung {
 			e.printStackTrace();
 		}
 		dialog = new HerausgefordertDialog(gegner.gUI.spiel, herausforderung);
+		
+		setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				//gegner.herausforderung.getChildren()
+				//gegner.herausforderung.getChildren().add(new TextField("Herausforderung"));
+			}
+		});
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public long getId() {
+	public long getSpielerId() {
 		return id;
 	}
 

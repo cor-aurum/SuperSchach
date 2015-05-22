@@ -2,10 +2,6 @@ package com.superschach.superschach.gui;
 
 import java.io.IOException;
 
-import com.superschach.superschach.client.Client;
-import com.superschach.superschach.client.Spieler;
-import com.superschach.superschach.spiel.Schnittstelle;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -29,6 +25,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 
+import com.superschach.superschach.client.Client;
+import com.superschach.superschach.client.Spieler;
+import com.superschach.superschach.spiel.Schnittstelle;
+
 public class GegnerWaehler extends Fenster {
 
 	GUI gUI;
@@ -36,6 +36,7 @@ public class GegnerWaehler extends Fenster {
 	VBox liste = new VBox();
 	Client client;
 	ScrollPane scroll;
+	VBox herausforderung=new VBox();
 	//MenuButton herausforderung =new MenuButton(Schnittstelle.meldung("herausforderungen"));
 	boolean internet = true;
 
@@ -73,6 +74,9 @@ public class GegnerWaehler extends Fenster {
 		});
 		pane.setPadding(new Insets(30, 30, 45, 30));
 		pane.setTop(waehler);
+		
+		herausforderung.setPrefWidth(75);
+		pane.setLeft(herausforderung);
 		setzeInhalt(pane);
 		pane.setCenter(scroll);
 		BorderPane.setAlignment(waehler, Pos.CENTER);
