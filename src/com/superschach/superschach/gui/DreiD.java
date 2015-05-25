@@ -22,6 +22,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
@@ -413,6 +414,8 @@ public class DreiD extends MyStackPane {
 	@Override
 	public void stirb(int x, int y)
 	{
-		root3D.getChildren().remove(figuren[x][y].getMesh());
+		Figur f=figuren[gUI.spiel.getXMax()-x][y];
+		MeshView m=f.getMesh();
+		root3D.getChildren().remove(m);
 	}
 }
