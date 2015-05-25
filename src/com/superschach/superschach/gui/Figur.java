@@ -10,11 +10,11 @@ public class Figur{
 	int figur;
 	private MeshView mesh;
 
-	public void erstelleFigur(Feld f, int figur, DreiD dreid) {
+	public Figur(MeshView meshview,Feld f, int figur, DreiD dreid) {
 		// super(25, 25, 75);
 		this.f = f;
 		this.figur = figur;
-
+		mesh=meshview;
 		/*
 		try {
 			//this = dreid.gUI.gebeMesh(figur);
@@ -75,13 +75,8 @@ public class Figur{
 		// setzeFigur();
 	}
 	
-	public MeshView getMesh()
+	public MeshView getMeshView()
 	{
 		return mesh;
-	}
-	
-	public void setMesh(MeshView mesh)
-	{
-		this.mesh=mesh;
 	}
 }
