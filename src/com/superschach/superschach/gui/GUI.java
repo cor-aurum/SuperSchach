@@ -265,7 +265,8 @@ public class GUI extends Application {
 		/*
 		 *
 		 */
-		return (MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/bauer.fxml"));
+		String f=gebeFigur(figur);
+		return (MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/"+f+".fxml"));
 	}
 
 	public boolean getFarbe() {

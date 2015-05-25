@@ -3,6 +3,7 @@ package com.superschach.superschach.gui;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.MeshView;
+import javafx.scene.transform.Rotate;
 
 public class Figur{
 
@@ -24,13 +25,21 @@ public class Figur{
 		}
 		*/
 
+		/*
 		if (dreid.gUI.form.equals("modern")) {
-			mesh.setScaleX(20);
-			mesh.setScaleY(20);
-			mesh.setScaleZ(20);
-			//mesh.setTranslateZ((mesh.getBoundsInLocal().getDepth() * mesh.getScaleZ()) / 2 + 5);
+			mesh.setScaleX(2);
+			mesh.setScaleY(2);
+			mesh.setScaleZ(2);
+			mesh.setTranslateZ((mesh.getBoundsInLocal().getDepth() * mesh.getScaleZ()) / 2 + 5);
 		}
-		mesh.setRotate(figur > 0 ? 90 : -90);
+		*/
+		mesh.setScaleX(40);
+		mesh.setScaleY(40);
+		mesh.setScaleZ(40);
+		mesh.setTranslateZ((mesh.getBoundsInLocal().getDepth() * mesh.getScaleZ()) / 2 + 5);
+		//mesh.getTransforms().add(new Rotate(figur > 0 ? 0 : 180,0,0));
+		mesh.setRotate(figur > 0 ? 0 : 180);
+		//mesh.setRotationAxis(arg0);
 		mesh.setCache(true);
 
 		mesh.setMaterial(dreid.gUI.gebeFigurenMaterial(figur));
