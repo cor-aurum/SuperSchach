@@ -23,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -35,6 +36,7 @@ public class GUI extends Application {
 
 	private Stage stage;
 	Einstellungen rechts;
+	private MeshView[] dreidfiguren=new MeshView[17];
 
 	protected String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
@@ -266,7 +268,19 @@ public class GUI extends Application {
 		 *
 		 */
 		String f=gebeFigur(figur);
-		return (MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/"+f+".fxml"));
+		figur=Math.abs(figur);
+		if(dreidfiguren[figur]==null)
+		{
+			dreidfiguren[figur]=(MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/"+f+".fxml"));
+		}
+		TriangleMesh ret =new TriangleMesh();
+		ret.getPoints().setAll(((TriangleMesh)dreidfiguren[figur].getMesh()).getPoints().toArray(new float[((TriangleMesh)dreidfiguren[figur].getMesh()).getPoints().size()]));
+		ret.getFaces().setAll(((TriangleMesh)dreidfiguren[figur].getMesh()).getFaces().toArray(new int[((TriangleMesh)dreidfiguren[figur].getMesh()).getFaces().size()]));
+		ret.getTexCoords().setAll(((TriangleMesh)dreidfiguren[figur].getMesh()).getTexCoords().toArray(new float[((TriangleMesh)dreidfiguren[figur].getMesh()).getTexCoords().size()]));
+
+		MeshView mesh=new MeshView();
+		mesh.setMesh(ret);
+		return mesh;
 	}
 
 	public boolean getFarbe() {
