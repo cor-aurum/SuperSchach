@@ -98,7 +98,12 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public void stirb(int typ, int x, int y) {
-
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.feld.stirb(x, y);
+			}
+		});
 	}
 
 	@Override

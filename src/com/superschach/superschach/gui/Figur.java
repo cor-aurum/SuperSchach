@@ -3,7 +3,6 @@ package com.superschach.superschach.gui;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.MeshView;
-import javafx.scene.transform.Rotate;
 
 public class Figur{
 

@@ -43,4 +43,8 @@ public abstract class MyStackPane extends StackPane {
 
 	public synchronized void waitForAnimation() {
 	}
+	
+	public void stirb(int x, int y) {
+
+	}
 }
