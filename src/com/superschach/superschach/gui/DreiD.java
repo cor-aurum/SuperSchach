@@ -22,6 +22,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.MeshView;
 import javafx.util.Duration;
 
 public class DreiD extends MyStackPane {
@@ -285,14 +286,14 @@ public class DreiD extends MyStackPane {
 			animation.getKeyFrames().addAll(
 					new KeyFrame(Duration.ZERO, new KeyValue(
 							xslider.valueProperty(), xslider.getValue())),
-					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
+					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur.getMesh()
 							.translateXProperty(), anfang.getX())),
-					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
+					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur.getMesh()
 							.translateYProperty(), anfang.getY())),
 					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
-							tempfigur.translateXProperty(), ende.getX())),
+							tempfigur.getMesh().translateXProperty(), ende.getX())),
 					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
-							tempfigur.translateYProperty(), ende.getY())));
+							tempfigur.getMesh().translateYProperty(), ende.getY())));
 			animation.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					// root3D.getChildren().remove(tempfigur);
@@ -302,15 +303,15 @@ public class DreiD extends MyStackPane {
 
 					if (gUI.spiel.getStatus() == 1) {
 						if (gUI.spiel.Player0()) {
-							koenigWeiss
+							koenigWeiss.getMesh()
 									.setMaterial(new PhongMaterial(Color.RED));
 						} else {
-							koenigSchwarz.setMaterial(new PhongMaterial(
+							koenigSchwarz.getMesh().setMaterial(new PhongMaterial(
 									Color.RED));
 						}
 					} else {
-						koenigWeiss.setMaterial(gUI.gebeFigurenMaterial(16));
-						koenigSchwarz.setMaterial(gUI.gebeFigurenMaterial(-16));
+						koenigWeiss.getMesh().setMaterial(gUI.gebeFigurenMaterial(16));
+						koenigSchwarz.getMesh().setMaterial(gUI.gebeFigurenMaterial(-16));
 					}
 				}
 			});
@@ -351,7 +352,15 @@ public class DreiD extends MyStackPane {
 				int figur = felder[x][y].gebeInhalt();
 				figuren[x][y] = null;
 				if (figur != 0) {
-					figuren[x][y] = new Figur(felder[x][y], figur, this);
+						figuren[x][y] = new Figur();
+						try{
+							figuren[x][y].setMesh(gUI.gebeMesh(figur));
+							figuren[x][y].erstelleFigur(felder[x][y], figur, this);
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+						}
 				}
 			}
 		}
@@ -371,7 +380,7 @@ public class DreiD extends MyStackPane {
 	public void entferneFiguren() {
 		List<Node> zuEntfernen = new ArrayList<Node>();
 		for (int i = 0; i < root3D.getChildren().size(); i++) {
-			if (root3D.getChildren().get(i) instanceof Figur) {
+			if (root3D.getChildren().get(i) instanceof MeshView) {
 				zuEntfernen.add(root3D.getChildren().get(i));
 			}
 		}

@@ -1,39 +1,41 @@
 package com.superschach.superschach.gui;
 
-import com.superschach.superschach.spiel.Schnittstelle;
-
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.MeshView;
 
-public class Figur extends MeshView {
+public class Figur{
 
 	Feld f;
 	int figur;
+	private MeshView mesh;
 
-	public Figur(Feld f, int figur, DreiD dreid) {
+	public void erstelleFigur(Feld f, int figur, DreiD dreid) {
 		// super(25, 25, 75);
 		this.f = f;
 		this.figur = figur;
 
+		/*
 		try {
-			setMesh(dreid.gUI.gebeMesh(figur));
+			//this = dreid.gUI.gebeMesh(figur);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(Schnittstelle.meldung("figurNichtGefunden"));
 		}
+		*/
 
 		if (dreid.gUI.form.equals("modern")) {
-			setScaleX(2);
-			setScaleY(2);
-			setScaleZ(2);
-			setTranslateZ((getBoundsInLocal().getDepth() * getScaleZ()) / 2 + 5);
+			mesh.setScaleX(20);
+			mesh.setScaleY(20);
+			mesh.setScaleZ(20);
+			//mesh.setTranslateZ((mesh.getBoundsInLocal().getDepth() * mesh.getScaleZ()) / 2 + 5);
 		}
-		setRotate(figur > 0 ? 90 : -90);
-		setCache(true);
+		mesh.setRotate(figur > 0 ? 90 : -90);
+		mesh.setCache(true);
 
-		setMaterial(dreid.gUI.gebeFigurenMaterial(figur));
-		dreid.root3D.getChildren().add(this);
-		setOnMouseClicked(new EventHandler<MouseEvent>() {
+		mesh.setMaterial(dreid.gUI.gebeFigurenMaterial(figur));
+		dreid.root3D.getChildren().add(mesh);
+		mesh.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
@@ -54,8 +56,8 @@ public class Figur extends MeshView {
 
 	private void setzeFigur() {
 		// localToScene(f);
-		setTranslateX(f.getX());
-		setTranslateY(f.getY());
+		mesh.setTranslateX(f.getX());
+		mesh.setTranslateY(f.getY());
 		// setTranslateZ((getBoundsInLocal().getDepth() * getScaleZ()) / 2 + 5);
 		// setTranslateZ(0);
 	}
@@ -63,5 +65,15 @@ public class Figur extends MeshView {
 	public void setFeld(Feld f) {
 		this.f = f;
 		// setzeFigur();
+	}
+	
+	public MeshView getMesh()
+	{
+		return mesh;
+	}
+	
+	public void setMesh(MeshView mesh)
+	{
+		this.mesh=mesh;
 	}
 }

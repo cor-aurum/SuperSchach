@@ -1,9 +1,5 @@
 package com.superschach.superschach.gui;
 
-import gui.MyMesh;
-
-import java.io.ObjectInputStream;
-
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -14,6 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -25,7 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Mesh;
+import javafx.scene.shape.MeshView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -238,7 +235,8 @@ public class GUI extends Application {
 		}
 	}
 
-	public Mesh gebeMesh(int figur) throws Exception {
+	public MeshView gebeMesh(int figur) throws Exception {
+		/*
 		String modell = gebeFigur(figur);
 		if (modell_farbe) {
 			if (figur > 0) {
@@ -250,11 +248,6 @@ public class GUI extends Application {
 		MyMesh mesh = new MyMesh();
 		ObjectInputStream ois = null;
 		try {
-			/*
-			 * file = new File(this.getClass().getClassLoader()
-			 * .getResource("gui/meshes/" + form + "_" + modell + ".stl")
-			 * .toURI());
-			 */
 			ois = new ObjectInputStream(this
 					.getClass()
 					.getClassLoader()
@@ -269,6 +262,10 @@ public class GUI extends Application {
 			ois.close();
 		}
 		return mesh.getMesh();
+		/*
+		 *
+		 */
+		return (MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/bauer.fxml"));
 	}
 
 	public boolean getFarbe() {
