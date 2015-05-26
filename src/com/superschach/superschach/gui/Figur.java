@@ -6,12 +6,14 @@ import javafx.scene.shape.MeshView;
 
 public class Figur{
 
-	Feld f;
-	int figur;
+	private Feld f;
+	private int figur;
 	private MeshView mesh;
+	private DreiD dreid;
 
 	public Figur(MeshView meshview,Feld f, int figur, DreiD dreid) {
 		// super(25, 25, 75);
+		this.dreid=dreid;
 		this.f = f;
 		this.figur = figur;
 		mesh=meshview;
@@ -73,6 +75,17 @@ public class Figur{
 	public void setFeld(Feld f) {
 		this.f = f;
 		// setzeFigur();
+	}
+	
+	public void setMeshView(MeshView mv)
+	{
+		mesh=mv;
+		dreid.root3D.getChildren().add(mesh);
+	}
+	
+	public int getID()
+	{
+		return figur;
 	}
 	
 	public MeshView getMeshView()

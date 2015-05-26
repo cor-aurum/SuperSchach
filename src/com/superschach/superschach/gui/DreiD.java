@@ -10,15 +10,18 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -44,7 +47,7 @@ public class DreiD extends MyStackPane {
 	private Figur koenigWeiss;
 	private Figur koenigSchwarz;
 	private boolean drehen = true;
-	private int ausgewaehlteFigur=4;
+	private int ausgewaehlteFigur = 4;
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
@@ -283,21 +286,33 @@ public class DreiD extends MyStackPane {
 			tempfigur = figuren[sum - anfang.x][anfang.y];
 
 			root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
-			figuren[sum - ende.x][ende.y] = tempfigur;
+			int id = gUI.spiel.figur(zug[2], zug[3]);
+			if (tempfigur.getID() != id) {
+				// tempfigur.setMeshView(gUI.gebeMesh(id));
+				MeshView m = tempfigur.getMeshView();
+				root3D.getChildren().remove(m);
+				figuren[sum - ende.x][ende.y] = new Figur(gUI.gebeMesh(id),
+						felder[sum - ende.x][ende.y], id, this);
+			} else {
+				figuren[sum - ende.x][ende.y] = tempfigur;
+			}
 			Timeline animation = new Timeline(60.0);
-			animation.getKeyFrames().addAll(
-					new KeyFrame(Duration.ZERO, new KeyValue(
-							xslider.valueProperty(), xslider.getValue())),
-					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
-							.getMeshView().translateXProperty(), anfang.getX())),
-					new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
-							.getMeshView().translateYProperty(), anfang.getY())),
-					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
-							tempfigur.getMeshView().translateXProperty(), ende
+			animation
+					.getKeyFrames()
+					.addAll(new KeyFrame(Duration.ZERO, new KeyValue(xslider
+							.valueProperty(), xslider.getValue())),
+							new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
+									.getMeshView().translateXProperty(), anfang
 									.getX())),
-					new KeyFrame(Duration.valueOf("0.3s"), new KeyValue(
-							tempfigur.getMeshView().translateYProperty(), ende
-									.getY())));
+							new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
+									.getMeshView().translateYProperty(), anfang
+									.getY())),
+							new KeyFrame(Duration.valueOf("0.3s"),
+									new KeyValue(tempfigur.getMeshView()
+											.translateXProperty(), ende.getX())),
+							new KeyFrame(Duration.valueOf("0.3s"),
+									new KeyValue(tempfigur.getMeshView()
+											.translateYProperty(), ende.getY())));
 			animation.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					figuren[sum - anfang.x][anfang.y] = null;
@@ -358,7 +373,8 @@ public class DreiD extends MyStackPane {
 				figuren[x][y] = null;
 				if (figur != 0) {
 					try {
-						figuren[x][y] = new Figur(gUI.gebeMesh(figur),felder[x][y], figur, this);
+						figuren[x][y] = new Figur(gUI.gebeMesh(figur),
+								felder[x][y], figur, this);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -409,31 +425,29 @@ public class DreiD extends MyStackPane {
 	public void setKoenigSchwarz(Figur f) {
 		koenigSchwarz = f;
 	}
-	
+
 	@Override
-	public void stirb(int x, int y)
-	{
-		Figur f=figuren[gUI.spiel.getXMax()-x][y];
-		MeshView m=f.getMeshView();
+	public void stirb(int x, int y) {
+		Figur f = figuren[gUI.spiel.getXMax() - x][y];
+		MeshView m = f.getMeshView();
 		root3D.getChildren().remove(m);
 	}
 
 	@Override
 	public int figurMenu(Blocker blocker) {
 		System.out.println("Ich gehe jetzt ins Figur-Auwahlmenü");
-		GridPane auswahl=new GridPane();
-		MeshView[] figuren =new MeshView[4];
-		
-		for(int i=0;i<4;i++)
-		{
+		GridPane auswahl = new GridPane();
+		MeshView[] figuren = new MeshView[4];
+
+		for (int i = 0; i < 4; i++) {
 			try {
-				figuren[i]=gUI.gebeMesh(i+1);
-				auswahl.add(figuren[i],i&1,i<2?0:1);
-				final int icopy=i;
+				figuren[i] = gUI.gebeMesh(i + 1);
+				auswahl.add(figuren[i], i & 1, i < 2 ? 0 : 1);
+				final int icopy = i;
 				figuren[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						ausgewaehlteFigur=icopy;
+						ausgewaehlteFigur = icopy;
 						getChildren().remove(auswahl);
 						blocker.release();
 					}
@@ -443,7 +457,16 @@ public class DreiD extends MyStackPane {
 				e.printStackTrace();
 			}
 		}
-		getChildren().add(auswahl);
+		auswahl.setHgap(10);
+		auswahl.setVgap(10);
+		Label l = new Label("test");
+		l.setStyle("-fx-font-size:14;");
+		// auswahl.add(l,0,0);
+		BorderPane root = new BorderPane();
+		root.setPadding(new Insets(30));
+		root.setTop(l);
+		root.setCenter(auswahl);
+		getChildren().add(root);
 		return ausgewaehlteFigur;
 	}
 }
