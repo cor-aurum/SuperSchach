@@ -423,7 +423,6 @@ public class DreiD extends MyStackPane {
 		System.out.println("Ich gehe jetzt ins Figur-Auwahlmenü");
 		GridPane auswahl=new GridPane();
 		MeshView[] figuren =new MeshView[4];
-		Blocker blocker2=new Blocker();
 		
 		for(int i=0;i<4;i++)
 		{
@@ -435,7 +434,7 @@ public class DreiD extends MyStackPane {
 					@Override
 					public void handle(MouseEvent event) {
 						ausgewaehlteFigur=icopy;
-						blocker2.release();
+						blocker.release();
 					}
 				});
 				System.out.println("Figurmenü");
@@ -444,8 +443,6 @@ public class DreiD extends MyStackPane {
 			}
 		}
 		getChildren().add(auswahl);
-		blocker2.block();
-		blocker.release();
 		return ausgewaehlteFigur;
 	}
 }
