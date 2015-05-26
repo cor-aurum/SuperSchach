@@ -241,7 +241,7 @@ public class ZweiD extends MyStackPane {
 	}
 
 	@Override
-	public int figurMenu() {
+	public int figurMenu(Blocker blocker) {
 		// TODO Auto-generated method stub
 		return 4;
 	}

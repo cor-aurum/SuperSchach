@@ -16,13 +16,10 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -422,36 +419,33 @@ public class DreiD extends MyStackPane {
 	}
 
 	@Override
-	public synchronized int figurMenu() {
+	public int figurMenu(Blocker blocker) {
+		System.out.println("Ich gehe jetzt ins Figur-Auwahlmenü");
 		GridPane auswahl=new GridPane();
 		MeshView[] figuren =new MeshView[4];
-		Blocker blocker=new Blocker();
+		Blocker blocker2=new Blocker();
 		
 		for(int i=0;i<4;i++)
 		{
 			try {
 				figuren[i]=gUI.gebeMesh(i+1);
-				auswahl.add(figuren[i],i&1,1-i&1);
+				auswahl.add(figuren[i],i&1,i<2?0:1);
 				final int icopy=i;
 				figuren[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
 						ausgewaehlteFigur=icopy;
-						blocker.release();
+						blocker2.release();
 					}
 				});
-				blocker.block();
+				System.out.println("Figurmenü");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			Pane sperre = new Pane();
-			GaussianBlur gB = new GaussianBlur();
-			ColorAdjust cA = new ColorAdjust();
-			gB.setInput(cA);
-			gUI.getGegner().setEffect(gB);
-			gUI.feld.getChildren().add(sperre);
-			getChildren().add(auswahl);
 		}
+		getChildren().add(auswahl);
+		blocker2.block();
+		blocker.release();
 		return ausgewaehlteFigur;
 	}
 }
