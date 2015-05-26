@@ -47,4 +47,6 @@ public abstract class MyStackPane extends StackPane {
 	public void stirb(int x, int y) {
 
 	}
+	
+	public abstract int figurMenu();
 }

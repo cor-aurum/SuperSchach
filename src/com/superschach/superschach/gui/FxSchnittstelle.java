@@ -20,7 +20,17 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public int figurMenu() {
-		return 4;
+		int ret = 0;
+		Blocker blocker = new Blocker();
+		blocker.block();
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				gUI.feld.figurMenu();
+				blocker.release();
+			}
+		});
+		return ret;
 	}
 
 	@Override

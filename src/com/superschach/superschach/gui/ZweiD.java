@@ -239,4 +239,10 @@ public class ZweiD extends MyStackPane {
 	public Node getRoot() {
 		return root;
 	}
+
+	@Override
+	public int figurMenu() {
+		// TODO Auto-generated method stub
+		return 4;
+	}
 }
