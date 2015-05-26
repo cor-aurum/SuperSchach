@@ -434,6 +434,7 @@ public class DreiD extends MyStackPane {
 					@Override
 					public void handle(MouseEvent event) {
 						ausgewaehlteFigur=icopy;
+						getChildren().remove(auswahl);
 						blocker.release();
 					}
 				});

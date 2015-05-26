@@ -32,7 +32,6 @@ public class FxSchnittstelle extends Schnittstelle {
 				gB.setInput(cA);
 				gUI.getGegner().setEffect(gB);
 				gUI.feld.getChildren().add(sperre);
-				gUI.feld.getChildren().add(login);
 			}
 		});
 		blocker.block();
@@ -40,8 +39,6 @@ public class FxSchnittstelle extends Schnittstelle {
 			@Override
 			public void run() {
 				gUI.getGegner().setEffect(null);
-				gUI.feld.getChildren().remove(sperre);
-				gUI.feld.getChildren().remove(login);
 			}
 		});
 		return ret;
