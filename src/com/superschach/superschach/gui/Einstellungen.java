@@ -133,10 +133,13 @@ public class Einstellungen extends Fenster {
 						} else if (figur.getSelectedToggle() == figur_standard) {
 							gUI.form = "standard";
 						}
-						gUI.feld.entferneFiguren();
-						gUI.feld.startaufstellung();
-						gUI.feld.aktualisieren();
-						speichern();
+						try {
+							gUI.feld.entferneFiguren();
+							gUI.feld.startaufstellung();
+							gUI.feld.aktualisieren();
+							speichern();
+						} catch (Exception e) {
+						}
 					}
 				});
 
