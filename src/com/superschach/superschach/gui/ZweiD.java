@@ -24,7 +24,7 @@ public class ZweiD extends MyStackPane {
 	private Feld[][] felder;
 	private DoubleProperty zoom = new SimpleDoubleProperty(1.0);
 	private boolean rotate = true;
-	private boolean drehen=true;
+	private boolean drehen = true;
 
 	public ZweiD(GUI gUI) {
 		this.gUI = gUI;
@@ -71,11 +71,11 @@ public class ZweiD extends MyStackPane {
 
 	@Override
 	public void drehen() {
-		if(!drehen)
+		if (!drehen)
 			return;
 		RotateTransition rt = new RotateTransition(Duration.millis(1500), root);
 		rt.setByAngle(180);
-		drehen=false;
+		drehen = false;
 		rt.play();
 		for (Node iV : figurenEbene.getChildren()) {
 			RotateTransition rt2 = new RotateTransition(Duration.millis(1500),
@@ -90,10 +90,10 @@ public class ZweiD extends MyStackPane {
 		}
 		rt.setOnFinished(new EventHandler<ActionEvent>() {
 
-		    @Override
-		    public void handle(ActionEvent event) {
-		       drehen=true;
-		    }
+			@Override
+			public void handle(ActionEvent event) {
+				drehen = true;
+			}
 		});
 	}
 
@@ -142,20 +142,28 @@ public class ZweiD extends MyStackPane {
 
 			if (figur < 0) {
 				f = f + "_schwarz.png";
-				if(f.equals("koenig_schwarz.png")&&gUI.spiel.getStatus()==1 && !gUI.spiel.Player0())
-				{
-					f="koenig_rot.png";
+				if (f.equals("koenig_schwarz.png")
+						&& gUI.spiel.getStatus() == 1 && !gUI.spiel.Player0()) {
+					f = "koenig_rot.png";
 				}
-				img = new Image(this.getClass().getClassLoader()
-						.getResource("com/superschach/superschach/gui/bilder/" + f).toString());
+				img = new Image(this
+						.getClass()
+						.getClassLoader()
+						.getResource(
+								"com/superschach/superschach/gui/bilder/" + f)
+						.toString());
 			} else {
 				f = f + "_weiss.png";
-				if(f.equals("koenig_weiss.png")&&gUI.spiel.getStatus()==1 && gUI.spiel.Player0())
-				{
-					f="koenig_rot.png";
+				if (f.equals("koenig_weiss.png") && gUI.spiel.getStatus() == 1
+						&& gUI.spiel.Player0()) {
+					f = "koenig_rot.png";
 				}
-				img = new Image(this.getClass().getClassLoader()
-						.getResource("com/superschach/superschach/gui/bilder/" + f).toString());
+				img = new Image(this
+						.getClass()
+						.getClassLoader()
+						.getResource(
+								"com/superschach/superschach/gui/bilder/" + f)
+						.toString());
 			}
 			ImageView iV = new ImageView(img);
 			iV.setFitWidth(700 / gUI.spiel.getXMax());
@@ -200,13 +208,16 @@ public class ZweiD extends MyStackPane {
 				f = "gelb";
 				break;
 			}
-			feld.getGraphicsContext2D()
-					.drawImage(
-							new Image(this.getClass().getClassLoader()
-									.getResource("com/superschach/superschach/gui/bilder/" + f + ".png")
-									.toString()), translateX(x), translateY(y),
-							feld.getWidth() / gUI.spiel.getXMax(),
-							feld.getHeight() / gUI.spiel.getYMax());
+			feld.getGraphicsContext2D().drawImage(
+					new Image(this
+							.getClass()
+							.getClassLoader()
+							.getResource(
+									"com/superschach/superschach/gui/bilder/"
+											+ f + ".png").toString()),
+					translateX(x), translateY(y),
+					feld.getWidth() / gUI.spiel.getXMax(),
+					feld.getHeight() / gUI.spiel.getYMax());
 			// startaufstellung();
 		}
 	}
@@ -241,8 +252,37 @@ public class ZweiD extends MyStackPane {
 	}
 
 	@Override
-	public int figurMenu(Blocker blocker) {
-		// TODO Auto-generated method stub
-		return 4;
+	public FigurenMenue figurMenu(Blocker blocker) {
+		return new FigurenMenue(
+				blocker,
+				new Node[] {
+						new ImageView(
+								new Image(
+										this.getClass()
+												.getClassLoader()
+												.getResource(
+														"com/superschach/superschach/gui/bilder/turm_weiss.png")
+												.toString())),
+						new ImageView(
+								new Image(
+										this.getClass()
+												.getClassLoader()
+												.getResource(
+														"com/superschach/superschach/gui/bilder/laeufer_weiss.png")
+												.toString())),
+						new ImageView(
+								new Image(
+										this.getClass()
+												.getClassLoader()
+												.getResource(
+														"com/superschach/superschach/gui/bilder/dame_weiss.png")
+												.toString())),
+						new ImageView(
+								new Image(
+										this.getClass()
+												.getClassLoader()
+												.getResource(
+														"com/superschach/superschach/gui/bilder/springer_weiss.png")
+												.toString())) }, gUI);
 	}
 }

@@ -48,5 +48,5 @@ public abstract class MyStackPane extends StackPane {
 
 	}
 	
-	public abstract int figurMenu(Blocker blocker);
+	public abstract FigurenMenue figurMenu(Blocker blocker);
 }

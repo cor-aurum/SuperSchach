@@ -13,6 +13,7 @@ public class FxSchnittstelle extends Schnittstelle {
 	GUI gUI;
 	Login login;
 	Pane sperre;
+	FigurenMenue menue=null;
 
 	public FxSchnittstelle(GUI gUI) {
 		this.gUI = gUI;
@@ -20,28 +21,29 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public int figurMenu() {
-		int ret = 0;
+		
 		Blocker blocker = new Blocker();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.feld.figurMenu(blocker);
 				sperre = new Pane();
 				GaussianBlur gB = new GaussianBlur();
 				ColorAdjust cA = new ColorAdjust();
 				gB.setInput(cA);
 				gUI.getGegner().setEffect(gB);
 				gUI.feld.getChildren().add(sperre);
+				menue=gUI.feld.figurMenu(blocker);
 			}
 		});
 		blocker.block();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				gUI.feld.getChildren().remove(sperre);
 				gUI.getGegner().setEffect(null);
 			}
 		});
-		return ret;
+		return menue.ret;
 	}
 
 	@Override

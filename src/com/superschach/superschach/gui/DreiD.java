@@ -10,19 +10,15 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -47,7 +43,6 @@ public class DreiD extends MyStackPane {
 	private Figur koenigWeiss;
 	private Figur koenigSchwarz;
 	private boolean drehen = true;
-	private int ausgewaehlteFigur = 4;
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
@@ -434,39 +429,11 @@ public class DreiD extends MyStackPane {
 	}
 
 	@Override
-	public int figurMenu(Blocker blocker) {
-		System.out.println("Ich gehe jetzt ins Figur-Auwahlmenü");
-		GridPane auswahl = new GridPane();
-		MeshView[] figuren = new MeshView[4];
-
-		for (int i = 0; i < 4; i++) {
-			try {
-				figuren[i] = gUI.gebeMesh(i + 1);
-				auswahl.add(figuren[i], i & 1, i < 2 ? 0 : 1);
-				final int icopy = i;
-				figuren[i].setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						ausgewaehlteFigur = icopy;
-						getChildren().remove(auswahl);
-						blocker.release();
-					}
-				});
-				System.out.println("Figurmenü");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	public FigurenMenue figurMenu(Blocker blocker) {
+		try {
+			return new FigurenMenue(blocker,new Node[]{gUI.gebeMesh(1),gUI.gebeMesh(2),gUI.gebeMesh(3),gUI.gebeMesh(4)},gUI);
+		} catch (Exception e) {
+			return null;
 		}
-		auswahl.setHgap(10);
-		auswahl.setVgap(10);
-		Label l = new Label("test");
-		l.setStyle("-fx-font-size:14;");
-		// auswahl.add(l,0,0);
-		BorderPane root = new BorderPane();
-		root.setPadding(new Insets(30));
-		root.setTop(l);
-		root.setCenter(auswahl);
-		getChildren().add(root);
-		return ausgewaehlteFigur;
 	}
 }
