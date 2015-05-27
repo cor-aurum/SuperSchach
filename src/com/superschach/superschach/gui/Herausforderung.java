@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-import com.superschach.superschach.client.Spieler;
+import com.superschach.superschach.network.client.Spieler;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 public class Herausforderung extends Button{

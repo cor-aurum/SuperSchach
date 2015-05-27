@@ -25,8 +25,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 
-import com.superschach.superschach.client.Client;
-import com.superschach.superschach.client.Spieler;
+import com.superschach.superschach.network.client.Client;
+import com.superschach.superschach.network.client.Spieler;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 public class GegnerWaehler extends Fenster {

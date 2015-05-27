@@ -28,8 +28,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.sun.javafx.application.LauncherImpl;
-import com.superschach.superschach.client.Client;
 import com.superschach.superschach.gui.menu.Hauptmenu;
+import com.superschach.superschach.network.client.Client;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 public class GUI extends Application {
