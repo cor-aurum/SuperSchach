@@ -36,7 +36,7 @@ public class GUI extends Application {
 
 	private Stage stage;
 	Einstellungen rechts;
-	private MeshView[] dreidfiguren=new MeshView[17];
+	public MeshView[] dreidfiguren=new MeshView[17];
 
 	protected String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
@@ -238,40 +238,11 @@ public class GUI extends Application {
 	}
 
 	public MeshView gebeMesh(int figur) throws Exception {
-		/*
-		String modell = gebeFigur(figur);
-		if (modell_farbe) {
-			if (figur > 0) {
-				modell += "_weiss";
-			} else {
-				modell += "_schwarz";
-			}
-		}
-		MyMesh mesh = new MyMesh();
-		ObjectInputStream ois = null;
-		try {
-			ois = new ObjectInputStream(this
-					.getClass()
-					.getClassLoader()
-					.getResourceAsStream(
-							"com/superschach/superschach/gui/meshes/" + form + "_" + modell + ".figur"));
-			mesh = (MyMesh) ois.readObject();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			ois.close();
-		}
-		return mesh.getMesh();
-		/*
-		 *
-		 */
 		String f=gebeFigur(figur);
 		figur=Math.abs(figur);
 		if(dreidfiguren[figur]==null)
 		{
-			dreidfiguren[figur]=(MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/"+f+".fxml"));
+			dreidfiguren[figur]=(MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/"+f+"_"+form+".fxml"));
 		}
 		TriangleMesh ret =new TriangleMesh();
 		ret.getPoints().setAll(((TriangleMesh)dreidfiguren[figur].getMesh()).getPoints().toArray(new float[((TriangleMesh)dreidfiguren[figur].getMesh()).getPoints().size()]));
