@@ -1,13 +1,12 @@
 package com.superschach.superschach.gui.menu;
 
-import com.superschach.superschach.gui.GUI;
-import com.superschach.superschach.gui.GegnerWaehler;
-import com.superschach.superschach.gui.Soundmenu;
-import com.superschach.superschach.spiel.Schnittstelle;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+
+import com.superschach.superschach.gui.GUI;
+import com.superschach.superschach.gui.GegnerWaehler;
+import com.superschach.superschach.spiel.Schnittstelle;
 
 public class Hauptmenu extends Menu {
 
