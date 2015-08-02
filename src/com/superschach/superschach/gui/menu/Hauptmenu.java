@@ -63,7 +63,14 @@ public class Hauptmenu extends Menu {
 		punkte[5].setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				if(getGUI().getClient()!=null)
+				{
+					switchFenster(new AufgebenMenu(gUI));
+				}
+				else
+				{
 				System.exit(0);
+				}
 			}
 		});
 	}

@@ -80,7 +80,7 @@ public class GUI extends Application {
 
 	private Einstellungen einstellungen;
 	private GegnerWaehler gegner;
-	Client client;
+	private Client client;
 	public MyStackPane feld;
 	static SimpleBooleanProperty geladen = new SimpleBooleanProperty(false);
 	private Hauptmenu hauptmenu = new Hauptmenu(this);
@@ -361,5 +361,15 @@ public class GUI extends Application {
 
 	public void setKontrolle(Kontrollfeld kontrolle) {
 		this.kontrolle = kontrolle;
+	}
+	
+	public Client getClient()
+	{
+		return client;
+	}
+	
+	public void setClient(Client c)
+	{
+		client =c;
 	}
 }

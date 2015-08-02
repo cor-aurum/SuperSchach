@@ -81,7 +81,7 @@ public class Chat extends Fenster {
 				if (!tF.getText().equals("")) {
 					chat.getChildren().add(new Nachricht(tF.getText(), true));
 					try {
-						gUI.client.sendeChat(tF.getText());
+						gUI.getClient().sendeChat(tF.getText());
 					} catch (Exception e1) {
 					}
 					tF.setText("");

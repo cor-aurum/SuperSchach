@@ -24,7 +24,7 @@ public class Herausforderung extends Button{
 		this.id = id;
 
 		try {
-			Spieler[] s = gegner.gUI.client.getLobby();
+			Spieler[] s = gegner.gUI.getClient().getLobby();
 
 			for (Spieler spieler : s) {
 				if(spieler.getID()==id)
@@ -79,7 +79,7 @@ public class Herausforderung extends Button{
 					schnittstelle.gUI.feld.getChildren().remove(
 							HerausgefordertDialog.this);
 					try {
-						schnittstelle.gUI.client.nehmeHerausforderungAn(herausforderung);
+						schnittstelle.gUI.getClient().nehmeHerausforderungAn(herausforderung);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
