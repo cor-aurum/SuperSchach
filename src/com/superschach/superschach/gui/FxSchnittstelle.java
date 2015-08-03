@@ -1,5 +1,6 @@
 package com.superschach.superschach.gui;
 
+import com.superschach.superschach.network.AbortReason;
 import com.superschach.superschach.spiel.Schnittstelle;
 
 import javafx.application.Platform;
@@ -252,5 +253,10 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 		
+	}
+
+	@Override
+	public void spielBeendet(AbortReason grund) {
+		meldungAusgeben(grund.name());
 	}
 }
