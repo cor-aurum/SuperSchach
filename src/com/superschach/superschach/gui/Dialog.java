@@ -6,8 +6,13 @@ import javafx.scene.layout.StackPane;
 public abstract class Dialog extends StackPane {
 	public Dialog()
 	{
-		setMaxWidth(350);
-		setMaxHeight(200);
+		this(350,200);
+	}
+	
+	public Dialog(int width, int height)
+	{
+		setMaxWidth(width);
+		setMaxHeight(height);
 		Pane p=new Pane();
 		p.setId("dialog");
 		getChildren().add(p);

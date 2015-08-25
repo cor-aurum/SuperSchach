@@ -17,6 +17,7 @@ import javafx.scene.SubScene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -43,6 +44,8 @@ public class DreiD extends MyStackPane {
 	private Figur koenigWeiss;
 	private Figur koenigSchwarz;
 	private boolean drehen = true;
+	private int gestorbeneFigurenWeiss = 0;
+	private int gestorbeneFigurenSchwarz = 0;
 
 	public DreiD(GUI gUI) {
 		this.gUI = gUI;
@@ -80,11 +83,13 @@ public class DreiD extends MyStackPane {
 
 			@Override
 			public void handle(MouseEvent event) {
-				gUI.spiel.klick(((int) (event.getX()
-						/ (feld.getWidth() / felder.length) + 4)),
-						((int) (event.getY()
-								/ (feld.getHeight() / felder.length) + 4)));
-				aktualisieren();
+				if (event.getButton().equals(MouseButton.PRIMARY)) {
+					gUI.spiel.klick(((int) (event.getX()
+							/ (feld.getWidth() / felder.length) + 4)),
+							((int) (event.getY()
+									/ (feld.getHeight() / felder.length) + 4)));
+					aktualisieren();
+				}
 			}
 		});
 		scene.setCamera(kamera);
@@ -279,8 +284,12 @@ public class DreiD extends MyStackPane {
 		Figur tempfigur;
 		try {
 			tempfigur = figuren[sum - anfang.x][anfang.y];
+			figuren[sum - anfang.x][anfang.y].setzeBewegt();
 
-			root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
+			if (figuren[sum - ende.x][ende.y] != null) {
+				figuren[sum - anfang.x][anfang.y].inkrementGeschlageneFiguren();
+			}
+			// root3D.getChildren().remove(figuren[sum - ende.x][ende.y]);
 			int id = gUI.spiel.figur(zug[2], zug[3]);
 			if (tempfigur.getID() != id) {
 				// tempfigur.setMeshView(gUI.gebeMesh(id));
@@ -308,6 +317,7 @@ public class DreiD extends MyStackPane {
 							new KeyFrame(Duration.valueOf("0.3s"),
 									new KeyValue(tempfigur.getMeshView()
 											.translateYProperty(), ende.getY())));
+
 			animation.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					figuren[sum - anfang.x][anfang.y] = null;
@@ -423,15 +433,47 @@ public class DreiD extends MyStackPane {
 
 	@Override
 	public void stirb(int x, int y) {
-		Figur f = figuren[gUI.spiel.getXMax() - x][y];
-		MeshView m = f.getMeshView();
-		root3D.getChildren().remove(m);
+		Figur temp2 = figuren[gUI.spiel.getXMax() - x][y];
+		if (temp2 != null) {
+			Timeline animation = new Timeline();
+			animation
+					.getKeyFrames()
+					.addAll(new KeyFrame(Duration.ZERO, new KeyValue(temp2
+							.getMeshView().translateXProperty(), temp2
+							.getMeshView().getTranslateX())),
+							new KeyFrame(Duration.ZERO, new KeyValue(temp2
+									.getMeshView().translateYProperty(), temp2
+									.getMeshView().getTranslateY())),
+							new KeyFrame(Duration.ZERO, new KeyValue(temp2
+									.getMeshView().rotateProperty(), temp2
+									.getMeshView().getRotate())),
+
+							new KeyFrame(Duration.valueOf("0.3s"),
+									new KeyValue(temp2.getMeshView()
+											.translateXProperty(), temp2
+											.getID() < 0 ? 300 : -300)),
+							new KeyFrame(
+									Duration.valueOf("0.3s"),
+									new KeyValue(
+											temp2.getMeshView()
+													.translateYProperty(),
+											temp2.getID() < 0 ? 250 - 35 * gestorbeneFigurenSchwarz++
+													: -250
+															+ 35
+															* gestorbeneFigurenWeiss++)),
+
+							new KeyFrame(Duration.valueOf("0.3s"),
+									new KeyValue(temp2.getMeshView()
+											.rotateProperty(), temp2.getID()<0?90:-90)));
+			animation.play();
+		}
 	}
 
 	@Override
 	public FigurenMenue figurMenu(Blocker blocker) {
 		try {
-			return new FigurenMenue(blocker,new Node[]{gUI.gebeMesh(1),gUI.gebeMesh(2),gUI.gebeMesh(3),gUI.gebeMesh(4)},gUI);
+			return new FigurenMenue(blocker, new Node[] { gUI.gebeMesh(1),
+					gUI.gebeMesh(2), gUI.gebeMesh(3), gUI.gebeMesh(4) }, gUI);
 		} catch (Exception e) {
 			return null;
 		}

@@ -14,7 +14,7 @@ public class FxSchnittstelle extends Schnittstelle {
 	GUI gUI;
 	Login login;
 	Pane sperre;
-	FigurenMenue menue=null;
+	FigurenMenue menue = null;
 
 	public FxSchnittstelle(GUI gUI) {
 		this.gUI = gUI;
@@ -22,7 +22,7 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public int figurMenu() {
-		
+
 		Blocker blocker = new Blocker();
 		Platform.runLater(new Runnable() {
 			@Override
@@ -33,7 +33,7 @@ public class FxSchnittstelle extends Schnittstelle {
 				gB.setInput(cA);
 				gUI.getGegner().setEffect(gB);
 				gUI.feld.getChildren().add(sperre);
-				menue=gUI.feld.figurMenu(blocker);
+				menue = gUI.feld.figurMenu(blocker);
 			}
 		});
 		blocker.block();
@@ -49,7 +49,7 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public void meldungAusgeben(String meldung) {
-		System.out.println(meldung);
+		new Meldung(meldung.split(System.lineSeparator()), gUI.feld, 20);
 	}
 
 	@Override
@@ -70,8 +70,7 @@ public class FxSchnittstelle extends Schnittstelle {
 			@Override
 			public void run() {
 				gUI.feld.zug(zug);
-				if(gUI.speichern !=null)
-				{
+				if (gUI.speichern != null) {
 					gUI.speichern.speichern();
 				}
 			}
@@ -220,39 +219,39 @@ public class FxSchnittstelle extends Schnittstelle {
 			}
 		});
 	}
-	
+
 	@Override
-	public void matt(String name)
-	{
+	public void matt(String name) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				new Meldung(Schnittstelle.meldung("schachmatt"), gUI.feld);
-				if(gUI.speichern !=null)
-				{
+				new Meldung(
+						new String[] { Schnittstelle.meldung("schachmatt") },
+						gUI.feld, 40);
+				if (gUI.speichern != null) {
 					gUI.speichern.loeschen();
 				}
 			}
 		});
-		
+
 	}
-	
+
 	@Override
-	public void schach(int x, int y)
-	{
-		
+	public void schach(int x, int y) {
+
 	}
-	
+
 	@Override
-	public void herausforderung(long id, int herausforderung)
-	{
+	public void herausforderung(long id, int herausforderung) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.getGegner().addHerausforderung(new Herausforderung(gUI.getGegner(),herausforderung, id));
+				gUI.getGegner().addHerausforderung(
+						new Herausforderung(gUI.getGegner(), herausforderung,
+								id));
 			}
 		});
-		
+
 	}
 
 	@Override
