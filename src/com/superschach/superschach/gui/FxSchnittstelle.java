@@ -49,7 +49,12 @@ public class FxSchnittstelle extends Schnittstelle {
 
 	@Override
 	public void meldungAusgeben(String meldung) {
-		new Meldung(meldung.split(System.lineSeparator()), gUI.feld, 20);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				new Meldung(meldung.split(System.lineSeparator()), gUI.feld, 20);
+			}
+		});
 	}
 
 	@Override
