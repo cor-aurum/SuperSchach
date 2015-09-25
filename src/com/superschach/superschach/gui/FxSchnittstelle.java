@@ -255,11 +255,10 @@ public class FxSchnittstelle extends AbstractGUI {
 								id));
 			}
 		});
-
 	}
 
 	@Override
 	public void gegnerSpielVerlassen() {
-		meldungAusgeben("gegnerSpielVerlassen");
+		meldungAusgeben(AbstractGUI.meldung("gegner_spiel_verlassen"));
 	}
 }
