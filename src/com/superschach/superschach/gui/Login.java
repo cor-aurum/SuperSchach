@@ -50,24 +50,29 @@ public class Login extends Dialog {
 		ObjectInputStream ois = null;
 		FileInputStream fis = null;
 		try {
-		  fis = new FileInputStream(AbstractGUI.verzeichnis()+"login");
-		  ois = new ObjectInputStream(fis);
-		  Object obj = ois.readObject();
-		  if (obj instanceof PasswortSpeicher) {
-		    speicher = (PasswortSpeicher)obj;
-		    nameEingeben.setText(speicher.getName());
-		    passwortEingeben.setText(speicher.getPasswort());
-		  }
-		}
-		catch (IOException e) {
-			speicher=new PasswortSpeicher();
-		}
-		catch (ClassNotFoundException e) {
-		  e.printStackTrace();
-		}
-		finally {
-		  if (ois != null) try { ois.close(); } catch (IOException e) {}
-		  if (fis != null) try { fis.close(); } catch (IOException e) {}
+			fis = new FileInputStream(AbstractGUI.verzeichnis() + "login");
+			ois = new ObjectInputStream(fis);
+			Object obj = ois.readObject();
+			if (obj instanceof PasswortSpeicher) {
+				speicher = (PasswortSpeicher) obj;
+				nameEingeben.setText(speicher.getName());
+				passwortEingeben.setText(speicher.getPasswort());
+			}
+		} catch (IOException e) {
+			speicher = new PasswortSpeicher();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (ois != null)
+				try {
+					ois.close();
+				} catch (IOException e) {
+				}
+			if (fis != null)
+				try {
+					fis.close();
+				} catch (IOException e) {
+				}
 		}
 
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -86,28 +91,33 @@ public class Login extends Dialog {
 			public void handle(Event arg0) {
 				ret[0] = nameEingeben.getText();
 				ret[1] = passwortEingeben.getText();
-				
-				ObjectOutputStream oos = null;
-				FileOutputStream fos = null;
-				try {
-				  fos = new FileOutputStream(AbstractGUI.verzeichnis()+"login");
-				  oos = new ObjectOutputStream(fos);
+				if (speichern.isSelected()) {
+					speicher.setName(ret[0]);
+					speicher.setPasswort(ret[1]);
+					
+					ObjectOutputStream oos = null;
+					FileOutputStream fos = null;
+					try {
+						fos = new FileOutputStream(AbstractGUI.verzeichnis()
+								+ "login");
+						oos = new ObjectOutputStream(fos);
+						oos.writeObject(speicher);
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+						if (oos != null)
+							try {
+								oos.close();
+							} catch (IOException e) {
+							}
+						if (fos != null)
+							try {
+								fos.close();
+							} catch (IOException e) {
+							}
+					}
 				}
-				catch (IOException e) {
-				  e.printStackTrace();
-				}
-				finally {
-				  if (oos != null) try { oos.close(); } catch (IOException e) {}
-				  if (fos != null) try { fos.close(); } catch (IOException e) {}
-				}
-				speicher.setName(ret[0]);
-				speicher.setPasswort(ret[1]);
-				try {
-					oos.writeObject(speicher);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
+
 				blocker.release();
 			}
 
@@ -138,14 +148,16 @@ public class Login extends Dialog {
 		textfelder.add(mess, 1, 2);
 
 		HBox buttons = new HBox();
-		
-		Hyperlink link=new Hyperlink("\nNoch nicht registriert?");
+
+		Hyperlink link = new Hyperlink("\nNoch nicht registriert?");
 		link.setOnMouseClicked(new EventHandler<Event>() {
 
 			@Override
 			public void handle(Event arg0) {
-				HostServicesDelegate hostServices = HostServicesFactory.getInstance(gUI);
-				hostServices.showDocument("http://super-schach.com/SchachPortal/index.php?seite=registrieren");
+				HostServicesDelegate hostServices = HostServicesFactory
+						.getInstance(gUI);
+				hostServices
+						.showDocument("http://super-schach.com/SchachPortal/index.php?seite=registrieren");
 			}
 
 		});
@@ -153,7 +165,7 @@ public class Login extends Dialog {
 		ok.setDefaultButton(true);
 		abbrechen.setPrefWidth(195);
 		buttons.getChildren().addAll(ok, abbrechen);
-		VBox steuerung =new VBox();
+		VBox steuerung = new VBox();
 		steuerung.getChildren().add(buttons);
 		steuerung.getChildren().add(speichern);
 		root.setCenter(steuerung);
