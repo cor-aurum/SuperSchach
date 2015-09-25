@@ -1,15 +1,14 @@
 package com.superschach.superschach.gui;
 
-import com.superschach.superschach.network.AbortReason;
-import com.superschach.superschach.spiel.Schnittstelle;
-
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
 
-public class FxSchnittstelle extends Schnittstelle {
+import com.superschach.superschach.spiel.AbstractGUI;
+
+public class FxSchnittstelle extends AbstractGUI {
 
 	GUI gUI;
 	Login login;
@@ -172,7 +171,7 @@ public class FxSchnittstelle extends Schnittstelle {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				login = new Login(b ? Schnittstelle.meldung("passwort_falsch")
+				login = new Login(b ? AbstractGUI.meldung("passwort_falsch")
 						: "", ret, blocker, gUI);
 				sperre = new Pane();
 				GaussianBlur gB = new GaussianBlur();
@@ -231,7 +230,7 @@ public class FxSchnittstelle extends Schnittstelle {
 			@Override
 			public void run() {
 				new Meldung(
-						new String[] { Schnittstelle.meldung("schachmatt") },
+						new String[] { AbstractGUI.meldung("schachmatt") },
 						gUI.feld, 40);
 				if (gUI.speichern != null) {
 					gUI.speichern.loeschen();
@@ -260,7 +259,7 @@ public class FxSchnittstelle extends Schnittstelle {
 	}
 
 	@Override
-	public void spielBeendet(AbortReason grund) {
-		meldungAusgeben(grund.name());
+	public void gegnerSpielVerlassen() {
+		meldungAusgeben("gegnerSpielVerlassen");
 	}
 }

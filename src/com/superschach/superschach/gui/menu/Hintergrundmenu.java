@@ -1,7 +1,7 @@
 package com.superschach.superschach.gui.menu;
 
 import com.superschach.superschach.gui.GUI;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,7 +16,7 @@ public class Hintergrundmenu extends Menu {
 	ColorPicker pick_unten;
 
 	public Hintergrundmenu(GUI gUI) {
-		super(gUI, Schnittstelle.meldung("hintergrund"));
+		super(gUI, AbstractGUI.meldung("hintergrund"));
 		pick_oben = new ColorPicker();
 		pick_unten = new ColorPicker();
 		pick_unten.setValue(Color.web(gUI.getBisFarbe().getValue()));

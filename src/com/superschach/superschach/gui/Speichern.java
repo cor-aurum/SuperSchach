@@ -2,7 +2,7 @@ package com.superschach.superschach.gui;
 
 import java.io.File;
 
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Speichern {
 	private File verzeichnis;
@@ -10,9 +10,9 @@ public class Speichern {
 	public Speichern(GUI gUI, String gegner)
 	{
 		this.gUI=gUI;
-		verzeichnis=new File(Schnittstelle.verzeichnis()+File.separator+gegner);
+		verzeichnis=new File(AbstractGUI.verzeichnis()+File.separator+gegner);
 		verzeichnis.mkdir();
-		verzeichnis=new File(Schnittstelle.verzeichnis()+File.separator+gegner+File.separator+System.currentTimeMillis()+".schach");
+		verzeichnis=new File(AbstractGUI.verzeichnis()+File.separator+gegner+File.separator+System.currentTimeMillis()+".schach");
 	}
 	
 	public Speichern(GUI gUI, File f)

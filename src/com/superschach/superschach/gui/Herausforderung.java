@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import com.superschach.superschach.network.client.Spieler;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Herausforderung extends Button{
 
@@ -62,9 +62,9 @@ public class Herausforderung extends Button{
 			setMaxWidth(450);
 			BorderPane root = new BorderPane();
 			BorderPane buttons = new BorderPane();
-			Button annehmen = new Button(Schnittstelle.meldung("annehmen"));
-			Button abbrechen = new Button(Schnittstelle.meldung("abbrechen"));
-			Label text = new Label(Schnittstelle.meldung("herausforderung")
+			Button annehmen = new Button(AbstractGUI.meldung("annehmen"));
+			Button abbrechen = new Button(AbstractGUI.meldung("abbrechen"));
+			Label text = new Label(AbstractGUI.meldung("herausforderung")
 					+ "\n" + name);
 			root.setCenter(text);
 			buttons.setLeft(annehmen);

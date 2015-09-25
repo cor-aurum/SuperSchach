@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import com.superschach.superschach.gui.GUI;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Figurenmenu extends Menu {
 
@@ -19,7 +19,7 @@ public class Figurenmenu extends Menu {
 	ComboBox<String> figur;
 
 	public Figurenmenu(GUI gUI) {
-		super(gUI, Schnittstelle.meldung("figuren"));
+		super(gUI, AbstractGUI.meldung("figuren"));
 		HBox box = new HBox();
 		pick_weiss = new ColorPicker(gUI.getFarbe_weiss().getValue());
 		pick_schwarz = new ColorPicker(gUI.getFarbe_schwarz().getValue());
@@ -44,15 +44,15 @@ public class Figurenmenu extends Menu {
 			}
 		});
 		figur = new ComboBox<String>();
-		figur.getItems().setAll(Schnittstelle.meldung("standard"),
-				Schnittstelle.meldung("modern"));
-		figur.setValue(Schnittstelle.meldung(gUI.form));
+		figur.getItems().setAll(AbstractGUI.meldung("standard"),
+				AbstractGUI.meldung("modern"));
+		figur.setValue(AbstractGUI.meldung(gUI.form));
 		figur.valueProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0,
 					String arg1, String arg2) {
-				if (figur.getValue().equals(Schnittstelle.meldung("standard"))) {
+				if (figur.getValue().equals(AbstractGUI.meldung("standard"))) {
 					gUI.form = "standard";
 				} else {
 					gUI.form = "modern";

@@ -1,6 +1,6 @@
 package com.superschach.superschach.gui;
 
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
@@ -26,7 +26,7 @@ public class Figur {
 		/*
 		 * try { //this = dreid.gUI.gebeMesh(figur); } catch (Exception e) {
 		 * e.printStackTrace();
-		 * System.out.println(Schnittstelle.meldung("figurNichtGefunden")); }
+		 * System.out.println(AbstractGUI.meldung("figurNichtGefunden")); }
 		 */
 
 		/*
@@ -52,9 +52,9 @@ public class Figur {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.getButton().equals(MouseButton.SECONDARY)) {
-					dreid.gUI.spiel.meldungAusgeben(Schnittstelle.meldung((!bewegt?"nicht_":"")+"bewegt")+
+					dreid.gUI.spiel.meldungAusgeben(AbstractGUI.meldung((!bewegt?"nicht_":"")+"bewegt")+
 				System.lineSeparator()+
-				Schnittstelle.meldung("figuren_geschlagen").replaceAll("%", ""+geschlageneFiguren));
+				AbstractGUI.meldung("figuren_geschlagen").replaceAll("%", ""+geschlageneFiguren));
 				} else {
 					dreid.gUI.spiel.klick(Figur.this.f.x, Figur.this.f.y);
 					dreid.aktualisieren();

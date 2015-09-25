@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 import com.superschach.superschach.gui.GUI;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class AufgebenMenu extends Menu {
 
@@ -14,16 +14,16 @@ public class AufgebenMenu extends Menu {
 	Button remis;
 
 	public AufgebenMenu(GUI gUI) {
-		super(gUI, Schnittstelle.meldung("beenden"));
+		super(gUI, AbstractGUI.meldung("beenden"));
 
-		aufgeben = new Button(Schnittstelle.meldung("aufgeben"));
+		aufgeben = new Button(AbstractGUI.meldung("aufgeben"));
 		aufgeben.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				getGUI().getClient().aufgeben();
 			}
 		});
-		remis = new Button(Schnittstelle.meldung("remis"));
+		remis = new Button(AbstractGUI.meldung("remis"));
 		remis.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {

@@ -27,7 +27,7 @@ import javafx.util.Duration;
 
 import com.superschach.superschach.network.client.Client;
 import com.superschach.superschach.network.client.Spieler;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class GegnerWaehler extends Fenster {
 
@@ -37,7 +37,7 @@ public class GegnerWaehler extends Fenster {
 	Client client;
 	ScrollPane scroll;
 	VBox herausforderung=new VBox();
-	//MenuButton herausforderung =new MenuButton(Schnittstelle.meldung("herausforderungen"));
+	//MenuButton herausforderung =new MenuButton(AbstractGUI.meldung("herausforderungen"));
 	boolean internet = true;
 
 	public GegnerWaehler(GUI gUI) {
@@ -45,7 +45,7 @@ public class GegnerWaehler extends Fenster {
 
 		this.gUI = gUI;
 
-		Label waehler = new Label(Schnittstelle.meldung("gegnerWaehlen"));
+		Label waehler = new Label(AbstractGUI.meldung("gegnerWaehlen"));
 		BorderPane.setMargin(waehler, new Insets(0, 0, 20, 0));
 		waehler.setId("waehler");
 		scroll = new ScrollPane();
@@ -86,7 +86,7 @@ public class GegnerWaehler extends Fenster {
 
 	public void starteVerbindung() {
 		try {
-			client = new Client("recondita.de", gUI.name, gUI.spiel);
+			client = new Client("localhost", gUI.name, gUI.spiel);
 			gUI.setClient(client);// = client;
 		} catch (Exception e) {
 			internet = false;
@@ -139,22 +139,22 @@ public class GegnerWaehler extends Fenster {
 		try {
 			liste.getChildren().add(
 					new SpielerButtonBot("Kiana ("
-							+ Schnittstelle.meldung("weiss") + ")", 4, "WEISS",
+							+ AbstractGUI.meldung("weiss") + ")", 4, "WEISS",
 							true));
 			liste.getChildren().add(
 					new SpielerButtonBot("Kiana ("
-							+ Schnittstelle.meldung("schwarz") + ")", 4,
+							+ AbstractGUI.meldung("schwarz") + ")", 4,
 							"SCHWARZ", true));
 			liste.getChildren().add(
 					new SpielerButtonBot("Ivan Zufallski ("
-							+ Schnittstelle.meldung("weiss") + ")", 1, "WEISS",
+							+ AbstractGUI.meldung("weiss") + ")", 1, "WEISS",
 							false));
 			liste.getChildren().add(
 					new SpielerButtonBot("Ivan Zufallski ("
-							+ Schnittstelle.meldung("schwarz") + ")", 1,
+							+ AbstractGUI.meldung("schwarz") + ")", 1,
 							"SCHWARZ", false));
 			liste.getChildren()
-					.add(new KeinSpielerButton(Schnittstelle
+					.add(new KeinSpielerButton(AbstractGUI
 							.meldung("keinSpieler")));
 		} catch (Exception e) {
 		}
@@ -307,7 +307,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.feld.startaufstellung();
 				*/
 				client.herausfordern(id);
-				gUI.spiel.meldungAusgeben(Schnittstelle.meldung("gegner_herausgefordert"));
+				gUI.spiel.meldungAusgeben(AbstractGUI.meldung("gegner_herausgefordert"));
 				gUI.speichern = null;
 			} catch (Exception e1) {
 			}
@@ -328,7 +328,7 @@ public class GegnerWaehler extends Fenster {
 				waehlen.setValue(4);
 				// System.out.println(waehlen.lookup(".thumb"));
 				Label staerke = new Label(
-						Schnittstelle.meldung("staerkeWaehlen"));
+						AbstractGUI.meldung("staerkeWaehlen"));
 				// staerke.setStyle("-fx-font-weight:bold;-fx-text-fill:#ffffff;");
 				VBox liste = new VBox();
 				liste.getChildren().addAll(staerke, waehlen);

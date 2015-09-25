@@ -30,7 +30,7 @@ import javafx.stage.WindowEvent;
 import com.sun.javafx.application.LauncherImpl;
 import com.superschach.superschach.gui.menu.Hauptmenu;
 import com.superschach.superschach.network.client.Client;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class GUI extends Application {
 
@@ -116,7 +116,7 @@ public class GUI extends Application {
 						final ClipboardContent content = new ClipboardContent();
 						content.putImage(feld.getScreenshot());
 						clipboard.setContent(content);
-						spiel.meldungAusgeben(Schnittstelle
+						spiel.meldungAusgeben(AbstractGUI
 								.meldung("screenshot"));
 					}
 				} else {

@@ -1,7 +1,7 @@
 package com.superschach.superschach.gui.menu;
 
 import com.superschach.superschach.gui.GUI;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -17,7 +17,7 @@ public class Grafikmenu extends Menu {
 	ComboBox<String> stil = new ComboBox<String>();
 
 	public Grafikmenu(GUI gUI) {
-		super(gUI, Schnittstelle.meldung("grafik"));
+		super(gUI, AbstractGUI.meldung("grafik"));
 
 		umschalten = new Button();
 		pruefeText(umschalten);
@@ -30,7 +30,7 @@ public class Grafikmenu extends Menu {
 			}
 		});
 
-		Button hintergrund = new Button(Schnittstelle.meldung("hintergrund"));
+		Button hintergrund = new Button(AbstractGUI.meldung("hintergrund"));
 		hintergrund.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -38,7 +38,7 @@ public class Grafikmenu extends Menu {
 			}
 		});
 
-		Button figuren = new Button(Schnittstelle.meldung("figuren"));
+		Button figuren = new Button(AbstractGUI.meldung("figuren"));
 		figuren.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -46,16 +46,16 @@ public class Grafikmenu extends Menu {
 			}
 		});
 
-		stil.getItems().addAll(Schnittstelle.meldung("klassisch"),
-				Schnittstelle.meldung("modern"));
-		stil.setValue(Schnittstelle.meldung(gUI.getCss().getValue()));
+		stil.getItems().addAll(AbstractGUI.meldung("klassisch"),
+				AbstractGUI.meldung("modern"));
+		stil.setValue(AbstractGUI.meldung(gUI.getCss().getValue()));
 		stil.valueProperty().addListener(
 				(ChangeListener<String>) (ov, t, t1) -> {
 					if (stil.getValue().equals(
-							Schnittstelle.meldung("klassisch"))) {
+							AbstractGUI.meldung("klassisch"))) {
 						gUI.getCss().setValue("klassisch");
 					} else if (stil.getValue().equals(
-							Schnittstelle.meldung("modern"))) {
+							AbstractGUI.meldung("modern"))) {
 						gUI.getCss().setValue("modern");
 					}
 					gUI.getScene().getStylesheets().clear();
@@ -84,16 +84,16 @@ public class Grafikmenu extends Menu {
 	private void pruefeText(Button p) {
 		if (p == umschalten) {
 			if (!getGUI().getZweid().getValue()) {
-				umschalten.setText(Schnittstelle.meldung("dreiDAus"));
+				umschalten.setText(AbstractGUI.meldung("dreiDAus"));
 			} else {
-				umschalten.setText(Schnittstelle.meldung("dreiDAn"));
+				umschalten.setText(AbstractGUI.meldung("dreiDAn"));
 			}
 		}
 		if (p == vollbild) {
 			if (getGUI().getStage().isFullScreen()) {
-				vollbild.setText(Schnittstelle.meldung("vollbild_aus"));
+				vollbild.setText(AbstractGUI.meldung("vollbild_aus"));
 			} else {
-				vollbild.setText(Schnittstelle.meldung("vollbild_an"));
+				vollbild.setText(AbstractGUI.meldung("vollbild_an"));
 			}
 		}
 	}

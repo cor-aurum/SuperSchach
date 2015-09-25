@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,19 +29,19 @@ public class Einstellungen extends Fenster {
 	VBox settings = new VBox();
 
 	ToggleGroup map = new ToggleGroup();
-	RadioButton map_marmor = new RadioButton(Schnittstelle.meldung("marmor"));
+	RadioButton map_marmor = new RadioButton(AbstractGUI.meldung("marmor"));
 
-	RadioButton map_holz = new RadioButton(Schnittstelle.meldung("holz"));
+	RadioButton map_holz = new RadioButton(AbstractGUI.meldung("holz"));
 
-	RadioButton map_gras = new RadioButton(Schnittstelle.meldung("gras"));
+	RadioButton map_gras = new RadioButton(AbstractGUI.meldung("gras"));
 
-	RadioButton map_glas = new RadioButton(Schnittstelle.meldung("glas"));
+	RadioButton map_glas = new RadioButton(AbstractGUI.meldung("glas"));
 
 	ToggleGroup figur = new ToggleGroup();
 	RadioButton figur_standard = new RadioButton(
-			Schnittstelle.meldung("standard"));
+			AbstractGUI.meldung("standard"));
 
-	RadioButton figur_modern = new RadioButton(Schnittstelle.meldung("modern"));
+	RadioButton figur_modern = new RadioButton(AbstractGUI.meldung("modern"));
 
 	public Einstellungen(GUI gUI) {
 		// setzeInhalt(tab);
@@ -56,7 +56,7 @@ public class Einstellungen extends Fenster {
 		map_glas.setToggleGroup(map);
 		map_marmor.setSelected(true);
 
-		Label ob = new Label(Schnittstelle.meldung("oberflaeche"));
+		Label ob = new Label(AbstractGUI.meldung("oberflaeche"));
 		ob.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(ob);
 		settings.getChildren().add(map_marmor);
@@ -65,22 +65,22 @@ public class Einstellungen extends Fenster {
 		settings.getChildren().add(map_glas);
 		addLeer(settings);
 
-		Label bg = new Label(Schnittstelle.meldung("hintergrund"));
+		Label bg = new Label(AbstractGUI.meldung("hintergrund"));
 		bg.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(bg);
 
-		Label multi = new Label(Schnittstelle.meldung("mehrspieler"));
+		Label multi = new Label(AbstractGUI.meldung("mehrspieler"));
 		multi.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(multi);
 		TextField name = new TextField();
-		Button nameOK = new Button(Schnittstelle.meldung("nameAendern"));
+		Button nameOK = new Button(AbstractGUI.meldung("nameAendern"));
 		HBox namenBox = new HBox();
 		namenBox.getChildren().addAll(name, nameOK);
 		settings.getChildren().add(namenBox);
 
 		addLeer(settings);
 
-		Label fig = new Label(Schnittstelle.meldung("figuren"));
+		Label fig = new Label(AbstractGUI.meldung("figuren"));
 		fig.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(fig);
 		// settings.getChildren().add(box);
@@ -91,7 +91,7 @@ public class Einstellungen extends Fenster {
 		settings.getChildren().add(figur_modern);
 		addLeer(settings);
 
-		Label sonstiges = new Label(Schnittstelle.meldung("sonstiges"));
+		Label sonstiges = new Label(AbstractGUI.meldung("sonstiges"));
 		sonstiges
 				.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(sonstiges);
@@ -164,7 +164,7 @@ public class Einstellungen extends Fenster {
 	public void speichern() {
 		try {
 			BufferedWriter br = new BufferedWriter(new FileWriter(
-					Schnittstelle.verzeichnis() + "gui.save"));
+					AbstractGUI.verzeichnis() + "gui.save"));
 			br.write(gUI.hintergrund);
 			br.write(System.getProperty("line.separator"));
 			br.write(toRGBCode(gUI.getFarbe_weiss().getValue()));
@@ -189,7 +189,7 @@ public class Einstellungen extends Fenster {
 			br.flush();
 			br.close();
 		} catch (IOException e) {
-			gUI.spiel.meldungAusgeben(Schnittstelle
+			gUI.spiel.meldungAusgeben(AbstractGUI
 					.meldung("speichernFehlgeschlagen"));
 		}
 
@@ -198,7 +198,7 @@ public class Einstellungen extends Fenster {
 	public void laden() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(
-					Schnittstelle.verzeichnis() + "gui.save"));
+					AbstractGUI.verzeichnis() + "gui.save"));
 			gUI.hintergrund = br.readLine();
 			gUI.getFarbe_weiss().setValue(Color.web(br.readLine()));
 			gUI.getFarbe_schwarz().setValue(Color.web(br.readLine()));

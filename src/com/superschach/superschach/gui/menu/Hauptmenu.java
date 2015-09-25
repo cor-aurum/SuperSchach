@@ -6,19 +6,19 @@ import javafx.scene.control.Button;
 
 import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.gui.GegnerWaehler;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Hauptmenu extends Menu {
 
 	public Hauptmenu(GUI gUI) {
-		super(gUI, Schnittstelle.meldung("hauptmenu"));
+		super(gUI, AbstractGUI.meldung("hauptmenu"));
 		Button[] punkte = new Button[6];
-		punkte[0] = new Button(Schnittstelle.meldung("lobby"));
-		punkte[1] = new Button(Schnittstelle.meldung("game_optionen"));
-		punkte[2] = new Button(Schnittstelle.meldung("multiplayer_optionen"));
-		punkte[3] = new Button(Schnittstelle.meldung("grafik"));
-		punkte[4] = new Button(Schnittstelle.meldung("sound"));
-		punkte[5] = new Button(Schnittstelle.meldung("quit"));
+		punkte[0] = new Button(AbstractGUI.meldung("lobby"));
+		punkte[1] = new Button(AbstractGUI.meldung("game_optionen"));
+		punkte[2] = new Button(AbstractGUI.meldung("multiplayer_optionen"));
+		punkte[3] = new Button(AbstractGUI.meldung("grafik"));
+		punkte[4] = new Button(AbstractGUI.meldung("sound"));
+		punkte[5] = new Button(AbstractGUI.meldung("quit"));
 		addInhalt(punkte);
 
 		punkte[0].setOnAction(new EventHandler<ActionEvent>() {

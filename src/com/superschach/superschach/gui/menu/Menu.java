@@ -2,7 +2,7 @@ package com.superschach.superschach.gui.menu;
 
 import com.superschach.superschach.gui.Fenster;
 import com.superschach.superschach.gui.GUI;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -76,7 +76,7 @@ public abstract class Menu extends Fenster {
 			});
 		}
 		komp.getChildren().add(new Label("\n"));
-		Button zurueck = new Button(Schnittstelle.meldung("zurueck"));
+		Button zurueck = new Button(AbstractGUI.meldung("zurueck"));
 		// zurueck.setStyle("-fx-background-color:linear-gradient(from 0px 0px to 50px 0px, #000000,rgba(255, 255, 255, 0) );");
 		zurueck.setId("menu-punkte");
 		HBox box = new HBox();

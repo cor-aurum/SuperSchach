@@ -1,9 +1,8 @@
 package com.superschach.superschach.gui;
 
-import com.superschach.superschach.network.AbortReason;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
-public class VorschauSchnittstelle extends Schnittstelle{
+public class VorschauSchnittstelle extends AbstractGUI{
 	SpielVorschau vorschau;
 	public VorschauSchnittstelle(SpielVorschau vorschau)
 	{
@@ -52,7 +51,7 @@ public class VorschauSchnittstelle extends Schnittstelle{
 		
 	}
 	@Override
-	public void spielBeendet(AbortReason grund) {
+	public void gegnerSpielVerlassen() {
 		// TODO Auto-generated method stub
 		
 	}

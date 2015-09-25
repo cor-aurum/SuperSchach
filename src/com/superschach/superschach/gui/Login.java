@@ -16,14 +16,14 @@ import javafx.scene.layout.HBox;
 
 import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
 import com.sun.javafx.application.HostServicesDelegate;
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Login extends Dialog {
 
 	TextField nameEingeben = new TextField();
 	PasswordField passwortEingeben = new PasswordField();
-	Button ok = new Button(Schnittstelle.meldung("login"));
-	Button abbrechen = new Button(Schnittstelle.meldung("offline"));
+	Button ok = new Button(AbstractGUI.meldung("login"));
+	Button abbrechen = new Button(AbstractGUI.meldung("offline"));
 	Blocker blocker;
 	String[] ret;
 
@@ -69,9 +69,9 @@ public class Login extends Dialog {
 
 		});
 
-		Label name = new Label(Schnittstelle.meldung("name") + ": ");
+		Label name = new Label(AbstractGUI.meldung("name") + ": ");
 		name.setStyle("-fx-font-size:14;");
-		Label passwort = new Label(Schnittstelle.meldung("passwort") + ": ");
+		Label passwort = new Label(AbstractGUI.meldung("passwort") + ": ");
 		passwort.setStyle("-fx-font-size:14;");
 		textfelder.add(name, 0, 0);
 		textfelder.add(nameEingeben, 1, 0);

@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -45,18 +45,18 @@ public class SpielVorschau extends GridPane {
 				+ gUI.getVonFarbe().getValue()
 				+ ", "
 				+ gUI.getBisFarbe().getValue() + ");");
-		auswahl.getItems().addAll(Schnittstelle.meldung("standardSpiele"),
-				gegner, Schnittstelle.meldung("alle"));
-		auswahl.setValue(Schnittstelle.meldung("standardSpiele"));
+		auswahl.getItems().addAll(AbstractGUI.meldung("standardSpiele"),
+				gegner, AbstractGUI.meldung("alle"));
+		auswahl.setValue(AbstractGUI.meldung("standardSpiele"));
 		auswahl.valueProperty()
 				.addListener(
 						(ChangeListener<String>) (ov, t, t1) -> {
 							laden(spiele[0]);
-							if (t1.equals(Schnittstelle
+							if (t1.equals(AbstractGUI
 									.meldung("standardSpiele"))) {
 								setStandardArray();
 							} else if (t1.equals(gegner)) {
-								File f = new File(Schnittstelle.verzeichnis()
+								File f = new File(AbstractGUI.verzeichnis()
 										+ File.separator + gegner);
 								File[] fileArray = f.listFiles();
 								int zaehler = 1;
@@ -77,10 +77,10 @@ public class SpielVorschau extends GridPane {
 									}
 								} catch (Exception e) {
 								}
-							} else if (t1.equals(Schnittstelle.meldung("alle"))) {
+							} else if (t1.equals(AbstractGUI.meldung("alle"))) {
 								ArrayList<String> list = new ArrayList<String>();
 								listeDateien(
-										new File(Schnittstelle.verzeichnis()),
+										new File(AbstractGUI.verzeichnis()),
 										list);
 
 								spiele = new String[list.size() + 1];
@@ -267,7 +267,7 @@ public class SpielVorschau extends GridPane {
 
 	public boolean isSelecectedPreDefined() {
 		try {
-			if(index==0 || auswahl.getValue().equals(Schnittstelle.meldung("standardSpiele")))
+			if(index==0 || auswahl.getValue().equals(AbstractGUI.meldung("standardSpiele")))
 				return true;
 			
 		} catch (Exception e) {

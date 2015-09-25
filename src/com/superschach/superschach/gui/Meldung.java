@@ -1,6 +1,6 @@
 package com.superschach.superschach.gui;
 
-import com.superschach.superschach.spiel.Schnittstelle;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -21,7 +21,7 @@ public class Meldung extends Dialog {
 		}
 		;
 		Label text = new Label(s);
-		Button ok = new Button(Schnittstelle.meldung("ok"));
+		Button ok = new Button(AbstractGUI.meldung("ok"));
 		text.setStyle("-fx-font-size:" + fontSize + ";");
 
 		ok.setPrefWidth(100);
