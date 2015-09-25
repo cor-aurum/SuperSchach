@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.NoSuchAlgorithmException;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -24,6 +25,7 @@ import javafx.scene.layout.VBox;
 
 import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
 import com.sun.javafx.application.HostServicesDelegate;
+import com.superschach.superschach.network.MDFiver;
 import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Login extends Dialog {
@@ -79,9 +81,7 @@ public class Login extends Dialog {
 			@Override
 			public void handle(KeyEvent keyEvent) {
 				if (keyEvent.getCode() == KeyCode.ENTER) {
-					ret[0] = nameEingeben.getText();
-					ret[1] = passwortEingeben.getText();
-					blocker.release();
+					login();
 				}
 			}
 		});
@@ -89,36 +89,7 @@ public class Login extends Dialog {
 
 			@Override
 			public void handle(Event arg0) {
-				ret[0] = nameEingeben.getText();
-				ret[1] = passwortEingeben.getText();
-				if (speichern.isSelected()) {
-					speicher.setName(ret[0]);
-					speicher.setPasswort(ret[1]);
-					
-					ObjectOutputStream oos = null;
-					FileOutputStream fos = null;
-					try {
-						fos = new FileOutputStream(AbstractGUI.verzeichnis()
-								+ "login");
-						oos = new ObjectOutputStream(fos);
-						oos.writeObject(speicher);
-					} catch (IOException e) {
-						e.printStackTrace();
-					} finally {
-						if (oos != null)
-							try {
-								oos.close();
-							} catch (IOException e) {
-							}
-						if (fos != null)
-							try {
-								fos.close();
-							} catch (IOException e) {
-							}
-					}
-				}
-
-				blocker.release();
+				login();
 			}
 
 		});
@@ -174,4 +145,41 @@ public class Login extends Dialog {
 		getChildren().add(root);
 	}
 
+	public void login()
+	{
+		ret[0] = nameEingeben.getText();
+		try {
+			ret[1] = new MDFiver().md5(passwortEingeben.getText());
+		} catch (NoSuchAlgorithmException e1) {
+			ret[1]="";
+		}
+		if (speichern.isSelected()) {
+			speicher.setName(ret[0]);
+			speicher.setPasswort(ret[1]);
+			
+			ObjectOutputStream oos = null;
+			FileOutputStream fos = null;
+			try {
+				fos = new FileOutputStream(AbstractGUI.verzeichnis()
+						+ "login");
+				oos = new ObjectOutputStream(fos);
+				oos.writeObject(speicher);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (oos != null)
+					try {
+						oos.close();
+					} catch (IOException e) {
+					}
+				if (fos != null)
+					try {
+						fos.close();
+					} catch (IOException e) {
+					}
+			}
+		}
+		
+		blocker.release();
+	}
 }
