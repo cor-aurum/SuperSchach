@@ -307,6 +307,7 @@ public class GegnerWaehler extends Fenster {
 				gUI.feld.startaufstellung();
 				*/
 				client.herausfordern(id);
+				gUI.spiel.meldungAusgeben(Schnittstelle.meldung("gegner_herausgefordert"));
 				gUI.speichern = null;
 			} catch (Exception e1) {
 			}
