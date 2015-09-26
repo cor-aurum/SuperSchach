@@ -1,5 +1,7 @@
 package com.superschach.superschach.gui.menu;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -36,7 +38,11 @@ public class Hauptmenu extends Menu {
 				}
 				if(gUI.getClient()!=null)
 				{
-					gUI.getClient().betreteLobby();
+					try {
+						gUI.getClient().betreteLobby();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
