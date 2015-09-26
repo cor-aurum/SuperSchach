@@ -8,6 +8,7 @@ import javafx.util.Duration;
 
 public class Warten extends ImageView {
 	public Warten() {
+		/*
 		setImage(new Image(this.getClass().getClassLoader()
 				.getResource("com/superschach/superschach/gui/bilder/warten.png").toString()));
 
@@ -17,6 +18,7 @@ public class Warten extends ImageView {
 		//rt.setAutoReverse(true);
 
 		rt.play();
+		*/
 	}
 
 }

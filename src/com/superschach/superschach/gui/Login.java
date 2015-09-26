@@ -38,6 +38,7 @@ public class Login extends Dialog {
 	String[] ret;
 	CheckBox speichern = new CheckBox();
 	PasswortSpeicher speicher;
+	private boolean gespeichertesPw=false;
 
 	public Login(String message, String[] ret, Blocker blocker, GUI gUI) {
 		setMaxWidth(450);
@@ -51,6 +52,7 @@ public class Login extends Dialog {
 		speichern.setText(AbstractGUI.meldung("passwort_speichern"));
 		ObjectInputStream ois = null;
 		FileInputStream fis = null;
+		
 		try {
 			fis = new FileInputStream(AbstractGUI.verzeichnis() + "login");
 			ois = new ObjectInputStream(fis);
@@ -59,6 +61,7 @@ public class Login extends Dialog {
 				speicher = (PasswortSpeicher) obj;
 				nameEingeben.setText(speicher.getName());
 				passwortEingeben.setText(speicher.getPasswort());
+				gespeichertesPw=true;
 			}
 		} catch (IOException e) {
 			speicher = new PasswortSpeicher();
@@ -149,7 +152,14 @@ public class Login extends Dialog {
 	{
 		ret[0] = nameEingeben.getText();
 		try {
+			if(!gespeichertesPw)
+			{
 			ret[1] = new MDFiver().md5(passwortEingeben.getText());
+			}
+			else
+			{
+				ret[1]=passwortEingeben.getText();
+			}
 		} catch (NoSuchAlgorithmException e1) {
 			ret[1]="";
 		}

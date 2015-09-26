@@ -69,9 +69,14 @@ public class Chat extends Fenster {
 		});
 		root.setTop(schliessen);
 		BorderPane.setAlignment(schliessen, Pos.BOTTOM_RIGHT);
-		schliessen.setGraphic(new ImageView(new Image(this.getClass()
-				.getClassLoader().getResource("com/superschach/superschach/gui/bilder/schliessen.png")
-				.toString())));
+		schliessen
+				.setGraphic(new ImageView(
+						new Image(
+								this.getClass()
+										.getClassLoader()
+										.getResource(
+												"com/superschach/superschach/gui/bilder/schliessen.png")
+										.toString())));
 		schliessen.setId("pfeil-detail");
 		root.setBottom(tF);
 		root.setCenter(scroll);
@@ -109,7 +114,6 @@ public class Chat extends Fenster {
 			} else {
 				p.setStyle("-fx-background-color: green;");
 			}
-
 			getChildren().add(p);
 		}
 	}
@@ -119,9 +123,12 @@ public class Chat extends Fenster {
 		if (!isShowed()) {
 			ungelesen.setValue(ungelesen.getValue() + 1);
 			if (getGUI().getSounds().getValue()) {
-				AudioClip plonkSound = new AudioClip(this.getClass()
-						.getClassLoader()
-						.getResource("com/superschach/superschach/gui/sounds/nachricht.aiff").toString());
+				AudioClip plonkSound = new AudioClip(
+						this.getClass()
+								.getClassLoader()
+								.getResource(
+										"com/superschach/superschach/gui/sounds/nachricht.aiff")
+								.toString());
 				plonkSound.play();
 			}
 		}
