@@ -34,6 +34,10 @@ public class Hauptmenu extends Menu {
 					switchFenster(gUI.getGegner());
 					gUI.feld.getChildren().add(gUI.getKontrolle());
 				}
+				if(gUI.getClient()!=null)
+				{
+					gUI.getClient().betreteLobby();
+				}
 			}
 		});
 		punkte[1].setOnAction(new EventHandler<ActionEvent>() {
