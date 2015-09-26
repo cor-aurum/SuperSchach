@@ -1,7 +1,7 @@
 package com.superschach.superschach.gui;
 
 import javafx.application.Platform;
-import javafx.scene.Node;
+import javafx.scene.Cursor;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
@@ -200,7 +200,7 @@ public class FxSchnittstelle extends AbstractGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.feld.getChildren().add(new Warten());
+				gUI.getScene().setCursor(Cursor.WAIT);
 			}
 		});
 
@@ -211,15 +211,7 @@ public class FxSchnittstelle extends AbstractGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					for (Node n : gUI.feld.getChildren()) {
-						if (n instanceof Warten) {
-							gUI.feld.getChildren().remove(n);
-						}
-					}
-				} catch (Exception e) {
-
-				}
+				gUI.getScene().setCursor(Cursor.DEFAULT);
 			}
 		});
 	}
