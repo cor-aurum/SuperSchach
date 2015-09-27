@@ -41,7 +41,7 @@ public class GUI extends Application {
 	protected String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
 
-	FxSchnittstelle spiel = new FxSchnittstelle(this);
+	public FxSchnittstelle spiel = new FxSchnittstelle(this);
 	private boolean farbe = true;
 
 	public String form = "modern";

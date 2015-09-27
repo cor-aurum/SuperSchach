@@ -36,7 +36,7 @@ public class Login extends Dialog {
 	Button abbrechen = new Button(AbstractGUI.meldung("offline"));
 	Blocker blocker;
 	String[] ret;
-	CheckBox speichern = new CheckBox();
+	public CheckBox speichern = new CheckBox();
 	PasswortSpeicher speicher;
 	private boolean gespeichertesPw=false;
 

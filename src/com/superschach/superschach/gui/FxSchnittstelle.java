@@ -11,7 +11,7 @@ import com.superschach.superschach.spiel.AbstractGUI;
 public class FxSchnittstelle extends AbstractGUI {
 
 	GUI gUI;
-	Login login;
+	public Login login;
 	Pane sperre;
 	FigurenMenue menue = null;
 

@@ -96,7 +96,9 @@ public class Hauptmenu extends Menu {
 			public void handle(ActionEvent e) {
 				try {
 					datei.delete();
-					System.exit(0);
+					gUI.getClient().close();
+					gUI.setClient(null);
+					getChildren().remove(punkte[6]);
 				} catch (Exception ex) {
 
 				}
