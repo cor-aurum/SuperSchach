@@ -62,6 +62,7 @@ public class Login extends Dialog {
 				nameEingeben.setText(speicher.getName());
 				passwortEingeben.setText(speicher.getPasswort());
 				gespeichertesPw=true;
+				login();
 			}
 		} catch (IOException e) {
 			speicher = new PasswortSpeicher();

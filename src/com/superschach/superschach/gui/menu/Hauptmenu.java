@@ -1,5 +1,6 @@
 package com.superschach.superschach.gui.menu;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -14,7 +15,16 @@ public class Hauptmenu extends Menu {
 
 	public Hauptmenu(GUI gUI) {
 		super(gUI, AbstractGUI.meldung("hauptmenu"));
-		Button[] punkte = new Button[6];
+		File datei = new File(AbstractGUI.verzeichnis() + "login");
+		Button[] punkte;
+		if (datei.exists()) {
+			 punkte= new Button[7];
+			 punkte[6] = new Button(AbstractGUI.meldung("logout"));
+		}
+		else
+		{
+			punkte = new Button[6];
+		}
 		punkte[0] = new Button(AbstractGUI.meldung("lobby"));
 		punkte[1] = new Button(AbstractGUI.meldung("game_optionen"));
 		punkte[2] = new Button(AbstractGUI.meldung("multiplayer_optionen"));
@@ -36,8 +46,7 @@ public class Hauptmenu extends Menu {
 					switchFenster(gUI.getGegner());
 					gUI.feld.getChildren().add(gUI.getKontrolle());
 				}
-				if(gUI.getClient()!=null)
-				{
+				if (gUI.getClient() != null) {
 					try {
 						gUI.getClient().betreteLobby();
 					} catch (IOException e1) {
@@ -73,16 +82,29 @@ public class Hauptmenu extends Menu {
 		punkte[5].setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if(getGUI().getClient()!=null)
-				{
+				if (getGUI().getClient() != null) {
 					switchFenster(new AufgebenMenu(gUI));
-				}
-				else
-				{
-				System.exit(0);
+				} else {
+					System.exit(0);
 				}
 			}
 		});
+
+		try{
+		punkte[6].setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				try {
+					datei.delete();
+					System.exit(0);
+				} catch (Exception ex) {
+
+				}
+			}
+		});
+		}
+		catch(Exception e)
+		{}
 	}
 
 	@Override
