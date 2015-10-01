@@ -98,7 +98,7 @@ public class Hauptmenu extends Menu {
 					datei.delete();
 					gUI.getClient().close();
 					gUI.setClient(null);
-					getChildren().remove(punkte[6]);
+					punkte[6].setVisible(false);
 				} catch (Exception ex) {
 
 				}
