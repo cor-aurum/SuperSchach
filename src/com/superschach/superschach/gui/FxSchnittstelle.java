@@ -94,8 +94,7 @@ public class FxSchnittstelle extends AbstractGUI {
 
 	@Override
 	public void nachricht(String s) {
-		// TODO Auto-generated method stub
-
+		meldungAusgeben(s);
 	}
 
 	@Override

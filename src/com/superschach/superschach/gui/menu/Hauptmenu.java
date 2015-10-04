@@ -80,9 +80,10 @@ public class Hauptmenu extends Menu {
 			}
 		});
 		punkte[5].setOnAction(new EventHandler<ActionEvent>() {
+			@SuppressWarnings("unused")
 			@Override
 			public void handle(ActionEvent e) {
-				if (getGUI().getClient() != null) {
+				if (getGUI().getClient() != null && false) {
 					switchFenster(new AufgebenMenu(gUI));
 				} else {
 					System.exit(0);
