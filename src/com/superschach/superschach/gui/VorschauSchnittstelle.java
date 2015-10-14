@@ -55,4 +55,9 @@ public class VorschauSchnittstelle extends AbstractGUI{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void herausforderungAbbrechen(int herausforderungID) {
+		// TODO Auto-generated method stub
+		
+	}
 }

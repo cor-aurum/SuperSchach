@@ -252,4 +252,10 @@ public class FxSchnittstelle extends AbstractGUI {
 	public void gegnerSpielVerlassen() {
 		meldungAusgeben(AbstractGUI.meldung("gegner_spiel_verlassen"));
 	}
+
+	@Override
+	public void herausforderungAbbrechen(int herausforderungID) {
+		// TODO Auto-generated method stub
+		
+	}
 }
