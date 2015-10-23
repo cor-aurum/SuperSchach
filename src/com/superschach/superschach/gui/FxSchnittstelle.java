@@ -2,6 +2,7 @@ package com.superschach.superschach.gui;
 
 import javafx.application.Platform;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
@@ -255,7 +256,12 @@ public class FxSchnittstelle extends AbstractGUI {
 
 	@Override
 	public void herausforderungAbbrechen(int herausforderungID) {
-		// TODO Auto-generated method stub
-		
+		for(Node n: gUI.feld.getChildren())
+		{
+			if(n instanceof Herausforderung.HerausgefordertDialog)
+			{
+				((Herausforderung.HerausgefordertDialog)n).abbrechen(herausforderungID,this);
+			}
+		}
 	}
 }

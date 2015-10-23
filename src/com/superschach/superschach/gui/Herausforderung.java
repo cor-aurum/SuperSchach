@@ -55,7 +55,7 @@ public class Herausforderung extends Button{
 		return id;
 	}
 
-	private class HerausgefordertDialog extends Dialog {
+	class HerausgefordertDialog extends Dialog {
 
 		public HerausgefordertDialog(FxSchnittstelle schnittstelle,
 				int herausforderung) {
@@ -99,5 +99,16 @@ public class Herausforderung extends Button{
 			schnittstelle.gUI.feld.getChildren().add(p);
 			schnittstelle.gUI.feld.getChildren().add(this);
 		}
+		public void abbrechen(int id, FxSchnittstelle schnittstelle)
+		{
+			if(id==Herausforderung.this.id)
+			{
+				schnittstelle.gUI.feld.getChildren().remove(p);
+				schnittstelle.gUI.feld.getChildren().remove(
+						this);
+			}
+		}
 	}
+	
+	
 }
