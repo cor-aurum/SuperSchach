@@ -27,6 +27,8 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.util.Locale;
+
 import com.sun.javafx.application.LauncherImpl;
 import com.superschach.superschach.gui.menu.Hauptmenu;
 import com.superschach.superschach.network.client.Client;
@@ -259,6 +261,7 @@ public class GUI extends Application {
 	}
 
 	public static void main(String args[]) throws Exception {
+		Locale.setDefault(new Locale("de","DE"));
 		LauncherImpl.launchApplication(GUI.class, SplashScreen.class, args);
 		launch(args);
 	}
