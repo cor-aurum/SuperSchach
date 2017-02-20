@@ -46,7 +46,7 @@ public class GUI extends Application {
 	public FxSchnittstelle spiel = new FxSchnittstelle(this);
 	private boolean farbe = true;
 
-	public String form = "modern";
+	public String form = "standard";
 	public boolean modell_farbe = false;
 	private SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(
 			Color.AZURE);
