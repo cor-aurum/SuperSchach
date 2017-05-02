@@ -1,11 +1,5 @@
 package com.superschach.superschach.gui;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.beans.value.ChangeListener;
@@ -23,7 +17,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class Einstellungen extends Fenster {
+public class Einstellungen extends Fenster
+{
 
 	GUI gUI;
 	VBox settings = new VBox();
@@ -43,7 +38,8 @@ public class Einstellungen extends Fenster {
 
 	RadioButton figur_modern = new RadioButton(AbstractGUI.meldung("modern"));
 
-	public Einstellungen(GUI gUI) {
+	public Einstellungen(GUI gUI)
+	{
 		// setzeInhalt(tab);
 		super(gUI);
 		setzeInhalt(settings);
@@ -57,7 +53,8 @@ public class Einstellungen extends Fenster {
 		map_marmor.setSelected(true);
 
 		Label ob = new Label(AbstractGUI.meldung("oberflaeche"));
-		ob.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		ob.setStyle(
+				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(ob);
 		settings.getChildren().add(map_marmor);
 		settings.getChildren().add(map_holz);
@@ -66,11 +63,13 @@ public class Einstellungen extends Fenster {
 		addLeer(settings);
 
 		Label bg = new Label(AbstractGUI.meldung("hintergrund"));
-		bg.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		bg.setStyle(
+				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(bg);
 
 		Label multi = new Label(AbstractGUI.meldung("mehrspieler"));
-		multi.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		multi.setStyle(
+				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(multi);
 		TextField name = new TextField();
 		Button nameOK = new Button(AbstractGUI.meldung("nameAendern"));
@@ -81,7 +80,8 @@ public class Einstellungen extends Fenster {
 		addLeer(settings);
 
 		Label fig = new Label(AbstractGUI.meldung("figuren"));
-		fig.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		fig.setStyle(
+				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(fig);
 		// settings.getChildren().add(box);
 		figur_standard.setToggleGroup(figur);
@@ -92,62 +92,79 @@ public class Einstellungen extends Fenster {
 		addLeer(settings);
 
 		Label sonstiges = new Label(AbstractGUI.meldung("sonstiges"));
-		sonstiges
-				.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		sonstiges.setStyle(
+				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(sonstiges);
 
-		name.setOnAction(new EventHandler<ActionEvent>() {
+		name.setOnAction(new EventHandler<ActionEvent>()
+		{
 			@Override
-			public void handle(ActionEvent e) {
-				if (!name.getText().equals("")) {
-					gUI.name = name.getText();
+			public void handle(ActionEvent e)
+			{
+				if (!name.getText().equals(""))
+				{
+					gUI.setName(name.getText());
 					name.setText("");
 					speichern();
 				}
 			}
 		});
 		// laden();
-		map.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+		map.selectedToggleProperty().addListener(new ChangeListener<Toggle>()
+		{
 			public void changed(ObservableValue<? extends Toggle> ov,
-					Toggle old_toggle, Toggle new_toggle) {
-				if (map.getSelectedToggle() == map_holz) {
-					gUI.hintergrund = "holz";
-				} else if (map.getSelectedToggle() == map_marmor) {
-					gUI.hintergrund = "marmor";
-				} else if (map.getSelectedToggle() == map_gras) {
-					gUI.hintergrund = "gras";
-				} else if (map.getSelectedToggle() == map_glas) {
-					gUI.hintergrund = "glas";
+					Toggle old_toggle, Toggle new_toggle)
+			{
+				if (map.getSelectedToggle() == map_holz)
+				{
+					gUI.setHintergrund("holz");
+				} else if (map.getSelectedToggle() == map_marmor)
+				{
+					gUI.setHintergrund("marmor");
+				} else if (map.getSelectedToggle() == map_gras)
+				{
+					gUI.setHintergrund("gras");
+				} else if (map.getSelectedToggle() == map_glas)
+				{
+					gUI.setHintergrund("glas");
 				}
 				gUI.feld.aktualisiereMap();
 				speichern();
 			}
 		});
 
-		figur.selectedToggleProperty().addListener(
-				new ChangeListener<Toggle>() {
-					public void changed(ObservableValue<? extends Toggle> ov,
-							Toggle old_toggle, Toggle new_toggle) {
-						if (figur.getSelectedToggle() == figur_modern) {
-							gUI.form = "modern";
-						} else if (figur.getSelectedToggle() == figur_standard) {
-							gUI.form = "standard";
-						}
-						try {
-							gUI.feld.entferneFiguren();
-							gUI.feld.startaufstellung();
-							gUI.feld.aktualisieren();
-							speichern();
-						} catch (Exception e) {
-						}
-					}
-				});
+		figur.selectedToggleProperty().addListener(new ChangeListener<Toggle>()
+		{
+			public void changed(ObservableValue<? extends Toggle> ov,
+					Toggle old_toggle, Toggle new_toggle)
+			{
+				if (figur.getSelectedToggle() == figur_modern)
+				{
+					gUI.form = "modern";
+				} else if (figur.getSelectedToggle() == figur_standard)
+				{
+					gUI.form = "standard";
+				}
+				try
+				{
+					gUI.feld.entferneFiguren();
+					gUI.feld.startaufstellung();
+					gUI.feld.aktualisieren();
+					speichern();
+				} catch (Exception e)
+				{
+				}
+			}
+		});
 
-		nameOK.setOnAction(new EventHandler<ActionEvent>() {
+		nameOK.setOnAction(new EventHandler<ActionEvent>()
+		{
 			@Override
-			public void handle(ActionEvent e) {
-				if (!name.getText().equals("")) {
-					gUI.name = name.getText();
+			public void handle(ActionEvent e)
+			{
+				if (!name.getText().equals(""))
+				{
+					gUI.setName(name.getText());
 					name.setText("");
 					speichern();
 				}
@@ -155,64 +172,46 @@ public class Einstellungen extends Fenster {
 		});
 	}
 
-	public void addLeer(VBox vbox) {
+	public void addLeer(VBox vbox)
+	{
 		Label j = new Label("\n");
 		j.setMaxHeight(20);
 		vbox.getChildren().add(j);
 	}
 
-	public void speichern() {
-		try {
-			BufferedWriter br = new BufferedWriter(new FileWriter(
-					AbstractGUI.verzeichnis() + "gui.save"));
-			br.write(gUI.hintergrund);
-			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(gUI.getFarbe_weiss().getValue()));
-			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(gUI.getFarbe_schwarz().getValue()));
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.name);
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getSounds().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getZweid().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.form);
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.getVonFarbe().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.getBisFarbe().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getStage().isFullScreen());
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getCss().getValue());
-			br.flush();
-			br.close();
-		} catch (IOException e) {
-			gUI.spiel.meldungAusgeben(AbstractGUI
-					.meldung("speichernFehlgeschlagen"));
-		}
+	public void speichern()
+	{
+		gUI.spiel.getDatenbank().speichereEinstellungen(gUI);
 
 	}
 
-	public void laden() {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(
-					AbstractGUI.verzeichnis() + "gui.save"));
-			gUI.hintergrund = br.readLine();
-			gUI.getFarbe_weiss().setValue(Color.web(br.readLine()));
-			gUI.getFarbe_schwarz().setValue(Color.web(br.readLine()));
-			gUI.name = br.readLine();
-			gUI.getSounds().setValue(Boolean.parseBoolean(br.readLine()));
-			gUI.getZweid().setValue(Boolean.parseBoolean(br.readLine()));
-			gUI.form = br.readLine();
-			gUI.getVonFarbe().setValue(br.readLine());
-			gUI.getBisFarbe().setValue(br.readLine());
-			gUI.getStage().setFullScreen(Boolean.parseBoolean(br.readLine()));
-			gUI.getCss().setValue(br.readLine());
-			br.close();
+	public void laden()
+	{
+		try
+		{
+			gUI.setHintergrund(
+					gUI.spiel.getDatenbank().ladeEinstellungen("hintergrund"));
+			gUI.getFarbe_weiss().setValue(Color.web(
+					gUI.spiel.getDatenbank().ladeEinstellungen("farbe_weiss")));
+			gUI.getFarbe_schwarz().setValue(Color.web(gUI.spiel.getDatenbank()
+					.ladeEinstellungen("farbe_schwarz")));
+			gUI.setName(gUI.spiel.getDatenbank().ladeEinstellungen("name"));
+			gUI.getSounds().setValue(Boolean.parseBoolean(
+					gUI.spiel.getDatenbank().ladeEinstellungen("sounds")));
+			gUI.getZweid().setValue(Boolean.parseBoolean(
+					gUI.spiel.getDatenbank().ladeEinstellungen("zweid")));
+			gUI.form = gUI.spiel.getDatenbank().ladeEinstellungen("form");
+			gUI.getVonFarbe().setValue(
+					gUI.spiel.getDatenbank().ladeEinstellungen("farbe_von"));
+			gUI.getBisFarbe().setValue(
+					gUI.spiel.getDatenbank().ladeEinstellungen("farbe_bis"));
+			gUI.getStage().setFullScreen(Boolean.parseBoolean(
+					gUI.spiel.getDatenbank().ladeEinstellungen("vollbild")));
+			gUI.getCss().setValue(
+					gUI.spiel.getDatenbank().ladeEinstellungen("css"));
 
-			switch (gUI.hintergrund) {
+			switch (gUI.getHintergrund())
+			{
 			case "marmor":
 				map_marmor.setSelected(true);
 				break;
@@ -226,23 +225,19 @@ public class Einstellungen extends Fenster {
 				map_holz.setSelected(true);
 				break;
 			}
-
-			switch (gUI.form) {
-			case "standard":
-				figur_standard.setSelected(true);
-				break;
-			case "modern":
-				figur_modern.setSelected(true);
-				break;
-			}
-
-		} catch (IOException e) {
+		} catch (Exception e)
+		{
 
 		}
-	}
+		switch (gUI.form)
+		{
+		case "standard":
+			figur_standard.setSelected(true);
+			break;
+		case "modern":
+			figur_modern.setSelected(true);
+			break;
+		}
 
-	public String toRGBCode(Color color) {
-		return String.format("#%02X%02X%02X", (int) (color.getRed() * 255),
-				(int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
 	}
 }

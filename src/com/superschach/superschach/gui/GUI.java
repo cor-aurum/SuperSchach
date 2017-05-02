@@ -40,7 +40,7 @@ public class GUI extends Application {
 	Einstellungen rechts;
 	public MeshView[] dreidfiguren=new MeshView[17];
 
-	protected String hintergrund = "marmor";
+	private String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
 
 	public FxSchnittstelle spiel = new FxSchnittstelle(this);
@@ -73,7 +73,7 @@ public class GUI extends Application {
 	Image brettbild2d = new Image(this.getClass().getClassLoader()
 			.getResource("com/superschach/superschach/gui/bilder/brett2d.png").toString());
 	Chat chat = new Chat(this);
-	String name = System.getProperty("user.name");
+	private String name = System.getProperty("user.name");
 	private SimpleBooleanProperty zweid = new SimpleBooleanProperty(false);
 	private SimpleBooleanProperty sounds = new SimpleBooleanProperty(true);
 
@@ -374,5 +374,25 @@ public class GUI extends Application {
 	public void setClient(Client c)
 	{
 		client =c;
+	}
+
+	public String getHintergrund()
+	{
+		return hintergrund;
+	}
+
+	public void setHintergrund(String hintergrund)
+	{
+		this.hintergrund = hintergrund;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 }

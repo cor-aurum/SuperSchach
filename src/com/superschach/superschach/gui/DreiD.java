@@ -157,17 +157,17 @@ public class DreiD extends MyStackPane {
 				.getClassLoader()
 				.getResource(
 						"com/superschach/superschach/gui/bilder/"
-								+ gUI.hintergrund + "_NRM.png").toString()));
+								+ gUI.getHintergrund() + "_NRM.png").toString()));
 		gUI.feldMaterial.setSpecularMap(new Image(this
 				.getClass()
 				.getClassLoader()
 				.getResource(
 						"com/superschach/superschach/gui/bilder/"
-								+ gUI.hintergrund + "_SPEC.png").toString()));
+								+ gUI.getHintergrund() + "_SPEC.png").toString()));
 		feld.setMaterial(gUI.feldMaterial);
 
 		PhongMaterial material = new PhongMaterial();
-		switch (gUI.hintergrund) {
+		switch (gUI.getHintergrund()) {
 		case "marmor":
 			material.setDiffuseColor(Color.BLANCHEDALMOND);
 			material.setSpecularColor(Color.CHOCOLATE);

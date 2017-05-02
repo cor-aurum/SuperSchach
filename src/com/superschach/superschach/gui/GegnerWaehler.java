@@ -86,7 +86,7 @@ public class GegnerWaehler extends Fenster {
 
 	public void starteVerbindung() {
 		try {
-			client = new Client("recondita.de", gUI.name, gUI.spiel);
+			client = new Client("recondita.de", gUI.getName(), gUI.spiel);
 			gUI.setClient(client);// = client;
 		} catch (Exception e) {
 			internet = false;
