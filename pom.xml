@@ -4,6 +4,7 @@
 	<groupId>com.super-schach</groupId>
 	<artifactId>schach</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
@@ -72,4 +73,7 @@
 		</plugins>
 	</build>
 
+	<modules>
+		<module>ki</module>
+	</modules>
 </project>
