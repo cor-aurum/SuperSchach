@@ -96,7 +96,7 @@ public class GUI extends Application {
 		this.setStage(stage);
 
 		setEinstellungen(new Einstellungen(this));
-		getEinstellungen().laden();
+		//getEinstellungen().laden();
 
 		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
 				|| getZweid().getValue()) {

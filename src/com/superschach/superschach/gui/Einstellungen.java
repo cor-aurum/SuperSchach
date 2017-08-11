@@ -185,7 +185,7 @@ public class Einstellungen extends Fenster
 
 	}
 
-	public void laden()
+	public void laden2()
 	{
 		try
 		{
