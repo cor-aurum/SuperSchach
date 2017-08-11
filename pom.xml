@@ -32,5 +32,6 @@
 	<modules>
 		<module>gui</module>
     <module>network</module>
+    <module>ki</module>
   </modules>
 </project>
