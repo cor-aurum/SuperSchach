@@ -109,7 +109,6 @@ public class ProtokollKI implements KI
 		}
 	}
 
-	@Override
 	public void tellMatt(Kontroller spiel)
 	{
 		// TODO Auto-generated method stub

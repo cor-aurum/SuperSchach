@@ -28,13 +28,11 @@ public enum ClientCommands implements Commands{
 		this.hasParam=param;
 		this.answer=answer;
 	}
-	@Override
 	public boolean hasParam()
 	{
 		return hasParam;
 	}
 	
-	@Override
 	public boolean answer()
 	{
 		return answer;

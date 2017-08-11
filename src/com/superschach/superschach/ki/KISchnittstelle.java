@@ -178,4 +178,9 @@ public abstract class KISchnittstelle
 	public void chat(String s) throws Exception
 	{
 	}
+
+	public void tellMatt(Kontroller spiel) {
+		// TODO Auto-generated method stub
+		
+	}
 }

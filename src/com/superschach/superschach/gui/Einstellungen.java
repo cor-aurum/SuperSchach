@@ -227,7 +227,7 @@ public class Einstellungen extends Fenster
 			}
 		} catch (Exception e)
 		{
-
+			e.printStackTrace();
 		}
 		switch (gUI.form)
 		{

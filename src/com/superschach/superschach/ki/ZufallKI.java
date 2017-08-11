@@ -20,7 +20,6 @@ public class ZufallKI implements KI
 	{
 	}
 
-	@Override
 	public void zug(Kontroller kontroller, Zug zug) throws Exception
 	{
 		long time = System.currentTimeMillis();
@@ -74,7 +73,6 @@ public class ZufallKI implements KI
 		zug.zug(xa, ya, xn, yn);
 	}
 
-	@Override
 	public void tellMatt(Kontroller spiel)
 	{
 		// TODO Auto-generated method stub

@@ -61,7 +61,7 @@ public class OnlineSpieler implements KI
     }
 
 
-	@Override
+	
 	//spiel ist hier null
 	public void zug(Kontroller spiel, Zug zug) throws Exception
 	{
@@ -72,7 +72,6 @@ public class OnlineSpieler implements KI
 	}
 
 
-	@Override
 	public void tellMatt(Kontroller spiel)
 	{
 		schreiben(spiel);		

@@ -34,6 +34,7 @@ public class Hauptmenu extends Menu {
 		addInhalt(punkte);
 
 		punkte[0].setOnAction(new EventHandler<ActionEvent>() {
+			@SuppressWarnings("unlikely-arg-type")
 			@Override
 			public void handle(ActionEvent e) {
 

@@ -20,7 +20,7 @@ public class Datenbank
 			Class.forName("org.hsqldb.jdbcDriver");
 		} catch (ClassNotFoundException e)
 		{
-			throw new Error(e);
+			e.printStackTrace();
 		}
 	}
 
