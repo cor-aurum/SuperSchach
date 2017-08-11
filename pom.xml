@@ -4,7 +4,7 @@
 	<groupId>com.super-schach</groupId>
 	<artifactId>schach</artifactId>
 	<version>0.2</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
