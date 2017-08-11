@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.superschach.superschach.datenbank.Datenbank;
+import com.superschach.superschach.ki.Datenbank;
 import com.superschach.superschach.ki.KI;
 
 public abstract class AbstractGUI
@@ -18,7 +18,6 @@ public abstract class AbstractGUI
 	private int kinummer = 0;
 	private int kispieler = 0;
 	private int kilevel = 3;
-	private Datenbank datenbank=new Datenbank();
 	public final static String VERSION = "2.2";
 
 	public AbstractGUI()
@@ -366,15 +365,5 @@ public abstract class AbstractGUI
 	 * @param herausforderungID
 	 */
 	public abstract void herausforderungAbbrechen(int herausforderungID);
-
-	public Datenbank getDatenbank()
-	{
-		return datenbank;
-	}
-
-	public void setDatenbank(Datenbank datenbank)
-	{
-		this.datenbank = datenbank;
-	}
 
 }

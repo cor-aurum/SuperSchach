@@ -4,14 +4,9 @@
 	<groupId>com.super-schach</groupId>
 	<artifactId>schach</artifactId>
 	<version>0.2</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<dependencies>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>2.4.0</version>
-			<scope>test</scope>
-		</dependency>
+		
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -25,14 +20,6 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<groupId>com.zenjava</groupId>
-				<artifactId>javafx-maven-plugin</artifactId>
-				<version>8.8.3</version>
-				<configuration>
-					<mainClass>com.superschach.superschach.gui</mainClass>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
 				<configuration>
@@ -40,36 +27,9 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.superschach.superschach.gui.GUI</mainClass>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
+	<modules>
+		<module>gui</module>
+	</modules>
 </project>

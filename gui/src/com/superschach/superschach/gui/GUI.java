@@ -1,5 +1,12 @@
 package com.superschach.superschach.gui;
 
+import java.util.Locale;
+
+import com.sun.javafx.application.LauncherImpl;
+import com.superschach.superschach.gui.menu.Hauptmenu;
+import com.superschach.superschach.network.client.Client;
+import com.superschach.superschach.spiel.AbstractGUI;
+
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -26,13 +33,6 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.util.Locale;
-
-import com.sun.javafx.application.LauncherImpl;
-import com.superschach.superschach.gui.menu.Hauptmenu;
-import com.superschach.superschach.network.client.Client;
-import com.superschach.superschach.spiel.AbstractGUI;
 
 public class GUI extends Application {
 

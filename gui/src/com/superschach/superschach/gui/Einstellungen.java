@@ -15,10 +15,8 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
-public class Einstellungen extends Fenster
-{
+public class Einstellungen extends Fenster {
 
 	GUI gUI;
 	VBox settings = new VBox();
@@ -33,13 +31,11 @@ public class Einstellungen extends Fenster
 	RadioButton map_glas = new RadioButton(AbstractGUI.meldung("glas"));
 
 	ToggleGroup figur = new ToggleGroup();
-	RadioButton figur_standard = new RadioButton(
-			AbstractGUI.meldung("standard"));
+	RadioButton figur_standard = new RadioButton(AbstractGUI.meldung("standard"));
 
 	RadioButton figur_modern = new RadioButton(AbstractGUI.meldung("modern"));
 
-	public Einstellungen(GUI gUI)
-	{
+	public Einstellungen(GUI gUI) {
 		// setzeInhalt(tab);
 		super(gUI);
 		setzeInhalt(settings);
@@ -53,8 +49,7 @@ public class Einstellungen extends Fenster
 		map_marmor.setSelected(true);
 
 		Label ob = new Label(AbstractGUI.meldung("oberflaeche"));
-		ob.setStyle(
-				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		ob.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(ob);
 		settings.getChildren().add(map_marmor);
 		settings.getChildren().add(map_holz);
@@ -63,13 +58,11 @@ public class Einstellungen extends Fenster
 		addLeer(settings);
 
 		Label bg = new Label(AbstractGUI.meldung("hintergrund"));
-		bg.setStyle(
-				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		bg.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(bg);
 
 		Label multi = new Label(AbstractGUI.meldung("mehrspieler"));
-		multi.setStyle(
-				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		multi.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(multi);
 		TextField name = new TextField();
 		Button nameOK = new Button(AbstractGUI.meldung("nameAendern"));
@@ -80,8 +73,7 @@ public class Einstellungen extends Fenster
 		addLeer(settings);
 
 		Label fig = new Label(AbstractGUI.meldung("figuren"));
-		fig.setStyle(
-				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
+		fig.setStyle("fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(fig);
 		// settings.getChildren().add(box);
 		figur_standard.setToggleGroup(figur);
@@ -96,13 +88,10 @@ public class Einstellungen extends Fenster
 				"fx-text-fill: black;-fx-font-size:18;-fx-font-family: \"Arial Narrow\";-fx-font-weight: bold;");
 		settings.getChildren().add(sonstiges);
 
-		name.setOnAction(new EventHandler<ActionEvent>()
-		{
+		name.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent e)
-			{
-				if (!name.getText().equals(""))
-				{
+			public void handle(ActionEvent e) {
+				if (!name.getText().equals("")) {
 					gUI.setName(name.getText());
 					name.setText("");
 					speichern();
@@ -110,22 +99,15 @@ public class Einstellungen extends Fenster
 			}
 		});
 		// laden();
-		map.selectedToggleProperty().addListener(new ChangeListener<Toggle>()
-		{
-			public void changed(ObservableValue<? extends Toggle> ov,
-					Toggle old_toggle, Toggle new_toggle)
-			{
-				if (map.getSelectedToggle() == map_holz)
-				{
+		map.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
+				if (map.getSelectedToggle() == map_holz) {
 					gUI.setHintergrund("holz");
-				} else if (map.getSelectedToggle() == map_marmor)
-				{
+				} else if (map.getSelectedToggle() == map_marmor) {
 					gUI.setHintergrund("marmor");
-				} else if (map.getSelectedToggle() == map_gras)
-				{
+				} else if (map.getSelectedToggle() == map_gras) {
 					gUI.setHintergrund("gras");
-				} else if (map.getSelectedToggle() == map_glas)
-				{
+				} else if (map.getSelectedToggle() == map_glas) {
 					gUI.setHintergrund("glas");
 				}
 				gUI.feld.aktualisiereMap();
@@ -133,37 +115,27 @@ public class Einstellungen extends Fenster
 			}
 		});
 
-		figur.selectedToggleProperty().addListener(new ChangeListener<Toggle>()
-		{
-			public void changed(ObservableValue<? extends Toggle> ov,
-					Toggle old_toggle, Toggle new_toggle)
-			{
-				if (figur.getSelectedToggle() == figur_modern)
-				{
+		figur.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
+				if (figur.getSelectedToggle() == figur_modern) {
 					gUI.form = "modern";
-				} else if (figur.getSelectedToggle() == figur_standard)
-				{
+				} else if (figur.getSelectedToggle() == figur_standard) {
 					gUI.form = "standard";
 				}
-				try
-				{
+				try {
 					gUI.feld.entferneFiguren();
 					gUI.feld.startaufstellung();
 					gUI.feld.aktualisieren();
 					speichern();
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 				}
 			}
 		});
 
-		nameOK.setOnAction(new EventHandler<ActionEvent>()
-		{
+		nameOK.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent e)
-			{
-				if (!name.getText().equals(""))
-				{
+			public void handle(ActionEvent e) {
+				if (!name.getText().equals("")) {
 					gUI.setName(name.getText());
 					name.setText("");
 					speichern();
@@ -172,65 +144,49 @@ public class Einstellungen extends Fenster
 		});
 	}
 
-	public void addLeer(VBox vbox)
-	{
+	public void addLeer(VBox vbox) {
 		Label j = new Label("\n");
 		j.setMaxHeight(20);
 		vbox.getChildren().add(j);
 	}
 
-	public void speichern()
-	{
-		gUI.spiel.getDatenbank().speichereEinstellungen(gUI);
+	public void speichern() {
+		// gUI.spiel.getDatenbank().speichereEinstellungen(gUI);
 
 	}
 
-	public void laden2()
-	{
-		try
-		{
-			gUI.setHintergrund(
-					gUI.spiel.getDatenbank().ladeEinstellungen("hintergrund"));
-			gUI.getFarbe_weiss().setValue(Color.web(
-					gUI.spiel.getDatenbank().ladeEinstellungen("farbe_weiss")));
-			gUI.getFarbe_schwarz().setValue(Color.web(gUI.spiel.getDatenbank()
-					.ladeEinstellungen("farbe_schwarz")));
-			gUI.setName(gUI.spiel.getDatenbank().ladeEinstellungen("name"));
-			gUI.getSounds().setValue(Boolean.parseBoolean(
-					gUI.spiel.getDatenbank().ladeEinstellungen("sounds")));
-			gUI.getZweid().setValue(Boolean.parseBoolean(
-					gUI.spiel.getDatenbank().ladeEinstellungen("zweid")));
-			gUI.form = gUI.spiel.getDatenbank().ladeEinstellungen("form");
-			gUI.getVonFarbe().setValue(
-					gUI.spiel.getDatenbank().ladeEinstellungen("farbe_von"));
-			gUI.getBisFarbe().setValue(
-					gUI.spiel.getDatenbank().ladeEinstellungen("farbe_bis"));
-			gUI.getStage().setFullScreen(Boolean.parseBoolean(
-					gUI.spiel.getDatenbank().ladeEinstellungen("vollbild")));
-			gUI.getCss().setValue(
-					gUI.spiel.getDatenbank().ladeEinstellungen("css"));
-
-			switch (gUI.getHintergrund())
-			{
-			case "marmor":
-				map_marmor.setSelected(true);
-				break;
-			case "glas":
-				map_glas.setSelected(true);
-				break;
-			case "gras":
-				map_gras.setSelected(true);
-				break;
-			case "holz":
-				map_holz.setSelected(true);
-				break;
-			}
-		} catch (Exception e)
-		{
+	public void laden2() {
+		try {
+			/*
+			 * gUI.setHintergrund(
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("hintergrund"));
+			 * gUI.getFarbe_weiss().setValue(Color.web(
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("farbe_weiss")));
+			 * gUI.getFarbe_schwarz().setValue(Color.web(gUI.spiel.getDatenbank()
+			 * .ladeEinstellungen("farbe_schwarz")));
+			 * gUI.setName(gUI.spiel.getDatenbank().ladeEinstellungen("name"));
+			 * gUI.getSounds().setValue(Boolean.parseBoolean(
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("sounds")));
+			 * gUI.getZweid().setValue(Boolean.parseBoolean(
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("zweid"))); gUI.form =
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("form");
+			 * gUI.getVonFarbe().setValue(
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("farbe_von"));
+			 * gUI.getBisFarbe().setValue(
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("farbe_bis"));
+			 * gUI.getStage().setFullScreen(Boolean.parseBoolean(
+			 * gUI.spiel.getDatenbank().ladeEinstellungen("vollbild")));
+			 * gUI.getCss().setValue( gUI.spiel.getDatenbank().ladeEinstellungen("css"));
+			 * 
+			 * switch (gUI.getHintergrund()) { case "marmor": map_marmor.setSelected(true);
+			 * break; case "glas": map_glas.setSelected(true); break; case "gras":
+			 * map_gras.setSelected(true); break; case "holz": map_holz.setSelected(true);
+			 * break; }
+			 */
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		switch (gUI.form)
-		{
+		switch (gUI.form) {
 		case "standard":
 			figur_standard.setSelected(true);
 			break;
