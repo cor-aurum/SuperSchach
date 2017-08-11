@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.superschach.superschach.ki.Datenbank;
 import com.superschach.superschach.ki.KI;
 
 public abstract class AbstractGUI
