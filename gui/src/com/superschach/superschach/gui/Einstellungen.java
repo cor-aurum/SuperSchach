@@ -155,7 +155,7 @@ public class Einstellungen extends Fenster {
 
 	}
 
-	public void laden2() {
+	public void laden() {
 		try {
 			/*
 			 * gUI.setHintergrund(
