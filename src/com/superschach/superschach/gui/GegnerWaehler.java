@@ -22,6 +22,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
@@ -31,15 +32,24 @@ public class GegnerWaehler extends Fenster {
 
 	GUI gUI;
 	BorderPane pane = new BorderPane();
-	VBox liste = new VBox();
+	HBox liste = new HBox();
 	Client client;
 	ScrollPane scroll;
 	VBox herausforderung = new VBox();
 	// MenuButton herausforderung =new
 	// MenuButton(AbstractGUI.meldung("herausforderungen"));
 	boolean internet = true;
-
+	
 	public GegnerWaehler(GUI gUI) {
+		super(gUI);
+		pane.setLeft(new Label("WEISS"));
+		pane.setLeft(new Label("SCHWARZ"));
+		System.out.println("Starte Gegnerwähler");
+		setzeInhalt(pane);
+	}
+
+	@Deprecated
+	public GegnerWaehler(GUI gUI, boolean alt) {
 		super(gUI);
 
 		this.gUI = gUI;
