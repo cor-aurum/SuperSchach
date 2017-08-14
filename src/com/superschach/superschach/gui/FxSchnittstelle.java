@@ -1,17 +1,18 @@
 package com.superschach.superschach.gui;
 
+import com.superschach.superschach.gui.gegner.Herausforderung;
+import com.superschach.superschach.spiel.AbstractGUI;
+
 import javafx.application.Platform;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
 
-import com.superschach.superschach.spiel.AbstractGUI;
-
 public class FxSchnittstelle extends AbstractGUI {
 
-	GUI gUI;
+	private GUI gUI;
+
 	public Login login;
 	Pane sperre;
 	FigurenMenue menue = null;
@@ -75,8 +76,8 @@ public class FxSchnittstelle extends AbstractGUI {
 			@Override
 			public void run() {
 				gUI.feld.zug(zug);
-				if (gUI.speichern != null) {
-					gUI.speichern.speichern();
+				if (gUI.getSpeichern() != null) {
+					gUI.getSpeichern().speichern();
 				}
 			}
 		});
@@ -171,8 +172,7 @@ public class FxSchnittstelle extends AbstractGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				login = new Login(b ? AbstractGUI.meldung("passwort_falsch")
-						: "", ret, blocker, gUI);
+				login = new Login(b ? AbstractGUI.meldung("passwort_falsch") : "", ret, blocker, gUI);
 				sperre = new Pane();
 				GaussianBlur gB = new GaussianBlur();
 				ColorAdjust cA = new ColorAdjust();
@@ -221,11 +221,9 @@ public class FxSchnittstelle extends AbstractGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				new Meldung(
-						new String[] { AbstractGUI.meldung("schachmatt") },
-						gUI.feld, 40);
-				if (gUI.speichern != null) {
-					gUI.speichern.loeschen();
+				new Meldung(new String[] { AbstractGUI.meldung("schachmatt") }, gUI.feld, 40);
+				if (gUI.getSpeichern() != null) {
+					gUI.getSpeichern().loeschen();
 				}
 			}
 		});
@@ -242,9 +240,7 @@ public class FxSchnittstelle extends AbstractGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				gUI.getGegner().addHerausforderung(
-						new Herausforderung(gUI.getGegner(), herausforderung,
-								id));
+				gUI.getGegner().addHerausforderung(new Herausforderung(gUI.getGegner(), herausforderung, id));
 			}
 		});
 	}
@@ -256,12 +252,19 @@ public class FxSchnittstelle extends AbstractGUI {
 
 	@Override
 	public void herausforderungAbbrechen(int herausforderungID) {
-		for(Node n: gUI.feld.getChildren())
-		{
-			if(n instanceof Herausforderung.HerausgefordertDialog)
-			{
-				((Herausforderung.HerausgefordertDialog)n).abbrechen(herausforderungID,this);
-			}
-		}
+		/*
+		 * for(Node n: gUI.feld.getChildren()) { if(n instanceof
+		 * Herausforderung.HerausgefordertDialog) {
+		 * ((Herausforderung.HerausgefordertDialog)n).abbrechen(herausforderungID,this);
+		 * } }
+		 */
+	}
+
+	public GUI getgUI() {
+		return gUI;
+	}
+
+	public void setgUI(GUI gUI) {
+		this.gUI = gUI;
 	}
 }

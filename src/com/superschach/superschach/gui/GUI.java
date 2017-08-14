@@ -3,6 +3,7 @@ package com.superschach.superschach.gui;
 import java.util.Locale;
 
 import com.sun.javafx.application.LauncherImpl;
+import com.superschach.superschach.gui.gegner.GegnerWaehler;
 import com.superschach.superschach.gui.menu.Hauptmenu;
 import com.superschach.superschach.network.client.Client;
 import com.superschach.superschach.spiel.AbstractGUI;
@@ -87,7 +88,7 @@ public class GUI extends Application {
 	static SimpleBooleanProperty geladen = new SimpleBooleanProperty(false);
 	private Hauptmenu hauptmenu = new Hauptmenu(this);
 	private Kontrollfeld kontrolle;
-	Speichern speichern;
+	private Speichern speichern;
 	private Scene scene;
 	private SimpleStringProperty css=new SimpleStringProperty("klassisch");
 
@@ -394,5 +395,13 @@ public class GUI extends Application {
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public Speichern getSpeichern() {
+		return speichern;
+	}
+
+	public void setSpeichern(Speichern speichern) {
+		this.speichern = speichern;
 	}
 }

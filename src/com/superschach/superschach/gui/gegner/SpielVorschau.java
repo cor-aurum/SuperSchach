@@ -1,4 +1,4 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.gegner;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.beans.value.ChangeListener;

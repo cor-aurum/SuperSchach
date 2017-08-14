@@ -1,4 +1,4 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.gegner;
 
 import java.io.IOException;
 
@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import com.superschach.superschach.gui.Dialog;
+import com.superschach.superschach.gui.FxSchnittstelle;
 import com.superschach.superschach.network.client.Spieler;
 import com.superschach.superschach.spiel.AbstractGUI;
 
@@ -75,11 +77,11 @@ public class Herausforderung extends Button{
 			annehmen.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					schnittstelle.gUI.feld.getChildren().remove(p);
-					schnittstelle.gUI.feld.getChildren().remove(
+					schnittstelle.getgUI().feld.getChildren().remove(p);
+					schnittstelle.getgUI().feld.getChildren().remove(
 							HerausgefordertDialog.this);
 					try {
-						schnittstelle.gUI.getClient().nehmeHerausforderungAn(herausforderung);
+						schnittstelle.getgUI().getClient().nehmeHerausforderungAn(herausforderung);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -89,22 +91,22 @@ public class Herausforderung extends Button{
 			abbrechen.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					schnittstelle.gUI.feld.getChildren().remove(p);
-					schnittstelle.gUI.feld.getChildren().remove(
+					schnittstelle.getgUI().feld.getChildren().remove(p);
+					schnittstelle.getgUI().feld.getChildren().remove(
 							HerausgefordertDialog.this);
 				}
 			});
 
 			getChildren().add(root);
-			schnittstelle.gUI.feld.getChildren().add(p);
-			schnittstelle.gUI.feld.getChildren().add(this);
+			schnittstelle.getgUI().feld.getChildren().add(p);
+			schnittstelle.getgUI().feld.getChildren().add(this);
 		}
 		public void abbrechen(int id, FxSchnittstelle schnittstelle)
 		{
 			if(id==Herausforderung.this.id)
 			{
-				schnittstelle.gUI.feld.getChildren().remove(p);
-				schnittstelle.gUI.feld.getChildren().remove(
+				schnittstelle.getgUI().feld.getChildren().remove(p);
+				schnittstelle.getgUI().feld.getChildren().remove(
 						this);
 			}
 		}

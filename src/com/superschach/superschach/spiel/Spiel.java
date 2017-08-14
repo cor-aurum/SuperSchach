@@ -13,10 +13,8 @@ import com.superschach.superschach.kontroller.Kontroller;
  * @author Felix Sch&uuml;tze, Jan Hofmeier
  * @version (a version number or a date)
  */
-public class Spiel extends Kontroller
-{
-	final static int[] TAUSCHBAR =
-	{ 1, 2, 3, 4 };
+public class Spiel extends Kontroller {
+	final static int[] TAUSCHBAR = { 1, 2, 3, 4 };
 	final AbstractGUI spielBrett;
 	// KISchnittstelle ki;
 	private int aktuellx = -1;
@@ -32,13 +30,11 @@ public class Spiel extends Kontroller
 	/**
 	 * Constructor for objects of class Spiel
 	 */
-	public Spiel(AbstractGUI gui)
-	{
+	public Spiel(AbstractGUI gui) {
 		this(gui, (byte) 8, (byte) 8);
 	}
 
-	public Spiel(AbstractGUI gui, byte laenge, byte breite)
-	{
+	public Spiel(AbstractGUI gui, byte laenge, byte breite) {
 		super(laenge, breite);
 		this.spielBrett = gui;
 		geklickt = false;
@@ -48,16 +44,13 @@ public class Spiel extends Kontroller
 		// ki= new ZufallKI(this);
 	}
 
-	public Spiel(AbstractGUI gui, InputStream stream)
-			throws Exception
-	{
+	public Spiel(AbstractGUI gui, InputStream stream) throws Exception {
 		super(stream);
 		this.spielBrett = gui;
 		setStatus();
 	}
 
-	public void startAufstellung()
-	{
+	public void startAufstellung() {
 		aktualisieren = false;
 		resetPlayer();
 		for (int i = 0; i < 8; i = i + 7)
@@ -97,36 +90,28 @@ public class Spiel extends Kontroller
 		aktualisieren = true;
 	}
 
-	public void Entscheider(int x, int y)
-	{
+	public void entscheider(int x, int y) {
 		if (istKIAmZug())
 			return;
 		spielBrett.resetFeld();
 		// bereit=false;
 		// if(!geklickt)
 		// speicherVerlauf(); //macht jetzt der Kontroller
-		if ((inhaltFaktor(x, y) > 0))
-		{
+		if ((inhaltFaktor(x, y) > 0)) {
 
-			if (geklickt && aktuellx == x && aktuelly == y)
-			{
+			if (geklickt && aktuellx == x && aktuelly == y) {
 				return;// aktualisieren();
-			} else
-			{
+			} else {
 				aktuellx = x;
 				aktuelly = y;
 				farbe(x, y);
 			}
 			geklickt = true;
 
-		} else if (geklickt & ((inhalt(x, y) * playerFaktor()) <= 0))
-		{
-			if (inhaltFaktor(aktuellx, aktuelly) != 0)
-			{
-				if (ausSchach(aktuellx, aktuelly, x, y))
-				{
-					if (zug(aktuellx, aktuelly, x, y))
-					{
+		} else if (geklickt & ((inhalt(x, y) * playerFaktor()) <= 0)) {
+			if (inhaltFaktor(aktuellx, aktuelly) != 0) {
+				if (ausSchach(aktuellx, aktuelly, x, y)) {
+					if (zug(aktuellx, aktuelly, x, y)) {
 						// tauscheBauer(x,y);
 						geklickt = false;
 						if (istKIAmZug())// &&(!matt()))
@@ -141,8 +126,7 @@ public class Spiel extends Kontroller
 		}
 	}
 
-	public boolean zugzurueck()
-	{
+	public boolean zugzurueck() {
 		boolean ret = ladeVerlauf();
 		geklickt = false;
 		aktualisieren();
@@ -150,77 +134,51 @@ public class Spiel extends Kontroller
 		return ret;
 	}
 
-	public void waehleKI(int ki, byte spieler, int level)
-	{
+	public void waehleKI(int ki, byte spieler, String level) {
 		aktiviereKI(ki, spieler, level);
 		if (istKIAmZug() & (!matt()))
 			kiSchleife();
 	}
 
-	public void waehleKIohneStart(int ki, byte spieler, int level)
-	{
+	public void waehleKIohneStart(int ki, byte spieler, String level) {
 		aktiviereKI(ki, spieler, level);
 	}
 
-	public void kiSchleife()
-	{
+	public void kiSchleife() {
 		boolean keinFehler = true;
 		boolean matt = matt();
-		while (istKIAmZug() && (!matt) && keinFehler)
-		{
-			/**
-			 * byte[] temp=new byte[4]; temp=db.empfangen(); if(temp[0]==0 &&
-			 * temp[1]==0 && temp[2]==0 && temp[3]==0) {
-			 */
+		while (istKIAmZug() && (!matt) && keinFehler) {
 			spielBrett.resetFeld();
 			speicherVerlauf();
-			// long time = System.currentTimeMillis();
 			spielBrett.startDenken(ki[getPlayer()].name);
 			keinFehler = ki(getPlayer());
-			// if(Kontroller.debug)
-			// Spielbrett.nachricht("Der Gegner ben�tigte: "
-			// + (System.currentTimeMillis() - time) / 1000 + " Sekunden");
-			// togglePlayer();
-			/**
-			 * } else { zug(temp[0],temp[1],temp[2],temp[3]); }
-			 */
 			matt = matt();
 		}
-		if(istKIAmZug()&&matt)
-		{
+		if (istKIAmZug() && matt) {
 			ki[getPlayer()].tellMatt(this);
 		}
 		spielBrett.stopDenken(!matt);
-		if (!keinFehler)
-		{
+		if (!keinFehler) {
 			spielBrett.nachricht("[Spiel]: Fehler in der KI");
 		}
 	}
 
-	private byte setStatus()
-	{
-		if (istSchach())
-		{
-			if (keinZugMoeglich())
-			{
+	private byte setStatus() {
+		if (istSchach()) {
+			if (keinZugMoeglich()) {
 				spielBrett.matt(name());
 				status = 3;
-			} else
-			{
+			} else {
 				spielBrett.schach(super.koenigPosX(), super.koenigPosY());
 				;
 				status = 1;
 			}
-		} else
-		{
-			if (keinZugMoeglich())
-			{
+		} else {
+			if (keinZugMoeglich()) {
 				spielBrett.patt();
 				status = 4;
-			} else
-			{
-				if (istRemis())
-				{
+			} else {
+				if (istRemis()) {
 					spielBrett.remis();
 					status = 2;
 				} else
@@ -230,76 +188,56 @@ public class Spiel extends Kontroller
 		return status;
 	}
 
-	public byte getStatus()
-	{
+	public byte getStatus() {
 		return status;
 	}
 
-	public void aktualisieren(int x, int y)
-	{
+	public void aktualisieren(int x, int y) {
 		spielBrett.aktualisieren(x, y);
 	}
 
-	public String name()
-	{
-		return kian[getPlayer()] ? ki[getPlayer()].name : AbstractGUI
-				.meldung(getPlayer() == 1 ? "schwarz" : "weiss");
+	public String name() {
+		return kian[getPlayer()] ? ki[getPlayer()].name : AbstractGUI.meldung(getPlayer() == 1 ? "schwarz" : "weiss");
 	}
 
 	@Override
-	public void stirb(int typ, int x, int y)
-	{
+	public void stirb(int typ, int x, int y) {
 		spielBrett.stirb(typ, x, y);
 	}
 
-	public int figurMenu()
-	{
+	public int figurMenu() {
 		int f;
-		if (istKIAmZug())
-		{
+		if (istKIAmZug()) {
 			f = ki[getPlayer()].tauscheBauer();
-		} else
-		{
+		} else {
 			f = spielBrett.figurMenu();
 		}
-		for (int i = 0; i < TAUSCHBAR.length; i++)
-		{
-			if (TAUSCHBAR[i] == f)
-			{
+		for (int i = 0; i < TAUSCHBAR.length; i++) {
+			if (TAUSCHBAR[i] == f) {
 				return f;
 			}
 		}
 		return 3;
 	}
 
-	public void farbe(int x, int y)
-	{
+	public void farbe(int x, int y) {
 		/**
 		 * 1=Schwarz 2=Wei� 3=Gruen 4=Rot 5=Gelb
 		 */
 		spielBrett.farbe(x, y, 5);
-		for (int a = 0; a <= YMax; a++)
-		{
-			for (int b = 0; b <= XMax; b++)
-			{
+		for (int a = 0; a <= YMax; a++) {
+			for (int b = 0; b <= XMax; b++) {
 				int zug = zugMoeglich(x, y, b, a);
-				if (zug == 1)
-				{
+				if (zug == 1) {
 					spielBrett.farbe(b, a, 3);
-				} else
-				{
-					if (zug == 2)
-					{
+				} else {
+					if (zug == 2) {
 						spielBrett.farbe(b, a, 4);
-					} else
-					{
-						if (zug == 3)
-						{
+					} else {
+						if (zug == 3) {
 							spielBrett.farbe(b, a, 5);
-						} else
-						{
-							if (zug == 4)
-							{
+						} else {
+							if (zug == 4) {
 								spielBrett.farbe(b, a, 5);
 								spielBrett.farbe(b, a - playerFaktor(), 4);
 							}
@@ -310,154 +248,111 @@ public class Spiel extends Kontroller
 		}
 	}
 
-	public void farbeFeld(int x, int y, int farbe)
-	{
+	public void farbeFeld(int x, int y, int farbe) {
 		spielBrett.farbe(x, y, farbe);
 	}
 
-	public void aktualisieren()
-	{
+	public void aktualisieren() {
 		spielBrett.aktualisieren();
 	}
 
-	public void blink()
-	{
+	public void blink() {
 		spielBrett.blink();
 	}
 
-	public void drehen()
-	{
+	public void drehen() {
 		spielBrett.drehen();
 	}
 
-	public boolean ki(int spieler)
-	{
+	public boolean ki(int spieler) {
 		boolean ret = ki[spieler].machZug();
 		// aktualisieren();
 		return ret;
 	}
 
-	public boolean aktiviereKI(int k, byte spieler, int level)
-	{
-
-		try
-		{
+	public boolean aktiviereKI(int k, byte spieler, String level) {
+		try {
 			new KISpieler(k, level, this, spieler);
 			return true;
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		/*
-		 * switch (k)
-		 * 
-		 * { case 1: this.ki[spieler] = new ZufallKI(this);// , this.pruefer);
-		 * kian[spieler] = true; return true; case 2: Netzwerkschnittstelle s =
-		 * new Netzwerkschnittstelle(this, 0);
-		 * meldungAusgeben("warte auf Gegner"); byte farbe = -1; while ((farbe
-		 * != 0) && (farbe != 1)) { farbe = s.erhalteFarbe(); } this.ki[farbe] =
-		 * s; kian[farbe] = true; return true; case 3: this.ki[spieler] = new
-		 * TestKI(this,level);//SchleifenKI(this, level); kian[spieler] = true;
-		 * return true; case 4: this.ki[spieler] = new MultiThreadKI(this,
-		 * level); kian[spieler] = true; return true; default: kian[spieler] =
-		 * false; return false;
-		 */
 	}
 
-	public boolean aktiviereKI(KI ki, byte farbe, String name)
-	{
+	public boolean aktiviereKI(KI ki, byte farbe, String name) {
 
-		try
-		{
+		try {
 			new KISpieler(this, ki, farbe, name);
 			return true;
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 
 	}
 
-	public boolean istKI(int player)
-	{
+	public boolean istKI(int player) {
 		return kian[player];
 	}
 
-	public boolean logSpeichern(File f)
-	{
+	public boolean logSpeichern(File f) {
 		return protokollant.speichern(f);
 	}
 
-	public File getFile()
-	{
+	public File getFile() {
 		return spielBrett.getFile();
 	}
 
-	public boolean istKIAmZug()
-	{
+	public boolean istKIAmZug() {
 		return kian[getPlayer()];
 	}
 
 	@Override
-	public void nachZug(boolean wurf)
-	{
+	public void nachZug(boolean wurf) {
 		int status = setStatus();
-		try
-		{
-			protokollant.protokoll(letzterZug[0], letzterZug[1], letzterZug[2],
-					letzterZug[3], status, wurf, letzterZug[4]);
-		} catch (Exception e)
-		{
+		try {
+			protokollant.protokoll(letzterZug[0], letzterZug[1], letzterZug[2], letzterZug[3], status, wurf,
+					letzterZug[4]);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		// Spielbrett.zugGemacht();
 	}
 
-	public void uebersetzen(String s)
-	{
+	public void uebersetzen(String s) {
 		protokollant.uebersetzen(s);
 	}
 
-	public boolean matt()
-	{
+	public boolean matt() {
 		return status > 1;
 	}
 
-	public void setKISpieler(KISpieler ki, byte farbe)
-	{
-		// System.out.println(farbe);
-		if (farbe == 0 || farbe == 1)
-		{
+	public void setKISpieler(KISpieler ki, byte farbe) {
+		if (farbe == 0 || farbe == 1) {
 			this.ki[farbe] = ki;
 			kian[farbe] = ki != null;
 		}
 	}
 
 	@Override
-	protected void zugGemacht()
-	{
+	protected void zugGemacht() {
 		spielBrett.zugGemacht();
 	}
 
-	public void nachricht(String nachricht)
-	{
+	public void nachricht(String nachricht) {
 		spielBrett.nachricht(nachricht);
 	}
 
-	public String getSpielName()
-	{
+	public String getSpielName() {
 		return super.getSpielName();
 	}
 
-	public void setSpielName(String s)
-	{
+	public void setSpielName(String s) {
 		super.setSpielName(s);
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		return super.toString() + "\n" + getSpielName();
 	}
 

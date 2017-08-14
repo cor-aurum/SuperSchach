@@ -43,22 +43,9 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 	public boolean machZug()
 	{
 		boolean ret = true;
-		/**
-		 * try{ db.senden(); } catch(Exception e){System.out.println(
-		 * "Senden Fehlgeschlagen");}; byte[] temp=new byte[4];
-		 * temp=db.empfangen();
-		 * System.out.println("KI"+temp[0]+temp[1]+temp[2]+temp[3]);
-		 * if(temp[0]==0 && temp[1]==0 && temp[2]==0 && temp[3]==0) {
-		 */
 		Zug zugOb = new Zug();
 		ret = zug(zugOb.getPosX(), zugOb.getPosY(), zugOb.getZielX(),
 				zugOb.getZielY());
-		/**
-		 * } else if(kontroller.zugMoeglich(temp[0],temp[1],temp[2],temp[3])> 0)
-		 * { ret= hauptschleife(); } else { ret=
-		 * zug(temp[0],temp[1],temp[2],temp[3]); } try{ db.senden(); }
-		 * catch(Exception e){System.out.println("Senden Fehlgeschlagen");}
-		 */
 		return ret;
 	}
 

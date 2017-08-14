@@ -36,7 +36,7 @@ public class Kontrollfeld extends HBox {
 				if (ke.getCode().equals(KeyCode.ENTER)) {
 					gUI.spiel.setSpielName(name.getText());
 					drehen.requestFocus();
-					gUI.speichern.speichern();
+					gUI.getSpeichern().speichern();
 				}
 			}
 		});

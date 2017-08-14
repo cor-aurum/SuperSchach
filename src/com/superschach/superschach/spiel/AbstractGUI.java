@@ -7,53 +7,45 @@ import java.util.ResourceBundle;
 
 import com.superschach.superschach.ki.KI;
 
-public abstract class AbstractGUI
-{
+public abstract class AbstractGUI {
 	private Spiel spiel;
 	private SpielThread spielThread; // =new SpielThread();
 	private KIThread kiThread;
 	private int x = 0;
 	private int y = 0;
-	private int kinummer = 0;
-	private int kispieler = 0;
-	private int kilevel = 3;
+	// private int kinummer = 0;
+	// private int kispieler = 0;
+	// private String kilevel = "3";
 	public final static String VERSION = "2.2";
 
-	public AbstractGUI()
-	{
+	public AbstractGUI() {
 		spiel = new Spiel(this);
 		// kiThread = new KIThread();
 	}
 
-	public static String meldung(String key)
-	{
-		try
-		{
-			return ResourceBundle.getBundle(
-					"com.superschach.superschach.spiel.Ausgaben")
-					.getString(key);
-		} catch (Exception e)
-		{
+	public static String meldung(String key) {
+		try {
+			try {
+				return ResourceBundle.getBundle("com.superschach.superschach.spiel.Ausgaben").getString(key);
+			} catch (Exception e) {
+			}
+			return ResourceBundle.getBundle("com.superschach.superschach.spiel.Ausgaben", Locale.GERMAN).getString(key);
+		} catch (Exception ex) {
+			return key;
 		}
-		return ResourceBundle.getBundle(
-				"com.superschach.superschach.spiel.Ausgaben", Locale.GERMAN)
-				.getString(key);
 	}
 
-	public AbstractGUI(InputStream stream) throws Exception
-	{
+	public AbstractGUI(InputStream stream) throws Exception {
 		laden(stream);
 		// spielThread = new SpielThread();
 		// kiThread = new KIThread();
 	}
 
-	public byte[] letzterZug()
-	{
+	public byte[] letzterZug() {
 		return spiel.letzterZug();
 	}
 
-	public static String verzeichnis()
-	{
+	public static String verzeichnis() {
 		String userdir = "";
 		if (System.getProperty("os.name").toLowerCase().indexOf("win") > -1)
 			userdir = System.getenv("APPDATA") + File.separator;
@@ -65,30 +57,24 @@ public abstract class AbstractGUI
 		return userdir + ".super-schach" + File.separator;
 	}
 
-	// Methoden mit der die GUI auf das SPiel zugreifen kann
+	// Methoden mit der die GUI auf das Spiel zugreifen kann
 	/**
-	 * Die Methode "klick" sagt dem Spiel, welches Feld gedr�ckt werden soll.
-	 * Die Koordinaten werden als Integer �bergeben.
+	 * Die Methode "klick" sagt dem Spiel, welches Feld gedr�ckt werden soll. Die
+	 * Koordinaten werden als Integer �bergeben.
 	 */
-	public void klick(int klickx, int klicky)
-	{
-		if (sollThread())
-		{
+	public void klick(int klickx, int klicky) {
+		if (sollThread()) {
 			this.x = klickx;
 			this.y = klicky;
 			// System.out.println(x + " " + y);
-			if ((kiThread == null || (!kiThread.isAlive()) || (spielThread == null || !spielThread
-					.isAlive())))
-			{
+			if ((kiThread == null || (!kiThread.isAlive()) || (spielThread == null || !spielThread.isAlive()))) {
 				spielThread = new SpielThread();
-				if (sollThread())
-				{
+				if (sollThread()) {
 					spielThread.start();
 				}
 			}
-		} else
-		{
-			spiel.Entscheider(x, y);
+		} else {
+			spiel.entscheider(x, y);
 		}
 	}
 
@@ -98,23 +84,20 @@ public abstract class AbstractGUI
 																	// sichtbar
 																	// zu machen
 	{
-		public void run()
-		{
-			spiel.Entscheider(x, y);
+		public void run() {
+			spiel.entscheider(x, y);
 		}
 	}
 
 	/**
-	 * gibt die ID der Figur auf jedem Feld zur&uuml;ck. Das Vorzeichen
-	 * bezeichnet hierbei den Spieler.
+	 * gibt die ID der Figur auf jedem Feld zur&uuml;ck. Das Vorzeichen bezeichnet
+	 * hierbei den Spieler.
 	 */
-	public int figur(int x, int y)
-	{
+	public int figur(int x, int y) {
 		return spiel.inhalt(x, y);
 	}
 
-	public void aufbauen()
-	{
+	public void aufbauen() {
 		spiel.startAufstellung();
 	}
 
@@ -123,32 +106,33 @@ public abstract class AbstractGUI
 		return spiel.zugzurueck();
 	}
 
-	public void ki(int nummer, int spieler, int level) // 0 ist keine KI, sonst
-														// sind die KIs
-														// durchnummeriert
+	public void ki(int nummer, int spieler, String level) // 0 ist keine KI, sonst
+															// sind die KIs
+															// durchnummeriert
 	{
-		// spiel.waehleKI(nummer, spieler);
-		this.kinummer = nummer;
-		this.kispieler = spieler;
-		this.kilevel = level;
-		if ((kiThread == null || (!kiThread.isAlive()) || (spielThread == null || !spielThread
-				.isAlive())))
-		{
-			kiThread = new KIThread();
-			kiThread.start();
-		} else
-		{
-			spiel.waehleKIohneStart(nummer, (byte) spieler, level);
-		}
+		// spiel.waehleKI(nummer, spieler);;
+		// if ((kiThread == null || (!kiThread.isAlive()) || (spielThread == null ||
+		// !spielThread.isAlive()))) {
+		kiThread = new KIThread(nummer, spieler, level);
+		kiThread.start();
+		// } else {
+		// spiel.waehleKIohneStart(nummer, (byte) spieler, level);
+		// }
 	}
 
-	private class KIThread extends Thread implements Runnable // Thread um die
-																// Bewegung
-																// sichtbar zu
-																// machen
+	private class KIThread extends Thread // Thread um die Bewegung sichtbar zu machen
 	{
-		public void run()
-		{
+		private int kinummer;
+		private int kispieler;
+		private String kilevel;
+
+		public KIThread(int nummer, int spieler, String level) {
+			this.kinummer = nummer;
+			this.kispieler = spieler;
+			this.kilevel = level;
+		}
+
+		public void run() {
 			spiel.waehleKI(kinummer, (byte) kispieler, kilevel);
 		}
 	}
@@ -157,86 +141,64 @@ public abstract class AbstractGUI
 
 	public abstract void leaveLobby();
 
-	public boolean ki(int i)
-	{
+	public boolean ki(int i) {
 		aktualisieren();
 		return spiel.ki(i);
 	}
 
-	public boolean aktiviereKI(int k, byte spieler, int level)
-	{
+	public boolean aktiviereKI(int k, byte spieler, String level) {
 		return spiel.aktiviereKI(k, spieler, level);
 	}
 
-	public boolean aktiviereKI(KI ki, byte spieler, String name)
-	{
+	public boolean aktiviereKI(KI ki, byte spieler, String name) {
 		return spiel.aktiviereKI(ki, spieler, name);
 	}
 
-	public boolean logSpeichern(File f)
-	{
+	public boolean logSpeichern(File f) {
 		return spiel.logSpeichern(f);
 	}
 
-	public boolean Player0()
-	{
+	public boolean Player0() {
 		return spiel.Player0();
 	}
 
-	public int getXMax()
-	{
+	public int getXMax() {
 		return spiel.XMax;
 	}
 
-	public int getYMax()
-	{
+	public int getYMax() {
 		return spiel.YMax;
 	}
 
-	public boolean speichern(File f)
-	{
+	public boolean speichern(File f) {
 		return spiel.speichern(f);
 	}
 
-	public void laden(InputStream stream) throws Exception
-	{
+	public void laden(InputStream stream) throws Exception {
 		spiel = new Spiel(this, stream);
 		aktualisieren();
 		stirb(getGeworfen());
 	}
 
-	public int[] getGeworfen()
-	{
+	public int[] getGeworfen() {
 		return spiel.getGeworfen();
 	}
 
-	public void uebersetzen(String s)
-	{
+	public void uebersetzen(String s) {
 		spiel.uebersetzen(s);
 	}
 
-	public boolean istKI(int player)
-	{
+	public boolean istKI(int player) {
 		return spiel.istKI(player);
 	}
 
 	// Hoooks um befehle an die AbstractGUI zu senden
-	public void farbe(int x, int y, int farbe)
-	{
+	public void farbe(int x, int y, int farbe) {
 	}
 
-	public abstract int figurMenu();// {return 4;} //Men� f�r Figurenauswahl
-									// wenn man nen Bauern ans Zeil gebracht
-									// hat. Wenn nicht gehookt dann wird
-									// standartm��ig ne Dame erstellt
+	public abstract int figurMenu();
 
-	public abstract void meldungAusgeben(String meldung);// {System.out.println(meldung);}
-															// //Infofenster
-															// soll angezeigt
-															// werde, wenn nicht
-															// gehookt, wird
-															// System.out.println
-															// verwendet
+	public abstract void meldungAusgeben(String meldung);
 
 	public abstract void aktualisieren(int x, int y);// {}
 
@@ -244,117 +206,94 @@ public abstract class AbstractGUI
 
 	public abstract void nachricht(String s);
 
-	public void zugGemacht()
-	{
+	public void zugGemacht() {
 	}
 
-	public void blink()
-	{
+	public void blink() {
 	}
 
-	public void stirb(int typ, int x, int y)
-	{
+	public void stirb(int typ, int x, int y) {
 	};
 
-	public void stirb(int[] geworfen)
-	{
+	public void stirb(int[] geworfen) {
 	}
 
-	public void chaterhalten(String s)
-	{
+	public void chaterhalten(String s) {
 	}
 
-	public void drehen()
-	{
+	public void drehen() {
 	}
 
-	public File getFile()
-	{
+	public File getFile() {
 		return null;
 	}
 
-	public void resetFeld()
-	{
+	public void resetFeld() {
 
 	}
 
-	public static String getVersion()
-	{
+	public static String getVersion() {
 		return VERSION;
 	}
 
-	public void herausforderung(long gegnerID, int herausforderungID)
-	{
+	public void herausforderung(long gegnerID, int herausforderungID) {
 
 	}
 
-	public void startDenken(String name)
-	{
+	public void startDenken(String name) {
 		meldungAusgeben(name + " denkt");
 	}
 
-	public void stopDenken(boolean dran)
-	{
+	public void stopDenken(boolean dran) {
 		meldungAusgeben("Du bist am Zug");
 	}
 
-	public void patt()
-	{
+	public void patt() {
 		nachricht("Patt");
 	}
 
-	public void remis()
-	{
+	public void remis() {
 		nachricht("Remis");
 	}
 
-	public void schach(int x, int y)
-	{
-		System.out.println("noch nicht �berschrieben");
+	public void schach(int x, int y) {
+		System.out.println("noch nicht überschrieben");
 		statusMeldungAusgeben("dran und steht im Schach");
 	}
 
-	public void statusMeldungAusgeben(String ereignis)
-	{
+	public void statusMeldungAusgeben(String ereignis) {
 		meldungAusgeben(spiel.name() + " ist " + ereignis);
 	}
 
-	public void matt(String name)
-	{
+	public void matt(String name) {
 
 	}
 
-	public byte getStatus()
-	{
+	public byte getStatus() {
 		return spiel.getStatus();
 	}
 
-	public String getSpielName()
-	{
+	public String getSpielName() {
 		return spiel.getSpielName();
 	}
 
-	public void setSpielName(String s)
-	{
+	public void setSpielName(String s) {
 		spiel.setSpielName(s);
 	}
 
 	public abstract String[] getLogin(boolean falsch);
 
-	public String getSpielDefaultName()
-	{
+	public String getSpielDefaultName() {
 		return spiel.getSpielDefaultName();
 	}
 
 	public abstract void gegnerSpielVerlassen();
 
-	public void gegnerAufgegeben()
-	{
+	public void gegnerAufgegeben() {
 		meldungAusgeben(meldung("gegner_aufgeben"));
 	}
 
-	public void verbindungUnterbrochen()
-	{
+	public void verbindungUnterbrochen() {
 		meldungAusgeben(meldung("verbindungs_fehler"));
 	}
 

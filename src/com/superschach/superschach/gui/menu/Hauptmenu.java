@@ -8,7 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
 import com.superschach.superschach.gui.GUI;
-import com.superschach.superschach.gui.GegnerWaehler;
+import com.superschach.superschach.gui.gegner.GegnerWaehler;
 import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Hauptmenu extends Menu {

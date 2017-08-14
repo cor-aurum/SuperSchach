@@ -1,4 +1,4 @@
-package com.superschach.superschach.gui;
+package com.superschach.superschach.gui.gegner;
 
 import com.superschach.superschach.spiel.AbstractGUI;
 
