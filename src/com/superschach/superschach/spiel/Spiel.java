@@ -3,6 +3,7 @@ package com.superschach.superschach.spiel;
 import java.io.File;
 import java.io.InputStream;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.ki.KI;
 import com.superschach.superschach.ki.KISpieler;
 import com.superschach.superschach.kontroller.Kontroller;
@@ -159,7 +160,7 @@ public class Spiel extends Kontroller {
 		}
 		spielBrett.stopDenken(!matt);
 		if (!keinFehler) {
-			spielBrett.nachricht("[Spiel]: Fehler in der KI");
+			GUI.logger.warn("[Spiel]: Fehler in der KI");
 		}
 	}
 

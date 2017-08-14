@@ -3,6 +3,7 @@ package com.superschach.superschach.ki;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.kontroller.Kontroller;
 
 /*
@@ -21,34 +22,32 @@ public class UCIKi extends KISchnittstelle implements KI {
 			Process uci = Runtime.getRuntime().exec(exec);
 			sc = new Scanner(uci.getInputStream());
 			prt=new PrintWriter(uci.getOutputStream());
-			System.out.println(sc.nextLine());
-			System.out.println("uci");
+			GUI.logger.debug(sc.nextLine());
+			GUI.logger.debug("uci");
 			prt.println("uci");
 			prt.flush();
 			String line = "";
             while(!(line = sc.nextLine()).equals("uciok")) {
             	System.out.println(line);
             }
-            System.out.println(line);
+            GUI.logger.debug(line);
             prt.println("isready");
 			prt.flush();
             while(!(line = sc.nextLine()).equals("readyok")) {
-            	System.out.println(line);
+            	GUI.logger.debug(line);
             }
-            System.out.println(line);
+            GUI.logger.debug(line);
             prt.println("ucinewgame");
 			prt.flush();
-			System.out.println("UCI erfolgreich initiiert");
+			GUI.logger.info("UCI erfolgreich initiiert");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			GUI.logger.warn(e.getStackTrace());
 		}
 
 	}
 
 	@Override
 	public void zug(Kontroller spiel, Zug zug) throws Exception {
-		
 		byte[] b=spiel.letzterZug();
 		String letzterZug="";
 		letzterZug+=(char)(b[0]+97);
@@ -65,9 +64,8 @@ public class UCIKi extends KISchnittstelle implements KI {
 		prt.flush();
 		String line;
         while(!(line = sc.nextLine()).startsWith("bestmove"));
-        System.out.println(line);
+        GUI.logger.debug(line);
         line=line.split(" ")[1];
-        System.out.println(line);
         int posx=line.charAt(0)-97;
         int posy=line.charAt(1)-49;
         int zielx=line.charAt(2)-97;

@@ -2,6 +2,12 @@ package com.superschach.superschach.gui;
 
 import java.util.Locale;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+
 import com.sun.javafx.application.LauncherImpl;
 import com.superschach.superschach.gui.gegner.GegnerWaehler;
 import com.superschach.superschach.gui.menu.Hauptmenu;
@@ -37,6 +43,7 @@ import javafx.stage.WindowEvent;
 
 public class GUI extends Application {
 
+	public static final Logger logger = Logger.getRootLogger();
 	private Stage stage;
 	Einstellungen rechts;
 	public MeshView[] dreidfiguren=new MeshView[17];
@@ -262,6 +269,18 @@ public class GUI extends Application {
 	}
 
 	public static void main(String args[]) throws Exception {
+		 try {
+		      SimpleLayout layout = new SimpleLayout();
+		      ConsoleAppender consoleAppender = new ConsoleAppender( layout );
+		      logger.addAppender( consoleAppender );
+		      FileAppender fileAppender = new FileAppender( layout, AbstractGUI.verzeichnis()+"logs/superschach.log", false );
+		      logger.addAppender( fileAppender );
+		      // ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
+		      logger.setLevel( Level.ALL );
+		    } catch( Exception ex ) {
+		    	GUI.logger.warn( ex.getStackTrace() );
+		    }
+		logger.info("Spiel wird geladen");
 		Locale.setDefault(new Locale("de","DE"));
 		LauncherImpl.launchApplication(GUI.class, SplashScreen.class, args);
 		launch(args);

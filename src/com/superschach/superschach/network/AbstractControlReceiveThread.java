@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import com.superschach.superschach.gui.GUI;
+
 public abstract class AbstractControlReceiveThread extends Thread
 {
 
@@ -47,7 +49,7 @@ public abstract class AbstractControlReceiveThread extends Thread
 				try
 				{
 					int befehl = Integer.parseInt(recived);
-					System.out.println("Bekomme Befehl: " + recived);
+					GUI.logger.info("Bekomme Befehl: " + recived);
 					bearbeiteBefehl(befehl);
 				} catch (Exception e)
 				{
@@ -85,7 +87,7 @@ public abstract class AbstractControlReceiveThread extends Thread
 
 	protected void answer(String aw)
 	{
-		System.out.println("Antworte: " + aw);
+		GUI.logger.info("Antworte: " + aw);
 		printWriter.println(aw);
 		printWriter.flush();
 	}

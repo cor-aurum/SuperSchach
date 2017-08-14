@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.kontroller.figuren.Bauer;
 import com.superschach.superschach.kontroller.figuren.Dame;
 import com.superschach.superschach.kontroller.figuren.Figur;
@@ -323,8 +324,7 @@ public abstract class Kontroller
 			}
 			if (diff != 0 && diff != 1)
 			{
-				System.out
-						.println("Das sollte nicht so sein (Kontroller.ladeVerlauf()): "
+				GUI.logger.warn("Das sollte nicht so sein (Kontroller.ladeVerlauf()): "
 								+ diff);
 			}
 			anzGeworfen -= diff;

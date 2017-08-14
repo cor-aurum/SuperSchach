@@ -181,7 +181,7 @@ public class Xform extends Group {
     }
 
     public void debug() {
-        System.out.println("t = (" +
+    	GUI.logger.debug("t = (" +
                            t.getX() + ", " +
                            t.getY() + ", " +
                            t.getZ() + ")  " +

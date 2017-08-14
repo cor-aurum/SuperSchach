@@ -1,5 +1,6 @@
 package com.superschach.superschach.ki;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.kontroller.KIKontroller;
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.kontroller.figuren.Figur;
@@ -127,8 +128,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 												// frei zu machen.
 					} catch (Exception e)
 					{
-						System.out.println(e);
-						e.printStackTrace();
+						GUI.logger.warn(e.getStackTrace());
 					}
 				}
 			}
@@ -182,7 +182,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 			}
 
 			else
-				System.out.println("Fehlerli in der KI");
+				GUI.logger.warn("Fehler in der MultiThreadKI");
 
 			/*
 			 * if(wertPruefer()<=20) { level=6; }

@@ -60,7 +60,7 @@ public class Kontrollfeld extends HBox {
 		chat.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				System.out.println("Chat");
+				GUI.logger.debug("Chat wird geöffnet");
 				if (gUI.chat.isShowed())
 					gUI.chat.hide();
 				else

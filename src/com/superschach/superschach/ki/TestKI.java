@@ -1,5 +1,6 @@
 package com.superschach.superschach.ki;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.kontroller.KIKontroller;
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.kontroller.figuren.Figur;
@@ -117,8 +118,7 @@ public class TestKI extends KISchnittstelle
 					}
 				} catch (Exception e)
 				{
-					System.out.println(e);
-					e.printStackTrace();
+					GUI.logger.warn(e.getStackTrace());
 				}
 			}
 		}
@@ -139,7 +139,7 @@ public class TestKI extends KISchnittstelle
 		}
 
 		if (!ret)
-			System.out.println("Fehlerli in der KI");
+			GUI.logger.warn("Fehler in der TestKI");
 
 		/*
 		 * if(wertPruefer()<=20) { level=6; }

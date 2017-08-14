@@ -113,15 +113,15 @@ public class Protokollant
 			ny = Integer.parseInt(koo[1].substring(1)) - 1;
 			if (spiel.zugMoeglich(ax, ay, nx, ny) > 0)
 			{
-				spiel.spielBrett.meldungAusgeben("Zug ausgef�hrt");
+				spiel.spielBrett.meldungAusgeben("Zug ausgeführt");
 			} else
 			{
-				spiel.spielBrett.meldungAusgeben("Zug nicht m�glich");
+				spiel.spielBrett.meldungAusgeben("Zug nicht möglich");
 			}
 			spiel.zug(ax, ay, nx, ny);
 		} catch (Exception e)
 		{
-			spiel.spielBrett.meldungAusgeben("Zug nicht m�glich");
+			spiel.spielBrett.meldungAusgeben("Zug nicht möglich");
 		}
 	}
 

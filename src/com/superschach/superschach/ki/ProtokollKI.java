@@ -3,6 +3,7 @@ package com.superschach.superschach.ki;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.spiel.AbstractGUI;
 import com.superschach.superschach.spiel.Spiel;
@@ -40,7 +41,7 @@ public class ProtokollKI implements KI
 			p = p + pro[i].substring(0, pro[i].length() - 1);
 		}
 		p = p + pro[pro.length - 1];
-		System.out.println(p);
+		GUI.logger.debug(p);
 		p = p.substring(1);
 		protokoll = p.split(" ");
 	}
@@ -51,7 +52,7 @@ public class ProtokollKI implements KI
 		int zaehler=spiel.gebeZugAnz();
 		if (zaehler < protokoll.length)
 		{
-			System.out.println(protokoll[zaehler]);
+			GUI.logger.debug(protokoll[zaehler]);
 			String[] koo = protokoll[zaehler].split("-");
 			int ax;
 			int ay;

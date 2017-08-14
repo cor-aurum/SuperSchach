@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import com.superschach.superschach.gui.GUI;
+
 public abstract class AbstractControlSender
 {
 
@@ -35,7 +37,7 @@ public abstract class AbstractControlSender
 	protected String message(Commands command, String param) throws IOException
 	{
 		try{
-		System.out.println("Sende Befehl: "+ command.name());
+		GUI.logger.info("Sende Befehl: "+ command.name());
 		synchronized (this) {
 			streamWriter.println(command.ordinal());
 			if (command.hasParam()) {

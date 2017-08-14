@@ -1,5 +1,6 @@
 package com.superschach.superschach.kontroller;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.kontroller.figuren.Figur;
 
 /**
@@ -397,7 +398,7 @@ public class Pruefer
 					ret = true;
 				}
 				if (figur[zielx][ziely] == null)
-					System.out.println(posx + " " + posy + " " + zielx + " "
+					GUI.logger.debug(posx + " " + posy + " " + zielx + " "
 							+ ziely);
 				figur[zielx][ziely].versetzen(posx, posy); // r�ckg�ngig
 															// machen
