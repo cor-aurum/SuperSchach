@@ -280,7 +280,7 @@ public class GUI extends Application {
 		    } catch( Exception ex ) {
 		    	GUI.logger.warn( ex.getStackTrace() );
 		    }
-		logger.info("Spiel wird geladen");
+		logger.info("===========Spiel wird geladen===========");
 		Locale.setDefault(new Locale("de","DE"));
 		LauncherImpl.launchApplication(GUI.class, SplashScreen.class, args);
 		launch(args);

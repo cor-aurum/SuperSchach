@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.network.AbstractControlReceiveThread;
 import com.superschach.superschach.network.Commands;
 import com.superschach.superschach.network.Farbe;
@@ -102,7 +103,7 @@ public class Client
 					controlReciver.close();
 			} catch (Exception e)
 			{
-				e.printStackTrace();
+				GUI.logger.warn(e.getMessage());
 			}
 		}
 	}
