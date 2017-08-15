@@ -6,7 +6,8 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
+import org.apache.log4j.TTCCLayout;
+import org.apache.log4j.helpers.DateLayout;
 
 import com.sun.javafx.application.LauncherImpl;
 import com.superschach.superschach.gui.gegner.GegnerWaehler;
@@ -270,7 +271,7 @@ public class GUI extends Application {
 
 	public static void main(String args[]) throws Exception {
 		 try {
-		      SimpleLayout layout = new SimpleLayout();
+			  DateLayout layout = new TTCCLayout();
 		      ConsoleAppender consoleAppender = new ConsoleAppender( layout );
 		      logger.addAppender( consoleAppender );
 		      FileAppender fileAppender = new FileAppender( layout, AbstractGUI.verzeichnis()+"logs/superschach.log", false );
@@ -278,7 +279,7 @@ public class GUI extends Application {
 		      // ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
 		      logger.setLevel( Level.ALL );
 		    } catch( Exception ex ) {
-		    	GUI.logger.warn( ex.getStackTrace() );
+		    	ex.printStackTrace();
 		    }
 		logger.info("===========Spiel wird geladen===========");
 		Locale.setDefault(new Locale("de","DE"));

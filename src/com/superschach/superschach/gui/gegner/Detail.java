@@ -69,8 +69,8 @@ public class Detail extends Fenster {
 	private void addTextfield(String name) {
 		TextField pfad = new TextField();
 		Button waehlen = new Button(AbstractGUI.meldung("waehlen"));
-		pfad.setPromptText("stockfish");
-		Label staerke = new Label(AbstractGUI.meldung("staerkeWaehlen"));
+		pfad.setPromptText("z.B. stockfish");
+		Label staerke = new Label(AbstractGUI.meldung("pfadzu"));
 		root.getChildren().add(staerke);
 		root.getChildren().add(pfad);
 		root.getChildren().add(waehlen);

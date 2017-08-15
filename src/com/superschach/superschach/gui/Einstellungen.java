@@ -1,7 +1,14 @@
 package com.superschach.superschach.gui;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.superschach.superschach.spiel.AbstractGUI;
 
+import javafx.scene.paint.Color;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -98,7 +105,7 @@ public class Einstellungen extends Fenster {
 				}
 			}
 		});
-		// laden();
+		laden();
 		map.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 			public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
 				if (map.getSelectedToggle() == map_holz) {
@@ -151,49 +158,84 @@ public class Einstellungen extends Fenster {
 	}
 
 	public void speichern() {
-		// gUI.spiel.getDatenbank().speichereEinstellungen(gUI);
+		try {
+			BufferedWriter br = new BufferedWriter(new FileWriter(AbstractGUI.verzeichnis() + "gui.save"));
+			br.write(gUI.getHintergrund());
+			br.write(System.getProperty("line.separator"));
+			br.write(toRGBCode(gUI.getFarbe_weiss().getValue()));
+			br.write(System.getProperty("line.separator"));
+			br.write(toRGBCode(gUI.getFarbe_schwarz().getValue()));
+			br.write(System.getProperty("line.separator"));
+			br.write(gUI.getName());
+			br.write(System.getProperty("line.separator"));
+			br.write("" + gUI.getSounds().getValue());
+			br.write(System.getProperty("line.separator"));
+			br.write("" + gUI.getZweid().getValue());
+			br.write(System.getProperty("line.separator"));
+			br.write(gUI.form);
+			br.write(System.getProperty("line.separator"));
+			br.write(gUI.getVonFarbe().getValue());
+			br.write(System.getProperty("line.separator"));
+			br.write(gUI.getBisFarbe().getValue());
+			br.write(System.getProperty("line.separator"));
+			br.write("" + gUI.getStage().isFullScreen());
+			br.write(System.getProperty("line.separator"));
+			br.write("" + gUI.getCss().getValue());
+			br.flush();
+			br.close();
+		} catch (IOException e) {
+			gUI.spiel.meldungAusgeben(AbstractGUI.meldung("speichernFehlgeschlagen"));
+		}
 
 	}
 
 	public void laden() {
 		try {
-			/*
-			 * gUI.setHintergrund(
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("hintergrund"));
-			 * gUI.getFarbe_weiss().setValue(Color.web(
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("farbe_weiss")));
-			 * gUI.getFarbe_schwarz().setValue(Color.web(gUI.spiel.getDatenbank()
-			 * .ladeEinstellungen("farbe_schwarz")));
-			 * gUI.setName(gUI.spiel.getDatenbank().ladeEinstellungen("name"));
-			 * gUI.getSounds().setValue(Boolean.parseBoolean(
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("sounds")));
-			 * gUI.getZweid().setValue(Boolean.parseBoolean(
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("zweid"))); gUI.form =
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("form");
-			 * gUI.getVonFarbe().setValue(
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("farbe_von"));
-			 * gUI.getBisFarbe().setValue(
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("farbe_bis"));
-			 * gUI.getStage().setFullScreen(Boolean.parseBoolean(
-			 * gUI.spiel.getDatenbank().ladeEinstellungen("vollbild")));
-			 * gUI.getCss().setValue( gUI.spiel.getDatenbank().ladeEinstellungen("css"));
-			 * 
-			 * switch (gUI.getHintergrund()) { case "marmor": map_marmor.setSelected(true);
-			 * break; case "glas": map_glas.setSelected(true); break; case "gras":
-			 * map_gras.setSelected(true); break; case "holz": map_holz.setSelected(true);
-			 * break; }
-			 */
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		switch (gUI.form) {
-		case "standard":
-			figur_standard.setSelected(true);
-			break;
-		case "modern":
-			figur_modern.setSelected(true);
-			break;
-		}
+			BufferedReader br = new BufferedReader(new FileReader(AbstractGUI.verzeichnis() + "gui.save"));
+			gUI.setHintergrund(br.readLine());
+			gUI.getFarbe_weiss().setValue(Color.web(br.readLine()));
+			gUI.getFarbe_schwarz().setValue(Color.web(br.readLine()));
+			gUI.setName(br.readLine());
+			gUI.getSounds().setValue(Boolean.parseBoolean(br.readLine()));
+			gUI.getZweid().setValue(Boolean.parseBoolean(br.readLine()));
+			gUI.form = br.readLine();
+			gUI.getVonFarbe().setValue(br.readLine());
+			gUI.getBisFarbe().setValue(br.readLine());
+			gUI.getStage().setFullScreen(Boolean.parseBoolean(br.readLine()));
+			gUI.getCss().setValue(br.readLine());
+			br.close();
 
+			switch (gUI.getHintergrund()) {
+			case "marmor":
+				map_marmor.setSelected(true);
+				break;
+			case "glas":
+				map_glas.setSelected(true);
+				break;
+			case "gras":
+				map_gras.setSelected(true);
+				break;
+			case "holz":
+				map_holz.setSelected(true);
+				break;
+			}
+
+			switch (gUI.form) {
+			case "standard":
+				figur_standard.setSelected(true);
+				break;
+			case "modern":
+				figur_modern.setSelected(true);
+				break;
+			}
+
+		} catch (Exception e) {
+			GUI.logger.error(e.getMessage());
+		}
+	}
+	
+	public String toRGBCode(Color color) {
+		return String.format("#%02X%02X%02X", (int) (color.getRed() * 255),
+				(int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
 	}
 }

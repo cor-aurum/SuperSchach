@@ -1,17 +1,16 @@
 package com.superschach.superschach.gui;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.security.NoSuchAlgorithmException;
+
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import com.sun.javafx.application.HostServicesDelegate;
+import com.superschach.superschach.network.MDFiver;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -23,11 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
-import com.sun.javafx.application.HostServicesDelegate;
-import com.superschach.superschach.network.MDFiver;
-import com.superschach.superschach.spiel.AbstractGUI;
-
 public class Login extends Dialog {
 
 	TextField nameEingeben = new TextField();
@@ -36,9 +30,6 @@ public class Login extends Dialog {
 	Button abbrechen = new Button(AbstractGUI.meldung("offline"));
 	Blocker blocker;
 	String[] ret;
-	public CheckBox speichern = new CheckBox();
-	PasswortSpeicher speicher;
-	private boolean gespeichertesPw=false;
 
 	public Login(String message, String[] ret, Blocker blocker, GUI gUI) {
 		setMaxWidth(450);
@@ -49,37 +40,6 @@ public class Login extends Dialog {
 		textfelder.setVgap(10);
 		this.blocker = blocker;
 		this.ret = ret;
-		speichern.setText(AbstractGUI.meldung("passwort_speichern"));
-		ObjectInputStream ois = null;
-		FileInputStream fis = null;
-		
-		try {
-			fis = new FileInputStream(AbstractGUI.verzeichnis() + "login");
-			ois = new ObjectInputStream(fis);
-			Object obj = ois.readObject();
-			if (obj instanceof PasswortSpeicher) {
-				speicher = (PasswortSpeicher) obj;
-				nameEingeben.setText(speicher.getName());
-				passwortEingeben.setText(speicher.getPasswort());
-				gespeichertesPw=true;
-				login();
-			}
-		} catch (IOException e) {
-			speicher = new PasswortSpeicher();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			if (ois != null)
-				try {
-					ois.close();
-				} catch (IOException e) {
-				}
-			if (fis != null)
-				try {
-					fis.close();
-				} catch (IOException e) {
-				}
-		}
 
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -142,7 +102,6 @@ public class Login extends Dialog {
 		buttons.getChildren().addAll(ok, abbrechen);
 		VBox steuerung = new VBox();
 		steuerung.getChildren().add(buttons);
-		steuerung.getChildren().add(speichern);
 		root.setCenter(steuerung);
 		root.setTop(textfelder);
 		root.setBottom(link);
@@ -153,44 +112,10 @@ public class Login extends Dialog {
 	{
 		ret[0] = nameEingeben.getText();
 		try {
-			if(!gespeichertesPw)
-			{
 			ret[1] = new MDFiver().md5(passwortEingeben.getText());
-			}
-			else
-			{
-				ret[1]=passwortEingeben.getText();
-			}
 		} catch (NoSuchAlgorithmException e1) {
 			ret[1]="";
 		}
-		if (speichern.isSelected()) {
-			speicher.setName(ret[0]);
-			speicher.setPasswort(ret[1]);
-			
-			ObjectOutputStream oos = null;
-			FileOutputStream fos = null;
-			try {
-				fos = new FileOutputStream(AbstractGUI.verzeichnis()
-						+ "login");
-				oos = new ObjectOutputStream(fos);
-				oos.writeObject(speicher);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (oos != null)
-					try {
-						oos.close();
-					} catch (IOException e) {
-					}
-				if (fos != null)
-					try {
-						fos.close();
-					} catch (IOException e) {
-					}
-			}
-		}
-		
 		blocker.release();
 	}
 }
