@@ -10,6 +10,7 @@ import org.apache.log4j.TTCCLayout;
 import org.apache.log4j.helpers.DateLayout;
 
 import com.sun.javafx.application.LauncherImpl;
+import com.superschach.superschach.gui.cli.CLI;
 import com.superschach.superschach.gui.gegner.GegnerWaehler;
 import com.superschach.superschach.gui.menu.Hauptmenu;
 import com.superschach.superschach.network.client.Client;
@@ -44,10 +45,10 @@ import javafx.stage.WindowEvent;
 
 public class GUI extends Application {
 
-	public static final Logger logger = Logger.getRootLogger();
+	private static Logger logger = Logger.getRootLogger();
 	private Stage stage;
 	Einstellungen rechts;
-	public MeshView[] dreidfiguren=new MeshView[17];
+	public MeshView[] dreidfiguren = new MeshView[17];
 
 	private String hintergrund = "marmor";
 	PhongMaterial feldMaterial = new PhongMaterial();
@@ -57,10 +58,9 @@ public class GUI extends Application {
 
 	public String form = "standard";
 	public boolean modell_farbe = false;
-	private SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(
-			Color.AZURE);
-	private SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(
-			Color.NAVY);
+	private SimpleObjectProperty<Color> farbe_weiss = new SimpleObjectProperty<Color>(Color.AZURE);
+	private SimpleObjectProperty<Color> farbe_schwarz = new SimpleObjectProperty<Color>(Color.NAVY);
+
 	public SimpleObjectProperty<Color> getFarbe_weiss() {
 		return farbe_weiss;
 	}
@@ -98,37 +98,34 @@ public class GUI extends Application {
 	private Kontrollfeld kontrolle;
 	private Speichern speichern;
 	private Scene scene;
-	private SimpleStringProperty css=new SimpleStringProperty("klassisch");
+	private SimpleStringProperty css = new SimpleStringProperty("klassisch");
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.setStage(stage);
 
 		setEinstellungen(new Einstellungen(this));
-		//getEinstellungen().laden();
+		// getEinstellungen().laden();
 
-		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
-				|| getZweid().getValue()) {
+		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || getZweid().getValue()) {
 			feld = new ZweiD(this);
 		} else {
 			feld = new DreiD(this);
 		}
 		this.setStage(stage);
 		setScene(new Scene(feld, 1200, 800));
-		getScene().getStylesheets().add("com/superschach/superschach/gui/"+getCss().getValue()+".css");
+		getScene().getStylesheets().add("com/superschach/superschach/gui/" + getCss().getValue() + ".css");
 		stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
 				if (keyEvent.isControlDown()) {
 					if (keyEvent.getCode() == KeyCode.C) {
-						final Clipboard clipboard = Clipboard
-								.getSystemClipboard();
+						final Clipboard clipboard = Clipboard.getSystemClipboard();
 						final ClipboardContent content = new ClipboardContent();
 						content.putImage(feld.getScreenshot());
 						clipboard.setContent(content);
-						spiel.meldungAusgeben(AbstractGUI
-								.meldung("screenshot"));
+						spiel.meldungAusgeben(AbstractGUI.meldung("screenshot"));
 					}
 				} else {
 					if (keyEvent.getCode() == KeyCode.ESCAPE) {
@@ -158,44 +155,31 @@ public class GUI extends Application {
 		getVonFarbe().addListener(new ChangeListener<String>() {
 
 			@Override
-			public void changed(ObservableValue<? extends String> arg0,
-					String arg1, String arg2) {
-				feld.background
-						.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-								+ getVonFarbe().getValue()
-								+ ", "
-								+ getBisFarbe().getValue() + ");");
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				feld.background.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
+						+ getVonFarbe().getValue() + ", " + getBisFarbe().getValue() + ");");
 			}
 
 		});
 		getBisFarbe().addListener(new ChangeListener<String>() {
 
 			@Override
-			public void changed(ObservableValue<? extends String> arg0,
-					String arg1, String arg2) {
-				feld.background
-						.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-								+ getVonFarbe().getValue()
-								+ ", "
-								+ getBisFarbe().getValue() + ");");
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				feld.background.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
+						+ getVonFarbe().getValue() + ", " + getBisFarbe().getValue() + ");");
 			}
 
 		});
 
-		feld.background
-				.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
-						+ getVonFarbe().getValue()
-						+ ", "
-						+ getBisFarbe().getValue()
-						+ ");");
+		feld.background.setStyle("-fx-background-color:linear-gradient(from 25% 25% to 100% 100%, "
+				+ getVonFarbe().getValue() + ", " + getBisFarbe().getValue() + ");");
 		// feld.getChildren().add(kontrolle);
 		StackPane.setAlignment(getKontrolle(), Pos.BOTTOM_RIGHT);
 		// scene.onMouseDraggedProperty().set(new MouseEventHandler());
 		stage.setScene(getScene());
 		stage.setTitle("Super Schach");
-		stage.getIcons()
-				.add(new Image(this.getClass().getClassLoader()
-						.getResource("com/superschach/superschach/gui/bilder/bauer_schwarz.png").toString()));
+		stage.getIcons().add(new Image(this.getClass().getClassLoader()
+				.getResource("com/superschach/superschach/gui/bilder/bauer_schwarz.png").toString()));
 		stage.setMinHeight(600);
 		stage.setMinWidth(800);
 
@@ -249,18 +233,21 @@ public class GUI extends Application {
 	}
 
 	public MeshView gebeMesh(int figur) throws Exception {
-		String f=gebeFigur(figur);
-		figur=Math.abs(figur);
-		if(dreidfiguren[figur]==null)
-		{
-			dreidfiguren[figur]=(MeshView) FXMLLoader.load(getClass().getClassLoader().getResource("com/superschach/superschach/gui/meshes/"+f+"_"+form+".fxml"));
+		String f = gebeFigur(figur);
+		figur = Math.abs(figur);
+		if (dreidfiguren[figur] == null) {
+			dreidfiguren[figur] = (MeshView) FXMLLoader.load(getClass().getClassLoader()
+					.getResource("com/superschach/superschach/gui/meshes/" + f + "_" + form + ".fxml"));
 		}
-		TriangleMesh ret =new TriangleMesh();
-		ret.getPoints().setAll(((TriangleMesh)dreidfiguren[figur].getMesh()).getPoints().toArray(new float[((TriangleMesh)dreidfiguren[figur].getMesh()).getPoints().size()]));
-		ret.getFaces().setAll(((TriangleMesh)dreidfiguren[figur].getMesh()).getFaces().toArray(new int[((TriangleMesh)dreidfiguren[figur].getMesh()).getFaces().size()]));
-		ret.getTexCoords().setAll(((TriangleMesh)dreidfiguren[figur].getMesh()).getTexCoords().toArray(new float[((TriangleMesh)dreidfiguren[figur].getMesh()).getTexCoords().size()]));
+		TriangleMesh ret = new TriangleMesh();
+		ret.getPoints().setAll(((TriangleMesh) dreidfiguren[figur].getMesh()).getPoints()
+				.toArray(new float[((TriangleMesh) dreidfiguren[figur].getMesh()).getPoints().size()]));
+		ret.getFaces().setAll(((TriangleMesh) dreidfiguren[figur].getMesh()).getFaces()
+				.toArray(new int[((TriangleMesh) dreidfiguren[figur].getMesh()).getFaces().size()]));
+		ret.getTexCoords().setAll(((TriangleMesh) dreidfiguren[figur].getMesh()).getTexCoords()
+				.toArray(new float[((TriangleMesh) dreidfiguren[figur].getMesh()).getTexCoords().size()]));
 
-		MeshView mesh=new MeshView();
+		MeshView mesh = new MeshView();
 		mesh.setMesh(ret);
 		return mesh;
 	}
@@ -270,26 +257,30 @@ public class GUI extends Application {
 	}
 
 	public static void main(String args[]) throws Exception {
-		 try {
-			  DateLayout layout = new TTCCLayout();
-		      ConsoleAppender consoleAppender = new ConsoleAppender( layout );
-		      logger.addAppender( consoleAppender );
-		      FileAppender fileAppender = new FileAppender( layout, AbstractGUI.verzeichnis()+"logs/superschach.log", false );
-		      logger.addAppender( fileAppender );
-		      // ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
-		      logger.setLevel( Level.ALL );
-		    } catch( Exception ex ) {
-		    	ex.printStackTrace();
-		    }
+		try {
+			DateLayout layout = new TTCCLayout();
+			ConsoleAppender consoleAppender = new ConsoleAppender(layout);
+			logger.addAppender(consoleAppender);
+			FileAppender fileAppender = new FileAppender(layout, AbstractGUI.verzeichnis() + "logs/superschach.log",
+					false);
+			logger.addAppender(fileAppender);
+			// ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
+			logger.setLevel(Level.ALL);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		logger.info("===========Spiel wird geladen===========");
-		Locale.setDefault(new Locale("de","DE"));
-		LauncherImpl.launchApplication(GUI.class, SplashScreen.class, args);
-		launch(args);
+		Locale.setDefault(new Locale("de", "DE"));
+		if (args.length > 0) {
+			new CLI(args);
+		} else {
+			LauncherImpl.launchApplication(GUI.class, SplashScreen.class, args);
+			launch(args);
+		}
 	}
 
 	public void wechsleDimension() {
-		if (!Platform.isSupported(ConditionalFeature.SCENE3D)
-				|| getZweid().getValue()) {
+		if (!Platform.isSupported(ConditionalFeature.SCENE3D) || getZweid().getValue()) {
 			feld = new ZweiD(this);
 		} else {
 			feld = new DreiD(this);
@@ -386,34 +377,28 @@ public class GUI extends Application {
 	public void setKontrolle(Kontrollfeld kontrolle) {
 		this.kontrolle = kontrolle;
 	}
-	
-	public Client getClient()
-	{
+
+	public Client getClient() {
 		return client;
 	}
-	
-	public void setClient(Client c)
-	{
-		client =c;
+
+	public void setClient(Client c) {
+		client = c;
 	}
 
-	public String getHintergrund()
-	{
+	public String getHintergrund() {
 		return hintergrund;
 	}
 
-	public void setHintergrund(String hintergrund)
-	{
+	public void setHintergrund(String hintergrund) {
 		this.hintergrund = hintergrund;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 

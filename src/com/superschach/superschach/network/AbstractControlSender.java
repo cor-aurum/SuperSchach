@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
 
 public abstract class AbstractControlSender
 {
@@ -18,6 +18,7 @@ public abstract class AbstractControlSender
 	private OutputStream outputStream;
 	private BufferedReader streamReader;
 	private PrintWriter streamWriter;
+	private Logger logger=Logger.getLogger(AbstractControlSender.class);
 
 	public AbstractControlSender(Socket meinControlSocket) throws IOException
 	{
@@ -37,7 +38,7 @@ public abstract class AbstractControlSender
 	protected String message(Commands command, String param) throws IOException
 	{
 		try{
-		GUI.logger.info("Sende Befehl: "+ command.name());
+		logger.info("Sende Befehl: "+ command.name());
 		synchronized (this) {
 			streamWriter.println(command.ordinal());
 			if (command.hasParam()) {

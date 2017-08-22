@@ -1,5 +1,7 @@
 package com.superschach.superschach.gui;
 
+import org.apache.log4j.Logger;
+
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +21,7 @@ public class Kontrollfeld extends HBox {
 	private Button chat = new Button();
 	private Button menu = new Button();
 	private TextField name = new TextField();
+	private Logger logger=Logger.getLogger(Kontrollfeld.class);
 
 	public Kontrollfeld(GUI gUI) {
 		setMaxWidth(600);
@@ -60,7 +63,7 @@ public class Kontrollfeld extends HBox {
 		chat.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				GUI.logger.debug("Chat wird geöffnet");
+				logger.debug("Chat wird geöffnet");
 				if (gUI.chat.isShowed())
 					gUI.chat.hide();
 				else

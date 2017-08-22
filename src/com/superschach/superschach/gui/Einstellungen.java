@@ -6,9 +6,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.spiel.AbstractGUI;
 
-import javafx.scene.paint.Color;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class Einstellungen extends Fenster {
 
@@ -41,6 +43,8 @@ public class Einstellungen extends Fenster {
 	RadioButton figur_standard = new RadioButton(AbstractGUI.meldung("standard"));
 
 	RadioButton figur_modern = new RadioButton(AbstractGUI.meldung("modern"));
+	
+	private Logger logger=Logger.getLogger(Einstellungen.class);
 
 	public Einstellungen(GUI gUI) {
 		// setzeInhalt(tab);
@@ -230,7 +234,7 @@ public class Einstellungen extends Fenster {
 			}
 
 		} catch (Exception e) {
-			GUI.logger.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 	

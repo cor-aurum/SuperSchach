@@ -1,6 +1,7 @@
 package com.superschach.superschach.ki;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.kontroller.KIKontroller;
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.kontroller.figuren.Figur;
@@ -18,6 +19,7 @@ public class TestKI extends KISchnittstelle
 	int[][][] ziele;
 	short pfade[][][];
 	int level = 3; // denkt level + 1 Z�ge vorraus
+	private Logger logger=Logger.getLogger(TestKI.class);
 
 	/**
 	 * Constructor for objects of class ZufallKI
@@ -118,7 +120,7 @@ public class TestKI extends KISchnittstelle
 					}
 				} catch (Exception e)
 				{
-					GUI.logger.warn(e.getStackTrace());
+					logger.warn(e.getStackTrace());
 				}
 			}
 		}
@@ -139,7 +141,7 @@ public class TestKI extends KISchnittstelle
 		}
 
 		if (!ret)
-			GUI.logger.warn("Fehler in der TestKI");
+			logger.warn("Fehler in der TestKI");
 
 		/*
 		 * if(wertPruefer()<=20) { level=6; }

@@ -1,6 +1,7 @@
 package com.superschach.superschach.ki;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.kontroller.KIKontroller;
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.kontroller.figuren.Figur;
@@ -19,6 +20,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 	short pfade[][][];
 	public final static boolean debug = false;
 	int level = 3; // denkt level + 1 Z�ge vorraus
+	private Logger logger=Logger.getLogger(MultiThreadKI.class);
 
 	/**
 	 * Constructor for objects of class ZufallKI
@@ -128,7 +130,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 												// frei zu machen.
 					} catch (Exception e)
 					{
-						GUI.logger.warn(e.getStackTrace());
+						logger.warn(e.getStackTrace());
 					}
 				}
 			}
@@ -182,7 +184,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 			}
 
 			else
-				GUI.logger.warn("Fehler in der MultiThreadKI");
+				logger.warn("Fehler in der MultiThreadKI");
 
 			/*
 			 * if(wertPruefer()<=20) { level=6; }

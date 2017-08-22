@@ -84,10 +84,8 @@ public class DreiD extends MyStackPane {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.getButton().equals(MouseButton.PRIMARY)) {
-					gUI.spiel.klick(((int) (event.getX()
-							/ (feld.getWidth() / felder.length) + 4)),
-							((int) (event.getY()
-									/ (feld.getHeight() / felder.length) + 4)));
+					gUI.spiel.klick(((int) (event.getX() / (feld.getWidth() / felder.length) + 4)),
+							((int) (event.getY() / (feld.getHeight() / felder.length) + 4)));
 					aktualisieren();
 				}
 			}
@@ -110,9 +108,7 @@ public class DreiD extends MyStackPane {
 					double mouseX = mouseEvent.getSceneX();
 
 					xslider.setValue(mouseY / xslider.getMax() * 100);
-					zslider.setValue(((mouseX - scene.getWidth() / 2) * 2
-							/ scene.getWidth() * zslider.getMax())
-							* -1);
+					zslider.setValue(((mouseX - scene.getWidth() / 2) * 2 / scene.getWidth() * zslider.getMax()) * -1);
 				}
 			}
 
@@ -133,15 +129,10 @@ public class DreiD extends MyStackPane {
 		root3D.ry.angleProperty().bind(zslider.valueProperty());
 		aktualisiereMap();
 		Timeline animation = new Timeline();
-		animation.getKeyFrames().addAll(
-				new KeyFrame(Duration.ZERO, new KeyValue(
-						yslider.valueProperty(), 180d)),
-				new KeyFrame(Duration.ZERO, new KeyValue(xslider
-						.valueProperty(), xslider.getMax())),
-				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider
-						.valueProperty(), 0d)),
-				new KeyFrame(Duration.valueOf("1.5s"), new KeyValue(xslider
-						.valueProperty(), 150d)));
+		animation.getKeyFrames().addAll(new KeyFrame(Duration.ZERO, new KeyValue(yslider.valueProperty(), 180d)),
+				new KeyFrame(Duration.ZERO, new KeyValue(xslider.valueProperty(), xslider.getMax())),
+				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider.valueProperty(), 0d)),
+				new KeyFrame(Duration.valueOf("1.5s"), new KeyValue(xslider.valueProperty(), 150d)));
 
 		animation.play();
 	}
@@ -152,18 +143,12 @@ public class DreiD extends MyStackPane {
 		 * .getResource("gui/bilder/brett.png").toString()));
 		 */
 		gUI.feldMaterial.setDiffuseMap(brett.snapshot(null, null));
-		gUI.feldMaterial.setBumpMap(new Image(this
-				.getClass()
-				.getClassLoader()
-				.getResource(
-						"com/superschach/superschach/gui/bilder/"
-								+ gUI.getHintergrund() + "_NRM.png").toString()));
-		gUI.feldMaterial.setSpecularMap(new Image(this
-				.getClass()
-				.getClassLoader()
-				.getResource(
-						"com/superschach/superschach/gui/bilder/"
-								+ gUI.getHintergrund() + "_SPEC.png").toString()));
+		gUI.feldMaterial.setBumpMap(new Image(this.getClass().getClassLoader()
+				.getResource("com/superschach/superschach/gui/bilder/" + gUI.getHintergrund() + "_NRM.png")
+				.toString()));
+		gUI.feldMaterial.setSpecularMap(new Image(this.getClass().getClassLoader()
+				.getResource("com/superschach/superschach/gui/bilder/" + gUI.getHintergrund() + "_SPEC.png")
+				.toString()));
 		feld.setMaterial(gUI.feldMaterial);
 
 		PhongMaterial material = new PhongMaterial();
@@ -202,37 +187,22 @@ public class DreiD extends MyStackPane {
 		if (gUI.getFarbe()) {
 			switch (farbe) {
 			case 3:
-				brett.getGraphicsContext2D()
-						.drawImage(
-								new Image(
-										this.getClass()
-												.getClassLoader()
-												.getResource(
-														"com/superschach/superschach/gui/bilder/gruen.png")
-												.toString()), translateX(x),
-								translateY(y));
+				brett.getGraphicsContext2D().drawImage(
+						new Image(this.getClass().getClassLoader()
+								.getResource("com/superschach/superschach/gui/bilder/gruen.png").toString()),
+						translateX(x), translateY(y));
 				break;
 			case 4:
-				brett.getGraphicsContext2D()
-						.drawImage(
-								new Image(
-										this.getClass()
-												.getClassLoader()
-												.getResource(
-														"com/superschach/superschach/gui/bilder/rot.png")
-												.toString()), translateX(x),
-								translateY(y));
+				brett.getGraphicsContext2D().drawImage(
+						new Image(this.getClass().getClassLoader()
+								.getResource("com/superschach/superschach/gui/bilder/rot.png").toString()),
+						translateX(x), translateY(y));
 				break;
 			case 5:
-				brett.getGraphicsContext2D()
-						.drawImage(
-								new Image(
-										this.getClass()
-												.getClassLoader()
-												.getResource(
-														"com/superschach/superschach/gui/bilder/gelb.png")
-												.toString()), translateX(x),
-								translateY(y));
+				brett.getGraphicsContext2D().drawImage(
+						new Image(this.getClass().getClassLoader()
+								.getResource("com/superschach/superschach/gui/bilder/gelb.png").toString()),
+						translateX(x), translateY(y));
 				break;
 			}
 			gUI.feldMaterial.setDiffuseMap(brett.snapshot(null, null));
@@ -245,21 +215,17 @@ public class DreiD extends MyStackPane {
 			return;
 		Timeline animation = new Timeline();
 		animation.getKeyFrames().addAll(
-				new KeyFrame(Duration.ZERO, new KeyValue(
-						yslider.valueProperty(), yslider.getValue())),
-				new KeyFrame(Duration.ZERO, new KeyValue(xslider
-						.valueProperty(), xslider.getValue())),
-				new KeyFrame(Duration.ZERO, new KeyValue(zslider
-						.valueProperty(), zslider.getValue())),
-				new KeyFrame(Duration.valueOf("1s"), new KeyValue(zslider
-						.valueProperty(), zslider.getMin()
-						+ (zslider.getMax() - zslider.getValue()))),
-				new KeyFrame(Duration.valueOf("1s"), new KeyValue(yslider
-						.valueProperty(), yslider.getMin()
-						+ (yslider.getMax() - yslider.getValue()))),
-				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider
-						.valueProperty(), xslider.getMin()
-						+ (xslider.getMax() - xslider.getValue()))));
+				new KeyFrame(Duration.ZERO, new KeyValue(yslider.valueProperty(), yslider.getValue())),
+				new KeyFrame(Duration.ZERO, new KeyValue(xslider.valueProperty(), xslider.getValue())),
+				new KeyFrame(Duration.ZERO, new KeyValue(zslider.valueProperty(), zslider.getValue())),
+				new KeyFrame(Duration.valueOf("1s"),
+						new KeyValue(zslider.valueProperty(),
+								zslider.getMin() + (zslider.getMax() - zslider.getValue()))),
+				new KeyFrame(Duration.valueOf("1s"),
+						new KeyValue(yslider.valueProperty(),
+								yslider.getMin() + (yslider.getMax() - yslider.getValue()))),
+				new KeyFrame(Duration.valueOf("1s"), new KeyValue(xslider.valueProperty(),
+						xslider.getMin() + (xslider.getMax() - xslider.getValue()))));
 		drehen = false;
 		animation.play();
 		animation.setOnFinished(new EventHandler<ActionEvent>() {
@@ -295,48 +261,36 @@ public class DreiD extends MyStackPane {
 				// tempfigur.setMeshView(gUI.gebeMesh(id));
 				MeshView m = tempfigur.getMeshView();
 				root3D.getChildren().remove(m);
-				figuren[sum - ende.x][ende.y] = new Figur(gUI.gebeMesh(id),
-						felder[sum - ende.x][ende.y], id, this);
+				figuren[sum - ende.x][ende.y] = new Figur(gUI.gebeMesh(id), felder[sum - ende.x][ende.y], id, this);
 			} else {
 				figuren[sum - ende.x][ende.y] = tempfigur;
 			}
 			Timeline animation = new Timeline(60.0);
-			animation
-					.getKeyFrames()
-					.addAll(new KeyFrame(Duration.ZERO, new KeyValue(xslider
-							.valueProperty(), xslider.getValue())),
-							new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
-									.getMeshView().translateXProperty(), anfang
-									.getX())),
-							new KeyFrame(Duration.ZERO, new KeyValue(tempfigur
-									.getMeshView().translateYProperty(), anfang
-									.getY())),
-							new KeyFrame(Duration.valueOf("0.3s"),
-									new KeyValue(tempfigur.getMeshView()
-											.translateXProperty(), ende.getX())),
-							new KeyFrame(Duration.valueOf("0.3s"),
-									new KeyValue(tempfigur.getMeshView()
-											.translateYProperty(), ende.getY())));
+			animation.getKeyFrames().addAll(
+					new KeyFrame(Duration.ZERO, new KeyValue(xslider.valueProperty(), xslider.getValue())),
+					new KeyFrame(Duration.ZERO,
+							new KeyValue(tempfigur.getMeshView().translateXProperty(), anfang.getX())),
+					new KeyFrame(Duration.ZERO,
+							new KeyValue(tempfigur.getMeshView().translateYProperty(), anfang.getY())),
+					new KeyFrame(Duration.valueOf("0.3s"),
+							new KeyValue(tempfigur.getMeshView().translateXProperty(), ende.getX())),
+					new KeyFrame(Duration.valueOf("0.3s"),
+							new KeyValue(tempfigur.getMeshView().translateYProperty(), ende.getY())));
 
 			animation.setOnFinished(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
 					figuren[sum - anfang.x][anfang.y] = null;
-					figuren[sum - ende.x][ende.y]
-							.setFeld(felder[sum - ende.x][ende.y]);
+					figuren[sum - ende.x][ende.y].setFeld(felder[sum - ende.x][ende.y]);
 
 					if (gUI.spiel.getStatus() == 1) {
 						if (gUI.spiel.Player0()) {
-							koenigWeiss.getMeshView().setMaterial(
-									new PhongMaterial(Color.RED));
+							koenigWeiss.getMeshView().setMaterial(new PhongMaterial(Color.RED));
 						} else {
-							koenigSchwarz.getMeshView().setMaterial(
-									new PhongMaterial(Color.RED));
+							koenigSchwarz.getMeshView().setMaterial(new PhongMaterial(Color.RED));
 						}
 					} else {
-						koenigWeiss.getMeshView().setMaterial(
-								gUI.gebeFigurenMaterial(16));
-						koenigSchwarz.getMeshView().setMaterial(
-								gUI.gebeFigurenMaterial(-16));
+						koenigWeiss.getMeshView().setMaterial(gUI.gebeFigurenMaterial(16));
+						koenigSchwarz.getMeshView().setMaterial(gUI.gebeFigurenMaterial(-16));
 					}
 				}
 			});
@@ -364,10 +318,10 @@ public class DreiD extends MyStackPane {
 
 	public void aktualisierenFigur(int x, int y) {
 		/*
-		 * x=gUI.spiel.getXMax()-x; int figur = felder[x][y].gebeInhalt(); if
-		 * (figur != 0) { if (figuren[x][y] != null) { if (figur != ((Figur)
-		 * figuren[x][y]).figur) { root3D.getChildren().remove(figuren[x][y]);
-		 * // figuren[x][y] = new Figur(felder[x][y], figur); // zug(); } } }
+		 * x=gUI.spiel.getXMax()-x; int figur = felder[x][y].gebeInhalt(); if (figur !=
+		 * 0) { if (figuren[x][y] != null) { if (figur != ((Figur) figuren[x][y]).figur)
+		 * { root3D.getChildren().remove(figuren[x][y]); // figuren[x][y] = new
+		 * Figur(felder[x][y], figur); // zug(); } } }
 		 */
 	}
 
@@ -378,8 +332,7 @@ public class DreiD extends MyStackPane {
 				figuren[x][y] = null;
 				if (figur != 0) {
 					try {
-						figuren[x][y] = new Figur(gUI.gebeMesh(figur),
-								felder[x][y], figur, this);
+						figuren[x][y] = new Figur(gUI.gebeMesh(figur), felder[x][y], figur, this);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -436,35 +389,25 @@ public class DreiD extends MyStackPane {
 		Figur temp2 = figuren[gUI.spiel.getXMax() - x][y];
 		if (temp2 != null) {
 			Timeline animation = new Timeline();
-			animation
-					.getKeyFrames()
-					.addAll(new KeyFrame(Duration.ZERO, new KeyValue(temp2
-							.getMeshView().translateXProperty(), temp2
-							.getMeshView().getTranslateX())),
-							new KeyFrame(Duration.ZERO, new KeyValue(temp2
-									.getMeshView().translateYProperty(), temp2
-									.getMeshView().getTranslateY())),
-							new KeyFrame(Duration.ZERO, new KeyValue(temp2
-									.getMeshView().rotateProperty(), temp2
-									.getMeshView().getRotate())),
+			animation.getKeyFrames().addAll(
+					new KeyFrame(Duration.ZERO,
+							new KeyValue(temp2.getMeshView().translateXProperty(),
+									temp2.getMeshView().getTranslateX())),
+					new KeyFrame(Duration.ZERO,
+							new KeyValue(temp2.getMeshView().translateYProperty(),
+									temp2.getMeshView().getTranslateY())),
+					new KeyFrame(Duration.ZERO,
+							new KeyValue(temp2.getMeshView().rotateProperty(), temp2.getMeshView().getRotate())),
 
-							new KeyFrame(Duration.valueOf("0.3s"),
-									new KeyValue(temp2.getMeshView()
-											.translateXProperty(), temp2
-											.getID() < 0 ? 300 : -300)),
-							new KeyFrame(
-									Duration.valueOf("0.3s"),
-									new KeyValue(
-											temp2.getMeshView()
-													.translateYProperty(),
-											temp2.getID() < 0 ? 250 - 35 * gestorbeneFigurenSchwarz++
-													: -250
-															+ 35
-															* gestorbeneFigurenWeiss++)),
+					new KeyFrame(Duration.valueOf("0.3s"),
+							new KeyValue(temp2.getMeshView().translateXProperty(), temp2.getID() < 0 ? 300 : -300)),
+					new KeyFrame(Duration.valueOf("0.3s"),
+							new KeyValue(temp2.getMeshView().translateYProperty(),
+									temp2.getID() < 0 ? 250 - 35 * gestorbeneFigurenSchwarz++
+											: -250 + 35 * gestorbeneFigurenWeiss++)),
 
-							new KeyFrame(Duration.valueOf("0.3s"),
-									new KeyValue(temp2.getMeshView()
-											.rotateProperty(), temp2.getID()<0?90:-90)));
+					new KeyFrame(Duration.valueOf("0.3s"),
+							new KeyValue(temp2.getMeshView().rotateProperty(), temp2.getID() < 0 ? 90 : -90)));
 			animation.play();
 		}
 	}
@@ -472,8 +415,8 @@ public class DreiD extends MyStackPane {
 	@Override
 	public FigurenMenue figurMenu(Blocker blocker) {
 		try {
-			return new FigurenMenue(blocker, new Node[] { gUI.gebeMesh(1),
-					gUI.gebeMesh(2), gUI.gebeMesh(3), gUI.gebeMesh(4) }, gUI);
+			return new FigurenMenue(blocker,
+					new Node[] { gUI.gebeMesh(1), gUI.gebeMesh(2), gUI.gebeMesh(3), gUI.gebeMesh(4) }, gUI);
 		} catch (Exception e) {
 			return null;
 		}

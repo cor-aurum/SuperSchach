@@ -5,7 +5,8 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.ki.KI;
 
 public abstract class AbstractGUI {
@@ -18,6 +19,7 @@ public abstract class AbstractGUI {
 	// private int kispieler = 0;
 	// private String kilevel = "3";
 	public final static String VERSION = "2.2";
+	private Logger logger = Logger.getLogger(AbstractGUI.class);
 
 	public AbstractGUI() {
 		spiel = new Spiel(this);
@@ -258,7 +260,7 @@ public abstract class AbstractGUI {
 	}
 
 	public void schach(int x, int y) {
-		GUI.logger.warn("Methode AbstractGUI#schach noch nicht überschrieben");
+		logger.warn("Methode AbstractGUI#schach noch nicht überschrieben");
 		statusMeldungAusgeben("dran und steht im Schach");
 	}
 

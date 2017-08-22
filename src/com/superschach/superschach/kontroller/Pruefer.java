@@ -1,6 +1,7 @@
 package com.superschach.superschach.kontroller;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.kontroller.figuren.Figur;
 
 /**
@@ -14,6 +15,7 @@ public class Pruefer
 	private Kontroller kontroller;
 	private Figur[][] figur;
 	private Figur[][] figurListe;
+	private Logger logger=Logger.getLogger(Pruefer.class);
 
 	public Pruefer(Kontroller kontroller, Figur[][] figur, Figur[][] figurListe)
 	{
@@ -398,7 +400,7 @@ public class Pruefer
 					ret = true;
 				}
 				if (figur[zielx][ziely] == null)
-					GUI.logger.debug(posx + " " + posy + " " + zielx + " "
+					logger.debug(posx + " " + posy + " " + zielx + " "
 							+ ziely);
 				figur[zielx][ziely].versetzen(posx, posy); // r�ckg�ngig
 															// machen

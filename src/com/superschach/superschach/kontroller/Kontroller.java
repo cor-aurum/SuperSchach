@@ -10,7 +10,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.kontroller.figuren.Bauer;
 import com.superschach.superschach.kontroller.figuren.Dame;
 import com.superschach.superschach.kontroller.figuren.Figur;
@@ -34,8 +35,7 @@ import com.superschach.superschach.kontroller.figuren.Turm;
  * @K&ouml;nig 5 --- 16
  * @Janus 6
  */
-public abstract class Kontroller
-{
+public abstract class Kontroller {
 	private byte player;
 	public final byte XMax;
 	public final byte YMax;
@@ -60,28 +60,25 @@ public abstract class Kontroller
 	private int[] geworfen;
 	private int anzGeworfen = 0;
 	private String spielName = getSpielDefaultName();
+	private Logger logger=Logger.getLogger(Kontroller.class);
 
 	// kiThread kithread;
 	/**
 	 * TODO: --Den K&ouml;nig fragen lassen ob er im Schach steht
 	 */
-	public Kontroller(byte laenge, byte breite)
-	{
+	public Kontroller(byte laenge, byte breite) {
 		XMax = (byte) (laenge - 1);
 		YMax = (byte) (breite - 1);
 		setup();
 		aktualisieren = true;
 	}
 
-	public Kontroller(InputStream stream) throws Exception
-	{
+	public Kontroller(InputStream stream) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));// new
 		// File("D:\\start.txt")));
 		aktualisieren = false;
-		try
-		{
-			if (!br.readLine().equals("Super-Schach Spielstand Version 1.0"))
-			{
+		try {
+			if (!br.readLine().equals("Super-Schach Spielstand Version 1.0")) {
 				br.close();
 				throw new Exception();
 			}
@@ -91,29 +88,23 @@ public abstract class Kontroller
 			XMax = (byte) (Integer.parseInt(temp[0]) - 1);
 			YMax = (byte) (Integer.parseInt(temp[1]) - 1);
 			setup();
-			for (int i = 0; i <= XMax; i++)
-			{
+			for (int i = 0; i <= XMax; i++) {
 				temp = br.readLine().split(" ");
-				for (int j = 0; j <= YMax; j++)
-				{
+				for (int j = 0; j <= YMax; j++) {
 					int z = Integer.parseInt(temp[j * 2]);
 					int f = 1;
 					player = 0;
-					if (z < 0)
-					{
+					if (z < 0) {
 						player = 1;
 						f = -1;
 						z = z * f;
 					}
 					machFigur(z, i, j);
-					if (figur[i][j] != null)
-					{
-						figur[i][j].setzeBewegt(Integer
-								.parseInt(temp[j * 2 + 1]));
+					if (figur[i][j] != null) {
+						figur[i][j].setzeBewegt(Integer.parseInt(temp[j * 2 + 1]));
 					}
 
-					if (f == -1)
-					{
+					if (f == -1) {
 						togglePlayer();
 					}
 				}
@@ -121,27 +112,22 @@ public abstract class Kontroller
 			this.player = aktPlayer;
 
 			temp = br.readLine().split(" ");
-			for (int i = 0; i < letzterZug.length; i++)
-			{
+			for (int i = 0; i < letzterZug.length; i++) {
 				letzterZug[i] = Integer.parseInt(temp[i]);
 			}
 
-			
 			temp = br.readLine().split(" ");
 			for (String fig : temp)
 				geworfen[anzGeworfen++] = Integer.parseInt(fig);
-				
-			try
-			{
+
+			try {
 				setSpielName(br.readLine());
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				setSpielName(getSpielDefaultName());
 			}
 			br.close();
 			aktualisieren = true;
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			br.close();
 			e.printStackTrace();
 			throw e;
@@ -149,8 +135,7 @@ public abstract class Kontroller
 
 	}
 
-	public Kontroller(Figur[][] figur, Figur[] koenig)
-	{
+	public Kontroller(Figur[][] figur, Figur[] koenig) {
 		XMax = (byte) (figur.length - 1);
 		YMax = (byte) (figur[0].length - 1);
 		this.figur = figur;
@@ -164,13 +149,11 @@ public abstract class Kontroller
 		geworfen = new int[2 * figurListe[0].length];
 	}
 
-	protected void setPlayer(byte player)
-	{
-		this.player=player;
+	protected void setPlayer(byte player) {
+		this.player = player;
 	}
-	
-	private void setup()
-	{
+
+	private void setup() {
 		figur = new Figur[XMax + 1][YMax + 1];
 		figurListe = new Figur[2][2 * (XMax + 1)];
 		geworfen = new int[2 * figurListe[0].length];
@@ -182,10 +165,8 @@ public abstract class Kontroller
 		listenVerlauf = new Figur[1000][figurListe.length][figurListe[0].length];
 	}
 
-	public void machFigur(int nummer, int x, int y)
-	{
-		switch (nummer)
-		{
+	public void machFigur(int nummer, int x, int y) {
+		switch (nummer) {
 		case 8:
 			machBauer(x, y);
 			break;
@@ -213,84 +194,67 @@ public abstract class Kontroller
 		}
 	}
 
-	public byte anzFiguren(byte player, int typ)
-	{
+	public byte anzFiguren(byte player, int typ) {
 		return anzFiguren[player][typ];
 	}
 
-	public byte anzFiguren(int nummer)
-	{
+	public byte anzFiguren(int nummer) {
 		byte player = 0;
-		if (nummer < 0)
-		{
+		if (nummer < 0) {
 			player = 1;
 			nummer = nummer * -1;
 		}
 		return anzFiguren[player][nummer];
 	}
 
-	public byte[] letzterZug()
-	{
+	public byte[] letzterZug() {
 		byte[] ret = new byte[letzterZug.length];
-		for (int i = 0; i < ret.length; i++)
-		{
+		for (int i = 0; i < ret.length; i++) {
 			ret[i] = (byte) letzterZug[i];
 		}
 		return ret;
 	}
 
-	public int letzterZug(int x)
-	{
+	public int letzterZug(int x) {
 		return letzterZug[x];
 	}
 
-	public int vorletzterZug(int x)
-	{
+	public int vorletzterZug(int x) {
 		return vorletzterZug[x];
 	}
 
-	public int gebeZugAnz()
-	{
+	public int gebeZugAnz() {
 		return zuganzahl;
 	}
 
-	public void resetPlayer()
-	{
+	public void resetPlayer() {
 		player = 0;
 	}
 
 	private int zugNummer() // verhinder out of bounds Exception / �berlauf
 	{
 		int zug = zuganzahl;
-		while (!(zug < verlauf.length))
-		{
+		while (!(zug < verlauf.length)) {
 			zug = zug - verlauf.length;
 		}
 		return zug;
 	}
 
-	public void speicherVerlauf()
-	{
+	public void speicherVerlauf() {
 		int zug = zugNummer();
 		zuganzahl++;
-		for (int i = 0; i < verlauf[zug].length; i++)
-		{
-			for (int j = 0; j < verlauf[zug][i].length; j++)
-			{
+		for (int i = 0; i < verlauf[zug].length; i++) {
+			for (int j = 0; j < verlauf[zug][i].length; j++) {
 				verlauf[zug][i][j] = figur[i][j];
-				if (figur[i][j] != null)
-				{
+				if (figur[i][j] != null) {
 					verlaufbewegt[zug][i][j] = figur[i][j].bewegt();
-				} else
-				{
+				} else {
 					verlaufbewegt[zug][i][j] = 1000;
 				}
 			}
 		}
-		for (int i = 0; i < figurListe.length; i++)
-		{
-			for (int j = 0; j < figurListe[i].length; j++)
-			{
+		for (int i = 0; i < figurListe.length; i++) {
+			for (int j = 0; j < figurListe[i].length; j++) {
 				listenVerlauf[zug][i][j] = figurListe[i][j];
 			}
 		}
@@ -300,173 +264,126 @@ public abstract class Kontroller
 
 	// public void uebergebePruefer(Pruefer prueferObject){}
 
-	public boolean ladeVerlauf()
-	{
-		if (zuganzahl > 0)
-		{
+	public boolean ladeVerlauf() {
+		if (zuganzahl > 0) {
 			this.zuganzahl--;
 			int zug = zugNummer();
 			int diff = 0;
-			for (int i = 0; i < verlauf[zug].length; i++)
-			{
-				for (int j = 0; j < verlauf[zug][i].length; j++)
-				{
+			for (int i = 0; i < verlauf[zug].length; i++) {
+				for (int j = 0; j < verlauf[zug][i].length; j++) {
 					if (figur[i][j] != null)
 						diff--;
 					figur[i][j] = verlauf[zug][i][j];
-					if (figur[i][j] != null)
-					{
+					if (figur[i][j] != null) {
 						diff++;
 						figur[i][j].setzePos(i, j);
 						figur[i][j].setzeBewegt(verlaufbewegt[zug][i][j]);
 					}
 				}
 			}
-			if (diff != 0 && diff != 1)
-			{
-				GUI.logger.warn("Das sollte nicht so sein (Kontroller.ladeVerlauf()): "
-								+ diff);
+			if (diff != 0 && diff != 1) {
+				logger.warn("Das sollte nicht so sein (Kontroller.ladeVerlauf()): " + diff);
 			}
 			anzGeworfen -= diff;
-			for (int i = 0; i < figurListe.length; i++)
-			{
-				for (int j = 0; j < figurListe[i].length; j++)
-				{
+			for (int i = 0; i < figurListe.length; i++) {
+				for (int j = 0; j < figurListe[i].length; j++) {
 					figurListe[i][j] = listenVerlauf[zug][i][j];
 				}
 			}
 			togglePlayer();
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public void verschiebe(int xalt, int yalt, int xneu, int yneu)
-	{
-		if (!((xalt == xneu) & (yalt == yneu)))
-		{
-			if (figur[xneu][yneu] != null)
-			{
-				figurListe[(-figur[xneu][yneu].gebePlayer() + 1) / 2][figur[xneu][yneu]
-						.gebeIndex()] = null;
+	public void verschiebe(int xalt, int yalt, int xneu, int yneu) {
+		if (!((xalt == xneu) & (yalt == yneu))) {
+			if (figur[xneu][yneu] != null) {
+				figurListe[(-figur[xneu][yneu].gebePlayer() + 1) / 2][figur[xneu][yneu].gebeIndex()] = null;
 			}
 			figur[xneu][yneu] = figur[xalt][yalt];
 			figur[xalt][yalt] = null;
-			if (aktualisieren)
-			{
+			if (aktualisieren) {
 				aktualisieren(xalt, yalt);
 				aktualisieren(xneu, yneu);
 			}
 		}
 	}
 
-	public void speicher(int x, int y, Figur figurneu)
-	{
+	public void speicher(int x, int y, Figur figurneu) {
 		if (figur[x][y] != null)
 			figur[x][y].stirb();
 		figur[x][y] = figurneu;
-		if (aktualisieren)
-		{
+		if (aktualisieren) {
 			aktualisieren(x, y);
 		}
 	}
 
-	public boolean wurdeBewegt(int x, int y)
-	{
+	public boolean wurdeBewegt(int x, int y) {
 		return figur[x][y] != null ? figur[x][y].wurdeBewegt() : true;
 	}
 
-	public void loesche(int x, int y)
-	{
-		if (figur[x][y] != null)
-		{
-			figurListe[(1 - figur[x][y].gebePlayer()) / 2][figur[x][y]
-					.gebeIndex()] = null;
+	public void loesche(int x, int y) {
+		if (figur[x][y] != null) {
+			figurListe[(1 - figur[x][y].gebePlayer()) / 2][figur[x][y].gebeIndex()] = null;
 			wurf(figur[x][y].gebeTyp(), x, y);
 			figur[x][y].stirb();
 			figur[x][y] = null;
-			if (aktualisieren)
-			{
+			if (aktualisieren) {
 				farbeFeld(x, y, 4);
 			}
 		}
 	}
 
-	public int koenigPosX()
-	{
+	public int koenigPosX() {
 		return koenig[player].gebePosX();
 	}
 
-	public int koenigPosY()
-	{
+	public int koenigPosY() {
 		return koenig[player].gebePosY();
 	}
 
-	public int inhaltFaktor(int x, int y)
-	{
-		return ((x >= 0 && x <= XMax && y >= 0 && y <= YMax) && figur[x][y] != null) ? figur[x][y]
-				.gebeTyp() * playerFaktor()
+	public int inhaltFaktor(int x, int y) {
+		return ((x >= 0 && x <= XMax && y >= 0 && y <= YMax) && figur[x][y] != null)
+				? figur[x][y].gebeTyp() * playerFaktor()
 				: 0;
 	}
 
-	public int inhalt(int x, int y)
-	{
+	public int inhalt(int x, int y) {
 		return figur[x][y] != null ? figur[x][y].gebeTyp() : 0;
 	}
 
-	public int vorzeichen(int x, int y)
-	{
+	public int vorzeichen(int x, int y) {
 		return figur[x][y] != null ? figur[x][y].gebePlayer() : 0;
 	}
 
-	public int zugMoeglich(int posx, int posy, int zielx, int ziely)
-	{
+	public int zugMoeglich(int posx, int posy, int zielx, int ziely) {
 		int ret = 0;
 		Figur figurlokal = figur[posx][posy]; // getfield ist zu lahm
-		if (figurlokal != null)
-		{
-			if (figurlokal.zugMoeglich(zielx, ziely))
-			{
-				if (pruefer.ausSchach(posx, posy, zielx, ziely)) // ausSchach
-																	// Methode
-																	// ist sehr
-																	// Zeitaufwendig,
-																	// deshalb
-																	// erst alle
-																	// andren
-																	// ifs
+		if (figurlokal != null) {
+			if (figurlokal.zugMoeglich(zielx, ziely)) {
+				if (pruefer.ausSchach(posx, posy, zielx, ziely))
 				{
 					ret = 1;
-					if (inhaltFaktor(zielx, ziely) < 0)
-					{
+					if (inhaltFaktor(zielx, ziely) < 0) {
 						ret = 2;
 					}
-				} else
-				{
+				} else {
 					ret = -1;
 				}
-			} else
-			{
-				if (figurlokal.rochadeMoeglich(zielx, ziely))
-				{
-					if (pruefer.ausSchach(posx, posy, zielx, ziely))
-					{
+			} else {
+				if (figurlokal.rochadeMoeglich(zielx, ziely)) {
+					if (pruefer.ausSchach(posx, posy, zielx, ziely)) {
 						ret = 3;
-					} else
-					{
+					} else {
 						ret = -1;
 					}
-				} else
-				{
-					if (figurlokal.enPassantMoeglich(zielx, ziely))
-					{
-						if (pruefer.ausSchach(posx, posy, zielx, ziely))
-						{
+				} else {
+					if (figurlokal.enPassantMoeglich(zielx, ziely)) {
+						if (pruefer.ausSchach(posx, posy, zielx, ziely)) {
 							ret = 4;
-						} else
-						{
+						} else {
 							ret = -1;
 						}
 					}
@@ -476,28 +393,19 @@ public abstract class Kontroller
 		return ret;
 	}
 
-	public int zugMoeglichOhneSchachPruefung(int posx, int posy, int zielx,
-			int ziely)
-	{
+	public int zugMoeglichOhneSchachPruefung(int posx, int posy, int zielx, int ziely) {
 		int ret = 0;
-		if (figur[posx][posy] != null)
-		{
-			if (figur[posx][posy].zugMoeglich(zielx, ziely))
-			{
+		if (figur[posx][posy] != null) {
+			if (figur[posx][posy].zugMoeglich(zielx, ziely)) {
 				ret = 1;
-				if (inhaltFaktor(zielx, ziely) < 0)
-				{
+				if (inhaltFaktor(zielx, ziely) < 0) {
 					ret = 2;
 				}
-			} else
-			{
-				if (figur[posx][posy].rochadeMoeglich(zielx, ziely))
-				{
-					if (pruefer.ausSchach(posx, posy, zielx, ziely))
-					{
+			} else {
+				if (figur[posx][posy].rochadeMoeglich(zielx, ziely)) {
+					if (pruefer.ausSchach(posx, posy, zielx, ziely)) {
 						ret = 3;
-					} else
-					{
+					} else {
 						ret = -1;
 					}
 				}
@@ -506,23 +414,17 @@ public abstract class Kontroller
 		return ret;
 	}
 
-	public boolean ausSchach(int posx, int posy, int zielx, int ziely)
-	{
+	public boolean ausSchach(int posx, int posy, int zielx, int ziely) {
 		return pruefer.ausSchach(posx, posy, zielx, ziely);
 	}
 
-	public void testzug(int posx, int posy, int zielx, int ziely)
-	{
-		if (figur[posx][posy] != null)
-		{
-			if (aktualisieren)
-			{
+	public void testzug(int posx, int posy, int zielx, int ziely) {
+		if (figur[posx][posy] != null) {
+			if (aktualisieren) {
 				farbeFeld(posx, posy, 5);
-				if (inhalt(zielx, ziely) < 0)
-				{
+				if (inhalt(zielx, ziely) < 0) {
 					farbeFeld(zielx, ziely, 4);
-				} else
-				{
+				} else {
 					farbeFeld(zielx, ziely, 3);
 				}
 			}
@@ -530,28 +432,22 @@ public abstract class Kontroller
 		}
 	}
 
-	public boolean zug(int posx, int posy, int zielx, int ziely)
-	{
+	public boolean zug(int posx, int posy, int zielx, int ziely) {
 		boolean ret = false;
 		aktualisieren = true;
-		if (figur[posx][posy] != null)
-		{
+		if (figur[posx][posy] != null) {
 			int m = zugMoeglich(posx, posy, zielx, ziely);
-			if (m > 0)
-			{
+			if (m > 0) {
 				ret = true;
 				speicherVerlauf();
-				if (m == 2)
-				{
+				if (m == 2) {
 					wurf(figur[zielx][ziely].gebeTyp(), zielx, ziely);
 				}
 				figur[posx][posy].zug(zielx, ziely);
 				// aktualisieren(posx,posy);
-				if (m == 3)
-				{
+				if (m == 3) {
 					farbeFeld(zielx, ziely, 4);
-				} else
-				{
+				} else {
 					farbeFeld(zielx, ziely, 3);
 				}
 				farbeFeld(posx, posy, 5);
@@ -560,11 +456,9 @@ public abstract class Kontroller
 				letzterZug[2] = zielx;
 				letzterZug[3] = ziely;
 				letzterZug[4] = 0;
-				if (((ziely == 0) || (7 == ziely))
-						&& (inhaltFaktor(zielx, ziely) == 8))
-				{
+				if (((ziely == 0) || (7 == ziely)) && (inhaltFaktor(zielx, ziely) == 8)) {
 					int figur = figurMenu();
-					machFigur(figur,zielx,ziely);
+					machFigur(figur, zielx, ziely);
 					letzterZug[4] = figur;
 					// aktualisieren(zielx,ziely);
 				}
@@ -579,252 +473,192 @@ public abstract class Kontroller
 		return ret;
 	}
 
-	public void machTurm(int x, int y)
-	{
-		if (figur[x][y] == null)
-		{
-			figurListe[player][gesammtAnzFiguren[player]] = new Turm(this, x,
-					y, playerFaktor(), pruefer, gesammtAnzFiguren[player]);
+	public void machTurm(int x, int y) {
+		if (figur[x][y] == null) {
+			figurListe[player][gesammtAnzFiguren[player]] = new Turm(this, x, y, playerFaktor(), pruefer,
+					gesammtAnzFiguren[player]);
 			gesammtAnzFiguren[player]++;
-		} else
-		{
-			new Turm(this, x, y, playerFaktor(), pruefer,
-					figur[x][y].gebeIndex());
+		} else {
+			new Turm(this, x, y, playerFaktor(), pruefer, figur[x][y].gebeIndex());
 		}
 		anzFiguren[player][0]++;
 		if (aktualisieren)
 			aktualisieren(x, y);
 	}
 
-	public void machSpringer(int x, int y)
-	{
-		if (figur[x][y] == null)
-		{
-			figurListe[player][gesammtAnzFiguren[player]] = new Springer(this,
-					x, y, playerFaktor(), pruefer, gesammtAnzFiguren[player]);
-			gesammtAnzFiguren[player]++;
-		} else
-		{
-			new Springer(this, x, y, playerFaktor(), pruefer,
-					figur[x][y].gebeIndex());
-		}
-		anzFiguren[player][1]++;
-		if (aktualisieren)
-			aktualisieren(x, y);
-	}
-
-	public void machJanus(int x, int y)
-	{
-		if (figur[x][y] == null)
-		{
-			figurListe[player][gesammtAnzFiguren[player]] = new Janus(this, x,
-					y, playerFaktor(), pruefer, gesammtAnzFiguren[player]);
-			gesammtAnzFiguren[player]++;
-		} else
-		{
-			new Janus(this, x, y, playerFaktor(), pruefer,
-					figur[x][y].gebeIndex());
-		}
-		anzFiguren[player][1]++;
-		if (aktualisieren)
-			aktualisieren(x, y);
-	}
-
-	public void machKoenig(int x, int y)
-	{
-		if (figur[x][y] == null)
-		{
-			koenig[player] = new Koenig(this, x, y, playerFaktor(), pruefer,
+	public void machSpringer(int x, int y) {
+		if (figur[x][y] == null) {
+			figurListe[player][gesammtAnzFiguren[player]] = new Springer(this, x, y, playerFaktor(), pruefer,
 					gesammtAnzFiguren[player]);
+			gesammtAnzFiguren[player]++;
+		} else {
+			new Springer(this, x, y, playerFaktor(), pruefer, figur[x][y].gebeIndex());
+		}
+		anzFiguren[player][1]++;
+		if (aktualisieren)
+			aktualisieren(x, y);
+	}
+
+	public void machJanus(int x, int y) {
+		if (figur[x][y] == null) {
+			figurListe[player][gesammtAnzFiguren[player]] = new Janus(this, x, y, playerFaktor(), pruefer,
+					gesammtAnzFiguren[player]);
+			gesammtAnzFiguren[player]++;
+		} else {
+			new Janus(this, x, y, playerFaktor(), pruefer, figur[x][y].gebeIndex());
+		}
+		anzFiguren[player][1]++;
+		if (aktualisieren)
+			aktualisieren(x, y);
+	}
+
+	public void machKoenig(int x, int y) {
+		if (figur[x][y] == null) {
+			koenig[player] = new Koenig(this, x, y, playerFaktor(), pruefer, gesammtAnzFiguren[player]);
 			figurListe[player][gesammtAnzFiguren[player]] = koenig[player];
 			gesammtAnzFiguren[player]++;
-		} else
-		{
-			new Koenig(this, x, y, playerFaktor(), pruefer,
-					figur[x][y].gebeIndex());
+		} else {
+			new Koenig(this, x, y, playerFaktor(), pruefer, figur[x][y].gebeIndex());
 		}
 		anzFiguren[player][4]++;
 		if (aktualisieren)
 			aktualisieren(x, y);
 	}
 
-	public void machLaeufer(int x, int y)
-	{
-		if (figur[x][y] == null)
-		{
-			figurListe[player][gesammtAnzFiguren[player]] = new Laeufer(this,
-					x, y, playerFaktor(), pruefer, gesammtAnzFiguren[player]);
+	public void machLaeufer(int x, int y) {
+		if (figur[x][y] == null) {
+			figurListe[player][gesammtAnzFiguren[player]] = new Laeufer(this, x, y, playerFaktor(), pruefer,
+					gesammtAnzFiguren[player]);
 			gesammtAnzFiguren[player]++;
-		} else
-		{
-			new Laeufer(this, x, y, playerFaktor(), pruefer,
-					figur[x][y].gebeIndex());
+		} else {
+			new Laeufer(this, x, y, playerFaktor(), pruefer, figur[x][y].gebeIndex());
 		}
 		anzFiguren[player][2]++;
 		if (aktualisieren)
 			aktualisieren(x, y);
 	}
 
-	public void machDame(int x, int y)
-	{
-		if (figur[x][y] == null)
-		{
-			figurListe[player][gesammtAnzFiguren[player]] = new Dame(this, x,
-					y, playerFaktor(), pruefer, gesammtAnzFiguren[player]);
+	public void machDame(int x, int y) {
+		if (figur[x][y] == null) {
+			figurListe[player][gesammtAnzFiguren[player]] = new Dame(this, x, y, playerFaktor(), pruefer,
+					gesammtAnzFiguren[player]);
 			gesammtAnzFiguren[player]++;
-		} else
-		{
-			new Dame(this, x, y, playerFaktor(), pruefer,
-					figur[x][y].gebeIndex());
+		} else {
+			new Dame(this, x, y, playerFaktor(), pruefer, figur[x][y].gebeIndex());
 		}
 		anzFiguren[player][3]++;
 		if (aktualisieren)
 			aktualisieren(x, y);
 	}
 
-	public void machBauer(int x, int y)
-	{
-		if (figur[x][y] == null)
-		{
-			figurListe[player][gesammtAnzFiguren[player]] = new Bauer(this, x,
-					y, playerFaktor(), pruefer, gesammtAnzFiguren[player]);
+	public void machBauer(int x, int y) {
+		if (figur[x][y] == null) {
+			figurListe[player][gesammtAnzFiguren[player]] = new Bauer(this, x, y, playerFaktor(), pruefer,
+					gesammtAnzFiguren[player]);
 			gesammtAnzFiguren[player]++;
-		} else
-		{
-			new Bauer(this, x, y, playerFaktor(), pruefer,
-					figur[x][y].gebeIndex());
+		} else {
+			new Bauer(this, x, y, playerFaktor(), pruefer, figur[x][y].gebeIndex());
 		}
 		anzFiguren[player][5]++;
 		if (aktualisieren)
 			aktualisieren(x, y);
 	}
 
-	public boolean Player0()
-	{
+	public boolean Player0() {
 		return player == 0;
 	}
 
-	public byte playerFaktor()
-	{
+	public byte playerFaktor() {
 		return (byte) (1 - (player * 2));
 	}
 
-	public byte getPlayer()
-	{
+	public byte getPlayer() {
 		return player;
 	}
 
-	public void togglePlayer()
-	{
+	public void togglePlayer() {
 		player = (byte) (1 - player);
 	}
 
-	public boolean equals(Kontroller kontroller)
-	{
-		if (figur.length == kontroller.figur.length
-				&& this.player == kontroller.player)
-		{
-			for (int i = 0; i < figur.length; i++)
-			{
-				if (figur[i].length == kontroller.figur[i].length)
-				{
-					for (int j = 0; j < figur[i].length; j++)
-					{
+	public boolean equals(Kontroller kontroller) {
+		if (figur.length == kontroller.figur.length && this.player == kontroller.player) {
+			for (int i = 0; i < figur.length; i++) {
+				if (figur[i].length == kontroller.figur[i].length) {
+					for (int j = 0; j < figur[i].length; j++) {
 						int inhalt = (inhalt(i, j));
-						if (inhalt != kontroller.inhalt(i, j))
-						{
+						if (inhalt != kontroller.inhalt(i, j)) {
 							return false;
 						}
-						if (inhalt != 0 ? (figur[i][j].wurdeBewegt() != kontroller.figur[i][j]
-								.wurdeBewegt()) : false)
-						{
+						if (inhalt != 0 ? (figur[i][j].wurdeBewegt() != kontroller.figur[i][j].wurdeBewegt()) : false) {
 							return false;
 						}
 					}
-				} else
-				{
+				} else {
 					return false;
 				}
 			}
-		} else
-		{
+		} else {
 			return false;
 		}
 		return true;
 	}
 
-	public boolean istSchach()
-	{
+	public boolean istSchach() {
 		return pruefer.istSchach();
 	}
 
-	public boolean keinZugMoeglich()
-	{
+	public boolean keinZugMoeglich() {
 		return pruefer.keinZugMoeglich();
 	}
 
-	public boolean istRemis()
-	{
+	public boolean istRemis() {
 		return pruefer.remis();
 	}
 
-	public boolean speichern(File f)
-	{
+	public boolean speichern(File f) {
 		BufferedWriter bw;
-		try
-		{
+		try {
 			bw = new BufferedWriter(new FileWriter(f));
-			try
-			{
+			try {
 				bw.write("Super-Schach Spielstand Version 1.0");
 				bw.newLine();
 				bw.write(player + " ");
 				bw.newLine();
 				bw.write(figur.length + " " + figur[0].length + " ");
 				bw.newLine();
-				for (int i = 0; i < figur.length; i++)
-				{
-					for (int j = 0; j < figur[i].length; j++)
-					{
-						if (figur[i][j] != null)
-						{
-							bw.write(figur[i][j].gebeTyp() + " "
-									+ figur[i][j].bewegt() + " ");
-						} else
-						{
+				for (int i = 0; i < figur.length; i++) {
+					for (int j = 0; j < figur[i].length; j++) {
+						if (figur[i][j] != null) {
+							bw.write(figur[i][j].gebeTyp() + " " + figur[i][j].bewegt() + " ");
+						} else {
 							bw.write(0 + " " + 0 + " ");
 						}
 					}
 					bw.newLine();
 				}
 
-				for (int i = 0; i < letzterZug.length; i++)
-				{
+				for (int i = 0; i < letzterZug.length; i++) {
 					bw.write(letzterZug[i] + " ");
 				}
 				bw.newLine();
 				// bw.write(anzGeworfen +"");
 				// bw.newLine();
-				for (int i = 0; i < anzGeworfen; i++)
-				{
+				for (int i = 0; i < anzGeworfen; i++) {
 					bw.write(geworfen[i] + " ");
 				}
-				if(anzGeworfen==0)
-				{
+				if (anzGeworfen == 0) {
 					bw.write(" ");
 				}
 				bw.newLine();
 				bw.write(getSpielName());
 				bw.write(" ");
 				bw.close();
-			} catch (IOException e)
-			{
+			} catch (IOException e) {
 				e.printStackTrace();
 				bw.close();
 				return false;
 			}
-		} catch (IOException e1)
-		{
+		} catch (IOException e1) {
 			e1.printStackTrace();
 			return false;
 		}
@@ -832,44 +666,36 @@ public abstract class Kontroller
 
 	}
 
-	public String toString()
-	{
-		StringBuffer ret = new StringBuffer(
-				"Super-Schach Spielstand Version 1.0\n");
+	public String toString() {
+		StringBuffer ret = new StringBuffer("Super-Schach Spielstand Version 1.0\n");
 		ret.append(player);
 		ret.append(" \n");
 		ret.append(figur.length);
 		ret.append(" ");
 		ret.append(figur[0].length);
 		ret.append(" \n");
-		for (int i = 0; i < figur.length; i++)
-		{
-			for (int j = 0; j < figur[i].length; j++)
-			{
-				if (figur[i][j] != null)
-				{
+		for (int i = 0; i < figur.length; i++) {
+			for (int j = 0; j < figur[i].length; j++) {
+				if (figur[i][j] != null) {
 					ret.append(figur[i][j].gebeTyp());
 					ret.append(" ");
 					ret.append(figur[i][j].bewegt());
 					ret.append(" ");
-				} else
-				{
+				} else {
 					ret.append("0 0 ");
 				}
 			}
 			ret.append("\n");
 		}
 
-		for (int i = 0; i < letzterZug.length; i++)
-		{
+		for (int i = 0; i < letzterZug.length; i++) {
 			ret.append(letzterZug[i]);
 			ret.append(" ");
 		}
 		ret.append("\n");
 		// bw.write(anzGeworfen +"");
 		// bw.newLine();
-		for (int i = 0; i < anzGeworfen; i++)
-		{
+		for (int i = 0; i < anzGeworfen; i++) {
 			ret.append(geworfen[i]);
 			ret.append(" ");
 		}
@@ -878,79 +704,63 @@ public abstract class Kontroller
 	}
 
 	// Hooks
-	public void aktualisieren()
-	{
+	public void aktualisieren() {
 	}
 
-	public void blink()
-	{
+	public void blink() {
 	}
 
-	public void aktualisieren(int x, int y)
-	{
+	public void aktualisieren(int x, int y) {
 	}
 
-	public void farbeFeld(int x, int y, int farbe)
-	{
+	public void farbeFeld(int x, int y, int farbe) {
 	}
 
-	protected void zugGemacht()
-	{
+	protected void zugGemacht() {
 	};
 
-	private void wurf(int typ, int x, int y)
-	{
+	private void wurf(int typ, int x, int y) {
 		geworfen[anzGeworfen++] = typ;
-		if (aktualisieren)
-		{
+		if (aktualisieren) {
 			stirb(typ, x, y);
 		}
 	}
 
-	public int[] getGeworfen()
-	{
+	public int[] getGeworfen() {
 		int[] ret = new int[anzGeworfen];
 		System.arraycopy(geworfen, 0, ret, 0, anzGeworfen);
 		return ret;
 	}
 
-	public void stirb(int typ, int x, int y)
-	{
+	public void stirb(int typ, int x, int y) {
 
 	}
 
-	public void drehen()
-	{
+	public void drehen() {
 	}
 
-	public int figurMenu()
-	{
+	public int figurMenu() {
 		return 4;
 	}
 
-	public void meldungAusgeben(String ereignis)
-	{
+	public void meldungAusgeben(String ereignis) {
 	}
 
-	public void nachZug(boolean wurf)
-	{
+	public void nachZug(boolean wurf) {
 	}
 
-	public String getSpielDefaultName()
-	{
+	public String getSpielDefaultName() {
 		Date date = java.util.Calendar.getInstance().getTime();
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
 		String dateString = dateFormatter.format(date);
 		return dateString;
 	}
 
-	public String getSpielName()
-	{
+	public String getSpielName() {
 		return spielName;
 	}
 
-	public void setSpielName(String spielName)
-	{
+	public void setSpielName(String spielName) {
 		this.spielName = spielName;
 	}
 }

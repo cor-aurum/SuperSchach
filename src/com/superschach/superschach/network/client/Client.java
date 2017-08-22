@@ -10,7 +10,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.network.AbstractControlReceiveThread;
 import com.superschach.superschach.network.Commands;
 import com.superschach.superschach.network.Farbe;
@@ -40,6 +41,7 @@ public class Client
 	private OnlineSpieler spieler;
 	private AbstractControlReceiveThread controlReciver;
 	private Thread shutdownHook = new ShutdownHook();
+	private Logger logger=Logger.getLogger(Client.class);
 
 	public Client(String ip, String name, AbstractGUI gui)
 			throws UnknownHostException, IOException
@@ -103,7 +105,7 @@ public class Client
 					controlReciver.close();
 			} catch (Exception e)
 			{
-				GUI.logger.warn(e.getMessage());
+				logger.info("Netzwerkverbindung wird geschlossen");
 			}
 		}
 	}

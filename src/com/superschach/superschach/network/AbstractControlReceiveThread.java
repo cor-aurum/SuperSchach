@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
 
 public abstract class AbstractControlReceiveThread extends Thread
 {
@@ -18,6 +18,7 @@ public abstract class AbstractControlReceiveThread extends Thread
 	private boolean weiter = true;
 	private BufferedReader streamReader;
 	//private Enum<T> befehle=T;
+	private Logger logger=Logger.getLogger(AbstractControlReceiveThread.class);
 
 	public AbstractControlReceiveThread(Socket s) throws IOException
 	{
@@ -49,7 +50,7 @@ public abstract class AbstractControlReceiveThread extends Thread
 				try
 				{
 					int befehl = Integer.parseInt(recived);
-					GUI.logger.info("Bekomme Befehl: " + recived);
+					logger.info("Bekomme Befehl: " + recived);
 					bearbeiteBefehl(befehl);
 				} catch (Exception e)
 				{
@@ -87,7 +88,7 @@ public abstract class AbstractControlReceiveThread extends Thread
 
 	protected void answer(String aw)
 	{
-		GUI.logger.info("Antworte: " + aw);
+		logger.info("Antworte: " + aw);
 		printWriter.println(aw);
 		printWriter.flush();
 	}

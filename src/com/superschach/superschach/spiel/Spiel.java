@@ -3,7 +3,8 @@ package com.superschach.superschach.spiel;
 import java.io.File;
 import java.io.InputStream;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.ki.KI;
 import com.superschach.superschach.ki.KISpieler;
 import com.superschach.superschach.kontroller.Kontroller;
@@ -27,6 +28,7 @@ public class Spiel extends Kontroller {
 	// public int welche_ki = 17;
 	private byte status = 0;
 	private Protokollant protokollant = new Protokollant(this);
+	private Logger logger = Logger.getLogger(Spiel.class);
 
 	/**
 	 * Constructor for objects of class Spiel
@@ -160,7 +162,7 @@ public class Spiel extends Kontroller {
 		}
 		spielBrett.stopDenken(!matt);
 		if (!keinFehler) {
-			GUI.logger.warn("[Spiel]: Fehler in der KI");
+			logger.warn("[Spiel]: Fehler in der KI");
 		}
 	}
 

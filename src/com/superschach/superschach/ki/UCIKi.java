@@ -3,7 +3,8 @@ package com.superschach.superschach.ki;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import com.superschach.superschach.gui.GUI;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.spiel.AbstractGUI;
 
@@ -17,6 +18,7 @@ public class UCIKi extends KISchnittstelle implements KI {
 	private PrintWriter prt;
 	private String zugverlauf = "";
 	private boolean active = true;
+	private Logger logger=Logger.getLogger(UCIKi.class);
 
 	public UCIKi(String exec) {
 		super(null);
@@ -24,26 +26,26 @@ public class UCIKi extends KISchnittstelle implements KI {
 			Process uci = Runtime.getRuntime().exec(exec);
 			sc = new Scanner(uci.getInputStream());
 			prt = new PrintWriter(uci.getOutputStream());
-			GUI.logger.debug(sc.nextLine());
-			GUI.logger.debug("uci");
+			logger.debug(sc.nextLine());
+			logger.debug("uci");
 			prt.println("uci");
 			prt.flush();
 			String line = "";
 			while (!(line = sc.nextLine()).equals("uciok")) {
-				GUI.logger.debug(line);
+				logger.debug(line);
 			}
-			GUI.logger.debug(line);
+			logger.debug(line);
 			prt.println("isready");
 			prt.flush();
 			while (!(line = sc.nextLine()).equals("readyok")) {
-				GUI.logger.debug(line);
+				logger.debug(line);
 			}
-			GUI.logger.debug(line);
+			logger.debug(line);
 			prt.println("ucinewgame");
 			prt.flush();
-			GUI.logger.info("UCI erfolgreich initiiert");
+			logger.info("UCI erfolgreich initiiert");
 		} catch (Exception e) {
-			GUI.logger.error(exec + " konnte nicht gestartet werden");
+			logger.error(exec + " konnte nicht gestartet werden");
 			active = false;
 		}
 
@@ -52,7 +54,6 @@ public class UCIKi extends KISchnittstelle implements KI {
 	@Override
 	public void zug(Kontroller spiel, Zug zug) throws Exception {
 		if (!active) {
-			System.out.println("Test");
 			zug.nachricht(AbstractGUI.meldung("ucifehlstart"));
 		}
 		byte[] b = spiel.letzterZug();
@@ -80,7 +81,7 @@ public class UCIKi extends KISchnittstelle implements KI {
 		// So möchte die KI Figuren tauschen:
 		// 105371 [Thread-215] DEBUG root - bestmove b7b8q ponder e3e4
 		if (!letzterZug.equals("a1a1")) {
-			GUI.logger.debug(letzterZug);
+			logger.debug(letzterZug);
 			zugverlauf += " " + letzterZug;
 		}
 		prt.println("position startpos moves " + zugverlauf);
@@ -90,7 +91,7 @@ public class UCIKi extends KISchnittstelle implements KI {
 		String line;
 		while (!(line = sc.nextLine()).startsWith("bestmove"))
 			;
-		GUI.logger.debug(line);
+		logger.debug(line);
 		line = line.split(" ")[1];
 		int posx = line.charAt(0) - 97;
 		int posy = line.charAt(1) - 49;
