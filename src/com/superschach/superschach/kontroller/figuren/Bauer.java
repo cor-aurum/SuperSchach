@@ -98,4 +98,9 @@ public class Bauer extends Figur
     {
         return "Bauer";
     }
+
+	@Override
+	public char getCode() {
+		return 'p';
+	}
 }

@@ -32,4 +32,9 @@ public class Janus extends Figur
 				& (kontroller.inhalt(x, y) * vorzeichen() <= 0);
 	}
 
+	@Override
+	public char getCode() {
+		return 'j';
+	}
+
 }

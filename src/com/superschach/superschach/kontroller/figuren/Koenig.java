@@ -137,6 +137,11 @@ public class Koenig extends Figur
     
     public String toString()
     {
-        return "K�nig";
+        return "König";
     }
+
+	@Override
+	public char getCode() {
+		return 'k';
+	}
 }

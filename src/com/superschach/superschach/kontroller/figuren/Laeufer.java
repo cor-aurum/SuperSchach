@@ -86,4 +86,9 @@ public class Laeufer extends Figur
     {
         return "L�ufer";
     }
+
+	@Override
+	public char getCode() {
+		return 'b';
+	}
 }

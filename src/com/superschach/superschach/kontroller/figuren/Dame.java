@@ -29,4 +29,9 @@ public class Dame extends Figur
     {
         return "Dame";
     }
+
+	@Override
+	public char getCode() {
+		return 'q';
+	}
 }

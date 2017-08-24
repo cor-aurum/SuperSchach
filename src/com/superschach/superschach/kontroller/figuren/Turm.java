@@ -70,4 +70,9 @@ public class Turm extends Figur
     {
         return "Turm";
     }
+
+	@Override
+	public char getCode() {
+		return 'r';
+	}
 }

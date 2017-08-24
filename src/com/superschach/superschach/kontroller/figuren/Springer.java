@@ -117,5 +117,12 @@ public class Springer extends Figur
     {
         return "Springer";
     }
+
+
+
+	@Override
+	public char getCode() {
+		return 'n';
+	}
 }
 

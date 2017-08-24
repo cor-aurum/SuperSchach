@@ -16,7 +16,6 @@ public class UCIKi extends KISchnittstelle implements KI {
 
 	private Scanner sc;
 	private PrintWriter prt;
-	private String zugverlauf = "";
 	private boolean active = true;
 	private Logger logger=Logger.getLogger(UCIKi.class);
 
@@ -56,35 +55,8 @@ public class UCIKi extends KISchnittstelle implements KI {
 		if (!active) {
 			zug.nachricht(AbstractGUI.meldung("ucifehlstart"));
 		}
-		byte[] b = spiel.letzterZug();
-		String letzterZug = "";
-		letzterZug += (char) (b[0] + 97);
-		letzterZug += (char) (b[1] + 49);
-		letzterZug += (char) (b[2] + 97);
-		letzterZug += (char) (b[3] + 49);
-		switch (b[4]) {
-		case 0:
-			break;
-		case 3:
-			letzterZug += 'q';
-			break;
-		case 2:
-			letzterZug += 'b';
-			break;
-		case 4:
-			letzterZug += 'n';
-			break;
-		case 1:
-			letzterZug += 'r';
-			break;
-		}
-		// So möchte die KI Figuren tauschen:
-		// 105371 [Thread-215] DEBUG root - bestmove b7b8q ponder e3e4
-		if (!letzterZug.equals("a1a1")) {
-			logger.debug(letzterZug);
-			zugverlauf += " " + letzterZug;
-		}
-		prt.println("position startpos moves " + zugverlauf);
+		logger.debug(spiel.getFen());
+		prt.println("position fen " + spiel.getFen());
 		prt.flush();
 		prt.println("go");
 		prt.flush();
@@ -114,7 +86,6 @@ public class UCIKi extends KISchnittstelle implements KI {
 			}
 		}
 		zug.zug(posx, posy, zielx, ziely);
-		zugverlauf += " " + line;
 	}
 
 	@Override

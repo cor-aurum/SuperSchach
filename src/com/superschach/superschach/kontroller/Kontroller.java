@@ -60,7 +60,7 @@ public abstract class Kontroller {
 	private int[] geworfen;
 	private int anzGeworfen = 0;
 	private String spielName = getSpielDefaultName();
-	private Logger logger=Logger.getLogger(Kontroller.class);
+	private Logger logger = Logger.getLogger(Kontroller.class);
 
 	// kiThread kithread;
 	/**
@@ -231,6 +231,48 @@ public abstract class Kontroller {
 		player = 0;
 	}
 
+	public String getFen() {
+		String ret = "";
+		for (int i = figur.length-1; i >= 0; i--) {
+			int z = 0;
+			for (int j = 0; j < figur[i].length; j++) {
+				if (figur[j][i] == null)
+					z++;
+				else {
+					if (z > 0) {
+						ret += z;
+						z = 0;
+					}
+					ret += figur[j][i].gebePlayer() < 0 ? figur[j][i].getCode()
+							: ("" + figur[j][i].getCode()).toUpperCase();
+
+				}
+			}
+			if (z > 0) {
+				ret += z;
+			}
+			ret += "/";
+		}
+		ret = ret.substring(0, ret.length() - 1);
+
+		ret += player != 0 ? " b " : " w ";
+		boolean b = false;
+		if (!koenig[0].wurdeBewegt()) {
+			ret += "KQ";
+			b = true;
+		}
+		if (!koenig[1].wurdeBewegt()) {
+			ret += "kq";
+			b = true;
+		}
+		if (!b)
+			ret += "-";
+		ret+=" - ";
+		ret+="0 ";
+		ret+=(zuganzahl+1);
+		return ret;
+	}
+
 	private int zugNummer() // verhinder out of bounds Exception / �berlauf
 	{
 		int zug = zuganzahl;
@@ -363,8 +405,7 @@ public abstract class Kontroller {
 		Figur figurlokal = figur[posx][posy]; // getfield ist zu lahm
 		if (figurlokal != null) {
 			if (figurlokal.zugMoeglich(zielx, ziely)) {
-				if (pruefer.ausSchach(posx, posy, zielx, ziely))
-				{
+				if (pruefer.ausSchach(posx, posy, zielx, ziely)) {
 					ret = 1;
 					if (inhaltFaktor(zielx, ziely) < 0) {
 						ret = 2;
