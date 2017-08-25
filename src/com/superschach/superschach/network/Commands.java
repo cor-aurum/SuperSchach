@@ -5,7 +5,6 @@ public interface Commands
 
 	char SEPERATOR='/';
 	char SEPERATOR2=' ';
-	int BASEPORT = 15337;
 	
 	boolean hasParam();
 

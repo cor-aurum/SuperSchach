@@ -1,13 +1,21 @@
 package com.superschach.superschach.spiel;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
 import com.superschach.superschach.ki.KI;
+import com.superschach.superschach.server.Server;
 
 public abstract class AbstractGUI {
 	private Spiel spiel;
@@ -20,22 +28,133 @@ public abstract class AbstractGUI {
 	// private String kilevel = "3";
 	public final static String VERSION = "2.2";
 	private Logger logger = Logger.getLogger(AbstractGUI.class);
+	private static Properties props = new Properties();
+	private static Properties ausga = new Properties();
 
 	public AbstractGUI() {
-		spiel = new Spiel(this);
-		// kiThread = new KIThread();
+		this(false);
+	}
+
+	public AbstractGUI(boolean b) {
+		if (b) {
+			try {
+				new Server();
+				logger.info("Server gestartet");
+			} catch (SQLException e) {
+				logger.error(e.getSQLState());
+				logger.error(e.getMessage());
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				logger.error(e.getMessage());
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+			}
+		} else {
+			spiel = new Spiel(this);
+		}
+		FileInputStream in;
+		try {
+			if (!new File(verzeichnis() + "Settings.properties").exists()) {
+				createProp("Settings");
+			}
+			in = new FileInputStream(verzeichnis() + "Settings.properties");
+			props.load(in);
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			if (!new File(verzeichnis() + "Ausgaben.properties").exists()) {
+				createProp("Ausgaben");
+			}
+			in = new FileInputStream(verzeichnis() + "Ausgaben.properties");
+			ausga.load(in);
+			in.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void createProp(String s) {
+		Path target = Paths.get(verzeichnis(), s + ".properties");
+		if (!Files.exists(target)) {
+			InputStream source = getClass()
+					.getResourceAsStream("/com/superschach/superschach/spiel/" + s + ".properties");
+			try {
+				Files.copy(source, target);
+			} catch (IOException ex) {
+				logger.error("Konnte Properties nicht kopieren.");
+			} finally {
+				try {
+					source.close();
+				} catch (IOException ex) {
+					logger.error("Konnte InputStream nicht schließen.");
+				}
+			}
+		}
 	}
 
 	public static String meldung(String key) {
 		try {
+			if (!ausga.getProperty(key).isEmpty())
+				return ausga.getProperty(key);
+			else
+				try {
+					return aktAusJar(key, "Ausgaben", ausga);
+				} catch (IOException ex) {
+					return key;
+				}
+		} catch (Exception e) {
 			try {
-				return ResourceBundle.getBundle("com.superschach.superschach.spiel.Ausgaben").getString(key);
-			} catch (Exception e) {
+				return aktAusJar(key, "Ausgaben", ausga);
+			} catch (IOException ex) {
+				return key;
 			}
-			return ResourceBundle.getBundle("com.superschach.superschach.spiel.Ausgaben", Locale.GERMAN).getString(key);
-		} catch (Exception ex) {
-			return key;
 		}
+	}
+
+	public static String prop(String key) {
+		try {
+			if (!props.getProperty(key).isEmpty())
+				return props.getProperty(key);
+			else
+				try {
+					return aktAusJar(key, "Settings", props);
+				} catch (IOException ex) {
+					return key;
+				}
+		} catch (Exception e) {
+			try {
+				return aktAusJar(key, "Settings", props);
+			} catch (IOException ex) {
+				return key;
+			}
+		}
+	}
+
+	/**
+	 * Aktualisiert die Properties Datei um einen noch nicht vorhandenen Ke aus der
+	 * Version in der Jar
+	 * 
+	 * @param key
+	 * @param s
+	 * @param p
+	 * @return
+	 * @throws IOException
+	 */
+	private static String aktAusJar(String key, String s, Properties p) throws IOException {
+		Properties alt = new Properties();
+		InputStream in = AbstractGUI.class
+				.getResourceAsStream("/com/superschach/superschach/spiel/" + s + ".properties");
+		alt.load(in);
+		in.close();
+		String str = alt.getProperty(key);
+		p.setProperty(key, str);
+		FileOutputStream out = new FileOutputStream(verzeichnis() + s + ".properties");
+		p.store(out, null);
+		return str;
 	}
 
 	public AbstractGUI(InputStream stream) throws Exception {

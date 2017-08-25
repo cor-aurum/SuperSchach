@@ -65,7 +65,7 @@ public class Warteliste {
 	public void addSocket(final Socket socket) throws IOException {
 
 		long token;
-		if (socket.getLocalPort() == Server.getBasePort()) {
+		if (socket.getLocalPort() == Server.getBasePort()[0]) {
 			token = this.token.incrementAndGet();
 			byte[] buff = toArray(token);
 			socket.getOutputStream().write(buff);

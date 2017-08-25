@@ -50,13 +50,13 @@ public class Client
 		this.name = name;
 		this.gui = gui;
 		byte[] token = new byte[8];
-		deinControlSocket = new Socket(ip, Commands.BASEPORT);
+		deinControlSocket = new Socket(ip, Integer.parseInt(AbstractGUI.prop("baseport")));
 		deinControlSocket.getInputStream().read(token);
-		meinControlSocket = new Socket(ip, Commands.BASEPORT + 1);
+		meinControlSocket = new Socket(ip, Integer.parseInt(AbstractGUI.prop("controlport")));
 		meinControlSocket.getOutputStream().write(token);
-		spielSocket = new Socket(ip, Commands.BASEPORT + 2);
+		spielSocket = new Socket(ip, Integer.parseInt(AbstractGUI.prop("spielport")));
 		spielSocket.getOutputStream().write(token);
-		chatSocket = new Socket(ip, Commands.BASEPORT + 3);
+		chatSocket = new Socket(ip, Integer.parseInt(AbstractGUI.prop("chatport")));
 		chatInputStream = chatSocket.getInputStream();
 		chatOutputStream = chatSocket.getOutputStream();
 		chatOutputStream.write(token);

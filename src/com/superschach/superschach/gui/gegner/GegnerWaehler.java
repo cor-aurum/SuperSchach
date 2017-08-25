@@ -59,7 +59,7 @@ public class GegnerWaehler extends Fenster {
 
 	public void starteVerbindung() {
 		try {
-			client = new Client(AbstractGUI.meldung("host"), gUI.getName(), gUI.spiel);
+			client = new Client(AbstractGUI.prop("host"), gUI.getName(), gUI.spiel);
 			gUI.setClient(client);// = client;
 		} catch (Exception e) {
 			internet = false;

@@ -7,22 +7,27 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import com.superschach.superschach.network.Commands;
+import org.apache.log4j.Logger;
+
 import com.superschach.superschach.server.datenbank.Datenbank;
 import com.superschach.superschach.server.spieler.Connection;
 import com.superschach.superschach.server.spieler.Spieler;
+import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Server {
 
-	private static int basePort = Commands.BASEPORT;
+	private static int[] basePort = { Integer.parseInt(AbstractGUI.prop("baseport")),
+			Integer.parseInt(AbstractGUI.prop("controlport")), Integer.parseInt(AbstractGUI.prop("spielport")),
+			Integer.parseInt(AbstractGUI.prop("chatport")) };
 	private ServerSocket[] serverSockets = new ServerSocket[4];
 	private Thread[] listenThreads = new Thread[serverSockets.length];
 	private Lobby lobby;
 	private Warteliste warteliste;
 	private Datenbank datenbank;
 	private HashMap<Long, Spieler> aktiveSpieler = new HashMap<Long, Spieler>();
-	private HashMap<Long, Spiel> aktiveSpiele =new HashMap<Long, Spiel>();
+	private HashMap<Long, Spiel> aktiveSpiele = new HashMap<Long, Spiel>();
 	public final static String VERSION = "2.2";
+	private Logger logger = Logger.getLogger(Server.class);
 
 	// private HashMap<Long,Long>herausforderungen=new HashMap<Long,Long>();
 
@@ -31,25 +36,23 @@ public class Server {
 		lobby = new Lobby(this);
 		warteliste = new Warteliste(this);
 		for (int i = 0; i < serverSockets.length; i++) {
-			final ServerSocket s = serverSockets[i] = new ServerSocket(basePort
-					+ i);
+			final ServerSocket s = serverSockets[i] = new ServerSocket(basePort[i]);
 			listenThreads[i] = new Thread() {
 				public void run() {
 					while (!s.isClosed()) {
-						try{
-						final Socket cs = s.accept();
-						new Thread() {
-							@Override
-							public void run() {
-								try {
-									warteliste.addSocket(cs);
-								} catch (Exception e) {
-									e.printStackTrace();
+						try {
+							final Socket cs = s.accept();
+							new Thread() {
+								@Override
+								public void run() {
+									try {
+										warteliste.addSocket(cs);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
 								}
-							}
-						}.start();
-						}catch(Exception e)
-						{
+							}.start();
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -57,13 +60,13 @@ public class Server {
 			};
 			listenThreads[i].start();
 		}
-		System.out.println("Server wurde gestartet...");
+		logger.info("Server wurde gestartet...");
 	}
 
 	public void neuerClient(SocketCollector sC) {
 		try {
 			new Connection(sC, this);
-			System.out.println("neuer Client");
+			logger.debug("neuer Client");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,12 +86,12 @@ public class Server {
 		}
 	}
 
-	public Herausforderung fordereheraus(long gegnerID,
-			Connection herausforderer) throws NullPointerException, IOException {
+	public Herausforderung fordereheraus(long gegnerID, Connection herausforderer)
+			throws NullPointerException, IOException {
 		return lobby.fordereheraus(gegnerID, herausforderer);
 	}
 
-	public static int getBasePort() {
+	public static int[] getBasePort() {
 		return basePort;
 	}
 
@@ -120,8 +123,7 @@ public class Server {
 		lobby.addSpieler(spieler);
 	}
 
-	public static void main(String[] args) throws IOException,
-			NoSuchAlgorithmException {
+	public static void main(String[] args, boolean nixda) throws IOException, NoSuchAlgorithmException {
 		try {
 			new Server();
 		} catch (SQLException e) {
@@ -130,20 +132,17 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
-	
-	public void spielBeendet(long id)
-	{
+
+	public void spielBeendet(long id) {
 		aktiveSpiele.remove(id);
 	}
-	
-	public void neuesSpiel(Connection herausforderer, Connection annehmer) throws SQLException, IOException
-	{
-			Spiel spiel= new Spiel(annehmer,herausforderer, this,datenbank);
-			aktiveSpiele.put(spiel.getID(), spiel);
+
+	public void neuesSpiel(Connection herausforderer, Connection annehmer) throws SQLException, IOException {
+		Spiel spiel = new Spiel(annehmer, herausforderer, this, datenbank);
+		aktiveSpiele.put(spiel.getID(), spiel);
 	}
-	
-	public String getSpiel(long spielID, long spielerID)
-	{
+
+	public String getSpiel(long spielID, long spielerID) {
 		try {
 			return datenbank.getSpiel(spielID, spielerID);
 		} catch (SQLException e) {

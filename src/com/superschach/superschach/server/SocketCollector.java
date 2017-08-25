@@ -28,7 +28,7 @@ public class SocketCollector {
 	
 	public void addSocket(Socket socket)
 	{
-		int index=socket.getLocalPort()-Server.getBasePort();
+		int index=socket.getLocalPort()-Server.getBasePort()[0];
 		if(sockets[index]==null)
 			count++;
 		this.sockets[index]=socket;
