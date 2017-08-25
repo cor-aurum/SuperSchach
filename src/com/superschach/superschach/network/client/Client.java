@@ -205,7 +205,7 @@ public class Client
 		if (spieler == null)
 			spieler = new OnlineSpieler(spielSocket);
 		gui.aktiviereKI(spieler, farbe.nummer, gegnerName);
-		if (gui.Player0() == (farbe.nummer == 0))
+		if (gui.player0() == (farbe.nummer == 0))
 			new Thread()
 			{
 				public void run()

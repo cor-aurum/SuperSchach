@@ -283,7 +283,7 @@ public class DreiD extends MyStackPane {
 					figuren[sum - ende.x][ende.y].setFeld(felder[sum - ende.x][ende.y]);
 
 					if (gUI.spiel.getStatus() == 1) {
-						if (gUI.spiel.Player0()) {
+						if (gUI.spiel.player0()) {
 							koenigWeiss.getMeshView().setMaterial(new PhongMaterial(Color.RED));
 						} else {
 							koenigSchwarz.getMeshView().setMaterial(new PhongMaterial(Color.RED));

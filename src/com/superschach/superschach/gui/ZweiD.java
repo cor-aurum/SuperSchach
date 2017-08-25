@@ -143,7 +143,7 @@ public class ZweiD extends MyStackPane {
 			if (figur < 0) {
 				f = f + "_schwarz.png";
 				if (f.equals("koenig_schwarz.png")
-						&& gUI.spiel.getStatus() == 1 && !gUI.spiel.Player0()) {
+						&& gUI.spiel.getStatus() == 1 && !gUI.spiel.player0()) {
 					f = "koenig_rot.png";
 				}
 				img = new Image(this
@@ -155,7 +155,7 @@ public class ZweiD extends MyStackPane {
 			} else {
 				f = f + "_weiss.png";
 				if (f.equals("koenig_weiss.png") && gUI.spiel.getStatus() == 1
-						&& gUI.spiel.Player0()) {
+						&& gUI.spiel.player0()) {
 					f = "koenig_rot.png";
 				}
 				img = new Image(this

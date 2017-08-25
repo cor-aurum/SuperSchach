@@ -135,7 +135,7 @@ public abstract class AbstractGUI {
 	}
 
 	/**
-	 * Aktualisiert die Properties Datei um einen noch nicht vorhandenen Ke aus der
+	 * Aktualisiert die Properties Datei um einen noch nicht vorhandenen Key aus der
 	 * Version in der Jar
 	 * 
 	 * @param key
@@ -181,8 +181,8 @@ public abstract class AbstractGUI {
 
 	// Methoden mit der die GUI auf das Spiel zugreifen kann
 	/**
-	 * Die Methode "klick" sagt dem Spiel, welches Feld gedr�ckt werden soll. Die
-	 * Koordinaten werden als Integer �bergeben.
+	 * Die Methode "klick" sagt dem Spiel, welches Feld gedrückt werden soll. Die
+	 * Koordinaten werden als Integer übergeben.
 	 */
 	public void klick(int klickx, int klicky) {
 		if (sollThread()) {
@@ -199,12 +199,13 @@ public abstract class AbstractGUI {
 			spiel.entscheider(x, y);
 		}
 	}
-
-	private class SpielThread extends Thread implements Runnable // Thread um
-																	// die
-																	// Bewegung
-																	// sichtbar
-																	// zu machen
+	
+	/**
+	 * 
+	 * @author felix
+	 * Thread um die Bewegung sichtbar zu machen
+	 */
+	private class SpielThread extends Thread implements Runnable
 	{
 		public void run() {
 			spiel.entscheider(x, y);
@@ -219,29 +220,30 @@ public abstract class AbstractGUI {
 		return spiel.inhalt(x, y);
 	}
 
+	/**
+	 * Baut das Spiel in der Startaufstellung auf
+	 */
 	public void aufbauen() {
 		spiel.startAufstellung();
 	}
 
-	public boolean zurueck() // Macht den letzten zug r�ckg�nig
+	/**
+	 * Setzt eine KI für einen Spieler ein
+	 * @param nummer Nummer der KI. 0 ist keine KI, ansonsten sind diese durchnummeriert
+	 * @param spieler Spieler für den die KI spielen soll
+	 * @param level Parameter für die KI
+	 */
+	public void ki(int nummer, int spieler, String level)
 	{
-		return spiel.zugzurueck();
-	}
-
-	public void ki(int nummer, int spieler, String level) // 0 ist keine KI, sonst
-															// sind die KIs
-															// durchnummeriert
-	{
-		// spiel.waehleKI(nummer, spieler);;
-		// if ((kiThread == null || (!kiThread.isAlive()) || (spielThread == null ||
-		// !spielThread.isAlive()))) {
 		kiThread = new KIThread(nummer, spieler, level);
 		kiThread.start();
-		// } else {
-		// spiel.waehleKIohneStart(nummer, (byte) spieler, level);
-		// }
 	}
 
+	/**
+	 * Thread in dem eine KI läuft. 
+	 * @author felix
+	 *
+	 */
 	private class KIThread extends Thread // Thread um die Bewegung sichtbar zu machen
 	{
 		private int kinummer;
@@ -259,57 +261,123 @@ public abstract class AbstractGUI {
 		}
 	}
 
+	/**
+	 * Angabe, ob Spiel in einem eigenen Thread laufen soll
+	 * @return boolean
+	 */
 	public abstract boolean sollThread();
 
+	/**
+	 * Kommando an GUI: schließe die Lobby
+	 */
 	public abstract void leaveLobby();
 
+	/**
+	 * Fordert die KI auf einen Zug zu machen
+	 * @param i Nummer der KI
+	 * @return Erfolg
+	 */
 	public boolean ki(int i) {
 		aktualisieren();
 		return spiel.ki(i);
 	}
 
+	/**
+	 * Aktiviere eine KI
+	 * @param k Nummer der KI
+	 * @param spieler
+	 * @param level
+	 * @return
+	 */
 	public boolean aktiviereKI(int k, byte spieler, String level) {
 		return spiel.aktiviereKI(k, spieler, level);
 	}
 
+	/**
+	 * Aktiviere eine KI
+	 * @param ki bestehende KI
+	 * @param spieler
+	 * @param name
+	 * @return
+	 */
 	public boolean aktiviereKI(KI ki, byte spieler, String name) {
 		return spiel.aktiviereKI(ki, spieler, name);
 	}
 
+	/**
+	 * Speichert das Log in eine Datei
+	 * @param f Speicherort
+	 * @return Erfolg
+	 */
 	public boolean logSpeichern(File f) {
 		return spiel.logSpeichern(f);
 	}
 
-	public boolean Player0() {
+	/**
+	 * 
+	 * @return Wahr, wenn Weiß am Zug ist
+	 */
+	public boolean player0() {
 		return spiel.Player0();
 	}
 
+	/**
+	 * 
+	 * @return Breite des Spielfelds
+	 */
 	public int getXMax() {
 		return spiel.XMax;
 	}
 
+	/**
+	 * 
+	 * @return Höhe des Spielfelds
+	 */
 	public int getYMax() {
 		return spiel.YMax;
 	}
 
+	/**
+	 * Speichert ein Spiel in eine Datei
+	 * @param f Speicherort
+	 * @return Erfolg
+	 */
 	public boolean speichern(File f) {
 		return spiel.speichern(f);
 	}
 
+	/**
+	 * Lädt ein Spiel aus einem InputStream
+	 * @param stream 
+	 * @throws Exception
+	 */
 	public void laden(InputStream stream) throws Exception {
 		spiel = new Spiel(this, stream);
 		aktualisieren();
 		stirb(getGeworfen());
 	}
 
+	/**
+	 * Gibt zurück, welche Figuren bereits geworfen wurden (ids)
+	 * @return geworfene Figuren
+	 */
 	public int[] getGeworfen() {
 		return spiel.getGeworfen();
 	}
 
+	/**
+	 * Übersetzt ein Schachprotokoll für den Kontroller
+	 * @param s Schachprotokoll
+	 */
 	public void uebersetzen(String s) {
 		spiel.uebersetzen(s);
 	}
 
+	/**
+	 * Erkennt, ob ein Spieler von einer KI gesteuert wird
+	 * @param player Spieler auf den sich die Nachfrage bezieht
+	 * @return ja oder nein
+	 */
 	public boolean istKI(int player) {
 		return spiel.istKI(player);
 	}
