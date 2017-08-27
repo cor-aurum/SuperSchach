@@ -30,6 +30,7 @@ public abstract class AbstractGUI {
 	private Logger logger = Logger.getLogger(AbstractGUI.class);
 	private static Properties props = new Properties();
 	private static Properties ausga = new Properties();
+	private static Properties guis = new Properties();
 
 	public AbstractGUI() {
 		this(false);
@@ -52,29 +53,25 @@ public abstract class AbstractGUI {
 		} else {
 			spiel = new Spiel(this);
 		}
+		
+		loadProps("Settings", props);
+		loadProps("Ausgaben", ausga);
+		loadProps("GUI", guis);
+	}
+	
+	private void loadProps(String s, Properties p)
+	{
 		FileInputStream in;
 		try {
-			if (!new File(verzeichnis() + "Settings.properties").exists()) {
-				createProp("Settings");
+			if (!new File(verzeichnis() + s+".properties").exists()) {
+				createProp(s);
 			}
-			in = new FileInputStream(verzeichnis() + "Settings.properties");
-			props.load(in);
+			in = new FileInputStream(verzeichnis() + s+".properties");
+			p.load(in);
 			in.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try {
-			if (!new File(verzeichnis() + "Ausgaben.properties").exists()) {
-				createProp("Ausgaben");
-			}
-			in = new FileInputStream(verzeichnis() + "Ausgaben.properties");
-			ausga.load(in);
-			in.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	private void createProp(String s) {
@@ -97,37 +94,31 @@ public abstract class AbstractGUI {
 	}
 
 	public static String meldung(String key) {
-		try {
-			if (!ausga.getProperty(key).isEmpty())
-				return ausga.getProperty(key);
-			else
-				try {
-					return aktAusJar(key, "Ausgaben", ausga);
-				} catch (IOException ex) {
-					return key;
-				}
-		} catch (Exception e) {
-			try {
-				return aktAusJar(key, "Ausgaben", ausga);
-			} catch (IOException ex) {
-				return key;
-			}
-		}
+		return keyToProp(key, ausga, "Ausgaben");
+	}
+	
+	public static String guiProp(String key) {
+		return keyToProp(key, guis, "GUI");
 	}
 
 	public static String prop(String key) {
+		return keyToProp(key, props, "Settings");
+	}
+	
+	private static String keyToProp(String key, Properties p, String s)
+	{
 		try {
-			if (!props.getProperty(key).isEmpty())
-				return props.getProperty(key);
+			if (!p.getProperty(key).isEmpty())
+				return p.getProperty(key);
 			else
 				try {
-					return aktAusJar(key, "Settings", props);
+					return aktAusJar(key, s, p);
 				} catch (IOException ex) {
 					return key;
 				}
 		} catch (Exception e) {
 			try {
-				return aktAusJar(key, "Settings", props);
+				return aktAusJar(key, s, p);
 			} catch (IOException ex) {
 				return key;
 			}

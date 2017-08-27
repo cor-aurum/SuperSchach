@@ -1,10 +1,7 @@
 package com.superschach.superschach.gui;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -43,8 +40,8 @@ public class Einstellungen extends Fenster {
 	RadioButton figur_standard = new RadioButton(AbstractGUI.meldung("standard"));
 
 	RadioButton figur_modern = new RadioButton(AbstractGUI.meldung("modern"));
-	
-	private Logger logger=Logger.getLogger(Einstellungen.class);
+
+	private Logger logger = Logger.getLogger(Einstellungen.class);
 
 	public Einstellungen(GUI gUI) {
 		// setzeInhalt(tab);
@@ -162,52 +159,73 @@ public class Einstellungen extends Fenster {
 	}
 
 	public void speichern() {
+		// try {
+		// BufferedWriter br = new BufferedWriter(new
+		// FileWriter(AbstractGUI.verzeichnis() + "gui.save"));
+		// br.write(gUI.getHintergrund());
+		// br.write(System.getProperty("line.separator"));
+		// br.write(toRGBCode(gUI.getFarbe_weiss().getValue()));
+		// br.write(System.getProperty("line.separator"));
+		// br.write(toRGBCode(gUI.getFarbe_schwarz().getValue()));
+		// br.write(System.getProperty("line.separator"));
+		// br.write(gUI.getName());
+		// br.write(System.getProperty("line.separator"));
+		// br.write("" + gUI.getSounds().getValue());
+		// br.write(System.getProperty("line.separator"));
+		// br.write("" + gUI.getZweid().getValue());
+		// br.write(System.getProperty("line.separator"));
+		// br.write(gUI.form);
+		// br.write(System.getProperty("line.separator"));
+		// br.write(gUI.getVonFarbe().getValue());
+		// br.write(System.getProperty("line.separator"));
+		// br.write(gUI.getBisFarbe().getValue());
+		// br.write(System.getProperty("line.separator"));
+		// br.write("" + gUI.getStage().isFullScreen());
+		// br.write(System.getProperty("line.separator"));
+		// br.write("" + gUI.getCss().getValue());
+		// br.flush();
+		// br.close();
+		// } catch (IOException e) {
+		// gUI.spiel.meldungAusgeben(AbstractGUI.meldung("speichernFehlgeschlagen"));
+		// }
 		try {
-			BufferedWriter br = new BufferedWriter(new FileWriter(AbstractGUI.verzeichnis() + "gui.save"));
-			br.write(gUI.getHintergrund());
-			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(gUI.getFarbe_weiss().getValue()));
-			br.write(System.getProperty("line.separator"));
-			br.write(toRGBCode(gUI.getFarbe_schwarz().getValue()));
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.getName());
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getSounds().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getZweid().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.form);
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.getVonFarbe().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write(gUI.getBisFarbe().getValue());
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getStage().isFullScreen());
-			br.write(System.getProperty("line.separator"));
-			br.write("" + gUI.getCss().getValue());
-			br.flush();
-			br.close();
-		} catch (IOException e) {
+			Properties guis = new Properties();
+			guis.setProperty("hintergrund", gUI.getHintergrund());
+			guis.setProperty("farbe_weiss", toRGBCode(gUI.getFarbe_weiss().getValue()));
+			guis.setProperty("farbe_schwarz", toRGBCode(gUI.getFarbe_schwarz().getValue()));
+			guis.setProperty("name", gUI.getName());
+			guis.setProperty("ton_an", "" + gUI.getSounds().getValue());
+			guis.setProperty("zweid", "" + gUI.getZweid().getValue());
+			guis.setProperty("form", gUI.form);
+			guis.setProperty("farbe_von", gUI.getVonFarbe().getValue());
+			guis.setProperty("farbe_bis", gUI.getBisFarbe().getValue());
+			guis.setProperty("vollbild", "" + gUI.getStage().isFullScreen());
+			guis.setProperty("stil", "" + gUI.getCss().getValue());
+			FileOutputStream out = new FileOutputStream(AbstractGUI.verzeichnis() + "GUI.properties");
+			guis.store(out, null);
+		} catch (Exception e) {
 			gUI.spiel.meldungAusgeben(AbstractGUI.meldung("speichernFehlgeschlagen"));
+			logger.error("Speichern fehlgeschlagen");
 		}
 
 	}
 
 	public void laden() {
+
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(AbstractGUI.verzeichnis() + "gui.save"));
-			gUI.setHintergrund(br.readLine());
-			gUI.getFarbe_weiss().setValue(Color.web(br.readLine()));
-			gUI.getFarbe_schwarz().setValue(Color.web(br.readLine()));
-			gUI.setName(br.readLine());
-			gUI.getSounds().setValue(Boolean.parseBoolean(br.readLine()));
-			gUI.getZweid().setValue(Boolean.parseBoolean(br.readLine()));
-			gUI.form = br.readLine();
-			gUI.getVonFarbe().setValue(br.readLine());
-			gUI.getBisFarbe().setValue(br.readLine());
-			gUI.getStage().setFullScreen(Boolean.parseBoolean(br.readLine()));
-			gUI.getCss().setValue(br.readLine());
-			br.close();
+//			BufferedReader br = new BufferedReader(new FileReader(AbstractGUI.verzeichnis() + "gui.save"));
+			gUI.setHintergrund(AbstractGUI.guiProp("hintergrund"));
+			gUI.getFarbe_weiss().setValue(Color.web(AbstractGUI.guiProp("farbe_weiss")));
+			gUI.getFarbe_schwarz().setValue(Color.web(AbstractGUI.guiProp("farbe_schwarz")));
+			gUI.setName(AbstractGUI.guiProp("name"));
+			gUI.getSounds().setValue(Boolean.parseBoolean(AbstractGUI.guiProp("ton_an")));
+			gUI.getZweid().setValue(Boolean.parseBoolean(AbstractGUI.guiProp("zweid")));
+			gUI.form = AbstractGUI.guiProp("form");
+			gUI.getVonFarbe().setValue(AbstractGUI.guiProp("farbe_von"));
+			gUI.getBisFarbe().setValue(AbstractGUI.guiProp("farbe_bis"));
+			gUI.getStage().setFullScreen(Boolean.parseBoolean(AbstractGUI.guiProp("vollbild")));
+			gUI.getCss().setValue(AbstractGUI.guiProp("stil"));
+//			br.close();
 
 			switch (gUI.getHintergrund()) {
 			case "marmor":
@@ -234,12 +252,13 @@ public class Einstellungen extends Fenster {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 	}
-	
+
 	public String toRGBCode(Color color) {
-		return String.format("#%02X%02X%02X", (int) (color.getRed() * 255),
-				(int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
+		return String.format("#%02X%02X%02X", (int) (color.getRed() * 255), (int) (color.getGreen() * 255),
+				(int) (color.getBlue() * 255));
 	}
 }
