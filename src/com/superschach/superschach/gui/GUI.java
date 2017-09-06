@@ -13,7 +13,7 @@ import com.sun.javafx.application.LauncherImpl;
 import com.superschach.superschach.gui.cli.CLI;
 import com.superschach.superschach.gui.gegner.GegnerWaehler;
 import com.superschach.superschach.gui.menu.Hauptmenu;
-import com.superschach.superschach.network.client.Client;
+import com.superschach.superschach.netzwerk.client.Client;
 import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.application.Application;

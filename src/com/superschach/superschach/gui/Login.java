@@ -4,7 +4,7 @@ import java.security.NoSuchAlgorithmException;
 
 import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
 import com.sun.javafx.application.HostServicesDelegate;
-import com.superschach.superschach.network.MDFiver;
+import com.superschach.superschach.netzwerk.MDFiver;
 import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.event.Event;

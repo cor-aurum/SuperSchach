@@ -1,6 +1,6 @@
-package com.superschach.superschach.network.client;
+package com.superschach.superschach.netzwerk.client;
 
-import com.superschach.superschach.network.Commands;
+import com.superschach.superschach.netzwerk.Commands;
 
 
 public class Spieler {

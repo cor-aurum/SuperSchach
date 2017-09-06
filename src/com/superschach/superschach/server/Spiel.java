@@ -3,7 +3,7 @@ package com.superschach.superschach.server;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import com.superschach.superschach.network.Farbe;
+import com.superschach.superschach.netzwerk.Farbe;
 import com.superschach.superschach.server.datenbank.Datenbank;
 import com.superschach.superschach.server.spieler.Connection;
 

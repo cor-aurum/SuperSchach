@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.superschach.superschach.network.Commands;
-import com.superschach.superschach.network.Farbe;
+import com.superschach.superschach.netzwerk.Commands;
+import com.superschach.superschach.netzwerk.Farbe;
 import com.superschach.superschach.server.Herausforderung;
 import com.superschach.superschach.server.Server;
 

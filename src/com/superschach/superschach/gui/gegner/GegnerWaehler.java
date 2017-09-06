@@ -3,7 +3,7 @@ package com.superschach.superschach.gui.gegner;
 import com.superschach.superschach.gui.Fenster;
 import com.superschach.superschach.gui.GUI;
 import com.superschach.superschach.gui.Speichern;
-import com.superschach.superschach.network.client.Client;
+import com.superschach.superschach.netzwerk.client.Client;
 import com.superschach.superschach.spiel.AbstractGUI;
 
 import javafx.animation.KeyFrame;

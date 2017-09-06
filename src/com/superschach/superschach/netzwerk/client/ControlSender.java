@@ -1,11 +1,11 @@
-package com.superschach.superschach.network.client;
+package com.superschach.superschach.netzwerk.client;
 
 import java.io.IOException;
 import java.net.Socket;
 
-import com.superschach.superschach.network.AbstractControlSender;
-import com.superschach.superschach.network.ClientCommands;
-import com.superschach.superschach.network.Commands;
+import com.superschach.superschach.netzwerk.AbstractControlSender;
+import com.superschach.superschach.netzwerk.ClientCommands;
+import com.superschach.superschach.netzwerk.Commands;
 
 public class ControlSender extends AbstractControlSender
 {

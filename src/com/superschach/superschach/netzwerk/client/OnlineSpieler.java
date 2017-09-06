@@ -1,4 +1,4 @@
-package com.superschach.superschach.network.client;
+package com.superschach.superschach.netzwerk.client;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -7,8 +7,8 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import com.superschach.superschach.network.Commands;
-import com.superschach.superschach.network.Farbe;
+import com.superschach.superschach.netzwerk.Commands;
+import com.superschach.superschach.netzwerk.Farbe;
 import com.superschach.superschach.server.Herausforderung;
 import com.superschach.superschach.server.Server;
 import com.superschach.superschach.server.SocketCollector;

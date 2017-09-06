@@ -1,4 +1,4 @@
-package com.superschach.superschach.network;
+package com.superschach.superschach.netzwerk;
 
 import java.io.BufferedReader;
 import java.io.IOException;

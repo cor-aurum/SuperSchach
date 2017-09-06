@@ -1,4 +1,4 @@
-package com.superschach.superschach.network.client;
+package com.superschach.superschach.netzwerk.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
 
-import com.superschach.superschach.network.AbstractControlReceiveThread;
-import com.superschach.superschach.network.Commands;
-import com.superschach.superschach.network.Farbe;
+import com.superschach.superschach.netzwerk.AbstractControlReceiveThread;
+import com.superschach.superschach.netzwerk.Commands;
+import com.superschach.superschach.netzwerk.Farbe;
 import com.superschach.superschach.spiel.AbstractGUI;
 
 public class Client

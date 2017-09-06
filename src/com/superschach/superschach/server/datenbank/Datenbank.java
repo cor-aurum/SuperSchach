@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import com.superschach.superschach.network.MDFiver;
+import com.superschach.superschach.netzwerk.MDFiver;
 import com.superschach.superschach.server.Server;
 import com.superschach.superschach.server.spieler.Spieler;
 import com.superschach.superschach.spiel.AbstractGUI;

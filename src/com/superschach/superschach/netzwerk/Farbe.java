@@ -1,4 +1,4 @@
-package com.superschach.superschach.network;
+package com.superschach.superschach.netzwerk;
 
 public enum Farbe {
 	WEISS(0),

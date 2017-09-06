@@ -3,7 +3,7 @@ package com.superschach.superschach.server;
 import java.io.IOException;
 import java.util.HashMap;
 
-import com.superschach.superschach.network.Commands;
+import com.superschach.superschach.netzwerk.Commands;
 import com.superschach.superschach.server.spieler.Connection;
 import com.superschach.superschach.server.spieler.Spieler;
 

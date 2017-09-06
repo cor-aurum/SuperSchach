@@ -1,12 +1,12 @@
-package com.superschach.superschach.network.client;
+package com.superschach.superschach.netzwerk.client;
 
 import java.io.IOException;
 import java.net.Socket;
 
-import com.superschach.superschach.network.AbstractControlReceiveThread;
-import com.superschach.superschach.network.Commands;
-import com.superschach.superschach.network.Farbe;
-import com.superschach.superschach.network.ServerCommands;
+import com.superschach.superschach.netzwerk.AbstractControlReceiveThread;
+import com.superschach.superschach.netzwerk.Commands;
+import com.superschach.superschach.netzwerk.Farbe;
+import com.superschach.superschach.netzwerk.ServerCommands;
 
 public class ControlReceiveThread extends AbstractControlReceiveThread
 		implements Runnable

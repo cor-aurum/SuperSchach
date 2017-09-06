@@ -3,8 +3,8 @@ package com.superschach.superschach.server.spieler;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.superschach.superschach.network.AbstractControlReceiveThread;
-import com.superschach.superschach.network.ClientCommands;
+import com.superschach.superschach.netzwerk.AbstractControlReceiveThread;
+import com.superschach.superschach.netzwerk.ClientCommands;
 
 public class ControlReceiveThread extends AbstractControlReceiveThread {
 

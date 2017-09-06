@@ -3,10 +3,10 @@ package com.superschach.superschach.server.spieler;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.superschach.superschach.network.AbstractControlSender;
-import com.superschach.superschach.network.Commands;
-import com.superschach.superschach.network.Farbe;
-import com.superschach.superschach.network.ServerCommands;
+import com.superschach.superschach.netzwerk.AbstractControlSender;
+import com.superschach.superschach.netzwerk.Commands;
+import com.superschach.superschach.netzwerk.Farbe;
+import com.superschach.superschach.netzwerk.ServerCommands;
 
 public class ControlSender extends AbstractControlSender{
 
