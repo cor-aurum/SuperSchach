@@ -5,11 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.superschach.superschach.ki.KITests;
-
 public class PrueferTest {
 
-	Kontroller kontroller = KITests.testSpiel;
+	Kontroller kontroller = KontrollerTests.testSpiel;
 	Pruefer pruefer =new Pruefer(kontroller, kontroller.figur, kontroller.figurListe);
 	@Test
 	public void testGerade() throws Exception {

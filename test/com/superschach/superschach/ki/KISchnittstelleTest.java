@@ -16,7 +16,7 @@ import com.superschach.superschach.kontroller.figuren.Turm;
 import com.superschach.superschach.spiel.Spiel;
 public class KISchnittstelleTest {
 	
-	private static KITests.TestKI ki=KITests.testKi;
+	private static KISchnittstelle ki=KITests.testKi;
 	private static Spiel spiel = KITests.testSpiel;
 	@BeforeClass
 	public static void setUpClass() throws InterruptedException {
@@ -42,6 +42,6 @@ public class KISchnittstelleTest {
 	
 	@Test
 	public void testWertPruefer() throws Exception {
-		assertEquals(20000073, ki.wertPruefer());
+		assertEquals(20000078, ki.wertPruefer());
 	}
 }

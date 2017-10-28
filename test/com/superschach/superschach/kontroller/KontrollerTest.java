@@ -5,12 +5,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.superschach.superschach.ki.KITests;
 import com.superschach.superschach.spiel.Spiel;
 
 public class KontrollerTest {
 
-	Kontroller kontroller = KITests.testSpiel;
+	Kontroller kontroller = KontrollerTests.testSpiel;
 
 	@Test
 	public void testMachFigur() throws Exception {
@@ -68,6 +67,6 @@ public class KontrollerTest {
 	
 	@Test
 	public void testEquals() throws Exception {
-		assertTrue(new Spiel(KITests.testGUI).equals(new Spiel(KITests.testGUI)));
+		assertTrue(new Spiel(KontrollerTests.testGUI).equals(new Spiel(KontrollerTests.testGUI)));
 	}
 }
