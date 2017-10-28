@@ -74,8 +74,7 @@ public abstract class Kontroller {
 	}
 
 	public Kontroller(InputStream stream) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(stream));// new
-		// File("D:\\start.txt")));
+		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		aktualisieren = false;
 		try {
 			if (!br.readLine().equals("Super-Schach Spielstand Version 1.0")) {

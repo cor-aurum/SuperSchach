@@ -24,10 +24,10 @@ import javafx.scene.media.AudioClip;
 
 public class Chat extends Fenster {
 
-	BorderPane root = new BorderPane();
-	ScrollPane scroll = new ScrollPane();
-	VBox chat = new VBox();
-	TextField tF = new TextField();
+	private BorderPane root = new BorderPane();
+	private ScrollPane scroll = new ScrollPane();
+	private VBox chat = new VBox();
+	private TextField tF = new TextField();
 	private SimpleIntegerProperty ungelesen = new SimpleIntegerProperty(0);
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
