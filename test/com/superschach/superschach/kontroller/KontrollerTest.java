@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.spiel.Spiel;
 
 public class KontrollerTest {
@@ -13,8 +14,8 @@ public class KontrollerTest {
 
 	@Test
 	public void testMachFigur() throws Exception {
-		assertEquals(8, kontroller.figur[0][1].nummer);
-		assertEquals(1, kontroller.figur[0][0].nummer);
+		assertEquals(8, kontroller.getFigur()[0][1].nummer);
+		assertEquals(1, kontroller.getFigur()[0][0].nummer);
 	}
 
 	@Test

@@ -1,6 +1,5 @@
 package com.superschach.superschach;
 
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -18,13 +17,14 @@ import com.superschach.superschach.spiel.Spiel;
 	KITests.class,
 	KontrollerTests.class
 	})
+
 public class AllTests {
-	
-	public static TestGUI testGUI=new TestGUI();
-	public static Spiel testSpiel=new Spiel(testGUI);
-	public static TestKI testKi=new TestKI();
-	
-	public static class TestKI extends KISchnittstelle{
+
+	public static TestGUI testGUI = new TestGUI();
+	public static Spiel testSpiel = new Spiel(testGUI);
+	public static TestKI testKi = new TestKI();
+
+	public static class TestKI extends KISchnittstelle {
 
 		public TestKI() {
 			super(testSpiel);
@@ -34,10 +34,10 @@ public class AllTests {
 		public boolean machZug() {
 			return false;
 		}
-		
+
 	}
-	
-	public static class TestGUI extends AbstractGUI{
+
+	public static class TestGUI extends AbstractGUI {
 
 		@Override
 		public boolean sollThread() {
@@ -58,7 +58,7 @@ public class AllTests {
 		}
 
 		@Override
-		public void aktualisieren(int x, int y) {		
+		public void aktualisieren(int x, int y) {
 		}
 
 		@Override
@@ -80,6 +80,6 @@ public class AllTests {
 
 		@Override
 		public void herausforderungAbbrechen(int herausforderungID) {
-		}	
+		}
 	}
 }

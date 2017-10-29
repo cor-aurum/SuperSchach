@@ -46,6 +46,8 @@ public abstract class Kontroller {
 	protected Figur[][] figur;
 	protected Figur[] koenig;
 	protected Figur[][] figurListe;
+	
+
 	protected boolean aktualisieren = true;
 	private int zuganzahl;
 	private Figur[][][] verlauf; // [zug][variable]
@@ -802,5 +804,13 @@ public abstract class Kontroller {
 
 	public void setSpielName(String spielName) {
 		this.spielName = spielName;
+	}
+	
+	public Figur[][] getFigurListe() {
+		return figurListe;
+	}
+
+	public Figur[][] getFigur() {
+		return figur;
 	}
 }

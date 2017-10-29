@@ -1,9 +1,12 @@
 package com.superschach.superschach.gui;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.superschach.superschach.gui.Chat;
+import com.superschach.superschach.gui.GUI;
 
 import javafx.application.Application;
 

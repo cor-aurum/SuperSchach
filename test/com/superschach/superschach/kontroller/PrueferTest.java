@@ -5,10 +5,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.superschach.superschach.kontroller.Kontroller;
+import com.superschach.superschach.kontroller.Pruefer;
+
 public class PrueferTest {
 
 	Kontroller kontroller = KontrollerTests.testSpiel;
-	Pruefer pruefer =new Pruefer(kontroller, kontroller.figur, kontroller.figurListe);
+	Pruefer pruefer =new Pruefer(kontroller, kontroller.getFigur(), kontroller.getFigurListe());
 	@Test
 	public void testGerade() throws Exception {
 		assertTrue(pruefer.gerade(2, 2, 2, 4));

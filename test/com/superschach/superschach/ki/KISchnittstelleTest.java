@@ -1,8 +1,7 @@
 package com.superschach.superschach.ki;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.superschach.superschach.kontroller.figuren.Bauer;
@@ -18,10 +17,6 @@ public class KISchnittstelleTest {
 	
 	private static KISchnittstelle ki=KITests.testKi;
 	private static Spiel spiel = KITests.testSpiel;
-	@BeforeClass
-	public static void setUpClass() throws InterruptedException {
-
-	}
 
 	@Test
 	public void testWert() throws Exception {
