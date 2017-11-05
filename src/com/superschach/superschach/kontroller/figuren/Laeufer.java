@@ -84,7 +84,7 @@ public class Laeufer extends Figur
     
     public String toString()
     {
-        return "L�ufer";
+        return "Läufer";
     }
 
 	@Override

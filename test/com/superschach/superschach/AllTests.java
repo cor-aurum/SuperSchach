@@ -8,6 +8,7 @@ import com.superschach.superschach.gui.GUITests;
 import com.superschach.superschach.ki.KISchnittstelle;
 import com.superschach.superschach.ki.KITests;
 import com.superschach.superschach.kontroller.KontrollerTests;
+import com.superschach.superschach.kontroller.figuren.FigurenTests;
 import com.superschach.superschach.spiel.AbstractGUI;
 import com.superschach.superschach.spiel.Spiel;
 
@@ -15,7 +16,8 @@ import com.superschach.superschach.spiel.Spiel;
 @SuiteClasses({ 
 	GUITests.class,
 	KITests.class,
-	KontrollerTests.class
+	KontrollerTests.class,
+	FigurenTests.class
 	})
 
 public class AllTests {

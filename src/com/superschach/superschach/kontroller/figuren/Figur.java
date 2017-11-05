@@ -296,21 +296,6 @@ public abstract class Figur// extends Pr�fer
     	versetzen(x,y);
     }
     
-    public Figur clone(Kontroller zielKontroller)
-    {
-    	Figur neu=null;
-    	try
-		{
-			neu=(Figur) clone();
-		} catch (CloneNotSupportedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	neu.kontroller=zielKontroller;
-    	return neu;
-    }
-    
     public abstract boolean zugMoeglich(int x,int y);
     public int moeglicheZiele(){return 0;}
 
