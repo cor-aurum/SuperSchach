@@ -274,7 +274,7 @@ public abstract class Kontroller {
 		return ret;
 	}
 
-	private int zugNummer() // verhinder out of bounds Exception / �berlauf
+	private int zugNummer() // verhindert out of bounds Exception / Überlauf
 	{
 		int zug = zuganzahl;
 		while (!(zug < verlauf.length)) {

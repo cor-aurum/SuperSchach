@@ -26,11 +26,6 @@ public class TurmTest {
 	}
 	
 	@Test
-	public void testMoeglicheZiele() throws Exception {
-		assertEquals(0, turm.moeglicheZiele());
-	}
-	
-	@Test
 	public void testGetCode() throws Exception {
 		assertEquals('r', turm.getCode());
 	}

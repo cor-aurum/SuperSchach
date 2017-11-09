@@ -37,11 +37,6 @@ public class KoenigTest {
 	}
 	
 	@Test
-	public void testMoeglicheZiele() throws Exception {
-		assertEquals(0, koenig.moeglicheZiele());
-	}
-	
-	@Test
 	public void testGetCode() throws Exception {
 		assertEquals('k', koenig.getCode());
 	}

@@ -31,11 +31,6 @@ public class SpringerTest {
 	}
 	
 	@Test
-	public void testMoeglicheZiele() throws Exception {
-		assertEquals(0, springer.moeglicheZiele());
-	}
-	
-	@Test
 	public void testGetCode() throws Exception {
 		assertEquals('n', springer.getCode());
 	}

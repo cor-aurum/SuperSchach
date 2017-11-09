@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import com.superschach.superschach.kontroller.figuren.Figur;
 
 /**
- * Write a description of class Pr�fer here.
+ * Write a description of class Prüfer here.
  * 
  * @author (your name)
  * @version (a version number or a date)
@@ -155,7 +155,7 @@ public class Pruefer {
 				}
 				if (figur[zielx][ziely] == null)
 					logger.debug(posx + " " + posy + " " + zielx + " " + ziely);
-				figur[zielx][ziely].versetzen(posx, posy); // r�ckg�ngig
+				figur[zielx][ziely].versetzen(posx, posy); // rückgängig
 															// machen
 				figur[posx][posy].setzeBewegt(bewegt); // bewegt
 														// wiederherstellen
@@ -163,7 +163,7 @@ public class Pruefer {
 					figur[zielx][ziely] = ziel;
 					figurListe[(1 - ziel.gebePlayer()) / 2][ziel.gebeIndex()] = ziel;
 				}
-				if (zweitesziel)// ziel2!=null&&(((ziely==2)&&(kontroller.inhalt(posx,posy)==-8))||((ziely==5)&&(kontroller.inhalt(posx,posy)==8))))
+				if (zweitesziel)
 				{
 					figur[zielx][ziely - kontroller.vorzeichen(posx, posy)] = ziel2;
 					if (ziel2 != null)

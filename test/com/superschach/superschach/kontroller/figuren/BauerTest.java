@@ -28,11 +28,6 @@ public class BauerTest {
 	}
 	
 	@Test
-	public void testMoeglicheZiele() throws Exception {
-		assertEquals(0, bauer.moeglicheZiele());
-	}
-	
-	@Test
 	public void testGetCode() throws Exception {
 		assertEquals('p', bauer.getCode());
 	}

@@ -27,11 +27,6 @@ public class LaeuferTest {
 	}
 	
 	@Test
-	public void testMoeglicheZiele() throws Exception {
-		assertEquals(0, laeufer.moeglicheZiele());
-	}
-	
-	@Test
 	public void testGetCode() throws Exception {
 		assertEquals('b', laeufer.getCode());
 	}
