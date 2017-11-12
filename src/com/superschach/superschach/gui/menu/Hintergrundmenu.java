@@ -26,8 +26,7 @@ public class Hintergrundmenu extends Menu {
 		pick_oben.valueProperty().addListener(new ChangeListener<Color>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Color> arg0,
-					Color arg1, Color arg2) {
+			public void changed(ObservableValue<? extends Color> arg0, Color arg1, Color arg2) {
 				gUI.getVonFarbe().setValue(toRGBCode(arg2));
 				gUI.getEinstellungen().speichern();
 			}
@@ -37,8 +36,7 @@ public class Hintergrundmenu extends Menu {
 		pick_unten.valueProperty().addListener(new ChangeListener<Color>() {
 
 			@Override
-			public void changed(ObservableValue<? extends Color> arg0,
-					Color arg1, Color arg2) {
+			public void changed(ObservableValue<? extends Color> arg0, Color arg1, Color arg2) {
 				gUI.getBisFarbe().setValue(toRGBCode(arg2));
 				gUI.getEinstellungen().speichern();
 			}
@@ -47,25 +45,18 @@ public class Hintergrundmenu extends Menu {
 
 		HBox boxHintergrund = new HBox();
 
-		boxHintergrund.getChildren().addAll(pick_oben, new Separator(),
-				pick_unten);
-		
+		boxHintergrund.getChildren().addAll(pick_oben, new Separator(), pick_unten);
+
 		hintergrund = new ComboBox<String>();
-		hintergrund.getItems().setAll("glas","gras","marmor","holz");
+		hintergrund.getItems().setAll("glas", "gras", "marmor", "holz");
 		hintergrund.setValue(gUI.getHintergrund());
 		hintergrund.valueProperty().addListener(new ChangeListener<String>() {
 
 			@Override
-			public void changed(ObservableValue<? extends String> arg0,
-					String arg1, String arg2) {
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
 				gUI.setHintergrund(hintergrund.getValue());
-				try{
-					gUI.feld.aktualisiereMap();
-				}
-				catch(Exception e)
-				{
-					
-				}
+				gUI.feld.aktualisiereMap();
+
 				gUI.getEinstellungen().speichern();
 			}
 		});
@@ -78,8 +69,8 @@ public class Hintergrundmenu extends Menu {
 	}
 
 	public String toRGBCode(Color color) {
-		return String.format("#%02X%02X%02X", (int) (color.getRed() * 255),
-				(int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
+		return String.format("#%02X%02X%02X", (int) (color.getRed() * 255), (int) (color.getGreen() * 255),
+				(int) (color.getBlue() * 255));
 	}
 
 }
