@@ -7,13 +7,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 public class Hintergrundmenu extends Menu {
-	ColorPicker pick_oben;
-	ColorPicker pick_unten;
+	private ColorPicker pick_oben;
+	private ColorPicker pick_unten;
+	private ComboBox<String> hintergrund;
 
 	public Hintergrundmenu(GUI gUI) {
 		super(gUI, AbstractGUI.meldung("hintergrund"));
@@ -47,7 +49,27 @@ public class Hintergrundmenu extends Menu {
 
 		boxHintergrund.getChildren().addAll(pick_oben, new Separator(),
 				pick_unten);
-		addInhalt(new Node[] { boxHintergrund });
+		
+		hintergrund = new ComboBox<String>();
+		hintergrund.getItems().setAll("glas","gras","marmor","holz");
+		hintergrund.setValue(gUI.getHintergrund());
+		hintergrund.valueProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> arg0,
+					String arg1, String arg2) {
+				gUI.setHintergrund(hintergrund.getValue());
+				try{
+					gUI.feld.aktualisiereMap();
+				}
+				catch(Exception e)
+				{
+					
+				}
+				gUI.getEinstellungen().speichern();
+			}
+		});
+		addInhalt(new Node[] { boxHintergrund, hintergrund });
 	}
 
 	@Override

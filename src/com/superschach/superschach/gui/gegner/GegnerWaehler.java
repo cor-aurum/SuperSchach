@@ -50,7 +50,7 @@ public class GegnerWaehler extends Fenster {
 		rechts = new GegnerMenu(gUI, "schwarz", this);
 		pane.setLeft(links);
 		pane.setRight(rechts);
-		pane.setBottom(herausforderung);
+		pane.setCenter(herausforderung);
 		BorderPane.setAlignment(herausforderung, Pos.CENTER);
 		// links.prefWidthProperty().bind(this.widthProperty().divide(2));
 		// rechts.prefWidthProperty().bind(this.widthProperty().divide(2));

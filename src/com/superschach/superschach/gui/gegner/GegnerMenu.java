@@ -150,7 +150,7 @@ public class GegnerMenu extends Fenster {
 
 		public void listener(String s, long id, String farbe) {
 			Detail d = new Detail(gUI, id, farbe, s, GegnerMenu.this);
-			pane.setRight(d);
+			pane.setBottom(d);
 			BorderPane.setAlignment(d, Pos.CENTER);
 		}
 	}

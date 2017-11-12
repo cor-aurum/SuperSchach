@@ -109,9 +109,9 @@
 }
 
 #waehler {
-	-fx-font-size: 28;
+	-fx-font-size: 20;
 	-fx-font-weight: bold;
-	-fx-padding: 30px;
+	-fx-padding: 15px;
 	-fx-background-color: rgba(0, 100, 100, 1);
 	-fx-background-radius: 10;
 	-fx-text-fill: #ffffff;

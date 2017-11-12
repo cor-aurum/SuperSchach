@@ -159,35 +159,6 @@ public class Einstellungen extends Fenster {
 	}
 
 	public void speichern() {
-		// try {
-		// BufferedWriter br = new BufferedWriter(new
-		// FileWriter(AbstractGUI.verzeichnis() + "gui.save"));
-		// br.write(gUI.getHintergrund());
-		// br.write(System.getProperty("line.separator"));
-		// br.write(toRGBCode(gUI.getFarbe_weiss().getValue()));
-		// br.write(System.getProperty("line.separator"));
-		// br.write(toRGBCode(gUI.getFarbe_schwarz().getValue()));
-		// br.write(System.getProperty("line.separator"));
-		// br.write(gUI.getName());
-		// br.write(System.getProperty("line.separator"));
-		// br.write("" + gUI.getSounds().getValue());
-		// br.write(System.getProperty("line.separator"));
-		// br.write("" + gUI.getZweid().getValue());
-		// br.write(System.getProperty("line.separator"));
-		// br.write(gUI.form);
-		// br.write(System.getProperty("line.separator"));
-		// br.write(gUI.getVonFarbe().getValue());
-		// br.write(System.getProperty("line.separator"));
-		// br.write(gUI.getBisFarbe().getValue());
-		// br.write(System.getProperty("line.separator"));
-		// br.write("" + gUI.getStage().isFullScreen());
-		// br.write(System.getProperty("line.separator"));
-		// br.write("" + gUI.getCss().getValue());
-		// br.flush();
-		// br.close();
-		// } catch (IOException e) {
-		// gUI.spiel.meldungAusgeben(AbstractGUI.meldung("speichernFehlgeschlagen"));
-		// }
 		try {
 			Properties guis = new Properties();
 			guis.setProperty("hintergrund", gUI.getHintergrund());
