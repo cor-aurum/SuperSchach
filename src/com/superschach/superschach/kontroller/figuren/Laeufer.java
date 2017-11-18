@@ -32,4 +32,9 @@ public class Laeufer extends Figur
 	public char getCode() {
 		return 'b';
 	}
+
+	@Override
+	public int getWert() {
+		return 3*vorzeichen();
+	}
 }

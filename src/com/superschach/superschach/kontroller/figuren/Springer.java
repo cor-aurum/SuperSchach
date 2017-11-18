@@ -36,5 +36,12 @@ public class Springer extends Figur
 	public char getCode() {
 		return 'n';
 	}
+
+
+
+	@Override
+	public int getWert() {
+		return 3*vorzeichen();
+	}
 }
 

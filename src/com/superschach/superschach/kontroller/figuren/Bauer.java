@@ -87,4 +87,9 @@ public class Bauer extends Figur {
 	public char getCode() {
 		return 'p';
 	}
+
+	@Override
+	public int getWert() {
+		return 1*vorzeichen();
+	}
 }

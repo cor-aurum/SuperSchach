@@ -247,6 +247,8 @@ public abstract class Figur// extends Pr�fer
 
 	public void rochade(int x, int y) {
 	}
+	
+	public abstract int getWert();
 
 	public boolean enPassantMoeglich(int x, int y) {
 		return false;

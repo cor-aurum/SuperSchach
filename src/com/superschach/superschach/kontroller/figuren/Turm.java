@@ -34,4 +34,9 @@ public class Turm extends Figur {
 	public char getCode() {
 		return 'r';
 	}
+
+	@Override
+	public int getWert() {
+		return 5*vorzeichen();
+	}
 }

@@ -114,4 +114,9 @@ public class Koenig extends Figur {
 	public char getCode() {
 		return 'k';
 	}
+
+	@Override
+	public int getWert() {
+		return Integer.MAX_VALUE*vorzeichen();
+	}
 }

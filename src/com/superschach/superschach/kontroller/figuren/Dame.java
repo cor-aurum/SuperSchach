@@ -34,4 +34,9 @@ public class Dame extends Figur
 	public char getCode() {
 		return 'q';
 	}
+
+	@Override
+	public int getWert() {
+		return 9*vorzeichen();
+	}
 }
