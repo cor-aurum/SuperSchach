@@ -1,14 +1,15 @@
 package com.superschach.superschach.kontroller.figuren;
 
+import java.util.ArrayList;
+
 import com.superschach.superschach.kontroller.Kontroller;
 
 /**
  * 
- * @author Jan Hofmeier, Felix Sch�tze
+ * @author Jan Hofmeier, Felix Schütze
  * @version (a version number or a date)
  */
-public abstract class Figur// extends Pr�fer
-{
+public abstract class Figur {
 	private int bewegt;
 	private int posx;
 	private int posy;
@@ -90,6 +91,18 @@ public abstract class Figur// extends Pr�fer
 
 	public byte vorzeichen() {
 		return player;
+	}
+
+	public ArrayList<int[]> getMoeglicheZuege() {
+		ArrayList<int[]> ret = new ArrayList<int[]>();
+		for (int i = 0; i < kontroller.XMax; i++) {
+			for (int j = 0; j < kontroller.YMax; j++) {
+				if (zugMoeglich(i, j)) {
+					ret.add(new int[] {i,j});
+				}
+			}
+		}
+		return ret;
 	}
 
 	public void versetzen(int x, int y) {
@@ -247,7 +260,7 @@ public abstract class Figur// extends Pr�fer
 
 	public void rochade(int x, int y) {
 	}
-	
+
 	public abstract int getWert();
 
 	public boolean enPassantMoeglich(int x, int y) {
