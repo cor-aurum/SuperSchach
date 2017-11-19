@@ -60,38 +60,33 @@ public class Individuum {
 	 * @return Zufälliges Individuum
 	 */
 	public static Individuum createZufall(Kontroller kontroller, int hop) {
-		boolean erfolg = false;
 		byte xa = 0, ya = 0, xn = 0, yn = 0;
-		xa = 0;
-		ya = 0;
-		xn = 0;
-		yn = 0;
-		Figur f = null;
-		while (!erfolg) {
-			do {
-				do {
-					f = kontroller.getFigurListe()[(int) (Math.random() * 1)][(int) (Math.random()
-							* kontroller.getFigurListe()[0].length)];
-					kontroller.getFigurListe();
-				} while (f == null);
-				xa = (byte) f.gebePosX();
-				ya = (byte) f.gebePosY();
-			} while (kontroller.inhaltFaktor(xa, ya) <= 0);
-			ArrayList<int[]> list = f.getMoeglicheZuege();
-			do {
-				if (list.size() == 0) {
-					erfolg = false;
-					break;
-				}
-				int[] t = list.get((int) (Math.random() * list.size()));
-				list.remove(t);
-				xn = (byte) (t[0]);
-				yn = (byte) (t[1]);
-				erfolg = true;
-			} while (kontroller.zugMoeglich(xa, ya, xn, yn) <= 0);
+		ArrayList<Figur> figuren = new ArrayList<Figur>();
+		for (Figur[] f0 : kontroller.getFigurListe()) {
+			for (Figur f : f0) {
+				if (f != null)
+					figuren.add(f);
+			}
 		}
-		if (xa + ya + xn + yn == 0)
-			return null;
+		while (kontroller.zugMoeglich(xa, ya, xn, yn) <= 0) {
+			if (figuren.isEmpty()) {
+				System.out.println("Keine Züge möglich");
+				return null;
+			}
+			Figur f = null;
+			f = figuren.get((int) (Math.random() * figuren.size()));
+			xa = (byte) f.gebePosX();
+			ya = (byte) f.gebePosY();
+			ArrayList<int[]> list = f.getMoeglicheZuege();
+			if (list.isEmpty()) {
+				figuren.remove(f);
+				continue;
+			}
+			int[] t = list.get((int) (Math.random() * list.size()));
+			list.remove(t);
+			xn = (byte) (t[0]);
+			yn = (byte) (t[1]);
+		}
 		return new Individuum(xa, ya, xn, yn, kontroller, hop);
 	}
 }
