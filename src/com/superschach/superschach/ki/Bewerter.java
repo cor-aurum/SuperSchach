@@ -1,4 +1,4 @@
-package com.superschach.superschach.ki.GenerikKi;
+package com.superschach.superschach.ki;
 
 import com.superschach.superschach.kontroller.figuren.Figur;
 

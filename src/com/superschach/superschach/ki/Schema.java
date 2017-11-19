@@ -1,4 +1,4 @@
-package com.superschach.superschach.ki.numerik.eroeffnung;
+package com.superschach.superschach.ki;
 
 /**
  * Diese Klasse ist im Rahmen meiner Studienarbeit entstanden

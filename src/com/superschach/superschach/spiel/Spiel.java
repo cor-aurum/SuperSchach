@@ -139,8 +139,9 @@ public class Spiel extends Kontroller {
 
 	public void waehleKI(int ki, byte spieler, String level) {
 		aktiviereKI(ki, spieler, level);
-		if (istKIAmZug() & (!matt()))
+		if (istKIAmZug() & (!matt())) {
 			kiSchleife();
+		}
 	}
 
 	public void waehleKIohneStart(int ki, byte spieler, String level) {

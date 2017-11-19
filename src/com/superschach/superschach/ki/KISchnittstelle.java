@@ -1,7 +1,6 @@
 package com.superschach.superschach.ki;
 
 import com.superschach.superschach.kontroller.Kontroller;
-import com.superschach.superschach.kontroller.figuren.Figur;
 
 /**
  * Write a description of class KISchnittstelle here.
@@ -26,40 +25,6 @@ public abstract class KISchnittstelle {
 			return kontroller.zug(posx, posy, zielx, ziely);
 		else
 			return false;
-	}
-
-	/**
-	 * public float[] brettWert() { float[] ret = new float[2]; ret[0]=0; ret[1]=0;
-	 * for(int i=0; i<8; i++) { for(int j=0; j<8; j++) { if(inhalt(i,j)>0) {
-	 * ret[0]=ret[0]+wert(i,j); } else { if(inhalt(i,j)<0) {
-	 * ret[1]=ret[1]-wert(i,j); } } } } return ret; }
-	 */
-
-	public int wert(Figur figur) {
-		int inhalt = figur.nummer;
-		if (inhalt == 8) // Switch case w�r besser
-			return 100;
-		else {
-			if (inhalt == 2) {
-				return 300;
-			} else {
-				if (inhalt == 4) {
-					return 300;
-				} else {
-					if (inhalt == 1)
-						return 500;
-					else {
-						if (inhalt == 3)
-							return 900;
-						else {
-							if (inhalt == 6)
-								return 600;
-						}
-					}
-				}
-			}
-		}
-		return 0;
 	}
 
 	public byte player() {

@@ -117,6 +117,6 @@ public class Koenig extends Figur {
 
 	@Override
 	public int getWert() {
-		return Integer.MAX_VALUE*vorzeichen();
+		return 100000*vorzeichen();
 	}
 }

@@ -1,8 +1,9 @@
 package com.superschach.superschach.kontroller;
 
-import com.superschach.superschach.kontroller.figuren.*;
+import com.superschach.superschach.kontroller.figuren.Figur;
 
 public class KIKontroller extends Kontroller {
+	
 	public KIKontroller(Figur[][] figur, Figur[] koenig) {
 		super(figur, koenig);
 		this.koenig = koenig;

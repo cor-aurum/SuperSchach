@@ -42,6 +42,11 @@ public class KISpieler {
 			ret = true;
 			// spiel.setKISpieler(this, (byte) (1-farbe));
 			break;
+		case 5:
+			this.spieler = new GenetikKi();
+			name = "GenetikKI";
+			ret = true;
+			break;
 		default:
 			name = "";
 			break;

@@ -1,8 +1,5 @@
-package com.superschach.superschach.ki.numerik;
+package com.superschach.superschach.ki;
 
-import com.superschach.superschach.ki.KI;
-import com.superschach.superschach.ki.KISchnittstelle;
-import com.superschach.superschach.ki.Zug;
 import com.superschach.superschach.kontroller.Kontroller;
 
 

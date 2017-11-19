@@ -19,7 +19,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 	int[][][] ziele;
 	short pfade[][][];
 	public final static boolean debug = false;
-	int level = 3; // denkt level + 1 Z�ge vorraus
+	int level = 3; // denkt level + 1 Züge vorraus
 	private Logger logger=Logger.getLogger(MultiThreadKI.class);
 
 	/**
@@ -134,12 +134,6 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 					}
 				}
 			}
-
-			// System.out.println("Alles ausgewertet, versuche zug");
-			// boolean ret=
-			// zug(besterZug[0],besterZug[1],besterZug[2],besterZug[3]);
-			// boolean ret = false;
-			// testKontroller.aktualisieren=true;
 			if ((posx[0] >= 0) & (posy[0] >= 0) & (zielx[0] >= 0)
 					& (ziely[0] >= 0))
 			{
@@ -162,33 +156,11 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 						}
 						zugAusgabe(aPfade);
 					}
-					/*
-					 * //System.out.println(posx[r]+""+ posy[r]+""+ zielx[r]+""+
-					 * ziely[r] +": " +ergebnis); System.out.println(ergebnis
-					 * +":"); for(int i=level-1; i>=0; i--) {
-					 * zugAusgabe(Integer.parseInt(aPfade
-					 * [0].charAt(i)+""),Integer.parseInt
-					 * (aPfade[1].charAt(i)+""),Integer
-					 * .parseInt(aPfade[2].charAt(i)+
-					 * ""),Integer.parseInt(aPfade[3].charAt(i)+"")); }
-					 * //System.out.println("\nPosX : "+ aPfade[0]+" \nPosY : "
-					 * +aPfade[1]+" \nZielX: " +aPfade[2]+" \nZielY: "
-					 * +aPfade[3] +": " +ergebnis);
-					 */
 				}
-				/*
-				 * if (((ziely[r] == 0) || (kontroller.YMax == ziely[r])) &&
-				 * (inhalt(zielx[r], ziely[r]) == 8))
-				 * kontroller.machDame(zielx[r], ziely[r]);
-				 */
 			}
 
 			else
 				logger.warn("Fehler in der MultiThreadKI");
-
-			/*
-			 * if(wertPruefer()<=20) { level=6; }
-			 */
 			if (debug)
 				kontroller.meldungAusgeben(
 						((System.currentTimeMillis() - time) / 1000) + "");
@@ -230,10 +202,6 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 			short pfady = 0;
 			short pfadzx = 0;
 			short pfadzy = 0;
-
-			// KIKontroller verKontroller;
-			// if (debug)
-			// verKontroller = new KIKontroller(testKontroller);
 			for (int k = 0; k <= kontroller.XMax; k++)
 			{
 				for (int l = 0; l <= kontroller.YMax; l++)
@@ -307,11 +275,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 			}
 		}
 
-		private int teste(int zuege) // direkter ungepr�fter zugriff aus
-										// Performence Gr�nden, wenn
-										// Kontroller
-										// sauber Programmiert ist sollte nichts
-										// schief gehen...
+		private int teste(int zuege)
 		{
 			zuege--;
 			short pfadx = 0;
@@ -367,7 +331,6 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 								pfade[this.i][this.j][3] = 0;
 								}
 							}
-							// testKontroller.ladeVerlauf();
 
 							if (debug)
 								testKontroller.equals(verKontroller);
@@ -400,7 +363,7 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 				neuergebnis = 0;
 				if (z == 2)
 				{
-					neuergebnis = wert(testFigur[k][l]);
+					neuergebnis = new Bewerter().bewerte(testFigur);
 				}
 				if (zuege > 0)
 				{
@@ -411,10 +374,8 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 						int bewegt = testFigur[i][j].bewegt();
 						testFigur[i][j].versetzen(k, l);
 						neuergebnis -= teste(zuege);
-						testFigur[k][l].versetzen(i, j); // r�ckg�ngig
-															// machen
-						testFigur[i][j].setzeBewegt(bewegt); // bewegt
-																// wiederherstellen
+						testFigur[k][l].versetzen(i, j);
+						testFigur[i][j].setzeBewegt(bewegt);
 						// testFigur[k][l]=ziel;
 						if (ziel != null)
 						{
@@ -463,49 +424,4 @@ public class MultiThreadKI extends KISchnittstelle implements KI
 			return neuergebnis;
 		}
 	}
-
-	public int wert(Figur figur)
-	{
-		int inhalt = figur.nummer;
-		if (inhalt == 8) // Switch case w�r besser
-			return 100;
-		else
-		{
-			if (inhalt == 2)
-			{
-				/*
-				 * int counter = 0; for (int i = 0; i < 8; i++) // noch
-				 * fehlerhaft { for (int j = 0; j < 8; j++) { if (figur.nummer
-				 * == 2) { counter++; if (counter == 4) { // return 3.5F; } } }
-				 * }
-				 */
-				return 300;
-			} else
-			{
-				if (inhalt == 4)
-				{
-					return 300;
-				} else
-				{
-					if (inhalt == 1)
-						return 500;
-					else
-					{
-						if (inhalt == 3)
-							return 900;
-					}
-				}
-			}
-		}
-		// System.out.println("das haette nicht passieren duerfen");
-		return 0;
-	}
-
-	@Override
-	public void tellMatt(Kontroller spiel)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 }

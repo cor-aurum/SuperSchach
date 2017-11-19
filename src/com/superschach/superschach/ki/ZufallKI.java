@@ -3,9 +3,8 @@ package com.superschach.superschach.ki;
 import com.superschach.superschach.kontroller.Kontroller;
 
 /**
- * Eine KI extra f&uuml;r den Sven...
  * 
- * @author Felix Sch&uuml;tze //ist dir das nicht peinlich hier zu stehen?
+ * @author Felix Sch&uuml;tze
  * @version (a version number or a date)
  */
 public class ZufallKI implements KI
@@ -35,7 +34,7 @@ public class ZufallKI implements KI
 			ya = 0;
 			xn = 0;
 			yn = 0;
-			// jetzt sollte er auch als wei� spielen k�nnen
+			// jetzt sollte er auch als weiß spielen können
 			do
 			{
 				xa = (int) (Math.random() * 8);

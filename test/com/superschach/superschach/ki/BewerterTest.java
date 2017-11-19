@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.superschach.superschach.ki.GenerikKi.Bewerter;
 import com.superschach.superschach.kontroller.Pruefer;
 import com.superschach.superschach.kontroller.figuren.Bauer;
 import com.superschach.superschach.kontroller.figuren.Dame;
