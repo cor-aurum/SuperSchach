@@ -53,20 +53,19 @@ public abstract class AbstractGUI {
 		} else {
 			spiel = new Spiel(this);
 		}
-		
+
 		loadProps("Settings", props);
 		loadProps("Ausgaben", ausga);
 		loadProps("GUI", guis);
 	}
-	
-	private void loadProps(String s, Properties p)
-	{
+
+	private void loadProps(String s, Properties p) {
 		FileInputStream in;
 		try {
-			if (!new File(verzeichnis() + s+".properties").exists()) {
+			if (!new File(verzeichnis() + s + ".properties").exists()) {
 				createProp(s);
 			}
-			in = new FileInputStream(verzeichnis() + s+".properties");
+			in = new FileInputStream(verzeichnis() + s + ".properties");
 			p.load(in);
 			in.close();
 		} catch (Exception e) {
@@ -96,7 +95,7 @@ public abstract class AbstractGUI {
 	public static String meldung(String key) {
 		return keyToProp(key, ausga, "Ausgaben");
 	}
-	
+
 	public static String guiProp(String key) {
 		return keyToProp(key, guis, "GUI");
 	}
@@ -104,9 +103,8 @@ public abstract class AbstractGUI {
 	public static String prop(String key) {
 		return keyToProp(key, props, "Settings");
 	}
-	
-	private static String keyToProp(String key, Properties p, String s)
-	{
+
+	private static String keyToProp(String key, Properties p, String s) {
 		try {
 			if (!p.getProperty(key).isEmpty())
 				return p.getProperty(key);
@@ -190,14 +188,12 @@ public abstract class AbstractGUI {
 			spiel.entscheider(x, y);
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @author felix
-	 * Thread um die Bewegung sichtbar zu machen
+	 * @author felix Thread um die Bewegung sichtbar zu machen
 	 */
-	private class SpielThread extends Thread implements Runnable
-	{
+	private class SpielThread extends Thread implements Runnable {
 		public void run() {
 			spiel.entscheider(x, y);
 		}
@@ -220,18 +216,23 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Setzt eine KI für einen Spieler ein
-	 * @param nummer Nummer der KI. 0 ist keine KI, ansonsten sind diese durchnummeriert
-	 * @param spieler Spieler für den die KI spielen soll
-	 * @param level Parameter für die KI
+	 * 
+	 * @param nummer
+	 *            Nummer der KI. 0 ist keine KI, ansonsten sind diese
+	 *            durchnummeriert
+	 * @param spieler
+	 *            Spieler für den die KI spielen soll
+	 * @param level
+	 *            Parameter für die KI
 	 */
-	public void ki(int nummer, int spieler, String level)
-	{
+	public void ki(int nummer, int spieler, String level) {
 		kiThread = new KIThread(nummer, spieler, level);
 		kiThread.start();
 	}
 
 	/**
-	 * Thread in dem eine KI läuft. 
+	 * Thread in dem eine KI läuft.
+	 * 
 	 * @author felix
 	 *
 	 */
@@ -254,6 +255,7 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Angabe, ob Spiel in einem eigenen Thread laufen soll
+	 * 
 	 * @return boolean
 	 */
 	public abstract boolean sollThread();
@@ -265,7 +267,9 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Fordert die KI auf einen Zug zu machen
-	 * @param i Nummer der KI
+	 * 
+	 * @param i
+	 *            Nummer der KI
 	 * @return Erfolg
 	 */
 	public boolean ki(int i) {
@@ -275,7 +279,9 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Aktiviere eine KI
-	 * @param k Nummer der KI
+	 * 
+	 * @param k
+	 *            Nummer der KI
 	 * @param spieler
 	 * @param level
 	 * @return
@@ -286,7 +292,9 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Aktiviere eine KI
-	 * @param ki bestehende KI
+	 * 
+	 * @param ki
+	 *            bestehende KI
 	 * @param spieler
 	 * @param name
 	 * @return
@@ -297,7 +305,9 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Speichert das Log in eine Datei
-	 * @param f Speicherort
+	 * 
+	 * @param f
+	 *            Speicherort
 	 * @return Erfolg
 	 */
 	public boolean logSpeichern(File f) {
@@ -330,7 +340,9 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Speichert ein Spiel in eine Datei
-	 * @param f Speicherort
+	 * 
+	 * @param f
+	 *            Speicherort
 	 * @return Erfolg
 	 */
 	public boolean speichern(File f) {
@@ -339,7 +351,8 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Lädt ein Spiel aus einem InputStream
-	 * @param stream 
+	 * 
+	 * @param stream
 	 * @throws Exception
 	 */
 	public void laden(InputStream stream) throws Exception {
@@ -350,6 +363,7 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Gibt zurück, welche Figuren bereits geworfen wurden (ids)
+	 * 
 	 * @return geworfene Figuren
 	 */
 	public int[] getGeworfen() {
@@ -358,7 +372,9 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Übersetzt ein Schachprotokoll für den Kontroller
-	 * @param s Schachprotokoll
+	 * 
+	 * @param s
+	 *            Schachprotokoll
 	 */
 	public void uebersetzen(String s) {
 		spiel.uebersetzen(s);
@@ -366,7 +382,9 @@ public abstract class AbstractGUI {
 
 	/**
 	 * Erkennt, ob ein Spieler von einer KI gesteuert wird
-	 * @param player Spieler auf den sich die Nachfrage bezieht
+	 * 
+	 * @param player
+	 *            Spieler auf den sich die Nachfrage bezieht
 	 * @return ja oder nein
 	 */
 	public boolean istKI(int player) {

@@ -61,32 +61,36 @@ public class Individuum {
 	 */
 	public static Individuum createZufall(Kontroller kontroller, int hop) {
 		byte xa = 0, ya = 0, xn = 0, yn = 0;
-		ArrayList<Figur> figuren = new ArrayList<Figur>();
-		for (Figur[] f0 : kontroller.getFigurListe()) {
-			for (Figur f : f0) {
+		ArrayList<int[]> list = new ArrayList<int[]>();
+		boolean erfolg = false;
+		for (Figur[] f0 : kontroller.getFigurListe())
+			for (Figur f : f0)
 				if (f != null)
-					figuren.add(f);
-			}
-		}
-		while (kontroller.zugMoeglich(xa, ya, xn, yn) <= 0) {
-			if (figuren.isEmpty()) {
+					for (int[] komb : f.getMoeglicheZuege())
+						list.add(new int[] { f.gebePosX(), f.gebePosY(), komb[0], komb[1] });
+
+		do {
+			if (list.isEmpty()) {
 				System.out.println("Keine Züge möglich");
 				return null;
 			}
-			Figur f = null;
-			f = figuren.get((int) (Math.random() * figuren.size()));
-			xa = (byte) f.gebePosX();
-			ya = (byte) f.gebePosY();
-			ArrayList<int[]> list = f.getMoeglicheZuege();
-			if (list.isEmpty()) {
-				figuren.remove(f);
-				continue;
+			int[] zug = list.get((int) (Math.random() * list.size()));
+			xa = (byte) zug[0];
+			ya = (byte) zug[1];
+			xn = (byte) zug[2];
+			yn = (byte) zug[3];
+			if (kontroller.zugMoeglich(xa, ya, xn, yn) > 0) {
+				erfolg = true;
+			} else {
+				list.remove(zug);
 			}
-			int[] t = list.get((int) (Math.random() * list.size()));
-			list.remove(t);
-			xn = (byte) (t[0]);
-			yn = (byte) (t[1]);
-		}
+		} while (!erfolg);
 		return new Individuum(xa, ya, xn, yn, kontroller, hop);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "Individuum: x="+vonX+" y="+vonY+" x'="+bisX+" y'="+bisY;
 	}
 }
