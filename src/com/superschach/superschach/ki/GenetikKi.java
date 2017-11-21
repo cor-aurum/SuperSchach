@@ -26,7 +26,7 @@ public class GenetikKi implements KI {
 		if (pop == null) {
 			pop = new Population(spiel);
 		} else {
-			pop.ersetzeUnmoegliche();
+			pop.ersetzeUnmoegliche(spiel);
 		}
 		Individuum i = pop.getBestes();
 		logger.debug("Sende Zug: " + i.getVonX() + " " + i.getVonY() + " " + i.getBisX() + " " + i.getBisY());

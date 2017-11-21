@@ -3,7 +3,6 @@ package com.superschach.superschach.ki;
 import java.util.ArrayList;
 
 import com.superschach.superschach.kontroller.Kontroller;
-import com.superschach.superschach.kontroller.figuren.Figur;
 
 /**
  * Diese Klasse ist im Rahmen meiner Studienarbeit entstanden
@@ -59,19 +58,12 @@ public class Individuum {
 	 * 
 	 * @return Zufälliges Individuum
 	 */
-	public static Individuum createZufall(Kontroller kontroller, int hop) {
+	public static Individuum createZufall(Kontroller kontroller, int hop, ArrayList<int[]> list) {
 		byte xa = 0, ya = 0, xn = 0, yn = 0;
-		ArrayList<int[]> list = new ArrayList<int[]>();
 		boolean erfolg = false;
-		for (Figur[] f0 : kontroller.getFigurListe())
-			for (Figur f : f0)
-				if (f != null)
-					for (int[] komb : f.getMoeglicheZuege())
-						list.add(new int[] { f.gebePosX(), f.gebePosY(), komb[0], komb[1] });
 
 		do {
 			if (list.isEmpty()) {
-				System.out.println("Keine Züge möglich");
 				return null;
 			}
 			int[] zug = list.get((int) (Math.random() * list.size()));
@@ -81,16 +73,21 @@ public class Individuum {
 			yn = (byte) zug[3];
 			if (kontroller.zugMoeglich(xa, ya, xn, yn) > 0) {
 				erfolg = true;
-			} else {
-				list.remove(zug);
 			}
+			list.remove(zug);
 		} while (!erfolg);
 		return new Individuum(xa, ya, xn, yn, kontroller, hop);
 	}
-	
+
 	@Override
-	public String toString()
-	{
-		return "Individuum: x="+vonX+" y="+vonY+" x'="+bisX+" y'="+bisY;
+	public String toString() {
+		return "Individuum: x=" + vonX + " y=" + vonY + " x'=" + bisX + " y'=" + bisY;
+	}
+
+	public void ersetzeUnmoegliche(Kontroller kontroller) {
+		this.kontroller = kontroller;
+		if (population != null)
+			population.ersetzeUnmoegliche(kontroller);
+
 	}
 }

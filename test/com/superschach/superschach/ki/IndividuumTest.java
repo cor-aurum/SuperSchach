@@ -20,7 +20,7 @@ public class IndividuumTest {
 	@Test
 	public void testCreateZufall() throws Exception {
 		Kontroller kontroller = KontrollerTests.testSpiel;
-		Individuum i=Individuum.createZufall(kontroller, 1);
+		Individuum i=Individuum.createZufall(kontroller, 1,new Population(kontroller).zaehleMoeglicheZuege());
 		assertNotEquals(null, i);
 		assertEquals(0, i.getWert());
 	}
