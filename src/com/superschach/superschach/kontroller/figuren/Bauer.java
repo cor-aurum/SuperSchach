@@ -80,7 +80,7 @@ public class Bauer extends Figur {
 	}
 
 	public String toString() {
-		return "Bauer";
+		return "Bauer"+" "+nummer+ " Spieler: "+gebePlayer();
 	}
 
 	@Override

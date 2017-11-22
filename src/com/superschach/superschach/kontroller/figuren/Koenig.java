@@ -107,7 +107,7 @@ public class Koenig extends Figur {
 	}
 
 	public String toString() {
-		return "König";
+		return "König"+" "+nummer+ " Spieler: "+gebePlayer();
 	}
 
 	@Override

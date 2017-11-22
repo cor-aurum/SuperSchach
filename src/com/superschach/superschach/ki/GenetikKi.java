@@ -14,22 +14,17 @@ public class GenetikKi implements KI {
 
 	private Logger logger = Logger.getLogger(GenetikKi.class);
 	private Population pop;
-	private static GenetikKi ich;
-
-	private GenetikKi() {
-		
-	}
 
 	@Override
 	public void zug(Kontroller spiel, Zug zug) throws Exception {
-		logger.debug("Starte Berechnung des Zuges für die Genetische KI");
+		logger.info("Starte Berechnung des Zuges für die Genetische KI");
 		if (pop == null) {
 			pop = new Population(spiel);
 		} else {
 			pop.ersetzeUnmoegliche(spiel);
 		}
-		Individuum i = pop.getBestes();
-		logger.debug("Sende Zug: " + i.getVonX() + " " + i.getVonY() + " " + i.getBisX() + " " + i.getBisY());
+		Individuum i = pop.getBestesMultithreaded();
+		logger.debug("Sende Zug: " + i.getVonX() + " " + i.getVonY() + " " + i.getBisX() + " " + i.getBisY()+". Erwarteter Wert: "+i.getWert());
 		zug.zug(i.getVonX(), i.getVonY(), i.getBisX(), i.getBisY());
 	}
 
@@ -37,12 +32,5 @@ public class GenetikKi implements KI {
 	public void tellMatt(Kontroller spiel) {
 		// TODO Auto-generated method stub
 
-	}
-	
-	public static GenetikKi create()
-	{
-		if(ich==null)
-			return new GenetikKi();
-		return ich;
 	}
 }

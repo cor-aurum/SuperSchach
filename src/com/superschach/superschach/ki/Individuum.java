@@ -17,6 +17,7 @@ public class Individuum {
 	private byte bisY;
 	private Population population;
 	private Kontroller kontroller;
+	private final int wert;
 
 	private Individuum(byte vonX, byte vonY, byte bisX, byte bisY, Kontroller kontroller, int hop) {
 		this.vonX = vonX;
@@ -29,6 +30,10 @@ public class Individuum {
 		if (hop > 0) {
 			population = new Population(kontroller, hop - 1);
 		}
+		if (population == null)
+			wert = new Bewerter().bewerte(kontroller.getFigur());
+		else
+			wert = population.getBestes().getWert();
 		kontroller.getFigur()[bisX][bisY].versetzen(vonX, vonY);
 	}
 
@@ -49,9 +54,7 @@ public class Individuum {
 	}
 
 	public int getWert() {
-		if (population == null)
-			return new Bewerter().bewerte(kontroller.getFigur());
-		return population.getBestes().getWert();
+		return wert;
 	}
 
 	/**

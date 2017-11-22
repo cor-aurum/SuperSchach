@@ -32,15 +32,15 @@ public class BewerterTest {
 				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
 		f[3] = new Laeufer(FigurenTests.testSpiel, 4, 4, (byte) -1,
 				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
-		Bewerter b=new Bewerter();
+		Bewerter b = new Bewerter();
 		assertEquals(4, b.minimax(f));
-		f[3]=null;
+		f[3] = null;
 		assertEquals(7, b.minimax(f));
-		f[3]=new Dame(FigurenTests.testSpiel, 4, 4, (byte) -1,
+		f[3] = new Dame(FigurenTests.testSpiel, 4, 4, (byte) -1,
 				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
 		assertEquals(-2, b.minimax(f));
 	}
-	
+
 	@Test
 	public void testBewerte() throws Exception {
 		Figur[][] f = new Figur[2][2];
@@ -52,13 +52,32 @@ public class BewerterTest {
 				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
 		f[1][1] = new Laeufer(FigurenTests.testSpiel, 4, 4, (byte) -1,
 				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
-		Bewerter b=new Bewerter();
+		Bewerter b = new Bewerter();
 		assertEquals(400, b.bewerte(f));
-		f[1][1]=null;
+		f[1][1] = null;
 		assertEquals(700, b.bewerte(f));
-		f[1][1]=new Dame(FigurenTests.testSpiel, 4, 4, (byte) -1,
+		f[1][1] = new Dame(FigurenTests.testSpiel, 4, 4, (byte) -1,
 				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
 		assertEquals(-200, b.bewerte(f));
 	}
 	
+	@Test
+	public void testDoppelbauer() throws Exception {
+		Figur[][] f = new Figur[8][8];
+		f[2][4] = new Bauer(FigurenTests.testSpiel, 4, 4, (byte) 1,
+				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
+		f[3][4] = new Bauer(FigurenTests.testSpiel, 4, 4, (byte) 1,
+				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
+		f[5][4] = new Bauer(FigurenTests.testSpiel, 4, 4, (byte) -1,
+				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
+		Bewerter b = new Bewerter();
+		assertEquals(-2, b.doppelbauer(f));
+		f[6][4] = new Bauer(FigurenTests.testSpiel, 4, 4, (byte) -1,
+				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
+		assertEquals(0, b.doppelbauer(f));
+		f[4][4] = new Bauer(FigurenTests.testSpiel, 4, 4, (byte) 1,
+				new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]), 0);
+		assertEquals(-1, b.doppelbauer(f));
+	}
+
 }

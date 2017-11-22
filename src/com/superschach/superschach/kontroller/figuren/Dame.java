@@ -27,7 +27,7 @@ public class Dame extends Figur
     
     public String toString()
     {
-        return "Dame";
+        return "Dame"+" "+nummer+ " Spieler: "+gebePlayer();
     }
 
 	@Override

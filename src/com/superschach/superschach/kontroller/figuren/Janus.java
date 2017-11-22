@@ -16,7 +16,7 @@ public class Janus extends Figur {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Janus";
+		return "Janus"+" "+nummer+ " Spieler: "+gebePlayer();
 	}
 
 	public boolean zugMoeglich(int x, int y) {

@@ -27,7 +27,7 @@ public class Turm extends Figur {
 	}
 
 	public String toString() {
-		return "Turm";
+		return "Turm"+" "+nummer+ " Spieler: "+gebePlayer();
 	}
 
 	@Override

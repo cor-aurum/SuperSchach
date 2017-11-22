@@ -27,7 +27,7 @@ public class Springer extends Figur
 
     public String toString()
     {
-        return "Springer";
+        return "Springer"+" "+nummer+ " Spieler: "+gebePlayer();
     }
 
 

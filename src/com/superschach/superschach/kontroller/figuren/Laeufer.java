@@ -25,7 +25,7 @@ public class Laeufer extends Figur
     
     public String toString()
     {
-        return "Läufer";
+        return "Läufer"+" "+nummer+ " Spieler: "+gebePlayer();
     }
 
 	@Override

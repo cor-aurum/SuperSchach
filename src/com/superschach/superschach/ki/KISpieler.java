@@ -43,7 +43,7 @@ public class KISpieler {
 			// spiel.setKISpieler(this, (byte) (1-farbe));
 			break;
 		case 5:
-			this.spieler = GenetikKi.create();
+			this.spieler = new GenetikKi();
 			name = "GenetikKI";
 			ret = true;
 			break;
