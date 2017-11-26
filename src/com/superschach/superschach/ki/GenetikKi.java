@@ -18,12 +18,13 @@ public class GenetikKi implements KI {
 	@Override
 	public void zug(Kontroller spiel, Zug zug) throws Exception {
 		logger.info("Starte Berechnung des Zuges für die Genetische KI");
-		if (pop == null) {
+		if (pop == null || true) {
 			pop = new Population(spiel);
 		} else {
 			pop.ersetzeUnmoegliche(spiel);
 		}
-		Individuum i = pop.getBestesMultithreaded();
+		pop.evolution();
+		Individuum i = pop.getBestes();
 		logger.debug("Sende Zug: " + i.getVonX() + " " + i.getVonY() + " " + i.getBisX() + " " + i.getBisY()+". Erwarteter Wert: "+i.getWert());
 		zug.zug(i.getVonX(), i.getVonY(), i.getBisX(), i.getBisY());
 	}

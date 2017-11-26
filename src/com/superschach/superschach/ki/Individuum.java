@@ -10,13 +10,12 @@ import com.superschach.superschach.kontroller.Kontroller;
  * @author felix
  *
  */
-public class Individuum {
+public class Individuum implements Comparable<Individuum> {
 	private byte vonX;
 	private byte vonY;
 	private byte bisX;
 	private byte bisY;
 	private Population population;
-	private Kontroller kontroller;
 	private final int wert;
 
 	private Individuum(byte vonX, byte vonY, byte bisX, byte bisY, Kontroller kontroller, int hop) {
@@ -24,16 +23,15 @@ public class Individuum {
 		this.vonY = vonY;
 		this.bisX = bisX;
 		this.bisY = bisY;
-		this.kontroller = kontroller;
 		// kontroller.verschiebe(vonX, vonY, bisX, bisY);
 		kontroller.getFigur()[vonX][vonY].versetzen(bisX, bisY);
 		if (hop > 0) {
 			population = new Population(kontroller, hop - 1);
 		}
-		if (population == null)
-			wert = new Bewerter().bewerte(kontroller.getFigur());
-		else
-			wert = population.getBestes().getWert();
+		int w = new Bewerter().bewerte(kontroller.getFigur());
+		if (population != null)
+			w += population.getBestes().getWert();
+		wert=w;
 		kontroller.getFigur()[bisX][bisY].versetzen(vonX, vonY);
 	}
 
@@ -88,9 +86,22 @@ public class Individuum {
 	}
 
 	public void ersetzeUnmoegliche(Kontroller kontroller) {
-		this.kontroller = kontroller;
 		if (population != null)
 			population.ersetzeUnmoegliche(kontroller);
 
+	}
+
+	public void evolution() {
+		if (population != null)
+			population.evolution();
+	}
+
+	@Override
+	public int compareTo(Individuum o) {
+		if (o == null || wert > o.getWert())
+			return 1;
+		if (wert < o.getWert())
+			return -1;
+		return 0;
 	}
 }

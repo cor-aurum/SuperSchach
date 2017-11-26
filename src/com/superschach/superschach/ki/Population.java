@@ -1,6 +1,8 @@
 package com.superschach.superschach.ki;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.apache.log4j.Logger;
 
@@ -114,6 +116,63 @@ public class Population {
 		return in;
 	}
 
+	/**
+	 * Führt Funktionen der Evolution durch
+	 */
+	public void evolution() {
+		tauscheSchlechteste();
+		for (Individuum i : individuum) {
+			if (i != null) {
+				// i.evolution();
+			}
+		}
+	}
+
+	/**
+	 * Sortiere die Individuen
+	 */
+	private void sort() {
+		Arrays.sort(individuum, new Comparator<Individuum>() {
+			@Override
+			public int compare(Individuum o1, Individuum o2) {
+				if (o1 == null && o2 == null) {
+					return 0;
+				}
+				if (o1 == null) {
+					return 1;
+				}
+				if (o2 == null) {
+					return -1;
+				}
+				return o1.compareTo(o2);
+			}
+		});
+	}
+
+	/**
+	 * Ersetzt die schlechteste Hälfte der Population gegen neue Elemente
+	 */
+	public void tauscheSchlechteste() {
+		if (individuum != null) {
+			sort();
+			logger.debug("Tausche die schlechtesten Individuen aus");
+			Erzeuger[] erzeuger = new Erzeuger[individuum.length / 2];
+			for (int i = 0; i < individuum.length / 2; i++) {
+				erzeuger[i] = new Erzeuger(new KIKontroller(kontroller), hop, i + individuum.length / 2,
+						i + 1 + individuum.length / 2);
+				erzeuger[i].start();
+			}
+			for (Erzeuger e : erzeuger) {
+				if (e != null)
+					try {
+						e.join();
+					} catch (InterruptedException e1) {
+						logger.fatal("Ein Fehler ist beim Ersetzen der Population aufgetreten: " + e1);
+					}
+			}
+		}
+	}
+
 	public Individuum getBestesMultithreaded() {
 		logger.debug("Starte Multithreaded Bewertung");
 		BewerterThread[] threads = new BewerterThread[ANZ_THREADS];
@@ -132,7 +191,7 @@ public class Population {
 				t.join();
 				if (t.getWert() >= wert) {
 					wert = t.getWert();
-					logger.debug("Wert des besten Individuums bisher: "+wert);
+					logger.debug("Wert des besten Individuums bisher: " + wert);
 					ret = t.getResultat();
 				}
 			} catch (InterruptedException e) {
@@ -161,16 +220,16 @@ public class Population {
 		}
 
 		public void run() {
-			logger.debug("Starte BewerterThread mit einem Array der Länge "+individuum.length);
-			in=individuum[0];
+			logger.debug("Starte BewerterThread mit einem Array der Länge " + individuum.length);
+			in = individuum[0];
 			for (Individuum i : individuum) {
-				logger.debug("Teste Individuum: "+i);
+				logger.debug("Teste Individuum: " + i);
 				if (in != null) {
 					if (i != null) {
 						int tmp = i.getWert();
-						logger.debug(i+" Hat den Wert "+tmp);
+						logger.debug(i + " Hat den Wert " + tmp);
 						if (tmp > wert) {
-							logger.debug("Habe gößeren Wert gefunden: "+tmp);
+							logger.debug("Habe gößeren Wert gefunden: " + tmp);
 							in = i;
 							wert = tmp;
 						}
