@@ -1,6 +1,5 @@
 package com.superschach.superschach.ki;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
@@ -20,8 +19,7 @@ public class IndividuumTest {
 	@Test
 	public void testCreateZufall() throws Exception {
 		Kontroller kontroller = KontrollerTests.testSpiel;
-		Individuum i=Individuum.createZufall(kontroller, 1,new Population(kontroller).zaehleMoeglicheZuege());
+		Individuum i=Individuum.createZufall(kontroller, 1,new Population((byte)1,kontroller).zaehleMoeglicheZuege(),(byte)1);
 		assertNotEquals(null, i);
-		assertEquals(0, i.getWert());
 	}
 }

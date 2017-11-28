@@ -1,6 +1,7 @@
 package com.superschach.superschach.ki;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
 import com.superschach.superschach.kontroller.Kontroller;
 
@@ -18,21 +19,21 @@ public class Individuum implements Comparable<Individuum> {
 	private Population population;
 	private final int wert;
 
-	private Individuum(byte vonX, byte vonY, byte bisX, byte bisY, Kontroller kontroller, int hop) {
+	private Individuum(byte vonX, byte vonY, byte bisX, byte bisY, Kontroller kontroller, int hop, byte spieler) {
 		this.vonX = vonX;
 		this.vonY = vonY;
 		this.bisX = bisX;
 		this.bisY = bisY;
-		// kontroller.verschiebe(vonX, vonY, bisX, bisY);
-		kontroller.getFigur()[vonX][vonY].versetzen(bisX, bisY);
+		kontroller.zug(vonX, vonY, bisX, bisY);
 		if (hop > 0) {
-			population = new Population(kontroller, hop - 1);
+			population = new Population(spieler, kontroller, hop - 1);
 		}
-		int w = new Bewerter().bewerte(kontroller.getFigur());
-		if (population != null)
+		int w = new Bewerter().bewerte(kontroller.getFigur()) * spieler;
+		if (population != null && population.getBestes()!=null)
 			w += population.getBestes().getWert();
-		wert=w;
-		kontroller.getFigur()[bisX][bisY].versetzen(vonX, vonY);
+		wert = w;
+		kontroller.togglePlayer();
+		kontroller.zug(bisX, bisY, vonX, vonY);
 	}
 
 	public byte getVonX() {
@@ -55,40 +56,35 @@ public class Individuum implements Comparable<Individuum> {
 		return wert;
 	}
 
+	public Population getPopulation() {
+		return population;
+	}
+
 	/**
 	 * 
 	 * @return Zufälliges Individuum
 	 */
-	public static Individuum createZufall(Kontroller kontroller, int hop, ArrayList<int[]> list) {
+	public static Individuum createZufall(Kontroller kontroller, int hop, Collection<int[]> list, byte spieler) {
 		byte xa = 0, ya = 0, xn = 0, yn = 0;
-		boolean erfolg = false;
-
-		do {
-			if (list.isEmpty()) {
+		// int[] zug = list.get((int) (Math.random() * list.size()));
+		int[] zug;
+		synchronized (list) {
+			Optional<int[]> o = list.stream().findAny();
+			if (!o.isPresent())
 				return null;
-			}
-			int[] zug = list.get((int) (Math.random() * list.size()));
-			xa = (byte) zug[0];
-			ya = (byte) zug[1];
-			xn = (byte) zug[2];
-			yn = (byte) zug[3];
-			if (kontroller.zugMoeglich(xa, ya, xn, yn) > 0) {
-				erfolg = true;
-			}
+			zug = o.get();
 			list.remove(zug);
-		} while (!erfolg);
-		return new Individuum(xa, ya, xn, yn, kontroller, hop);
+		}
+		xa = (byte) zug[0];
+		ya = (byte) zug[1];
+		xn = (byte) zug[2];
+		yn = (byte) zug[3];
+		return new Individuum(xa, ya, xn, yn, kontroller, hop, spieler);
 	}
 
 	@Override
 	public String toString() {
 		return "Individuum: x=" + vonX + " y=" + vonY + " x'=" + bisX + " y'=" + bisY;
-	}
-
-	public void ersetzeUnmoegliche(Kontroller kontroller) {
-		if (population != null)
-			population.ersetzeUnmoegliche(kontroller);
-
 	}
 
 	public void evolution() {
