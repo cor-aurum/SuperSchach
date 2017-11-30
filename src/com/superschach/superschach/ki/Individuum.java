@@ -29,8 +29,8 @@ public class Individuum implements Comparable<Individuum> {
 			population = new Population(spieler, kontroller, hop - 1);
 		}
 		int w = new Bewerter().bewerte(kontroller.getFigur()) * spieler;
-		if (population != null && population.getBestes()!=null)
-			w += population.getBestes().getWert();
+		if (population != null && population.getBestes().isPresent())
+			w += population.getBestes().get().getWert();
 		wert = w;
 		kontroller.togglePlayer();
 		kontroller.zug(bisX, bisY, vonX, vonY);

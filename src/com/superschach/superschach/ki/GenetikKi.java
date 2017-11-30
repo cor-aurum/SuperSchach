@@ -20,7 +20,7 @@ public class GenetikKi implements KI {
 		logger.info("Starte Berechnung des Zuges für die Genetische KI");
 		pop = new Population(spiel.playerFaktor(), spiel);
 		pop.evolution();
-		Individuum i = pop.getBestes();
+		Individuum i = pop.getBestes().get();
 		logger.info("Größe der berechneten Population: "+pop.getGroesse());
 		logger.info("Größe aller berechneten Populationen: "+pop.getGroesseRekursiv());
 		logger.info("Sende Zug: " + i.getVonX() + " " + i.getVonY() + " " + i.getBisX() + " " + i.getBisY()

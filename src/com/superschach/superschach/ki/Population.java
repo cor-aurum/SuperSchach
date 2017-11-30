@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
@@ -35,7 +38,7 @@ public class Population {
 		this.spieler = spieler;
 		this.kontroller = kontroller;
 		list = zaehleMoeglicheZuege();
-		logger.debug("Anzahl möglicher Züge: "+list.size());
+		logger.debug("Anzahl möglicher Züge: " + list.size());
 		this.hop = TIEFE;
 		individuum = new Individuum[(int) Math.pow(POT, TIEFE)];
 		Erzeuger[] erzeuger = new Erzeuger[ANZ_THREADS];
@@ -71,20 +74,9 @@ public class Population {
 	 * 
 	 * @return bestes Individuum einer Population
 	 */
-	public Individuum getBestes() {
-		Individuum in = null;
-		for (Individuum i : individuum) {
-			if (in != null) {
-				if (i != null) {
-					if (i.getWert() > in.getWert()) {
-						in = i;
-					}
-				}
-			} else {
-				in = i;
-			}
-		}
-		return in;
+	public Optional<Individuum> getBestes() {
+		return Arrays.stream(individuum).filter(Objects::nonNull)
+				.max((i1, i2) -> Integer.compare(i1.getWert(), i2.getWert()));
 	}
 
 	/**
@@ -92,12 +84,7 @@ public class Population {
 	 * @return Größe der Population ohne nullwerte
 	 */
 	public int getGroesse() {
-		int ret = 0;
-		for (Individuum i : individuum) {
-			if (i != null)
-				ret++;
-		}
-		return ret;
+		return (int) Arrays.stream(individuum).filter(Objects::nonNull).count();
 	}
 
 	/**
@@ -106,15 +93,17 @@ public class Population {
 	 *         nachgelagerter Populationen
 	 */
 	public int getGroesseRekursiv() {
-		int ret = 0;
-		for (Individuum i : individuum) {
-			if (i != null)
-				if (hop > 0)
-					ret += i.getPopulation().getGroesse();
-				else
-					ret++;
-		}
-		return ret;
+//		int ret = 0;
+//		for (Individuum i : individuum) {
+//			if (i != null)
+//				if (hop > 0)
+//					ret += i.getPopulation().getGroesse();
+//				else
+//					ret++;
+//		}
+		return (int) Arrays.stream(individuum).filter(Objects::nonNull)
+				.collect(Collectors.groupingBy(i -> i.getPopulation().getGroesse())).values().size();
+		// return ret;
 	}
 
 	/**
@@ -185,13 +174,17 @@ public class Population {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return Anzahl der Möglichen Züge aller Figuren
+	 */
 	public Collection<int[]> zaehleMoeglicheZuege() {
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for (Figur[] f0 : kontroller.getFigurListe())
 			for (Figur f : f0)
 				if (f != null)
 					for (int[] komb : f.getMoeglicheZuege())
-						if (kontroller.zugMoeglich(f.gebePosX(), f.gebePosY(), komb[0], komb[1])>0)
+						if (kontroller.zugMoeglich(f.gebePosX(), f.gebePosY(), komb[0], komb[1]) > 0)
 							if (!existiertIndividuum(f.gebePosX(), f.gebePosY(), komb[0], komb[1]))
 								list.add(new int[] { f.gebePosX(), f.gebePosY(), komb[0], komb[1] });
 		return Collections.synchronizedCollection(list);
