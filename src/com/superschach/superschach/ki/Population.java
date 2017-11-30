@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
@@ -75,7 +74,7 @@ public class Population {
 	 * @return bestes Individuum einer Population
 	 */
 	public Optional<Individuum> getBestes() {
-		return Arrays.stream(individuum).filter(Objects::nonNull)
+		return Arrays.stream(individuum).parallel().filter(Objects::nonNull)
 				.max((i1, i2) -> Integer.compare(i1.getWert(), i2.getWert()));
 	}
 
@@ -84,26 +83,7 @@ public class Population {
 	 * @return Größe der Population ohne nullwerte
 	 */
 	public int getGroesse() {
-		return (int) Arrays.stream(individuum).filter(Objects::nonNull).count();
-	}
-
-	/**
-	 * 
-	 * @return Größe der Population ohne nullwerte inklusive der Größen
-	 *         nachgelagerter Populationen
-	 */
-	public int getGroesseRekursiv() {
-//		int ret = 0;
-//		for (Individuum i : individuum) {
-//			if (i != null)
-//				if (hop > 0)
-//					ret += i.getPopulation().getGroesse();
-//				else
-//					ret++;
-//		}
-		return (int) Arrays.stream(individuum).filter(Objects::nonNull)
-				.collect(Collectors.groupingBy(i -> i.getPopulation().getGroesse())).values().size();
-		// return ret;
+		return (int) Arrays.stream(individuum).parallel().filter(Objects::nonNull).count();
 	}
 
 	/**
@@ -111,11 +91,6 @@ public class Population {
 	 */
 	public void evolution() {
 		tauscheSchlechteste();
-		for (Individuum i : individuum) {
-			if (i != null) {
-				// i.evolution();
-			}
-		}
 	}
 
 	/**

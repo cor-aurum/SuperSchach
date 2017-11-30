@@ -24,7 +24,8 @@ public class Individuum implements Comparable<Individuum> {
 		this.vonY = vonY;
 		this.bisX = bisX;
 		this.bisY = bisY;
-		kontroller.zug(vonX, vonY, bisX, bisY);
+		kontroller.testzug(vonX, vonY, bisX, bisY);
+		kontroller.togglePlayer();
 		if (hop > 0) {
 			population = new Population(spieler, kontroller, hop - 1);
 		}
@@ -32,8 +33,8 @@ public class Individuum implements Comparable<Individuum> {
 		if (population != null && population.getBestes().isPresent())
 			w += population.getBestes().get().getWert();
 		wert = w;
-		kontroller.togglePlayer();
-		kontroller.zug(bisX, bisY, vonX, vonY);
+		
+		kontroller.testzug(bisX, bisY, vonX, vonY);
 	}
 
 	public byte getVonX() {

@@ -22,7 +22,6 @@ public class GenetikKi implements KI {
 		pop.evolution();
 		Individuum i = pop.getBestes().get();
 		logger.info("Größe der berechneten Population: "+pop.getGroesse());
-		logger.info("Größe aller berechneten Populationen: "+pop.getGroesseRekursiv());
 		logger.info("Sende Zug: " + i.getVonX() + " " + i.getVonY() + " " + i.getBisX() + " " + i.getBisY()
 				+ ". Erwarteter Wert: " + i.getWert());
 		zug.zug(i.getVonX(), i.getVonY(), i.getBisX(), i.getBisY());

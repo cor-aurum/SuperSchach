@@ -1,5 +1,8 @@
 package com.superschach.superschach.ki;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import com.superschach.superschach.kontroller.figuren.Figur;
 
 /**
@@ -12,16 +15,21 @@ public class Bewerter {
 
 	// private Logger logger = Logger.getLogger(Bewerter.class);
 
+	/**
+	 * 
+	 * @param figur
+	 * @return Summe der Werte aller Figuren
+	 */
 	public int minimax(Figur[] figur) {
-		int ret = 0;
-		for (Figur f : figur) {
-			if (f != null) {
-				ret += f.getWert();
-			}
-		}
-		return ret;
+		return Arrays.stream(figur).filter(Objects::nonNull).parallel().mapToInt(f -> f.getWert())
+				.reduce((i, f) -> i + f).getAsInt();
 	}
 
+	/**
+	 * 
+	 * @param f
+	 * @return Wert der sich um die Anzahl nebeneinanderstehenden Bauern erhöht
+	 */
 	public int doppelbauer(Figur[][] f) {
 		int ret = 0;
 		for (int i = 1; i < f[0].length - 1; i++)
