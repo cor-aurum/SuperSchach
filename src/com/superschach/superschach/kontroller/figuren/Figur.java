@@ -98,7 +98,7 @@ public abstract class Figur {
 		for (int i = 0; i < kontroller.XMax; i++) {
 			for (int j = 0; j < kontroller.YMax; j++) {
 				if (zugMoeglich(i, j)) {
-					ret.add(new int[] {i,j});
+					ret.add(new int[] {posx,posy,i,j});
 				}
 			}
 		}

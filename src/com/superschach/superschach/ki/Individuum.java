@@ -24,17 +24,12 @@ public class Individuum implements Comparable<Individuum> {
 		this.vonY = vonY;
 		this.bisX = bisX;
 		this.bisY = bisY;
-		kontroller.testzug(vonX, vonY, bisX, bisY);
-		kontroller.togglePlayer();
-		if (hop > 0) {
+		//Figur speicher = kontroller.testzug(vonX, vonY, bisX, bisY, null);
+		if (kontroller.zug(vonX, vonY, bisX, bisY)&&hop > 0) {
 			population = new Population(spieler, kontroller, hop - 1);
 		}
-		int w = new Bewerter().bewerte(kontroller.getFigur()) * spieler;
-		if (population != null && population.getBestes().isPresent())
-			w += population.getBestes().get().getWert();
-		wert = w;
-		
-		kontroller.testzug(bisX, bisY, vonX, vonY);
+		wert = new Bewerter().bewerte(kontroller.getFigur()) * spieler;
+		kontroller.zug(bisX, bisY, vonX, vonY);
 	}
 
 	public byte getVonX() {

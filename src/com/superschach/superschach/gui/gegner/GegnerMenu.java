@@ -107,6 +107,7 @@ public class GegnerMenu extends Fenster {
 					liste.getChildren().add(new SpielerButtonBot("UCI", 2));
 					liste.getChildren().add(new SpielerButtonBot("Ivan Zufallski", 1));
 					liste.getChildren().add(new SpielerButtonBot("GenetikKI", 5));
+					liste.getChildren().add(new SpielerButtonBot("NumerikKI", 6));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

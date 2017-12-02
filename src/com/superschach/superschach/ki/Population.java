@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +24,6 @@ import com.superschach.superschach.kontroller.figuren.Figur;
 public class Population {
 
 	public static final int POT = 2;
-	public static final int ANZ_THREADS = 4;
 	private static final int TIEFE = 6;
 	private Individuum[] individuum;
 	private Logger logger = Logger.getLogger(Population.class);
@@ -40,22 +40,9 @@ public class Population {
 		logger.debug("Anzahl möglicher Züge: " + list.size());
 		this.hop = TIEFE;
 		individuum = new Individuum[(int) Math.pow(POT, TIEFE)];
-		Erzeuger[] erzeuger = new Erzeuger[ANZ_THREADS];
-		int weite = individuum.length / ANZ_THREADS;
-		for (int i = 0; i < ANZ_THREADS; i++) {
-			int start = i * weite;
-			logger.debug("Erzeuge Erzeuger-Thread " + i + " mit start=" + start + " und weite=" + weite);
-			erzeuger[i] = new Erzeuger(new KIKontroller(kontroller), TIEFE, start, start + weite);
-			erzeuger[i].start();
-		}
-		for (Erzeuger e : erzeuger) {
-			try {
-				e.join();
-				logger.debug("Erzeuger-Thread " + e + " ist fertig");
-			} catch (InterruptedException e1) {
-				logger.fatal("Ein Fehler ist beim Erzeugen der Population aufgetreten: " + e1);
-			}
-		}
+		individuum = Arrays.stream(individuum).parallel()
+				.map(in -> Individuum.createZufall(new KIKontroller(kontroller), TIEFE, list, spieler))
+				.collect(Collectors.toList()).toArray(individuum);
 	}
 
 	public Population(byte spieler, Kontroller kontroller, int hop) {
@@ -64,9 +51,9 @@ public class Population {
 		this.hop = hop;
 		list = zaehleMoeglicheZuege();
 		individuum = new Individuum[(int) Math.pow(POT, hop)];
-		for (int i = 0; i < individuum.length; i++) {
-			individuum[i] = Individuum.createZufall(kontroller, hop, list, spieler);
-		}
+		individuum = Arrays.stream(individuum)
+				.map(in -> Individuum.createZufall(kontroller, hop, list, spieler)).collect(Collectors.toList())
+				.toArray(individuum);
 	}
 
 	/**
@@ -90,7 +77,7 @@ public class Population {
 	 * Führt Funktionen der Evolution durch
 	 */
 	public void evolution() {
-		tauscheSchlechteste();
+		// tauscheSchlechteste();
 	}
 
 	/**
@@ -120,32 +107,18 @@ public class Population {
 	public void tauscheSchlechteste() {
 		if (individuum != null) {
 			sort();
-			logger.debug("Tausche die schlechtesten Individuen aus");
-			Erzeuger[] erzeuger = new Erzeuger[individuum.length / 2];
-			for (int i = 0; i < individuum.length / 2; i++) {
-				erzeuger[i] = new Erzeuger(new KIKontroller(kontroller), hop, i + individuum.length / 2,
-						i + 1 + individuum.length / 2);
-				erzeuger[i].start();
-			}
-			for (Erzeuger e : erzeuger) {
-				if (e != null)
-					try {
-						e.join();
-					} catch (InterruptedException e1) {
-						logger.fatal("Ein Fehler ist beim Ersetzen der Population aufgetreten: " + e1);
-					}
-			}
+			individuum = Arrays.stream(individuum).parallel().skip(individuum.length / 2)
+					.map(in -> Individuum.createZufall(new KIKontroller(kontroller), hop, list, spieler))
+					.collect(Collectors.toList()).toArray(individuum);
 		}
 	}
 
 	private boolean existiertIndividuum(int xa, int ya, int xn, int yn) {
-		if (individuum != null)
-			for (Individuum i : individuum) {
-				if (i != null)
-					if (i.getVonX() == xa && i.getVonY() == ya && i.getBisX() == xn && i.getBisY() == yn) {
-						return true;
-					}
-			}
+		if (individuum != null) {
+			Arrays.stream(individuum).filter(Objects::nonNull)
+					.filter(i -> (i.getVonX() == xa && i.getVonY() == ya && i.getBisX() == xn && i.getBisY() == yn))
+					.findAny().isPresent();
+		}
 		return false;
 	}
 
@@ -155,35 +128,13 @@ public class Population {
 	 */
 	public Collection<int[]> zaehleMoeglicheZuege() {
 		ArrayList<int[]> list = new ArrayList<int[]>();
-		for (Figur[] f0 : kontroller.getFigurListe())
+		for (Figur[] f0 : kontroller.getFigur())
 			for (Figur f : f0)
 				if (f != null)
 					for (int[] komb : f.getMoeglicheZuege())
-						if (kontroller.zugMoeglich(f.gebePosX(), f.gebePosY(), komb[0], komb[1]) > 0)
-							if (!existiertIndividuum(f.gebePosX(), f.gebePosY(), komb[0], komb[1]))
-								list.add(new int[] { f.gebePosX(), f.gebePosY(), komb[0], komb[1] });
+						if (kontroller.zugMoeglich(komb[0], komb[1], komb[2], komb[3]) > 0)
+							if (!existiertIndividuum(komb[0], komb[1], komb[2], komb[3]))
+								list.add(komb);
 		return Collections.synchronizedCollection(list);
-	}
-
-	private class Erzeuger extends Thread {
-		private Kontroller kontroller;
-		private int hop;
-		private int start;
-		private int stop;
-
-		public Erzeuger(Kontroller kontroller, int hop, int start, int stop) {
-			this.kontroller = kontroller;
-			this.hop = hop;
-			this.start = start;
-			this.stop = stop;
-		}
-
-		public void run() {
-			for (int i = 0; i < stop - start; i++) {
-				Individuum tmp = Individuum.createZufall(kontroller, hop, list, spieler);
-				individuum[start + i] = tmp;
-				// logger.debug("individuum["+(start+i)+"]= "+tmp);
-			}
-		}
 	}
 }

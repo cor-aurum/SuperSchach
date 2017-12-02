@@ -514,6 +514,17 @@ public abstract class Kontroller {
 		blink();
 		return ret;
 	}
+	
+	public Figur testzug(int posx, int posy, int zielx, int ziely, Figur geschlagen) {
+		Figur ret=figur[zielx][ziely];
+		verschiebe(posx, posy, zielx, ziely);
+		figur[posx][posy]=geschlagen;
+		if (figur[posx][posy] != null) {
+			figurListe[(-figur[posx][posy].gebePlayer() + 1) / 2][figur[posx][posy].gebeIndex()] = geschlagen;
+		}
+		togglePlayer();
+		return ret;
+	}
 
 	public void machTurm(int x, int y) {
 		if (figur[x][y] == null) {

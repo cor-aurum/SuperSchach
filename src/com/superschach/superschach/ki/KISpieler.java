@@ -47,6 +47,11 @@ public class KISpieler {
 			name = "GenetikKI";
 			ret = true;
 			break;
+		case 6:
+			this.spieler = new NumerikKI();
+			name = "NumerikKI";
+			ret = true;
+			break;
 		default:
 			name = "";
 			break;
