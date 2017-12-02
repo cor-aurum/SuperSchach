@@ -46,9 +46,11 @@ public class NumerikKI implements KI {
 		if (m.getKontroller().zug(m.getVonX(), m.getVonY(), m.getBisX(), m.getBisY()) && hop == 0) {
 			ret = new Bewerter().bewerte(m.getKontroller().getFigur()) * spieler;
 		} else {
+			//TODO orelse wird viel zu häufig aufgerufen. Warum?
 			ret = getMoeglicheZuege(m.getKontroller()).map(z -> versucheZug(z, hop - 1)).max(Integer::compare)
 					.orElse(new Bewerter().bewerte(m.getKontroller().getFigur()) * spieler);
 		}
+		m.getKontroller().zug(m.getBisX(), m.getBisY(), m.getVonX(), m.getVonY());
 		return ret;
 	}
 
@@ -61,5 +63,4 @@ public class NumerikKI implements KI {
 	@Override
 	public void tellMatt(Kontroller spiel) {
 	}
-
 }
