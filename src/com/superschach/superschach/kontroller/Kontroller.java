@@ -46,7 +46,6 @@ public abstract class Kontroller {
 	protected Figur[][] figur;
 	protected Figur[] koenig;
 	protected Figur[][] figurListe;
-	
 
 	protected boolean aktualisieren = true;
 	private int zuganzahl;
@@ -234,7 +233,7 @@ public abstract class Kontroller {
 
 	public String getFen() {
 		String ret = "";
-		for (int i = figur.length-1; i >= 0; i--) {
+		for (int i = figur.length - 1; i >= 0; i--) {
 			int z = 0;
 			for (int j = 0; j < figur[i].length; j++) {
 				if (figur[j][i] == null)
@@ -268,9 +267,9 @@ public abstract class Kontroller {
 		}
 		if (!b)
 			ret += "-";
-		ret+=" - ";
-		ret+="0 ";
-		ret+=(zuganzahl+1);
+		ret += " - ";
+		ret += "0 ";
+		ret += (zuganzahl + 1);
 		return ret;
 	}
 
@@ -514,11 +513,11 @@ public abstract class Kontroller {
 		blink();
 		return ret;
 	}
-	
+
 	public Figur testzug(int posx, int posy, int zielx, int ziely, Figur geschlagen) {
-		Figur ret=figur[zielx][ziely];
+		Figur ret = figur[zielx][ziely];
 		verschiebe(posx, posy, zielx, ziely);
-		figur[posx][posy]=geschlagen;
+		figur[posx][posy] = geschlagen;
 		if (figur[posx][posy] != null) {
 			figurListe[(-figur[posx][posy].gebePlayer() + 1) / 2][figur[posx][posy].gebeIndex()] = geschlagen;
 		}
@@ -634,24 +633,20 @@ public abstract class Kontroller {
 	}
 
 	public boolean equals(Kontroller kontroller) {
-		if (figur.length == kontroller.figur.length && this.player == kontroller.player) {
-			for (int i = 0; i < figur.length; i++) {
-				if (figur[i].length == kontroller.figur[i].length) {
-					for (int j = 0; j < figur[i].length; j++) {
-						int inhalt = (inhalt(i, j));
-						if (inhalt != kontroller.inhalt(i, j)) {
-							return false;
-						}
-						if (inhalt != 0 ? (figur[i][j].wurdeBewegt() != kontroller.figur[i][j].wurdeBewegt()) : false) {
-							return false;
-						}
-					}
-				} else {
+		if (figur.length != kontroller.figur.length || this.player != kontroller.player)
+			return false;
+		for (int i = 0; i < figur.length; i++) {
+			if (figur[i].length != kontroller.figur[i].length)
+				return false;
+			for (int j = 0; j < figur[i].length; j++) {
+				int inhalt = (inhalt(i, j));
+				if (inhalt != kontroller.inhalt(i, j)) {
+					return false;
+				}
+				if (inhalt != 0 && (figur[i][j].wurdeBewegt() != kontroller.figur[i][j].wurdeBewegt())) {
 					return false;
 				}
 			}
-		} else {
-			return false;
 		}
 		return true;
 	}
@@ -816,7 +811,7 @@ public abstract class Kontroller {
 	public void setSpielName(String spielName) {
 		this.spielName = spielName;
 	}
-	
+
 	public Figur[][] getFigurListe() {
 		return figurListe;
 	}
