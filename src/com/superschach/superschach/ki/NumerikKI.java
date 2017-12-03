@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.superschach.superschach.kontroller.KIKontroller;
 import com.superschach.superschach.kontroller.Kontroller;
+import com.superschach.superschach.kontroller.Probezug;
 
 /**
  * Diese Klasse ist im Rahmen meiner Studienarbeit entstanden
@@ -18,9 +19,10 @@ import com.superschach.superschach.kontroller.Kontroller;
  */
 public class NumerikKI implements KI {
 
-	public final static int TIEFE = 25;
+	public final static int TIEFE = 4;
 	private int spieler;
 	private Logger logger = Logger.getLogger(NumerikKI.class);
+	private Bewerter bewerter = new Bewerter();
 
 	@Override
 	public void zug(Kontroller spiel, Zug zug) throws Exception {
@@ -28,7 +30,7 @@ public class NumerikKI implements KI {
 		logger.debug("Suche numerisch den besten Zug");
 		int max = Integer.MIN_VALUE;
 		Moeglichkeit bestes = null;
-		for (Moeglichkeit m : getMoeglicheZuege(new KIKontroller(spiel)).collect(Collectors.toList())) {
+		for (Moeglichkeit m : getMoeglicheZuegeParallel(spiel).collect(Collectors.toList())) {
 			int tmp = versucheZug(m, TIEFE);
 			if (tmp > max) {
 				max = tmp;
@@ -43,21 +45,28 @@ public class NumerikKI implements KI {
 
 	private int versucheZug(Moeglichkeit m, int hop) {
 		int ret = 0;
-		if (m.getKontroller().zug(m.getVonX(), m.getVonY(), m.getBisX(), m.getBisY()) && hop == 0) {
-			ret = new Bewerter().bewerte(m.getKontroller().getFigur()) * spieler;
+		Probezug speicher = m.getKontroller().testZug(m.getVonX(), m.getVonY(), m.getBisX(), m.getBisY());
+		if (hop == 0) {
+			ret = bewerter.bewerte(m.getKontroller().getFigur()) * spieler;
 		} else {
-			//TODO orelse wird viel zu häufig aufgerufen. Warum?
 			ret = getMoeglicheZuege(m.getKontroller()).map(z -> versucheZug(z, hop - 1)).max(Integer::compare)
-					.orElse(new Bewerter().bewerte(m.getKontroller().getFigur()) * spieler);
+					.orElse(bewerter.bewerte(m.getKontroller().getFigur()) * spieler);
 		}
-		m.getKontroller().zug(m.getBisX(), m.getBisY(), m.getVonX(), m.getVonY());
+		m.getKontroller().testZugZurueck(speicher);
 		return ret;
 	}
 
 	private Stream<Moeglichkeit> getMoeglicheZuege(Kontroller k) {
-		return Arrays.stream(k.getFigur()).flatMap(Arrays::stream).filter(Objects::nonNull)
+		return Arrays.stream(k.getFigur()).parallel().flatMap(Arrays::stream).filter(Objects::nonNull)
 				.map(f -> f.getMoeglicheZuege()).flatMap(l -> l.stream())
-				.filter(n -> k.zugMoeglich(n[0], n[1], n[2], n[3]) > 0).map(z -> new Moeglichkeit(z, k));
+				.filter(n -> k.zugMoeglich(n[0], n[1], n[2], n[3]) > 0).map(z -> new Moeglichkeit(z, k)).sequential();
+	}
+	
+	private Stream<Moeglichkeit> getMoeglicheZuegeParallel(Kontroller k)
+	{
+		return Arrays.stream(k.getFigur()).parallel().flatMap(Arrays::stream).filter(Objects::nonNull)
+				.map(f -> f.getMoeglicheZuege()).flatMap(l -> l.stream())
+				.filter(n -> k.zugMoeglich(n[0], n[1], n[2], n[3]) > 0).map(z -> new Moeglichkeit(z, new KIKontroller(k)));
 	}
 
 	@Override

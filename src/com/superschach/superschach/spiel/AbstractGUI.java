@@ -19,13 +19,10 @@ import com.superschach.superschach.server.Server;
 
 public abstract class AbstractGUI {
 	private Spiel spiel;
-	private SpielThread spielThread; // =new SpielThread();
+	private SpielThread spielThread;
 	private KIThread kiThread;
 	private int x = 0;
 	private int y = 0;
-	// private int kinummer = 0;
-	// private int kispieler = 0;
-	// private String kilevel = "3";
 	public final static String VERSION = "2.2";
 	private Logger logger = Logger.getLogger(AbstractGUI.class);
 	private static Properties props = new Properties();

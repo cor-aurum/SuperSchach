@@ -149,13 +149,12 @@ public class Pruefer {
 				}
 				int bewegt = figur[posx][posy].bewegt();
 				figur[posx][posy].versetzen(zielx, ziely);
-				
+
 				if (!istSchach()) {
 					ret = true;
 				}
-				if (figur[zielx][ziely] == null)
-				{
-					logger.error(posx + " " + posy + " " + zielx + " " + ziely+" --- Figur existiert nicht");
+				if (figur[zielx][ziely] == null) {
+					logger.error(posx + " " + posy + " " + zielx + " " + ziely + " --- Figur existiert nicht");
 				}
 				figur[zielx][ziely].versetzen(posx, posy); // rückgängig
 															// machen
@@ -165,8 +164,7 @@ public class Pruefer {
 					figur[zielx][ziely] = ziel;
 					figurListe[(1 - ziel.gebePlayer()) / 2][ziel.gebeIndex()] = ziel;
 				}
-				if (zweitesziel)
-				{
+				if (zweitesziel) {
 					figur[zielx][ziely - kontroller.vorzeichen(posx, posy)] = ziel2;
 					if (ziel2 != null)
 						figurListe[(1 - ziel2.gebePlayer()) / 2][ziel2.gebeIndex()] = ziel2;

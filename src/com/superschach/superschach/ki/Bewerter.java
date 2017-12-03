@@ -21,7 +21,7 @@ public class Bewerter {
 	 * @return Summe der Werte aller Figuren
 	 */
 	public int minimax(Figur[] figur) {
-		return Arrays.stream(figur).filter(Objects::nonNull).parallel().mapToInt(f -> f.getWert())
+		return Arrays.stream(figur).filter(Objects::nonNull).mapToInt(f -> f.getWert())
 				.reduce((i, f) -> i + f).getAsInt();
 	}
 

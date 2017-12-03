@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.superschach.superschach.kontroller.Kontroller;
+import com.superschach.superschach.kontroller.Probezug;
 
 /**
  * Diese Klasse ist im Rahmen meiner Studienarbeit entstanden
@@ -24,12 +25,12 @@ public class Individuum implements Comparable<Individuum> {
 		this.vonY = vonY;
 		this.bisX = bisX;
 		this.bisY = bisY;
-		//Figur speicher = kontroller.testzug(vonX, vonY, bisX, bisY, null);
-		if (kontroller.zug(vonX, vonY, bisX, bisY)&&hop > 0) {
+		Probezug speicher=kontroller.testZug(vonX, vonY, bisX, bisY);
+		if (hop > 0) {
 			population = new Population(spieler, kontroller, hop - 1);
 		}
 		wert = new Bewerter().bewerte(kontroller.getFigur()) * spieler;
-		kontroller.zug(bisX, bisY, vonX, vonY);
+		kontroller.testZugZurueck(speicher);
 	}
 
 	public byte getVonX() {

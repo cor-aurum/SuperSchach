@@ -46,7 +46,6 @@ public abstract class Kontroller {
 	protected Figur[][] figur;
 	protected Figur[] koenig;
 	protected Figur[][] figurListe;
-	
 
 	protected boolean aktualisieren = true;
 	private int zuganzahl;
@@ -234,7 +233,7 @@ public abstract class Kontroller {
 
 	public String getFen() {
 		String ret = "";
-		for (int i = figur.length-1; i >= 0; i--) {
+		for (int i = figur.length - 1; i >= 0; i--) {
 			int z = 0;
 			for (int j = 0; j < figur[i].length; j++) {
 				if (figur[j][i] == null)
@@ -268,9 +267,9 @@ public abstract class Kontroller {
 		}
 		if (!b)
 			ret += "-";
-		ret+=" - ";
-		ret+="0 ";
-		ret+=(zuganzahl+1);
+		ret += " - ";
+		ret += "0 ";
+		ret += (zuganzahl + 1);
 		return ret;
 	}
 
@@ -460,20 +459,6 @@ public abstract class Kontroller {
 		return pruefer.ausSchach(posx, posy, zielx, ziely);
 	}
 
-	public void testzug(int posx, int posy, int zielx, int ziely) {
-		if (figur[posx][posy] != null) {
-			if (aktualisieren) {
-				farbeFeld(posx, posy, 5);
-				if (inhalt(zielx, ziely) < 0) {
-					farbeFeld(zielx, ziely, 4);
-				} else {
-					farbeFeld(zielx, ziely, 3);
-				}
-			}
-			figur[posx][posy].zug(zielx, ziely);
-		}
-	}
-
 	public boolean zug(int posx, int posy, int zielx, int ziely) {
 		boolean ret = false;
 		aktualisieren = true;
@@ -514,16 +499,19 @@ public abstract class Kontroller {
 		blink();
 		return ret;
 	}
-	
-	public Figur testzug(int posx, int posy, int zielx, int ziely, Figur geschlagen) {
-		Figur ret=figur[zielx][ziely];
+
+	public Probezug testZug(int posx, int posy, int zielx, int ziely) {
+		Probezug ret = new Probezug(figur[zielx][ziely], player, inhalt(posx, posy), inhalt(zielx, ziely), posx, posy,
+				zielx, ziely);
 		verschiebe(posx, posy, zielx, ziely);
-		figur[posx][posy]=geschlagen;
-		if (figur[posx][posy] != null) {
-			figurListe[(-figur[posx][posy].gebePlayer() + 1) / 2][figur[posx][posy].gebeIndex()] = geschlagen;
-		}
 		togglePlayer();
 		return ret;
+	}
+
+	public void testZugZurueck(Probezug speicher) {
+		verschiebe(speicher.getZielx(), speicher.getZiely(), speicher.getPosx(), speicher.getPosy());
+		player = speicher.getPlayer();
+		figur[speicher.getZielx()][speicher.getZiely()] = speicher.getFigur();
 	}
 
 	public void machTurm(int x, int y) {
@@ -816,7 +804,7 @@ public abstract class Kontroller {
 	public void setSpielName(String spielName) {
 		this.spielName = spielName;
 	}
-	
+
 	public Figur[][] getFigurListe() {
 		return figurListe;
 	}
