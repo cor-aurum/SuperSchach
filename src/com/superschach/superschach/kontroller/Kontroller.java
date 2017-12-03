@@ -622,24 +622,20 @@ public abstract class Kontroller {
 	}
 
 	public boolean equals(Kontroller kontroller) {
-		if (figur.length == kontroller.figur.length && this.player == kontroller.player) {
-			for (int i = 0; i < figur.length; i++) {
-				if (figur[i].length == kontroller.figur[i].length) {
-					for (int j = 0; j < figur[i].length; j++) {
-						int inhalt = (inhalt(i, j));
-						if (inhalt != kontroller.inhalt(i, j)) {
-							return false;
-						}
-						if (inhalt != 0 ? (figur[i][j].wurdeBewegt() != kontroller.figur[i][j].wurdeBewegt()) : false) {
-							return false;
-						}
-					}
-				} else {
+		if (figur.length != kontroller.figur.length || this.player != kontroller.player)
+			return false;
+		for (int i = 0; i < figur.length; i++) {
+			if (figur[i].length != kontroller.figur[i].length)
+				return false;
+			for (int j = 0; j < figur[i].length; j++) {
+				int inhalt = (inhalt(i, j));
+				if (inhalt != kontroller.inhalt(i, j)) {
+					return false;
+				}
+				if (inhalt != 0 && (figur[i][j].wurdeBewegt() != kontroller.figur[i][j].wurdeBewegt())) {
 					return false;
 				}
 			}
-		} else {
-			return false;
 		}
 		return true;
 	}
