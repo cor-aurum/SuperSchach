@@ -11,33 +11,27 @@ import com.superschach.superschach.kontroller.figuren.Figur;
 public class Probezug {
 	private final Figur figur;
 	private final byte player;
-	private final int inhaltVon;
-	private final int inhaltBis;
 	private final int posx;
 	private final int posy;
 	private final int zielx;
 	private final int ziely;
-	public Probezug(Figur figur, byte player, int inhaltVon, int inhaltBis, int posx, int posy, int zielx, int ziely) {
+	private final int bewegt;
+	private final int bauernregel;
+	public Probezug(Figur figur, byte player, int posx, int posy, int zielx, int ziely, int bewegt, int bauernregel) {
 		this.figur = figur;
 		this.player = player;
-		this.inhaltVon = inhaltVon;
-		this.inhaltBis = inhaltBis;
 		this.posx = posx;
 		this.posy = posy;
 		this.zielx = zielx;
 		this.ziely = ziely;
+		this.bewegt=bewegt;
+		this.bauernregel=bauernregel;
 	}
 	public Figur getFigur() {
 		return figur;
 	}
 	public byte getPlayer() {
 		return player;
-	}
-	public int getInhaltVon() {
-		return inhaltVon;
-	}
-	public int getInhaltBis() {
-		return inhaltBis;
 	}
 	public int getPosx() {
 		return posx;
@@ -50,5 +44,11 @@ public class Probezug {
 	}
 	public int getZiely() {
 		return ziely;
+	}
+	public int getBewegt() {
+		return bewegt;
+	}
+	public int getBauernregel() {
+		return bauernregel;
 	}
 }

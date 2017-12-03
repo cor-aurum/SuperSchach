@@ -62,6 +62,7 @@ public abstract class Kontroller {
 	private int anzGeworfen = 0;
 	private String spielName = getSpielDefaultName();
 	private Logger logger = Logger.getLogger(Kontroller.class);
+	private int bauernregel = 0;
 
 	// kiThread kithread;
 	/**
@@ -403,6 +404,9 @@ public abstract class Kontroller {
 	public int zugMoeglich(int posx, int posy, int zielx, int ziely) {
 		int ret = 0;
 		Figur figurlokal = figur[posx][posy]; // getfield ist zu lahm
+		if (!(figurlokal instanceof Bauer))
+			if(bauernregel>=50)
+				return -1;
 		if (figurlokal != null) {
 			if (figurlokal.zugMoeglich(zielx, ziely)) {
 				if (pruefer.ausSchach(posx, posy, zielx, ziely)) {
@@ -463,6 +467,10 @@ public abstract class Kontroller {
 		boolean ret = false;
 		aktualisieren = true;
 		if (figur[posx][posy] != null) {
+			if (figur[posx][posy] instanceof Bauer)
+				bauernregel = 0;
+			else
+				bauernregel++;
 			int m = zugMoeglich(posx, posy, zielx, ziely);
 			if (m > 0) {
 				ret = true;
@@ -501,17 +509,23 @@ public abstract class Kontroller {
 	}
 
 	public Probezug testZug(int posx, int posy, int zielx, int ziely) {
-		Probezug ret = new Probezug(figur[zielx][ziely], player, inhalt(posx, posy), inhalt(zielx, ziely), posx, posy,
-				zielx, ziely);
-		verschiebe(posx, posy, zielx, ziely);
+		Probezug ret = new Probezug(figur[zielx][ziely], player, posx, posy, zielx, ziely, figur[posx][posy].bewegt(),
+				bauernregel);
+		if (figur[posx][posy] instanceof Bauer)
+			bauernregel = 0;
+		else
+			bauernregel++;
+		figur[posx][posy].versetzen(zielx, ziely);
 		togglePlayer();
 		return ret;
 	}
 
 	public void testZugZurueck(Probezug speicher) {
-		verschiebe(speicher.getZielx(), speicher.getZiely(), speicher.getPosx(), speicher.getPosy());
+		figur[speicher.getZielx()][speicher.getZiely()].versetzen(speicher.getPosx(), speicher.getPosy());
+		figur[speicher.getPosx()][speicher.getPosy()].setzeBewegt(speicher.getBewegt());
 		player = speicher.getPlayer();
 		figur[speicher.getZielx()][speicher.getZiely()] = speicher.getFigur();
+		bauernregel=speicher.getBauernregel();
 	}
 
 	public void machTurm(int x, int y) {

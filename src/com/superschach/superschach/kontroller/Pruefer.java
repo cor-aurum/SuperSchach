@@ -147,19 +147,21 @@ public class Pruefer {
 					ziel2 = figur[zielx][ziely - kontroller.vorzeichen(posx, posy)];
 					zweitesziel = true;
 				}
-				int bewegt = figur[posx][posy].bewegt();
-				figur[posx][posy].versetzen(zielx, ziely);
+				synchronized (figur[posx][posy]) {
+					int bewegt = figur[posx][posy].bewegt();
+					figur[posx][posy].versetzen(zielx, ziely);
 
-				if (!istSchach()) {
-					ret = true;
+					if (!istSchach()) {
+						ret = true;
+					}
+					if (figur[zielx][ziely] == null) {
+						logger.error(posx + " " + posy + " " + zielx + " " + ziely + " --- Figur existiert nicht");
+					}
+					figur[zielx][ziely].versetzen(posx, posy); // rückgängig
+																// machen
+					figur[posx][posy].setzeBewegt(bewegt); // bewegt
+															// wiederherstellen
 				}
-				if (figur[zielx][ziely] == null) {
-					logger.error(posx + " " + posy + " " + zielx + " " + ziely + " --- Figur existiert nicht");
-				}
-				figur[zielx][ziely].versetzen(posx, posy); // rückgängig
-															// machen
-				figur[posx][posy].setzeBewegt(bewegt); // bewegt
-														// wiederherstellen
 				if (ziel != null) {
 					figur[zielx][ziely] = ziel;
 					figurListe[(1 - ziel.gebePlayer()) / 2][ziel.gebeIndex()] = ziel;
