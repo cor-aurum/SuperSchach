@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 
-import com.superschach.superschach.kontroller.KIKontroller;
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.kontroller.Probezug;
 
@@ -30,7 +29,7 @@ public class NumerikKI implements KI {
 		logger.debug("Suche numerisch den besten Zug");
 		int max = Integer.MIN_VALUE;
 		Moeglichkeit bestes = null;
-		for (Moeglichkeit m : getMoeglicheZuegeParallel(spiel).collect(Collectors.toList())) {
+		for (Moeglichkeit m : getMoeglicheZuege(spiel).collect(Collectors.toList())) {
 			int tmp = versucheZug(m, TIEFE);
 			if (tmp > max) {
 				max = tmp;
@@ -49,24 +48,22 @@ public class NumerikKI implements KI {
 		if (hop == 0) {
 			ret = bewerter.bewerte(m.getKontroller().getFigur()) * spieler;
 		} else {
-			ret = getMoeglicheZuege(m.getKontroller()).map(z -> versucheZug(z, hop - 1)).max(Integer::compare)
-					.orElse(bewerter.bewerte(m.getKontroller().getFigur()) * spieler);
+			if (spieler == m.getKontroller().playerFaktor()) {
+				ret = getMoeglicheZuege(m.getKontroller()).map(z -> versucheZug(z, hop - 1)).max(Integer::compare)
+						.orElse(bewerter.bewerte(m.getKontroller().getFigur()) * spieler);
+			} else {
+				ret = getMoeglicheZuege(m.getKontroller()).map(z -> versucheZug(z, hop - 1)).min(Integer::compare)
+						.orElse(bewerter.bewerte(m.getKontroller().getFigur()) * spieler);
+			}
 		}
 		m.getKontroller().testZugZurueck(speicher);
 		return ret;
 	}
 
 	private Stream<Moeglichkeit> getMoeglicheZuege(Kontroller k) {
-		return Arrays.stream(k.getFigur()).parallel().flatMap(Arrays::stream).filter(Objects::nonNull)
+		return Arrays.stream(k.getFigur()).flatMap(Arrays::stream).filter(Objects::nonNull)
 				.map(f -> f.getMoeglicheZuege()).flatMap(l -> l.stream())
-				.filter(n -> k.zugMoeglich(n[0], n[1], n[2], n[3]) > 0).map(z -> new Moeglichkeit(z, k)).sequential();
-	}
-	
-	private Stream<Moeglichkeit> getMoeglicheZuegeParallel(Kontroller k)
-	{
-		return Arrays.stream(k.getFigur()).parallel().flatMap(Arrays::stream).filter(Objects::nonNull)
-				.map(f -> f.getMoeglicheZuege()).flatMap(l -> l.stream())
-				.filter(n -> k.zugMoeglich(n[0], n[1], n[2], n[3]) > 0).map(z -> new Moeglichkeit(z, new KIKontroller(k)));
+				.filter(n -> k.zugMoeglich(n[0], n[1], n[2], n[3]) > 0).map(z -> new Moeglichkeit(z, k));
 	}
 
 	@Override

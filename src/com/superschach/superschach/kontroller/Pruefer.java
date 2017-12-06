@@ -85,7 +85,7 @@ public class Pruefer {
 		return (!(xa == xb && ya == yb)) && (xdiff == 1 || xdiff == -1 || ydiff == 1 || ydiff == -1);
 	}
 
-	public boolean istSchach() {
+	public boolean istSchach() {;
 		return istBedroht(kontroller.koenigPosX(), kontroller.koenigPosY());
 	}
 
@@ -111,9 +111,7 @@ public class Pruefer {
 			for (int j = 0; j < figur[i].length; j++) {
 				for (int k = 0; k < figur.length; k++) {
 					for (int l = 0; l < figur[i].length; l++) {
-						if (kontroller.zugMoeglich(i, j, k, l) > 0)// ausSchach(i,
-																	// j, k, l))
-						{
+						if (kontroller.zugMoeglich(i, j, k, l) > 0) {
 							return false;
 						}
 					}
@@ -179,10 +177,7 @@ public class Pruefer {
 		return ret;
 	}
 
-	public boolean springer(int xa, int ya, int xb, int yb) // das kann man
-															// bestimmt noch
-															// optimieren
-	{
+	public boolean springer(int xa, int ya, int xb, int yb) {
 		boolean ret = false;
 		for (int i = -1; i <= 1; i = i + 2) {
 			for (int j = -1; j <= 1; j = j + 2) {
