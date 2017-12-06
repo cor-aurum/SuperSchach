@@ -51,9 +51,8 @@ public class Population {
 		this.hop = hop;
 		list = zaehleMoeglicheZuege();
 		individuum = new Individuum[(int) Math.pow(POT, hop)];
-		individuum = Arrays.stream(individuum)
-				.map(in -> Individuum.createZufall(kontroller, hop, list, spieler)).collect(Collectors.toList())
-				.toArray(individuum);
+		individuum = Arrays.stream(individuum).map(in -> Individuum.createZufall(kontroller, hop, list, spieler))
+				.collect(Collectors.toList()).toArray(individuum);
 	}
 
 	/**
@@ -61,8 +60,12 @@ public class Population {
 	 * @return bestes Individuum einer Population
 	 */
 	public Optional<Individuum> getBestes() {
-		return Arrays.stream(individuum).parallel().filter(Objects::nonNull)
-				.max((i1, i2) -> Integer.compare(i1.getWert(), i2.getWert()));
+		if (kontroller.playerFaktor() == spieler)
+			return Arrays.stream(individuum).parallel().filter(Objects::nonNull)
+					.max((i1, i2) -> Integer.compare(i1.getWert(), i2.getWert()));
+		else
+			return Arrays.stream(individuum).parallel().filter(Objects::nonNull)
+					.min((i1, i2) -> Integer.compare(i1.getWert(), i2.getWert()));
 	}
 
 	/**
@@ -77,7 +80,7 @@ public class Population {
 	 * Führt Funktionen der Evolution durch
 	 */
 	public void evolution() {
-		// tauscheSchlechteste();
+		tauscheSchlechteste();
 	}
 
 	/**
