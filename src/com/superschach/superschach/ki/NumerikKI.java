@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 
+import com.superschach.superschach.kontroller.KIKontroller;
 import com.superschach.superschach.kontroller.Kontroller;
 import com.superschach.superschach.kontroller.Probezug;
 
@@ -29,7 +30,7 @@ public class NumerikKI implements KI {
 		logger.debug("Suche numerisch den besten Zug");
 		int max = Integer.MIN_VALUE;
 		Moeglichkeit bestes = null;
-		for (Moeglichkeit m : getMoeglicheZuege(spiel).collect(Collectors.toList())) {
+		for (Moeglichkeit m : getMoeglicheZuege(new KIKontroller(spiel)).collect(Collectors.toList())) {
 			int tmp = versucheZug(m, TIEFE);
 			if (tmp > max) {
 				max = tmp;

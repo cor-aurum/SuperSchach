@@ -402,11 +402,13 @@ public abstract class Kontroller {
 	}
 
 	public int zugMoeglich(int posx, int posy, int zielx, int ziely) {
+		//logger.debug("Aktueller Stand der Bauernregel: "+bauernregel);
 		int ret = 0;
 		Figur figurlokal = figur[posx][posy]; // getfield ist zu lahm
 		if (!(figurlokal instanceof Bauer))
-			if(bauernregel>=50)
+			if (bauernregel >= 50) {
 				return -1;
+			}
 		if (figurlokal != null) {
 			if (figurlokal.zugMoeglich(zielx, ziely)) {
 				if (pruefer.ausSchach(posx, posy, zielx, ziely)) {
@@ -438,27 +440,6 @@ public abstract class Kontroller {
 		return ret;
 	}
 
-	public int zugMoeglichOhneSchachPruefung(int posx, int posy, int zielx, int ziely) {
-		int ret = 0;
-		if (figur[posx][posy] != null) {
-			if (figur[posx][posy].zugMoeglich(zielx, ziely)) {
-				ret = 1;
-				if (inhaltFaktor(zielx, ziely) < 0) {
-					ret = 2;
-				}
-			} else {
-				if (figur[posx][posy].rochadeMoeglich(zielx, ziely)) {
-					if (pruefer.ausSchach(posx, posy, zielx, ziely)) {
-						ret = 3;
-					} else {
-						ret = -1;
-					}
-				}
-			}
-		}
-		return ret;
-	}
-
 	public boolean ausSchach(int posx, int posy, int zielx, int ziely) {
 		return pruefer.ausSchach(posx, posy, zielx, ziely);
 	}
@@ -467,10 +448,6 @@ public abstract class Kontroller {
 		boolean ret = false;
 		aktualisieren = true;
 		if (figur[posx][posy] != null) {
-			if (figur[posx][posy] instanceof Bauer)
-				bauernregel = 0;
-			else
-				bauernregel++;
 			int m = zugMoeglich(posx, posy, zielx, ziely);
 			if (m > 0) {
 				ret = true;
@@ -499,6 +476,10 @@ public abstract class Kontroller {
 				}
 				togglePlayer();
 				nachZug(m == 2 || m == 4);
+				if (figur[posx][posy] instanceof Bauer)
+					bauernregel = 0;
+				else
+					bauernregel++;
 			}
 		} else
 			ret = false;
@@ -511,7 +492,7 @@ public abstract class Kontroller {
 	public Probezug testZug(int posx, int posy, int zielx, int ziely) {
 		Probezug ret = new Probezug(figur[zielx][ziely], player, posx, posy, zielx, ziely, figur[posx][posy].bewegt(),
 				bauernregel);
-		if (figur[posx][posy] instanceof Bauer)
+		if (figur[posx][posy] instanceof Bauer || figur[zielx][ziely] != null)
 			bauernregel = 0;
 		else
 			bauernregel++;
@@ -525,7 +506,7 @@ public abstract class Kontroller {
 		figur[speicher.getPosx()][speicher.getPosy()].setzeBewegt(speicher.getBewegt());
 		player = speicher.getPlayer();
 		figur[speicher.getZielx()][speicher.getZiely()] = speicher.getFigur();
-		bauernregel=speicher.getBauernregel();
+		bauernregel = speicher.getBauernregel();
 	}
 
 	public void machTurm(int x, int y) {
@@ -775,6 +756,7 @@ public abstract class Kontroller {
 		if (aktualisieren) {
 			stirb(typ, x, y);
 		}
+		bauernregel = 0;
 	}
 
 	public int[] getGeworfen() {
