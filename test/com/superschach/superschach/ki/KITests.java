@@ -9,7 +9,10 @@ import com.superschach.superschach.spiel.Spiel;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-	KISchnittstelleTest.class
+	KISchnittstelleTest.class,
+	Individuum.class,
+	BewerterTest.class,
+	NumerikKITest.class
 	})
 public class KITests {
 	public static TestGUI testGUI=new TestGUI();

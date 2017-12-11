@@ -12,11 +12,6 @@ public class SpringerTest {
 
 	private Springer springer = new Springer(FigurenTests.testSpiel, 4, 4, (byte) 0,
 			new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]),0);
-
-	@Test
-	public void testToString() throws Exception {
-		assertEquals("Springer", springer.toString());
-	}
 	
 	@Test
 	public void testZugMoeglich() throws Exception {

@@ -12,11 +12,6 @@ public class BauerTest {
 
 	private Bauer bauer = new Bauer(FigurenTests.testSpiel, 4, 4, (byte) -1,
 			new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]),0);
-
-	@Test
-	public void testToString() throws Exception {
-		assertEquals("Bauer", bauer.toString());
-	}
 	
 	@Test
 	public void testZugMoeglich() throws Exception {

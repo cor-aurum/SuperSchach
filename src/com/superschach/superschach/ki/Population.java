@@ -80,7 +80,7 @@ public class Population {
 	 * Führt Funktionen der Evolution durch
 	 */
 	public void evolution() {
-		tauscheSchlechteste();
+		//tauscheSchlechteste();
 	}
 
 	/**

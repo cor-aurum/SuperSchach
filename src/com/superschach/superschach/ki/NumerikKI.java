@@ -43,7 +43,7 @@ public class NumerikKI implements KI {
 		zug.zug(bestes.getVonX(), bestes.getVonY(), bestes.getBisX(), bestes.getBisY());
 	}
 
-	private int versucheZug(Moeglichkeit m, int hop) {
+	public int versucheZug(Moeglichkeit m, int hop) {
 		int ret = 0;
 		Probezug speicher = m.getKontroller().testZug(m.getVonX(), m.getVonY(), m.getBisX(), m.getBisY());
 		if (hop == 0) {
@@ -61,7 +61,7 @@ public class NumerikKI implements KI {
 		return ret;
 	}
 
-	private Stream<Moeglichkeit> getMoeglicheZuege(Kontroller k) {
+	public Stream<Moeglichkeit> getMoeglicheZuege(Kontroller k) {
 		return Arrays.stream(k.getFigur()).flatMap(Arrays::stream).filter(Objects::nonNull)
 				.map(f -> f.getMoeglicheZuege()).flatMap(l -> l.stream())
 				.filter(n -> k.zugMoeglich(n[0], n[1], n[2], n[3]) > 0).map(z -> new Moeglichkeit(z, k));

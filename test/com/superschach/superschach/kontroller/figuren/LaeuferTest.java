@@ -12,11 +12,6 @@ public class LaeuferTest {
 
 	private Laeufer laeufer = new Laeufer(FigurenTests.testSpiel, 4, 4, (byte) 0,
 			new Pruefer(FigurenTests.testSpiel, new Figur[8][8], new Figur[8][8]),0);
-
-	@Test
-	public void testToString() throws Exception {
-		assertEquals("Läufer", laeufer.toString());
-	}
 	
 	@Test
 	public void testZugMoeglich() throws Exception {
