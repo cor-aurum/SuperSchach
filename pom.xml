@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.super-schach</groupId>
 	<artifactId>schach</artifactId>
-	<version>0.2</version>
+	<version>0.5</version>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>

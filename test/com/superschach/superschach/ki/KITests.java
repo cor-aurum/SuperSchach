@@ -12,7 +12,9 @@ import com.superschach.superschach.spiel.Spiel;
 	KISchnittstelleTest.class,
 	Individuum.class,
 	BewerterTest.class,
-	NumerikKITest.class
+	NumerikKITest.class,
+	GenetikKiTest.class,
+	PopulationTest.class
 	})
 public class KITests {
 	public static TestGUI testGUI=new TestGUI();

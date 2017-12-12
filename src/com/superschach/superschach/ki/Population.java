@@ -29,14 +29,14 @@ public class Population {
 	private Logger logger = Logger.getLogger(Population.class);
 	private Kontroller kontroller;
 	private final int hop;
-	private Collection<int[]> list;
+	private final Collection<int[]> list;
 	private final byte spieler;
 
 	public Population(byte spieler, Kontroller kontroller) {
 		logger.debug("Erzeuge Population");
 		this.spieler = spieler;
 		this.kontroller = kontroller;
-		list = zaehleMoeglicheZuege();
+		list = zaehleMoeglicheZuege(kontroller);
 		logger.debug("Anzahl möglicher Züge: " + list.size());
 		this.hop = TIEFE;
 		individuum = new Individuum[(int) Math.pow(POT, TIEFE)];
@@ -49,7 +49,7 @@ public class Population {
 		this.spieler = spieler;
 		this.kontroller = kontroller;
 		this.hop = hop;
-		list = zaehleMoeglicheZuege();
+		list = zaehleMoeglicheZuege(kontroller);
 		individuum = new Individuum[(int) Math.pow(POT, hop)];
 		individuum = Arrays.stream(individuum).map(in -> Individuum.createZufall(kontroller, hop, list, spieler))
 				.collect(Collectors.toList()).toArray(individuum);
@@ -116,9 +116,17 @@ public class Population {
 		}
 	}
 
-	private boolean existiertIndividuum(int xa, int ya, int xn, int yn) {
+	/**
+	 * 
+	 * @param xa Startkoordinate X
+	 * @param ya Startkoordinate Y
+	 * @param xn Zielkoordinate X
+	 * @param yn Zielkoordinate y
+	 * @return Existenz eines Individuums mit o.g. Koordinaten
+	 */
+	public boolean existiertIndividuum(int xa, int ya, int xn, int yn) {
 		if (individuum != null) {
-			Arrays.stream(individuum).filter(Objects::nonNull)
+			return Arrays.stream(individuum).filter(Objects::nonNull)
 					.filter(i -> (i.getVonX() == xa && i.getVonY() == ya && i.getBisX() == xn && i.getBisY() == yn))
 					.findAny().isPresent();
 		}
@@ -129,7 +137,7 @@ public class Population {
 	 * 
 	 * @return Anzahl der Möglichen Züge aller Figuren
 	 */
-	public Collection<int[]> zaehleMoeglicheZuege() {
+	public Collection<int[]> zaehleMoeglicheZuege(Kontroller kontroller) {
 		ArrayList<int[]> list = new ArrayList<int[]>();
 		for (Figur[] f0 : kontroller.getFigur())
 			for (Figur f : f0)
