@@ -95,8 +95,8 @@ public abstract class Figur {
 
 	public ArrayList<int[]> getMoeglicheZuege() {
 		ArrayList<int[]> ret = new ArrayList<int[]>();
-		for (int i = 0; i < kontroller.XMax; i++) {
-			for (int j = 0; j < kontroller.YMax; j++) {
+		for (int i = 0; i < kontroller.XMax+1; i++) {
+			for (int j = 0; j < kontroller.YMax+1; j++) {
 				if (zugMoeglich(i, j)) {
 					ret.add(new int[] {posx,posy,i,j});
 				}

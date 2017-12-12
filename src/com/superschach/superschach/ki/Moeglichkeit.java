@@ -53,4 +53,18 @@ public class Moeglichkeit {
 	public String toString() {
 		return "Zug von: " + vonX + " " + vonY + " nach: " + bisX + " " + bisY;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Moeglichkeit) {
+			Moeglichkeit m = (Moeglichkeit) o;
+			return m.getBisX() == bisX && m.getBisY() == bisY && m.getVonX() == vonX && m.getVonY() == vonY;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return 1000 * vonX + 100 * vonY + 10 * bisX + bisY;
+	}
 }

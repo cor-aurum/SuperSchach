@@ -3,6 +3,9 @@ package com.superschach.superschach.ki;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import org.junit.Test;
 
 import com.superschach.superschach.AllTests;
@@ -20,16 +23,31 @@ public class NumerikKITest {
 	public void testGetMoeglicheZuege() {
 		Kontroller k = new Spiel(new AllTests.TestGUI());
 		NumerikKI ki = new NumerikKI();
-		StringBuilder t = new StringBuilder();
-		ki.getMoeglicheZuege(k).forEach(t::append);
-		String s = "Zug von: 0 1 nach: 0 2Zug von: 0 1 nach: 0 3Zug von: 1 0 nach: 0 2Zug von: 1 0 nach: 2 2Zug von: 1 1 nach: 1 2Zug von: 1 1 nach: 1 3Zug von: 2 1 nach: 2 2Zug von: 2 1 nach: 2 3Zug von: 3 1 nach: 3 2Zug von: 3 1 nach: 3 3Zug von: 4 1 nach: 4 2Zug von: 4 1 nach: 4 3Zug von: 5 1 nach: 5 2Zug von: 5 1 nach: 5 3Zug von: 6 0 nach: 5 2Zug von: 6 1 nach: 6 2Zug von: 6 1 nach: 6 3";
-		assertEquals(s, t.toString());
-		k.zug(0, 1, 0, 2);
-		t = new StringBuilder();
-		ki.getMoeglicheZuege(k).forEach(t::append);
-
-		s = "Zug von: 0 6 nach: 0 4Zug von: 0 6 nach: 0 5Zug von: 1 6 nach: 1 4Zug von: 1 6 nach: 1 5Zug von: 1 7 nach: 0 5Zug von: 1 7 nach: 2 5Zug von: 2 6 nach: 2 4Zug von: 2 6 nach: 2 5Zug von: 3 6 nach: 3 4Zug von: 3 6 nach: 3 5Zug von: 4 6 nach: 4 4Zug von: 4 6 nach: 4 5Zug von: 5 6 nach: 5 4Zug von: 5 6 nach: 5 5Zug von: 6 6 nach: 6 4Zug von: 6 6 nach: 6 5Zug von: 6 7 nach: 5 5";
-		assertEquals(s, t.toString());
+		ArrayList<Moeglichkeit> list = new ArrayList<Moeglichkeit>();
+		list.add(new Moeglichkeit(new int[] { 0, 1, 0, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 0, 1, 0, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 1, 0, 0, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 1, 0, 2, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 1, 1, 1, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 1, 1, 1, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 2, 1, 2, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 2, 1, 2, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 3, 1, 3, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 3, 1, 3, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 4, 1, 4, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 4, 1, 4, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 5, 1, 5, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 5, 1, 5, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 6, 1, 6, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 6, 1, 6, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 7, 1, 7, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 7, 1, 7, 3 }, k));
+		list.add(new Moeglichkeit(new int[] { 6, 0, 5, 2 }, k));
+		list.add(new Moeglichkeit(new int[] { 6, 0, 7, 2 }, k));
+		assertEquals(20, ki.getMoeglicheZuege(k).collect(Collectors.toList()).size());
+		ki.getMoeglicheZuege(k).forEach(m -> {
+			assertTrue(list.contains(m));
+		});
 	}
 
 	@Test
@@ -45,7 +63,7 @@ public class NumerikKITest {
 	public void testVersucheZug() throws Exception {
 		Kontroller k = new Spiel(new AllTests.TestGUI());
 		NumerikKI ki = new NumerikKI();
-		assertEquals(0, ki.versucheZug(new Moeglichkeit(new int[] { 0, 1, 0, 2 }, k),1));
+		assertEquals(0, ki.versucheZug(new Moeglichkeit(new int[] { 0, 1, 0, 2 }, k), 1));
 		assertTrue(k.equals(new Spiel(new AllTests.TestGUI())));
 	}
 }
